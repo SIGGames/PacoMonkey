@@ -15,5 +15,6 @@ Please, mark the relevant option with an `x`.
 
 
 
+## 
 > [!IMPORTANT]
 > Please review the [CONTRIBUTING.md](https://github.com/SIGGames/.github/blob/main/profile/CONTRIBUTING.md) file for detailed contributing guidelines.
