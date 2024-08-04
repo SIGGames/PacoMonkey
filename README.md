@@ -17,7 +17,7 @@ This project is the result of a collaboration among passionate and creative deve
 
 ## Technology Stack
 
-- [Unity](https://unity.com/products/unity-engine): Version `TBD`
+- [Unity DOTS](https://unity.com/products/unity-engine): `2022.3.14f1`
 
 
 ## How to play
@@ -26,7 +26,9 @@ In a future this game will be able in the [Steam](https://store.steampowered.com
 
 ## License
 
-This project is licenced under the [BDL-1.0](https://opensource.org/licenses/BSD-3-Clause) license.
+[![license](https://img.shields.io/badge/License-CC--BY--NC--SA--4.0-green)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+This project is licenced under the [LICENSE-CC-BY-NC_SA](https://creativecommons.org/licenses/by-nc-sa/4.0/) license.
 
 
 ## Team members
