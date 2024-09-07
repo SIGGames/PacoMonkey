@@ -40,3 +40,9 @@ This project is licenced under the [LICENSE-CC-BY-NC_SA](https://creativecommons
 
 ## Contact
 Feel free to contact us via email at: [contact@siggames.cat](mailto:contact@siggames.cat).
+
+<p align="center">
+  <a href="http://www.siggames.cat/" target="_blank">
+    <img src="https://github.com/user-attachments/assets/883d0530-8003-4c77-97ae-beb1e7f75f4a" alt="SIGgames Banner" />
+  </a>
+</p>
