@@ -12,7 +12,7 @@ the whereabouts of the killer.
 This project is the result of a collaboration among passionate and creative developers inspired by [UdL](https://www.udl.cat/ca/en/) called [Special Interest Group](https://github.com/orgs/SIGGgames/teams/siggames-team).
 
 > [!IMPORTANT]
-> Fore more info visit our webpage: [SIGgames](https://siggames.com).
+> Fore more info visit our webpage: [SIG Games](https://siggames-official.vercel.app).
 
 
 ## Technology Stack
@@ -26,9 +26,9 @@ In a future this game will be able in the [Steam](https://store.steampowered.com
 
 ## License
 
-[![license](https://img.shields.io/badge/License-CC--BY--NC--SA--4.0-green)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![license](https://img.shields.io/badge/License-CC--BY--NC--ND--4.0-green)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
-This project is licenced under the [LICENSE-CC-BY-NC_SA](https://creativecommons.org/licenses/by-nc-sa/4.0/) license.
+This project is licenced under the [LICENSE-CC-BY-NC-ND](https://creativecommons.org/licenses/by-nc-nd/4.0/) license.
 
 
 ## Team members
@@ -43,6 +43,6 @@ Feel free to contact us via email at: [contact@siggames.cat](mailto:contact@sigg
 
 <p align="center">
   <a href="http://www.siggames.cat/" target="_blank">
-    <img src="https://github.com/user-attachments/assets/883d0530-8003-4c77-97ae-beb1e7f75f4a" alt="SIGgames Banner" />
+    <img src="https://github.com/user-attachments/assets/883d0530-8003-4c77-97ae-beb1e7f75f4a" alt="SIG Games Banner" />
   </a>
 </p>
