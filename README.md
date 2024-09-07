@@ -43,8 +43,4 @@ You can find the full licence in each language in the following files:
 
 Feel free to contact us via email at: [contact@siggames.cat](mailto:contact@siggames.cat).
 
-<p align="center">
-  <a href="http://www.siggames.cat/" target="_blank">
-    <img src="https://github.com/user-attachments/assets/883d0530-8003-4c77-97ae-beb1e7f75f4a" alt="SIG Games Banner" />
-  </a>
-</p>
+[![SIG Games Banner](https://github.com/user-attachments/assets/883d0530-8003-4c77-97ae-beb1e7f75f4a)](http://www.siggames.cat/)
