@@ -44,9 +44,7 @@ a. ___Concessió de la llicència.___
 
    1. Subjecte als termes i condicions d'aquesta Llicència Pública, el Llicenciador t'atorga una llicència mundial, lliure de drets, no sublicenciable, no exclusiva i irrevocable per exercir els Drets Llicenciats sobre el Material Llicenciat per a:
 
-        A. reproduir i Compartir el Material
-
- Llicenciat, en la seva totalitat o en part, només per a fins NoComercials; i
+        A. reproduir i Compartir el Material Llicenciat, en la seva totalitat o en part, només per a fins NoComercials; i
 
         B. produir i reproduir, però no Compartir, Material Derivat només per a fins NoComercials.
 
