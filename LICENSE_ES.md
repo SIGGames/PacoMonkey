@@ -14,7 +14,7 @@
 
 Al ejercer los Derechos Licenciados (definidos a continuación), aceptas y acuerdas cumplir los términos y condiciones de esta Licencia Pública Internacional de Atribución-NoComercial-SinDerivadas 4.0 de Creative Commons ("Licencia Pública"). En la medida en que esta Licencia Pública pueda interpretarse como un contrato, se te otorgan los Derechos Licenciados en consideración a tu aceptación de estos términos y condiciones, y el Licenciante te otorga tales derechos en consideración a los beneficios que el Licenciante recibe al poner el Material Licenciado a disposición bajo estos términos y condiciones.
 
-### Sección 1 – Definiciones.
+### Sección 1 – Definiciones
 
 a. __Material Derivado__ significa material sujeto a derechos de autor y derechos similares que se derive o base en el Material Licenciado y en el cual el Material Licenciado se traduzca, altere, organice, transforme o modifique de alguna manera que requiera permiso bajo los derechos de autor y derechos similares del Licenciante. Para los fines de esta Licencia Pública, cuando el Material Licenciado es una obra musical, actuación o grabación sonora, el Material Derivado siempre se produce cuando el Material Licenciado se sincroniza en relación temporal con una imagen en movimiento.
 
@@ -38,9 +38,9 @@ k. __Derechos sui generis sobre bases de datos__ significa derechos distintos de
 
 l. __Tú__ significa el individuo o entidad que ejerce los Derechos Licenciados bajo esta Licencia Pública. Tu tiene un significado correspondiente.
 
-### Sección 2 – Alcance.
+### Sección 2 – Alcance
 
-a. ___Concesión de licencia.___
+a. *__Concesión de licencia.__*
 
    1. Sujeto a los términos y condiciones de esta Licencia Pública, el Licenciante te otorga una licencia mundial, libre de regalías, no sublicenciable, no exclusiva e irrevocable para ejercer los Derechos Licenciados sobre el Material Licenciado para:
 
@@ -64,7 +64,7 @@ a. ___Concesión de licencia.___
 
  puede interpretarse como permiso para afirmar o implicar que estás, o que tu uso del Material Licenciado está, conectado, patrocinado, respaldado o que se te ha otorgado un estatus oficial por parte del Licenciante u otros designados para recibir atribución según lo dispuesto en la Sección 3(a)(1)(A)(i).
 
-b. ___Otros derechos.___
+b. *__Otros derechos.__*
 
    1. Los derechos morales, como el derecho a la integridad, no están licenciados bajo esta Licencia Pública, ni tampoco los derechos de publicidad, privacidad u otros derechos similares de la personalidad; sin embargo, en la medida de lo posible, el Licenciante renuncia y/o acepta no hacer valer dichos derechos que posea en la medida limitada necesaria para permitirte ejercer los Derechos Licenciados, pero no de otra manera.
 
@@ -72,11 +72,11 @@ b. ___Otros derechos.___
 
    3. En la medida de lo posible, el Licenciante renuncia a cualquier derecho a cobrarte regalías por el ejercicio de los Derechos Licenciados, ya sea directamente o a través de una sociedad de gestión bajo cualquier esquema de licencia voluntaria o renunciable por ley. En todos los demás casos, el Licenciante se reserva expresamente el derecho de cobrar dichas regalías, incluyendo cuando el Material Licenciado se use de manera distinta a fines NoComerciales.
 
-### Sección 3 – Condiciones de la Licencia.
+### Sección 3 – Condiciones de la Licencia
 
 Tu ejercicio de los Derechos Licenciados está expresamente sujeto a las siguientes condiciones.
 
-a. ___Atribución.___
+a. *__Atribución.__*
 
    1. Si compartes el Material Licenciado, debes:
 
@@ -95,14 +95,14 @@ a. ___Atribución.___
       B. indicar si has modificado el Material Licenciado y mantener una indicación de cualquier modificación anterior; y
 
       C. indicar que el Material Licenciado está licenciado bajo esta Licencia Pública, e incluir el texto de esta Licencia Pública, o la URI o hipervínculo a la misma.
- 
+
         Para evitar dudas, no tienes permiso bajo esta Licencia Pública para compartir Material Derivado.
 
    2. Puedes cumplir con las condiciones de la Sección 3(a)(1) de cualquier manera razonable, basada en el medio, el medio de difusión y el contexto en el que compartes el Material Licenciado. Por ejemplo, puede ser razonable cumplir con las condiciones proporcionando una URI o hipervínculo a un recurso que incluya la información requerida.
 
    3. Si el Licenciante lo solicita, debes eliminar cualquiera de la información requerida por la Sección 3(a)(1)(A) en la medida de lo razonablemente posible.
 
-### Sección 4 – Derechos Sui Generis sobre Bases de Datos.
+### Sección 4 – Derechos Sui Generis sobre Bases de Datos
 
 Cuando los Derechos Licenciados incluyan Derechos Sui Generis sobre Bases de Datos que se apliquen a tu uso del Material Licenciado:
 
@@ -114,7 +114,7 @@ c. debes cumplir con las condiciones de la Sección 3(a) si compartes todo o una
 
 Para evitar dudas, esta Sección 4 complementa y no reemplaza tus obligaciones bajo esta Licencia Pública cuando los Derechos Licenciados incluyan otros Derechos de Autor y Derechos Similares.
 
-### Sección 5 – Renuncia de Garantías y Limitación de Responsabilidad.
+### Sección 5 – Renuncia de Garantías y Limitación de Responsabilidad
 
 a. __Salvo que el Licenciante lo acuerde por separado, en la medida de lo posible, el Licenciante ofrece el Material Licenciado "tal cual" y "según disponibilidad", y no hace ninguna declaración ni otorga garantía alguna de ningún tipo en relación con el Material Licenciado, ya sea expresa, implícita, estatutaria o de otro tipo. Esto incluye, sin limitación, garantías de título, comerciabilidad, idoneidad para un propósito particular, no infracción, ausencia de defectos ocultos u otros, exactitud, o la presencia o ausencia de errores, ya sean conocidos o descubiertos. Donde las renuncias de garantías no estén permitidas en su totalidad o en parte, esta renuncia podría no aplicarse a ti.__
 
@@ -122,7 +122,7 @@ b. __En la medida de lo posible, en ningún caso el Licenciante será responsabl
 
 c. La renuncia de garantías y la limitación de responsabilidad proporcionadas anteriormente se interpretarán de manera que, en la medida de lo posible, se aproximen lo más posible a una renuncia absoluta y exoneración de toda responsabilidad.
 
-### Sección 6 – Duración y Terminación.
+### Sección 6 – Duración y Terminación
 
 a. Esta Licencia Pública se aplica durante el período de vigencia de los Derechos de Autor y Derechos Similares licenciados aquí. Sin embargo, si no cumples con esta Licencia Pública, tus derechos bajo esta Licencia Pública se terminan automáticamente.
 
@@ -138,13 +138,13 @@ c. Para evitar dudas, el Licenciante también puede ofrecer el Material Licencia
 
 d. Las Secciones 1, 5, 6, 7 y 8 sobreviven a la terminación de esta Licencia Pública.
 
-### Sección 7 – Otros Términos y Condiciones.
+### Sección 7 – Otros Términos y Condiciones
 
 a. El Licenciante no estará obligado por términos o condiciones adicionales o diferentes comunicados por ti a menos que se acuerden expresamente.
 
 b. Cualquier acuerdo, entendimiento o pacto relacionado con el Material Licenciado que no esté establecido aquí es independiente y separado de los términos y condiciones de esta Licencia Pública.
 
-### Sección 8 – Interpretación.
+### Sección 8 – Interpretación
 
 a. Para evitar dudas, esta Licencia Pública no reduce, limita, restringe ni impone condiciones a ningún uso del Material Licenciado que pueda realizarse legalmente sin permiso bajo esta Licencia Pública.
 

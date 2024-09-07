@@ -14,7 +14,7 @@
 
 En exercir els Drets Llicenciats (definits a continuació), acceptes i estàs d'acord a complir amb els termes i condicions d'aquesta Llicència Pública Internacional de Atribució-NoComercial-SenseObresDerivades 4.0 de Creative Commons ("Llicència Pública"). En la mesura que aquesta Llicència Pública pugui ser interpretada com un contracte, se't concedeixen els Drets Llicenciats en consideració a la teva acceptació d'aquests termes i condicions, i el Llicenciador et concedeix aquests drets en consideració als beneficis que rep el Llicenciador per fer disponible el Material Llicenciat sota aquests termes i condicions.
 
-### Secció 1 – Definicions.
+### Secció 1 – Definicions
 
 a. __Material Derivat__ significa material subjecte a drets d'autor i drets similars que deriva o es basa en el Material Llicenciat i en què el Material Llicenciat es tradueix, altera, organitza, transforma o modifica d'alguna manera que requereixi permís sota els drets d'autor i drets similars del Llicenciador. A efectes d'aquesta Llicència Pública, quan el Material Llicenciat és una obra musical, actuació o gravació sonora, sempre es produeix un Material Derivat quan el Material Llicenciat es sincronitza en relació temporal amb una imatge en moviment.
 
@@ -38,9 +38,9 @@ k. __Drets Sui Generis sobre Bases de Dades__ significa drets diferents dels dre
 
 l. __Tu__ significa l'individu o entitat que exerceix els Drets Llicenciats sota aquesta Llicència Pública. "Tu" té un significat corresponent.
 
-### Secció 2 – Àmbit d'aplicació.
+### Secció 2 – Àmbit d'aplicació
 
-a. ___Concessió de la llicència.___
+a. *__Concessió de la llicència.__*
 
    1. Subjecte als termes i condicions d'aquesta Llicència Pública, el Llicenciador t'atorga una llicència mundial, lliure de drets, no sublicenciable, no exclusiva i irrevocable per exercir els Drets Llicenciats sobre el Material Llicenciat per a:
 
@@ -62,7 +62,7 @@ a. ___Concessió de la llicència.___
 
    6. __No suport.__ Res en aquesta Llicència Pública constitueix ni pot interpretar-se com un permís per afirmar o implicar que estàs, o que l'ús que fas del Material Llicenciat està, connectat, patrocinat, recolzat o t'ha estat concedit un estatus oficial per part del Llicenciador o altres designats per rebre atribució segons el disposat a la Secció 3(a)(1)(A)(i).
 
-b. ___Altres drets.___
+b. *__Altres drets.__*
 
    1. Els drets morals, com el dret a la integritat, no estan llicenciats sota aquesta Llicència Pública, ni tampoc els drets de publicitat, privacitat i altres drets similars de la personalitat; però, en la mesura que sigui possible, el Llicenciador renuncia i/o accepta no fer valer aquests drets que tingui en la mesura limitada necessària per permetre't exercir els Drets Llicenciats, però no d'una altra manera.
 
@@ -70,11 +70,11 @@ b. ___Altres drets.___
 
    3. En la mesura que sigui possible, el Llicenciador renuncia a qualsevol dret a cobrar-te regalies per l'exercici dels Drets Llicenciats, ja sigui directament o a través d'una societat de gestió sota qualsevol esquema de llicència voluntària o renunciable per llei. En tots els altres casos, el Llicenciador es reserva expressament el dret a cobrar aquestes regalies, incloent-hi quan el Material Llicenciat s'utilitzi amb finalitats diferents de les NoComercials.
 
-### Secció 3 – Condicions de la Llicència.
+### Secció 3 – Condicions de la Llicència
 
 L'exercici dels Drets Llicenciats està expressament subjecte a les següents condicions.
 
-a. ___Atribució.___
+a. *__Atribució.__*
 
    1. Si comparteixes el Material Llicenciat, has de:
 
@@ -93,14 +93,14 @@ a. ___Atribució.___
       B. indicar si has modificat el Material Llicenciat i mantenir una indicació de qualsevol modificació anterior; i
 
       C. indicar que el Material Llicenciat està llicenciat sota aquesta Llicència Pública, i incloure el text de, o la URI o enllaç a, aquesta Llicència Pública.
- 
+
         Per evitar dubtes, no tens permís sota aquesta Llicència Pública per compartir Material Derivat.
 
    2. Pots complir les condicions de la Secció 3(a)(1) de qualsevol manera raonable basada en el mitjà, els mitjans i el context en què comparteixes el Material Llicenciat. Per exemple, pot ser raonable complir amb les condicions proporcionant una URI o enllaç a un recurs que inclogui la informació requerida.
 
    3. Si el Llicenciador ho sol·licita, has d'eliminar qualsevol de la informació requerida per la Secció 3(a)(1)(A) en la mesura del raonablement practicable.
 
-### Secció 4 – Drets Sui Generis sobre Bases de Dades.
+### Secció 4 – Drets Sui Generis sobre Bases de Dades
 
 Quan els Drets Llicenciats incloguin Drets Sui Generis sobre Bases de Dades que s'apliquin al teu ús del Material Llicenciat:
 
@@ -112,7 +112,7 @@ c. has de complir amb les condicions de la Secció 3(a) si comparteixes tot o un
 
 Per evitar dubtes, aquesta Secció 4 complementa i no substitueix les teves obligacions sota aquesta Llicència Pública quan els Drets Llicenciats incloguin altres Drets d'Autor i Drets Similars.
 
-### Secció 5 – Renúncia de Garanties i Limitació de Responsabilitat.
+### Secció 5 – Renúncia de Garanties i Limitació de Responsabilitat
 
 a. __Llevat que el Llicenciador ho hagi acordat per separat, en la mesura del possible, el Llicenciador ofereix el Material Llicenciat "tal qual" i "segons disponibilitat", i no fa cap declaració ni atorga cap garantia de cap mena en relació amb el Material Llicenciat, ja sigui expressa, implícita, estatutària o d'una altra manera. Això inclou, sense limitació, garanties de títol, comerciabilitat, idoneïtat per a un propòsit particular, no infracció, absència de defectes ocults o altres, exactitud, o la presència o absència d'errors, ja siguin coneguts o descoberts. Quan les renúncies de garanties no estiguin permeses en la seva totalitat o en part, aquesta renúncia podria no aplicar-se a tu.__
 
@@ -120,7 +120,7 @@ b. __En la mesura del possible, en cap cas el Llicenciador serà responsable dav
 
 c. La renúncia de garanties i la limitació de responsabilitat proporcionades anteriorment s'interpretaran de manera que, en la mesura del possible, s'apropin al màxim a una renúncia absoluta i exoneració de tota responsabilitat.
 
-### Secció 6 – Durada i Terminació.
+### Secció 6 – Durada i Terminació
 
 a. Aquesta Llicència Pública s'aplica durant el període de vigència dels Drets d'Autor i Drets Similars
 
@@ -138,13 +138,13 @@ c. Per evitar dubtes, el Llicenciador també pot oferir el Material Llicenciat s
 
 d. Les Seccions 1, 5, 6, 7 i 8 sobreviuen a la terminació d'aquesta Llicència Pública.
 
-### Secció 7 – Altres Termes i Condicions.
+### Secció 7 – Altres Termes i Condicions
 
 a. El Llicenciador no estarà obligat per termes o condicions addicionals o diferents comunicats per tu a menys que s'acordi expressament.
 
 b. Qualsevol acord, enteniment o pacte relacionat amb el Material Llicenciat que no estigui establert aquí és independent i separat dels termes i condicions d'aquesta Llicència Pública.
 
-### Secció 8 – Interpretació.
+### Secció 8 – Interpretació
 
 a. Per evitar dubtes, aquesta Llicència Pública no redueix, limita, restringeix ni imposa condicions sobre qualsevol ús del Material Llicenciat que es pugui realitzar legalment sense permís sota aquesta Llicència Pública.
 
