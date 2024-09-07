@@ -27,6 +27,12 @@ In a future this game will be able in the [Steam](https://store.steampowered.com
 
 This project is licenced under the [LICENSE-CC-BY-NC-ND](https://creativecommons.org/licenses/by-nc-nd/4.0/) license.
 
+You can find the full licence in each language in the following files:
+
+- [LICENCE Catalan](LICENSE_CA.md)
+- [LICENCE English](LICENSE.md)
+- [LICENCE Spanish](LICENSE_ES.md)
+
 ## Team members
 
 - **Project Management and Level Designer**: [Julia Nogales](https://github.com/julianogales).
