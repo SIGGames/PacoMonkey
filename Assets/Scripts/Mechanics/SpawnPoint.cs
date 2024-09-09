@@ -7,6 +7,5 @@ namespace Platformer.Mechanics
     /// </summary>
     public class SpawnPoint : MonoBehaviour
     {
-
     }
 }

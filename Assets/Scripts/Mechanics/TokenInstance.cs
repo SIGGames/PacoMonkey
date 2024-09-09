@@ -14,8 +14,10 @@ namespace Platformer.Mechanics
     public class TokenInstance : MonoBehaviour
     {
         public AudioClip tokenCollectAudio;
+
         [Tooltip("If true, animation will start at a random position in the sequence.")]
         public bool randomAnimationStartTime = false;
+
         [Tooltip("List of frames that make up the animation.")]
         public Sprite[] idleAnimation, collectedAnimation;
 
@@ -25,7 +27,9 @@ namespace Platformer.Mechanics
 
         //unique index which is assigned by the TokenController in a scene.
         internal int tokenIndex = -1;
+
         internal TokenController controller;
+
         //active frame in animation, updated by the controller.
         internal int frame = 0;
         internal bool collected = false;

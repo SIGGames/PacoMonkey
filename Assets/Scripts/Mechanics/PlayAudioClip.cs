@@ -11,6 +11,7 @@ public class PlayAudioClip : StateMachineBehaviour
     /// The point in normalized time where the clip should play.
     /// </summary>
     public float t = 0.5f;
+
     /// <summary>
     /// If greater than zero, the normalized time will be (normalizedTime % modulus).
     /// This is used to repeat the audio clip when the animation state loops.
@@ -21,6 +22,7 @@ public class PlayAudioClip : StateMachineBehaviour
     /// The audio clip to be played.
     /// </summary>
     public AudioClip clip;
+
     float last_t = -1f;
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

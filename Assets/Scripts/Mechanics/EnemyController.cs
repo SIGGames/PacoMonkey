@@ -50,6 +50,5 @@ namespace Platformer.Mechanics
                 control.move.x = Mathf.Clamp(mover.Position.x - transform.position.x, -1, 1);
             }
         }
-
     }
 }

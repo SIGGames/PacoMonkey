@@ -16,6 +16,7 @@ namespace Platformer.Mechanics
         /// Max horizontal speed.
         /// </summary>
         public float maxSpeed = 7;
+
         /// <summary>
         /// Max jump velocity
         /// </summary>

@@ -36,7 +36,6 @@ namespace Platformer.Core
             /// </summary>
             internal virtual void Cleanup()
             {
-
             }
         }
 

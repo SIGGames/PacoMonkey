@@ -11,7 +11,6 @@ namespace Platformer.Core
     /// </summary>
     public static partial class Simulation
     {
-
         static HeapQueue<Event> eventQueue = new HeapQueue<Event>();
         static Dictionary<System.Type, Stack<Event>> eventPools = new Dictionary<System.Type, Stack<Event>>();
 
@@ -29,6 +28,7 @@ namespace Platformer.Core
                 pool.Push(new T());
                 eventPools[typeof(T)] = pool;
             }
+
             if (pool.Count > 0)
                 return (T)pool.Pop();
             else
@@ -130,11 +130,11 @@ namespace Platformer.Core
                         Debug.LogError($"No Pool for: {ev.GetType()}");
                     }
                 }
+
                 executedEventCount++;
             }
+
             return eventQueue.Count;
         }
     }
 }
-
-
