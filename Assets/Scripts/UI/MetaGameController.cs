@@ -58,6 +58,7 @@ namespace Platformer.UI
                 mainMenu.gameObject.SetActive(false);
                 foreach (var i in gamePlayCanvasii) i.gameObject.SetActive(true);
             }
+
             this.showMainCanvas = show;
         }
 
@@ -68,6 +69,5 @@ namespace Platformer.UI
                 ToggleMainMenu(show: !showMainCanvas);
             }
         }
-
     }
 }

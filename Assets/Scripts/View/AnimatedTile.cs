@@ -31,7 +31,8 @@ namespace Platformer.View
             }
         }
 
-        public override bool GetTileAnimationData(Vector3Int location, ITilemap tileMap, ref TileAnimationData tileAnimationData)
+        public override bool GetTileAnimationData(Vector3Int location, ITilemap tileMap,
+            ref TileAnimationData tileAnimationData)
         {
             if (m_AnimatedSprites.Length > 0)
             {
@@ -40,6 +41,7 @@ namespace Platformer.View
                 tileAnimationData.animationStartTime = m_AnimationStartTime;
                 return true;
             }
+
             return false;
         }
     }
@@ -48,12 +50,16 @@ namespace Platformer.View
     [CustomEditor(typeof(AnimatedTile))]
     public class AnimatedTileEditor : Editor
     {
-        private AnimatedTile tile { get { return (target as AnimatedTile); } }
+        private AnimatedTile tile
+        {
+            get { return (target as AnimatedTile); }
+        }
 
         public override void OnInspectorGUI()
         {
             EditorGUI.BeginChangeCheck();
-            int count = EditorGUILayout.DelayedIntField("Number of Animated Sprites", tile.m_AnimatedSprites != null ? tile.m_AnimatedSprites.Length : 0);
+            int count = EditorGUILayout.DelayedIntField("Number of Animated Sprites",
+                tile.m_AnimatedSprites != null ? tile.m_AnimatedSprites.Length : 0);
             if (count < 0)
                 count = 0;
 
@@ -70,7 +76,8 @@ namespace Platformer.View
 
             for (int i = 0; i < count; i++)
             {
-                tile.m_AnimatedSprites[i] = (Sprite)EditorGUILayout.ObjectField("Sprite " + (i + 1), tile.m_AnimatedSprites[i], typeof(Sprite), false, null);
+                tile.m_AnimatedSprites[i] = (Sprite)EditorGUILayout.ObjectField("Sprite " + (i + 1),
+                    tile.m_AnimatedSprites[i], typeof(Sprite), false, null);
             }
 
             float minSpeed = EditorGUILayout.FloatField("Minimum Speed", tile.m_MinSpeed);
@@ -88,7 +95,8 @@ namespace Platformer.View
             tile.m_MaxSpeed = maxSpeed;
 
             tile.m_AnimationStartTime = EditorGUILayout.FloatField("Start Time", tile.m_AnimationStartTime);
-            tile.m_TileColliderType = (Tile.ColliderType)EditorGUILayout.EnumPopup("Collider Type", tile.m_TileColliderType);
+            tile.m_TileColliderType =
+                (Tile.ColliderType)EditorGUILayout.EnumPopup("Collider Type", tile.m_TileColliderType);
             if (EditorGUI.EndChangeCheck())
                 EditorUtility.SetDirty(tile);
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Platformer.Mechanics;
 using UnityEditor;
 using UnityEngine;
+
 namespace Platformer
 {
     [CustomEditor(typeof(PatrolPath))]
@@ -13,8 +14,10 @@ namespace Platformer
             var path = target as PatrolPath;
             using (var cc = new EditorGUI.ChangeCheckScope())
             {
-                var sp = path.transform.InverseTransformPoint(Handles.PositionHandle(path.transform.TransformPoint(path.startPosition), path.transform.rotation));
-                var ep = path.transform.InverseTransformPoint(Handles.PositionHandle(path.transform.TransformPoint(path.endPosition), path.transform.rotation));
+                var sp = path.transform.InverseTransformPoint(
+                    Handles.PositionHandle(path.transform.TransformPoint(path.startPosition), path.transform.rotation));
+                var ep = path.transform.InverseTransformPoint(
+                    Handles.PositionHandle(path.transform.TransformPoint(path.endPosition), path.transform.rotation));
                 if (cc.changed)
                 {
                     sp.y = 0;
@@ -23,6 +26,7 @@ namespace Platformer
                     path.endPosition = ep;
                 }
             }
+
             Handles.Label(path.transform.position, (path.startPosition - path.endPosition).magnitude.ToString());
         }
 

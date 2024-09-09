@@ -4,35 +4,29 @@ using UnityEngine;
 
 public class Jiggler : MonoBehaviour
 {
-    [Range(0, 1)]
-    public float power = .1f;
+    [Range(0, 1)] public float power = .1f;
 
-    [Header("Position Jiggler")]
-    public bool jigPosition = true;
+    [Header("Position Jiggler")] public bool jigPosition = true;
     public Vector3 positionJigAmount;
-    [Range(0, 120)]
-    public float positionFrequency = 10;
+    [Range(0, 120)] public float positionFrequency = 10;
     float positionTime;
 
-    [Header("Rotation Jiggler")]
-    public bool jigRotation = true;
+    [Header("Rotation Jiggler")] public bool jigRotation = true;
     public Vector3 rotationJigAmount;
-    [Range(0, 120)]
-    public float rotationFrequency = 10;
+    [Range(0, 120)] public float rotationFrequency = 10;
     float rotationTime;
 
-    [Header("Scale Jiggler")]
-    public bool jigScale = true;
+    [Header("Scale Jiggler")] public bool jigScale = true;
     public Vector3 scaleJigAmount = new Vector3(.1f, -.1f, .1f);
-    [Range(0, 120)]
-    public float scaleFrequency = 10;
+    [Range(0, 120)] public float scaleFrequency = 10;
     float scaleTime;
 
     Vector3 basePosition;
     Quaternion baseRotation;
     Vector3 baseScale;
 
-    void Start(){
+    void Start()
+    {
         basePosition = transform.localPosition;
         baseRotation = transform.localRotation;
         baseScale = transform.localScale;
@@ -47,12 +41,13 @@ public class Jiggler : MonoBehaviour
         scaleTime += dt * scaleFrequency;
 
         if (jigPosition)
-        transform.localPosition = basePosition + positionJigAmount * Mathf.Sin(positionTime) * power;
+            transform.localPosition = basePosition + positionJigAmount * Mathf.Sin(positionTime) * power;
 
         if (jigRotation)
-        transform.localRotation = baseRotation * Quaternion.Euler(rotationJigAmount * Mathf.Sin(positionTime) * power);
+            transform.localRotation =
+                baseRotation * Quaternion.Euler(rotationJigAmount * Mathf.Sin(positionTime) * power);
 
         if (jigScale)
-        transform.localScale = baseScale + scaleJigAmount * Mathf.Sin(scaleTime) * power;
+            transform.localScale = baseScale + scaleJigAmount * Mathf.Sin(scaleTime) * power;
     }
 }

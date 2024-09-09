@@ -2,14 +2,12 @@ using Platformer.Core;
 using Platformer.Model;
 using UnityEngine;
 
-namespace Platformer.Mechanics
-{
+namespace Platformer.Mechanics {
     /// <summary>
     /// This class exposes the the game model in the inspector, and ticks the
     /// simulation.
     /// </summary> 
-    public class GameController : MonoBehaviour
-    {
+    public class GameController : MonoBehaviour {
         public static GameController Instance { get; private set; }
 
         //This model field is public and can be therefore be modified in the 
@@ -20,18 +18,15 @@ namespace Platformer.Mechanics
         //conveniently configured inside the inspector.
         public PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
-        void OnEnable()
-        {
+        void OnEnable() {
             Instance = this;
         }
 
-        void OnDisable()
-        {
+        void OnDisable() {
             if (Instance == this) Instance = null;
         }
 
-        void Update()
-        {
+        void Update() {
             if (Instance == this) Simulation.Tick();
         }
     }

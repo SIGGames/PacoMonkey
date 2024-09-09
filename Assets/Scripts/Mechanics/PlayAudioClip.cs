@@ -5,8 +5,7 @@ using UnityEngine;
 /// <summary>
 /// This class allows an audio clip to be played during an animation state.
 /// </summary>
-public class PlayAudioClip : StateMachineBehaviour
-{
+public class PlayAudioClip : StateMachineBehaviour {
     /// <summary>
     /// The point in normalized time where the clip should play.
     /// </summary>
@@ -25,8 +24,7 @@ public class PlayAudioClip : StateMachineBehaviour
 
     float last_t = -1f;
 
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         var nt = stateInfo.normalizedTime;
         if (modulus > 0f) nt %= modulus;
         if (nt >= t && last_t < t)

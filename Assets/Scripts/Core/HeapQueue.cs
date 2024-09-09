@@ -1,28 +1,23 @@
 using System;
 using System.Collections.Generic;
 
-namespace Platformer.Core
-{
+namespace Platformer.Core {
     /// <summary>
     /// HeapQueue provides a queue collection that is always ordered.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class HeapQueue<T> where T : IComparable<T>
-    {
+    public class HeapQueue<T> where T : IComparable<T> {
         List<T> items;
 
-        public int Count
-        {
+        public int Count {
             get { return items.Count; }
         }
 
-        public bool IsEmpty
-        {
+        public bool IsEmpty {
             get { return items.Count == 0; }
         }
 
-        public T First
-        {
+        public T First {
             get { return items[0]; }
         }
 
@@ -34,35 +29,30 @@ namespace Platformer.Core
 
         public T Peek() => items[0];
 
-        public HeapQueue()
-        {
+        public HeapQueue() {
             items = new List<T>();
         }
 
-        public void Push(T item)
-        {
+        public void Push(T item) {
             //add item to end of tree to extend the list
             items.Add(item);
             //find correct position for new item.
             SiftDown(0, items.Count - 1);
         }
 
-        public T Pop()
-        {
+        public T Pop() {
             //if there are more than 1 items, returned item will be first in tree.
             //then, add last item to front of tree, shrink the list
             //and find correct index in tree for first item.
             T item;
             var last = items[items.Count - 1];
             items.RemoveAt(items.Count - 1);
-            if (items.Count > 0)
-            {
+            if (items.Count > 0) {
                 item = items[0];
                 items[0] = last;
                 SiftUp();
             }
-            else
-            {
+            else {
                 item = last;
             }
 
@@ -72,12 +62,10 @@ namespace Platformer.Core
 
         int Compare(T A, T B) => A.CompareTo(B);
 
-        void SiftDown(int startpos, int pos)
-        {
+        void SiftDown(int startpos, int pos) {
             //preserve the newly added item.
             var newitem = items[pos];
-            while (pos > startpos)
-            {
+            while (pos > startpos) {
                 //find parent index in binary tree
                 var parentpos = (pos - 1) >> 1;
                 var parent = items[parentpos];
@@ -92,8 +80,7 @@ namespace Platformer.Core
             items[pos] = newitem;
         }
 
-        void SiftUp()
-        {
+        void SiftUp() {
             var endpos = items.Count;
             var startpos = 0;
             //preserve the inserted item
@@ -101,8 +88,7 @@ namespace Platformer.Core
             var childpos = 1;
             var pos = 0;
             //find child position to insert into binary tree
-            while (childpos < endpos)
-            {
+            while (childpos < endpos) {
                 //get right branch
                 var rightpos = childpos + 1;
                 //if right branch should precede left branch, move right branch up the tree

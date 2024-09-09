@@ -11,21 +11,35 @@ namespace Unity.Tutorials
     class PublishCriteria : ScriptableObject
     {
         static PublisherWindow publisherWindow;
+
         public bool IsNotDisplayingFirstTimeInstructions()
         {
-            if (!IsWebGLPublisherOpen()) { return false; }
-            return (!string.IsNullOrEmpty(publisherWindow.CurrentTab) && publisherWindow.CurrentTab != PublisherWindow.TabIntroduction);
+            if (!IsWebGLPublisherOpen())
+            {
+                return false;
+            }
+
+            return (!string.IsNullOrEmpty(publisherWindow.CurrentTab) &&
+                    publisherWindow.CurrentTab != PublisherWindow.TabIntroduction);
         }
 
         public bool IsUserLoggedIn()
         {
-            if (!IsWebGLPublisherOpen()) { return false; }
+            if (!IsWebGLPublisherOpen())
+            {
+                return false;
+            }
+
             return (publisherWindow.CurrentTab != PublisherWindow.TabNotLoggedIn);
         }
 
         public bool IsBuildBeingUploaded()
         {
-            if (!IsWebGLPublisherOpen()) { return false; }
+            if (!IsWebGLPublisherOpen())
+            {
+                return false;
+            }
+
             switch (PublisherUtils.GetCurrentPublisherState(publisherWindow))
             {
                 case PublisherState.Upload:
@@ -33,18 +47,27 @@ namespace Unity.Tutorials
                     return true;
                 default: break;
             }
+
             return !string.IsNullOrEmpty(PublisherUtils.GetUrlOfLastPublishedBuild(publisherWindow));
         }
 
         public bool IsBuildPublished()
         {
-            if (!IsWebGLPublisherOpen()) { return false; }
+            if (!IsWebGLPublisherOpen())
+            {
+                return false;
+            }
+
             return !string.IsNullOrEmpty(PublisherUtils.GetUrlOfLastPublishedBuild(publisherWindow));
         }
 
         public bool AtLeastOneBuildIsRegistered()
         {
-            if (!IsWebGLPublisherOpen()) { return false; }
+            if (!IsWebGLPublisherOpen())
+            {
+                return false;
+            }
+
             switch (PublisherUtils.GetCurrentPublisherState(publisherWindow))
             {
                 case PublisherState.Zip:
@@ -53,15 +76,20 @@ namespace Unity.Tutorials
                     return true;
                 default: break;
             }
+
             int availableBuilds = PublisherUtils.GetAllBuildsDirectories()
-                                            .Where(p => (p != string.Empty)
-                                                        && PublisherUtils.BuildIsValid(p)).Count();
+                .Where(p => (p != string.Empty)
+                            && PublisherUtils.BuildIsValid(p)).Count();
             return availableBuilds > 0;
         }
 
         bool IsWebGLPublisherOpen()
         {
-            if (publisherWindow) { return true; }
+            if (publisherWindow)
+            {
+                return true;
+            }
+
             publisherWindow = PublisherWindow.FindInstance();
             return false;
         }

@@ -24,6 +24,5 @@ namespace Platformer.View
         {
             transform.position = Vector3.Scale(_camera.position, movementScale);
         }
-
     }
 }
