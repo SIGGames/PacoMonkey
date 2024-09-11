@@ -1,10 +1,10 @@
 ﻿namespace Platformer.Mechanics {
     public interface IMechanics {
-        void Jump();
         void Idle();
-        void Walk();
-        void Run();
-        void Crouch();
-        void Climb();
+        void Jump(bool value);
+        void Walk(bool value);
+        void Run(bool value);
+        void Crouch(bool value);
+        void Climb(bool value);
     }
 }
