@@ -9,41 +9,30 @@ using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
 
 namespace Mechanics {
-    /// <summary>
-    /// This is the main class used to implement control of the player.
-    /// It is a superset of the AnimationController class, but is inlined to allow for any kind of customisation.
-    /// </summary>
     public class PlayerController : KinematicObject, IMechanics {
-        // TODO This will be removed when the mechanics are implemented
         public AudioClip jumpAudio;
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
 
-        /// <summary>
-        /// Max horizontal speed of the player.
-        /// </summary>
         public float maxSpeed = 7;
-
-        /// <summary>
-        /// Initial jump velocity at the start of a jump.
-        /// </summary>
+        public float walkSpeedMultiplier = 0.33f;
+        public float crouchSpeedMultiplier = 0.5f;
         public float jumpTakeOffSpeed = 7;
 
         public JumpState jumpState = JumpState.Grounded;
-
         private bool _stopJump;
 
         private const float MovementThreshold = 0.01f;
 
-        /*internal new*/
         public Collider2D collider2d;
-
-        /*internal new*/
         public AudioSource audioSource;
         public Health health;
         public bool controlEnabled = true;
 
         private bool _jump;
+        private bool _isCrouching;
+        private bool _isWalking;
+        private bool _isClimbing;
         private Vector2 _move;
         private SpriteRenderer _spriteRenderer;
         internal Animator animator;
@@ -62,14 +51,35 @@ namespace Mechanics {
         protected override void Update() {
             if (controlEnabled) {
                 _move.x = Input.GetAxis("Horizontal");
+
+                // Handle Jump
                 if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
                     jumpState = JumpState.PrepareToJump;
                 else if (Input.GetButtonUp("Jump")) {
                     _stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
                 }
-            }
-            else {
+
+                // Handle Walk
+                if (Input.GetKey(KeyCode.LeftShift)) {
+                    _isWalking = true;
+                } else {
+                    _isWalking = false;
+                }
+
+                // Handle Crouch
+                if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) {
+                    _isCrouching = true;
+                } else {
+                    _isCrouching = false;
+                }
+
+                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) {
+                    _isClimbing = true;
+                } else {
+                    _isClimbing = false;
+                }
+            } else {
                 _move.x = 0;
             }
 
@@ -90,14 +100,12 @@ namespace Mechanics {
                         Schedule<PlayerJumped>().player = this;
                         jumpState = JumpState.InFlight;
                     }
-
                     break;
                 case JumpState.InFlight:
                     if (IsGrounded) {
                         Schedule<PlayerLanded>().player = this;
                         jumpState = JumpState.Landed;
                     }
-
                     break;
                 case JumpState.Landed:
                     jumpState = JumpState.Grounded;
@@ -109,8 +117,7 @@ namespace Mechanics {
             if (_jump && IsGrounded) {
                 velocity.y = jumpTakeOffSpeed * _model.jumpModifier;
                 _jump = false;
-            }
-            else if (_stopJump) {
+            } else if (_stopJump) {
                 _stopJump = false;
                 if (velocity.y > 0) {
                     velocity.y *= _model.jumpDeceleration;
@@ -125,31 +132,49 @@ namespace Mechanics {
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
 
-            targetVelocity = _move * maxSpeed;
-        }
+            // Handle crouch movement and adjust speed
+            if (_isCrouching) {
+                targetVelocity = _move * (maxSpeed * crouchSpeedMultiplier);
+            }
+            // Handle walking movement
+            else if (_isWalking) {
+                targetVelocity = _move * (maxSpeed * walkSpeedMultiplier);
+            }
+            // Handle running (default) movement
+            else {
+                targetVelocity = _move * maxSpeed;
+            }
 
-        public void Jump() {
-            throw new System.NotImplementedException();
+            if (_isClimbing) {
+                velocity.y = Input.GetAxis("Vertical") * maxSpeed * 0.5f;
+                gravityModifier = 0;
+            } else {
+                gravityModifier = 1;
+            }
         }
 
         public void Idle() {
-            throw new System.NotImplementedException();
+            animator.SetTrigger("idle");
         }
 
         public void Walk() {
-            throw new System.NotImplementedException();
+            _isWalking = true;
         }
 
         public void Run() {
-            throw new System.NotImplementedException();
+            _isWalking = false;
         }
 
         public void Crouch() {
-            throw new System.NotImplementedException();
+            _isCrouching = true;
         }
 
         public void Climb() {
-            throw new System.NotImplementedException();
+            _isClimbing = true;
+        }
+
+        public void Jump() {
+            _jump = true;
         }
     }
 }
