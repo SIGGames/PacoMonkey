@@ -33,6 +33,8 @@ namespace Mechanics {
 
         private bool _stopJump;
 
+        private const float MovementThreshold = 0.01f;
+
         /*internal new*/
         public Collider2D collider2d;
 
@@ -111,13 +113,13 @@ namespace Mechanics {
             else if (_stopJump) {
                 _stopJump = false;
                 if (velocity.y > 0) {
-                    velocity.y = velocity.y * _model.jumpDeceleration;
+                    velocity.y *= _model.jumpDeceleration;
                 }
             }
 
-            if (_move.x > 0.01f)
+            if (_move.x > MovementThreshold)
                 _spriteRenderer.flipX = false;
-            else if (_move.x < -0.01f)
+            else if (_move.x < -MovementThreshold)
                 _spriteRenderer.flipX = true;
 
             animator.SetBool("grounded", IsGrounded);
