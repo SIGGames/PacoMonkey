@@ -8,7 +8,7 @@ namespace Mechanics.Utils {
         }
 
         public static bool GetCrouchKey() {
-            return Input.GetKeyDown(KeyCode.S);
+            return Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
         }
 
         public static bool GetIdleKey() {
@@ -17,6 +17,10 @@ namespace Mechanics.Utils {
 
         public static bool GetWalkKey() {
             return Input.GetKey(KeyCode.LeftShift);
+        }
+
+        public static bool GetClimbKey() {
+            return Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
         }
     }
 }

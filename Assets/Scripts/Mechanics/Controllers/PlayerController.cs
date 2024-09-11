@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
+using static Mechanics.Utils.Keybinds;
 
 namespace Mechanics {
     public class PlayerController : KinematicObject, IMechanics {
@@ -30,6 +31,7 @@ namespace Mechanics {
         public Health health;
         public bool controlEnabled = true;
         public bool canClimb;
+        public PlayerMovementState movementState = PlayerMovementState.Idle;
 
         private bool _jump;
         private float _jumpTimeCounter;
@@ -65,22 +67,24 @@ namespace Mechanics {
                 }
 
                 // Handle Walk
-                if (Input.GetKey(KeyCode.LeftShift)) {
+                if (GetWalkKey()) {
                     Walk();
                 }
                 else {
                     Walk(false);
+                    // TODO: Revise this assignment
+                    movementState = PlayerMovementState.Idle;
                 }
 
                 // Handle Crouch
-                if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) {
+                if (GetCrouchKey()) {
                     Crouch();
                 }
                 else {
                     Crouch(false);
                 }
 
-                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) && canClimb) {
+                if (GetClimbKey() && canClimb) {
                     Climb();
                 }
                 else {
@@ -169,27 +173,48 @@ namespace Mechanics {
 
         public void Idle() {
             animator.SetTrigger("idle");
+            movementState = PlayerMovementState.Idle;
         }
 
 
         public void Walk(bool value = true) {
             _isWalking = value;
+            if (value) {
+                animator.SetTrigger("walk");
+                movementState = PlayerMovementState.Walk;
+            }
         }
 
         public void Run(bool value = true) {
             _isWalking = value;
+            if (value) {
+                animator.SetTrigger("run");
+                movementState = PlayerMovementState.Run;
+            }
         }
 
         public void Crouch(bool value = true) {
             _isCrouching = value;
+            if (value) {
+                // animator.SetTrigger("crouch");
+                movementState = PlayerMovementState.Crouch;
+            }
         }
 
         public void Climb(bool value = true) {
             _isClimbing = value;
+            if (value) {
+                animator.SetTrigger("climb");
+                movementState = PlayerMovementState.Climb;
+            }
         }
 
         public void Jump(bool value = true) {
             _jump = value;
+            if (value) {
+                animator.SetTrigger("jump");
+                movementState = PlayerMovementState.Jump;
+            }
         }
     }
 }
