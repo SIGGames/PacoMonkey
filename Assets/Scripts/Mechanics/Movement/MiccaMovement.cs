@@ -1,6 +1,7 @@
 ﻿using Enums;
 using Platformer.Mechanics;
 using UnityEngine;
+using static Mechanics.Utils.Keybinds;
 
 namespace Mechanics {
     public class MiccaMovement : MonoBehaviour {
@@ -29,7 +30,7 @@ namespace Mechanics {
             var move = Input.GetAxis("Horizontal");
 
             if (move == 0) return;
-            if (Input.GetKey(KeyCode.LeftShift)) {
+            if (GetWalkKey()) {
                 Walk(move);
             }
             else {
@@ -45,7 +46,7 @@ namespace Mechanics {
         }
 
         protected virtual void HandleIdle() {
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetKey(KeyCode.S)) return;
+            if (Input.GetAxis("Horizontal") != 0 || GetIdleKey()) return;
             _currentState = PlayerMovementState.Idle;
             // _animator.Play("Idle");
         }
@@ -88,7 +89,7 @@ namespace Mechanics {
         }
 
         protected virtual void HandleCrouch() {
-            if (Input.GetKey(KeyCode.S)) {
+            if (GetCrouchKey()) {
                 Crouch();
             }
         }
