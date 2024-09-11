@@ -1,8 +1,7 @@
-using Platformer.Mechanics;
-using Platformer.UI;
+using Mechanics;
 using UnityEngine;
 
-namespace Platformer.UI {
+namespace UI {
     /// <summary>
     /// The MetaGameController is responsible for switching control between the high level
     /// contexts of the application, eg the Main Menu and Gameplay systems.

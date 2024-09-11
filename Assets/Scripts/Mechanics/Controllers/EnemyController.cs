@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Platformer.Gameplay;
+﻿using Platformer.Gameplay;
+using Platformer.Mechanics;
 using UnityEngine;
 using static Platformer.Core.Simulation;
 
-namespace Platformer.Mechanics {
+namespace Mechanics {
     /// <summary>
     /// A simple controller for enemies. Provides movement control over a patrol path.
     /// </summary>
     [RequireComponent(typeof(AnimationController), typeof(Collider2D))]
     public class EnemyController : MonoBehaviour {
-        public PatrolPath path;
+        public global::Mechanics.PatrolPath path;
         public AudioClip ouch;
 
         internal PatrolPath.Mover mover;

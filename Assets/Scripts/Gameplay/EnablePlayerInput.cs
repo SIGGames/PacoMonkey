@@ -1,5 +1,5 @@
+using Model;
 using Platformer.Core;
-using Platformer.Model;
 
 namespace Platformer.Gameplay {
     /// <summary>

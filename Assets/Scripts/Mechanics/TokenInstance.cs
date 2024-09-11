@@ -1,9 +1,13 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using Platformer.Gameplay;
 using UnityEngine;
 using static Platformer.Core.Simulation;
+using Random = UnityEngine.Random;
 
 
-namespace Platformer.Mechanics {
+namespace Mechanics {
     /// <summary>
     /// This class contains the data required for implementing token collection mechanics.
     /// It does not perform animation of the token, this is handled in a batch by the 
@@ -19,7 +23,7 @@ namespace Platformer.Mechanics {
         [Tooltip("List of frames that make up the animation.")]
         public Sprite[] idleAnimation, collectedAnimation;
 
-        internal Sprite[] sprites = new Sprite[0];
+        internal Sprite[] sprites = Array.Empty<Sprite>();
 
         internal SpriteRenderer _renderer;
 

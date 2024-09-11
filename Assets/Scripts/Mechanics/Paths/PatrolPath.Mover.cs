@@ -1,17 +1,17 @@
 using UnityEngine;
 
-namespace Platformer.Mechanics {
+namespace Mechanics {
     public partial class PatrolPath {
         /// <summary>
         /// The Mover class oscillates between start and end points of a path at a defined speed.
         /// </summary>
         public class Mover {
-            PatrolPath path;
+            global::Mechanics.PatrolPath path;
             float p = 0;
             float duration;
             float startTime;
 
-            public Mover(PatrolPath path, float speed) {
+            public Mover(global::Mechanics.PatrolPath path, float speed) {
                 this.path = path;
                 this.duration = (path.endPosition - path.startPosition).magnitude / speed;
                 this.startTime = Time.time;

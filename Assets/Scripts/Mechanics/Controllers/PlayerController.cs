@@ -1,13 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Platformer.Gameplay;
-using static Platformer.Core.Simulation;
-using Platformer.Model;
+﻿using Configuration;
+using Enums;
+using Model;
 using Platformer.Core;
-using Platformer.Mechanics.Enums;
+using Platformer.Gameplay;
+using Platformer.Mechanics;
+using UnityEngine;
+using static Platformer.Core.Simulation;
+using static Configuration.GlobalConfiguration;
 
-namespace Platformer.Mechanics {
+namespace Mechanics {
     /// <summary>
     /// This is the main class used to implement control of the player.
     /// It is a superset of the AnimationController class, but is inlined to allow for any kind of customisation.

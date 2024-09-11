@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mechanics;
+using Model;
 using Platformer.Core;
-using Platformer.Model;
 using UnityEngine;
 
 namespace Platformer.Mechanics {

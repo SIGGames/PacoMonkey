@@ -1,21 +1,24 @@
-﻿using UnityEngine;
+﻿using Enums;
+using Platformer.Mechanics;
+using UnityEngine;
 
-namespace Platformer.Mechanics {
-    public class PacoSmallMovement : MonoBehaviour {
+namespace Mechanics {
+    public class MiccaMovement : MonoBehaviour {
         private Rigidbody2D _rb;
         private Animator _animator;
-        private const float WalkSpeed = 2f;
+        protected float moveSpeed = 5f;
+        private const float WalkSpeed = 3f;
         private const float RunSpeed = 6f;
         private bool _isFacingRight = true;
 
         private PlayerMovementState _currentState = PlayerMovementState.Idle;
 
-        protected void Start() {
+        protected virtual void Start() {
             _rb = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
         }
 
-        protected void Update() {
+        protected virtual void Update() {
             HandleMovement();
             HandleJump();
             HandleCrouch();
@@ -73,16 +76,15 @@ namespace Platformer.Mechanics {
         }
 
         private void Jump() {
-            if (_currentState != PlayerMovementState.Jump) {
-                _currentState = PlayerMovementState.Jump;
-                _rb.velocity = new Vector2(_rb.velocity.x, 5f);
-                // _animator.Play("Jump");
-            }
-            else if (_currentState == PlayerMovementState.Jump) {
-                _currentState = PlayerMovementState.DoubleJump;
-                _rb.velocity = new Vector2(_rb.velocity.x, 4f);
-                // _animator.Play("DoubleJump");
-            }
+            if (_currentState == PlayerMovementState.Jump || !IsGrounded()) return;
+            _currentState = PlayerMovementState.Jump;
+            _rb.velocity = new Vector2(_rb.velocity.x, 7f);
+            // _animator.Play("Jump");
+        }
+
+        protected virtual bool IsGrounded() {
+            // TODO: Implement grounded check
+            return true;
         }
 
         protected virtual void HandleCrouch() {
@@ -94,17 +96,11 @@ namespace Platformer.Mechanics {
         private void Crouch() {
             _currentState = PlayerMovementState.Crouch;
             _rb.velocity = new Vector2(0, _rb.velocity.y);
-            // _animator.Play("Crouch");
+            _animator.Play("Crouch");
         }
 
         public void Climb() {
-            _currentState = PlayerMovementState.Climb;
             // TODO: Implement climbing
-        }
-
-        public void Stealth() {
-            _currentState = PlayerMovementState.Hold;
-            // TODO: Implement stealth
         }
     }
 }

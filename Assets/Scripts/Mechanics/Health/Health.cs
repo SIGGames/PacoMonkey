@@ -1,9 +1,8 @@
-using System;
 using Platformer.Gameplay;
 using UnityEngine;
 using static Platformer.Core.Simulation;
 
-namespace Platformer.Mechanics {
+namespace Mechanics {
     /// <summary>
     /// Represebts the current vital statistics of some game entity.
     /// </summary>

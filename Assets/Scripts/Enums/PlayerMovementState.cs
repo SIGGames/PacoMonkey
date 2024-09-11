@@ -1,4 +1,4 @@
-﻿namespace Platformer.Mechanics {
+﻿namespace Enums {
     public enum PlayerMovementState {
         Idle,
         Walk,

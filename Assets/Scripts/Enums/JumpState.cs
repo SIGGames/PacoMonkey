@@ -1,4 +1,4 @@
-﻿namespace Platformer.Mechanics.Enums {
+﻿namespace Enums {
     public enum JumpState {
         Grounded,
         PrepareToJump,

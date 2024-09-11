@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Platformer.UI {
+namespace UI {
     /// <summary>
     /// A simple controller for switching between UI panels.
     /// </summary>

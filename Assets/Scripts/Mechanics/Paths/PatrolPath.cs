@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Platformer.Mechanics {
+namespace Mechanics {
     /// <summary>
     /// This component is used to create a patrol path, two points which enemies will move between.
     /// </summary>
@@ -15,7 +15,7 @@ namespace Platformer.Mechanics {
         /// </summary>
         /// <param name="speed"></param>
         /// <returns></returns>
-        public Mover CreateMover(float speed = 1) => new Mover(this, speed);
+        public PatrolPath.Mover CreateMover(float speed = 1) => new PatrolPath.Mover(this, speed);
 
         void Reset() {
             startPosition = Vector3.left;

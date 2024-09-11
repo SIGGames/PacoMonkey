@@ -1,7 +1,7 @@
-using Platformer.Mechanics;
+using Mechanics;
 using UnityEngine;
 
-namespace Platformer.Model {
+namespace Model {
     /// <summary>
     /// The main model containing needed data to implement a platformer style 
     /// game. This class should only contain data, and methods that operate 

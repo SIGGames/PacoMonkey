@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Platformer.Mechanics {
+namespace Mechanics {
     /// <summary>
     /// Implements game physics for some in game entity.
     /// </summary>

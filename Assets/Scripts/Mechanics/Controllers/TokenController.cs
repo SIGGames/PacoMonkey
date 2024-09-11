@@ -1,6 +1,7 @@
+using Platformer.Mechanics;
 using UnityEngine;
 
-namespace Platformer.Mechanics {
+namespace Mechanics {
     /// <summary>
     /// This class animates all token instances in a scene.
     /// This allows a single update call to animate hundreds of sprite 

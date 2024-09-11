@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Platformer.Mechanics;
 using UnityEditor;
 using UnityEngine;
+using PatrolPath = Mechanics.PatrolPath;
 
 namespace Platformer
 {

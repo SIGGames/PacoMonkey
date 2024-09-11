@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+#if UNITY_EDITOR
+#endif
 
-namespace Platformer.View {
+namespace View {
     [System.Serializable]
     [CreateAssetMenu(fileName = "New Animated Tile", menuName = "Tiles/Animated Tile")]
     public class AnimatedTile : TileBase {
