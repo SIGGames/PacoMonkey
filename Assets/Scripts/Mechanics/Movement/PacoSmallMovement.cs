@@ -45,8 +45,9 @@ namespace Mechanics {
         }
 
         protected virtual void HandleIdle() {
-            if (Input.GetAxis("Horizontal") != 0 || GetIdleKey()) return;
+            /*if (Input.GetAxis("Horizontal") != 0 || GetIdleKey()) return;
             _currentState = PlayerMovementState.Idle;
+            */
             // _animator.Play("Idle");
         }
 
