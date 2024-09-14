@@ -1,4 +1,5 @@
 using Mechanics;
+using Mechanics.Health;
 using Model;
 using Platformer.Core;
 using Platformer.Mechanics;

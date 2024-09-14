@@ -28,7 +28,7 @@ namespace Mechanics {
 
         public Collider2D collider2d;
         public AudioSource audioSource;
-        public Health health;
+        public Health.Health health;
         public bool controlEnabled = true;
         public bool canClimb;
         public PlayerMovementState movementState = PlayerMovementState.Idle;
@@ -71,7 +71,7 @@ namespace Mechanics {
         }
 
         private void InitializeComponents() {
-            health = GetComponent<Health>();
+            health = GetComponent<Health.Health>();
             audioSource = GetComponent<AudioSource>();
             collider2d = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
