@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Jiggler : MonoBehaviour
-{
+public class Jiggler : MonoBehaviour {
     [Range(0, 1)] public float power = .1f;
 
     [Header("Position Jiggler")] public bool jigPosition = true;
@@ -25,16 +24,14 @@ public class Jiggler : MonoBehaviour
     Quaternion baseRotation;
     Vector3 baseScale;
 
-    void Start()
-    {
+    void Start() {
         basePosition = transform.localPosition;
         baseRotation = transform.localRotation;
         baseScale = transform.localScale;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         var dt = Time.deltaTime;
         positionTime += dt * positionFrequency;
         rotationTime += dt * rotationFrequency;

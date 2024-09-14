@@ -2,12 +2,10 @@
 using UnityEngine;
 using Platformer.Mechanics;
 
-public class PlatformerJumpPad : MonoBehaviour
-{
+public class PlatformerJumpPad : MonoBehaviour {
     public float verticalVelocity;
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
+    void OnTriggerEnter2D(Collider2D other) {
         var rb = other.attachedRigidbody;
         if (rb == null) return;
         var player = rb.GetComponent<PlayerController>();
@@ -15,8 +13,7 @@ public class PlatformerJumpPad : MonoBehaviour
         AddVelocity(player);
     }
 
-    void AddVelocity(PlayerController player)
-    {
+    void AddVelocity(PlayerController player) {
         player.velocity.y = verticalVelocity;
     }
 }
