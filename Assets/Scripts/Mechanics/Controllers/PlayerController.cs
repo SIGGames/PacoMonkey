@@ -47,49 +47,12 @@ namespace Mechanics {
         public Bounds Bounds => collider2d.bounds;
 
         void Awake() {
-            health = GetComponent<Health>();
-            audioSource = GetComponent<AudioSource>();
-            collider2d = GetComponent<Collider2D>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            animator = GetComponent<Animator>();
+            InitializeComponents();
         }
 
         protected override void Update() {
             if (controlEnabled) {
-                _move.x = Input.GetAxis("Horizontal");
-
-                // Handle Jump
-                if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
-                    jumpState = JumpState.PrepareToJump;
-                else if (Input.GetButtonUp("Jump")) {
-                    _stopJump = true;
-                    Schedule<PlayerStopJump>().player = this;
-                }
-
-                // Handle Walk
-                if (GetWalkKey()) {
-                    Walk();
-                }
-                else {
-                    Walk(false);
-                    // TODO: Revise this assignment
-                    movementState = PlayerMovementState.Idle;
-                }
-
-                // Handle Crouch
-                if (GetCrouchKey()) {
-                    Crouch();
-                }
-                else {
-                    Crouch(false);
-                }
-
-                if (GetClimbKey() && canClimb) {
-                    Climb();
-                }
-                else {
-                    Climb(false);
-                }
+                HandleInput();
             }
             else {
                 _move.x = 0;
@@ -99,13 +62,67 @@ namespace Mechanics {
             base.Update();
         }
 
-        void UpdateJumpState() {
+        protected override void ComputeVelocity() {
+            HandleJumpVelocity();
+            UpdateSpriteDirection();
+            UpdateAnimatorParameters();
+            ComputeTargetVelocity();
+            HandleClimbing();
+        }
+
+        private void InitializeComponents() {
+            health = GetComponent<Health>();
+            audioSource = GetComponent<AudioSource>();
+            collider2d = GetComponent<Collider2D>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            animator = GetComponent<Animator>();
+        }
+
+        private void HandleInput() {
+            HandleMovementInput();
+            HandleActionInput();
+        }
+
+        private void HandleMovementInput() {
+            _move.x = Input.GetAxis("Horizontal");
+            if (GetWalkKey()) {
+                Walk();
+            }
+            else {
+                Walk(false);
+                movementState = PlayerMovementState.Idle;
+            }
+
+            if (GetCrouchKey()) {
+                Crouch();
+            }
+            else {
+                Crouch(false);
+            }
+
+            if (GetClimbKey() && canClimb) {
+                Climb();
+            }
+            else {
+                Climb(false);
+            }
+        }
+
+        private void HandleActionInput() {
+            if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump")) {
+                jumpState = JumpState.PrepareToJump;
+            }
+            else if (Input.GetButtonUp("Jump")) {
+                _stopJump = true;
+                Schedule<PlayerStopJump>().player = this;
+            }
+        }
+
+        private void UpdateJumpState() {
             Jump(false);
             switch (jumpState) {
                 case JumpState.PrepareToJump:
-                    jumpState = JumpState.Jumping;
-                    Jump();
-                    _stopJump = false;
+                    StartJump();
                     break;
                 case JumpState.Jumping:
                     if (!IsGrounded) {
@@ -127,7 +144,13 @@ namespace Mechanics {
             }
         }
 
-        protected override void ComputeVelocity() {
+        private void StartJump() {
+            jumpState = JumpState.Jumping;
+            Jump();
+            _stopJump = false;
+        }
+
+        private void HandleJumpVelocity() {
             if (_jump && IsGrounded) {
                 velocity.y = jumpTakeOffSpeed * _model.jumpModifier;
                 Jump();
@@ -143,15 +166,21 @@ namespace Mechanics {
                     velocity.y *= _model.jumpDeceleration;
                 }
             }
+        }
 
+        private void UpdateSpriteDirection() {
             if (_move.x > MovementThreshold)
                 _spriteRenderer.flipX = false;
             else if (_move.x < -MovementThreshold)
                 _spriteRenderer.flipX = true;
+        }
 
+        private void UpdateAnimatorParameters() {
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
+        }
 
+        private void ComputeTargetVelocity() {
             if (_isCrouching) {
                 targetVelocity = _move * (maxSpeed * crouchSpeedMultiplier);
             }
@@ -161,7 +190,9 @@ namespace Mechanics {
             else {
                 targetVelocity = _move * maxSpeed;
             }
+        }
 
+        private void HandleClimbing() {
             if (_isClimbing) {
                 velocity.y = Input.GetAxis("Vertical") * maxSpeed * 0.5f;
                 gravityModifier = 0;
@@ -175,7 +206,6 @@ namespace Mechanics {
             animator.SetTrigger("idle");
             movementState = PlayerMovementState.Idle;
         }
-
 
         public void Walk(bool value = true) {
             _isWalking = value;
@@ -196,7 +226,6 @@ namespace Mechanics {
         public void Crouch(bool value = true) {
             _isCrouching = value;
             if (value) {
-                // animator.SetTrigger("crouch");
                 movementState = PlayerMovementState.Crouch;
             }
         }
