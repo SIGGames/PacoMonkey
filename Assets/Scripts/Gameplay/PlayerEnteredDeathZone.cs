@@ -14,7 +14,7 @@ namespace Platformer.Gameplay {
         PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
         public override void Execute() {
-            Simulation.Schedule<PlayerDeath>(0);
+            model.player.health.Die();
         }
     }
 }

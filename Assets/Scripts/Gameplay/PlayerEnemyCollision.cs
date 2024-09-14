@@ -2,15 +2,12 @@ using Mechanics;
 using Mechanics.Health;
 using Model;
 using Platformer.Core;
-using Platformer.Mechanics;
-using UnityEngine;
 using static Platformer.Core.Simulation;
 
 namespace Platformer.Gameplay {
     /// <summary>
-    /// Fired when a Player collides with an Enemy.
+    /// S'executa quan el jugador col·lisiona amb un enemic.
     /// </summary>
-    /// <typeparam name="EnemyCollision"></typeparam>
     public class PlayerEnemyCollision : Simulation.Event<PlayerEnemyCollision> {
         public EnemyController enemy;
         public PlayerController player;
@@ -20,26 +17,19 @@ namespace Platformer.Gameplay {
         public override void Execute() {
             var willHurtEnemy = player.Bounds.center.y >= enemy.Bounds.max.y;
 
-            if (willHurtEnemy) {
-                var enemyHealth = enemy.GetComponent<Health>();
-                if (enemyHealth != null) {
-                    // TODO: Adjust this to do not trigger the animation when the enemy is already dead
-                    enemyHealth.DecrementHp();
-                    if (!enemyHealth.IsAlive) {
-                        Schedule<EnemyDeath>().enemy = enemy;
-                        player.Bounce(2);
-                    }
-                    else {
-                        player.Bounce(7);
-                    }
-                }
-                else {
+            var enemyHealth = enemy.GetComponent<Health>();
+
+            if (willHurtEnemy && enemyHealth != null) {
+                enemyHealth.Die(); // TODO: Ensure this is correct or playerHealth should be checked
+
+                if (!enemyHealth.IsAlive) {
                     Schedule<EnemyDeath>().enemy = enemy;
                     player.Bounce(2);
+                } else {
+                    player.Bounce(7);
                 }
-            }
-            else {
-                Schedule<PlayerDeath>();
+            } else if (!willHurtEnemy) {
+                player.health.DecrementLive();
             }
         }
     }

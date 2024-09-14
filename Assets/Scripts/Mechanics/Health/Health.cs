@@ -5,7 +5,7 @@ using static Platformer.Core.Simulation;
 
 namespace Mechanics.Health {
     public class Health : MonoBehaviour {
-        public bool IsAlive => currentHp > 0 && currentLives > 0;
+        public bool IsAlive => currentHp > 0 && currentLives > 0; // TODO: Mabe is alive var should be removed
 
         [SerializeField] private int currentHp;
         [SerializeField] private int currentLives;
@@ -24,22 +24,27 @@ namespace Mechanics.Health {
             }
         }
 
+        public void IncrementLive() {
+            currentLives = Mathf.Clamp(currentLives + 1, 0, GlobalConfiguration.MaxLives);
+        }
+
+        public void DecrementLive() {
+            if (GlobalConfiguration.IsGodMode) return;
+            HandleLifeLoss();
+        }
+
         private void HandleLifeLoss() {
             currentLives = Mathf.Clamp(currentLives - 1, 0, GlobalConfiguration.MaxLives);
 
-            if (currentLives > 0) {
-                ResetHealth();
-                Schedule<PlayerSpawn>();
-            }
-            else {
-                var ev = Schedule<HealthIsZero>();
-                ev.health = this;
-            }
+            ResetHp();
+
+            if (currentLives > 0) return;
+            Schedule<PlayerDeath>();
         }
 
         public void Die() {
             if (GlobalConfiguration.IsGodMode) return;
-            while (currentHp > 0) DecrementHp();
+            Schedule<PlayerDeath>();
         }
 
         private void Awake() {
@@ -47,15 +52,15 @@ namespace Mechanics.Health {
         }
 
         public void ResetHealth() {
-            SetDefaultHp();
-            SetDefaultLives();
+            ResetHp();
+            ResetLives();
         }
 
-        private void SetDefaultHp() {
+        private void ResetHp() {
             currentHp = GlobalConfiguration.DefaultHp;
         }
 
-        private void SetDefaultLives() {
+        private void ResetLives() {
             currentLives = GlobalConfiguration.DefaultLives;
         }
     }

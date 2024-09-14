@@ -21,7 +21,7 @@ namespace Configuration {
         public const int DefaultHp = 100;
         public const int MaxHp = 100;
         public const int DefaultLives = 1;
-        public const int MaxLives = 1;
+        public const int MaxLives = 10;
         public const int DefaultHpIncrement = 1;
         public const int DefaultHpDecrement = 1;
 
