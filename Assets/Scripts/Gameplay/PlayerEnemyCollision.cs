@@ -23,7 +23,8 @@ namespace Platformer.Gameplay {
             if (willHurtEnemy) {
                 var enemyHealth = enemy.GetComponent<Health>();
                 if (enemyHealth != null) {
-                    enemyHealth.Decrement();
+                    // TODO: Adjust this to do not trigger the animation when the enemy is already dead
+                    enemyHealth.DecrementHp();
                     if (!enemyHealth.IsAlive) {
                         Schedule<EnemyDeath>().enemy = enemy;
                         player.Bounce(2);

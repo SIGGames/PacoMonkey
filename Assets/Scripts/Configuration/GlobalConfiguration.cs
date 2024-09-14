@@ -1,5 +1,8 @@
-﻿namespace Configuration {
-    public static class GlobalConfiguration {
+﻿using UnityEngine;
+using UnityEngine.Serialization;
+
+namespace Configuration {
+    public class GlobalConfiguration : MonoBehaviour {
         // Screen configuration
         public const int ScreenWidth = 1920;
         public const int ScreenHeight = 1080;
@@ -14,9 +17,16 @@
         public static float enemySpeed = 3.0f;
         public static int enemyMaxHealth = 50;
 
+        // Health configuration
+        public const int DefaultHp = 100;
+        public const int MaxHp = 100;
+        public const int DefaultLives = 1;
+        public const int MaxLives = 1;
+        public const int DefaultHpIncrement = 1;
+        public const int DefaultHpDecrement = 1;
+
         // Game configuration
-        public static int maxLives = 3;
-        public static float gravityScale = 1.0f;
+        public const float GravityScale = 1.0f;
 
         // Audio configuration
         public static float masterVolume = 1.0f;
@@ -28,6 +38,6 @@
 
         // Flags
         public static bool isDebugMode = false;
-        public static bool isGodMode = false;
+        public const bool IsGodMode = false;
     }
 }

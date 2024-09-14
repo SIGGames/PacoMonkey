@@ -4,52 +4,59 @@ using UnityEngine;
 using static Platformer.Core.Simulation;
 
 namespace Mechanics.Health {
-    /// <summary>
-    /// Represents the current vital statistics of some game entity.
-    /// </summary>
     public class Health : MonoBehaviour {
-        /// <summary>
-        /// The maximum hit points for the entity.
-        /// </summary>
-        public int maxHP = 1;
+        public bool IsAlive => currentHp > 0 && currentLives > 0;
 
-        /// <summary>
-        /// Indicates if the entity should be considered 'alive'.
-        /// </summary>
-        public bool IsAlive => currentHP > 0;
+        [SerializeField] private int currentHp;
+        [SerializeField] private int currentLives;
 
-        int currentHP;
-
-        /// <summary>
-        /// Increment the HP of the entity.
-        /// </summary>
-        public void Increment() {
-            currentHP = Mathf.Clamp(currentHP + 1, 0, maxHP);
+        public void IncrementHp(int hp = GlobalConfiguration.DefaultHpIncrement) {
+            currentHp = Mathf.Clamp(currentHp + hp, 0, GlobalConfiguration.MaxHp);
         }
 
-        /// <summary>
-        /// Decrement the HP of the entity. Will trigger a HealthIsZero event when
-        /// current HP reaches 0.
-        /// </summary>
-        public void Decrement() {
-            if (GlobalConfiguration.isGodMode) return;
-            currentHP = Mathf.Clamp(currentHP - 1, 0, maxHP);
-            if (currentHP == 0) {
+        public void DecrementHp(int hp = GlobalConfiguration.DefaultHpDecrement) {
+            if (GlobalConfiguration.IsGodMode) return;
+
+            currentHp = Mathf.Clamp(currentHp - hp, 0, GlobalConfiguration.MaxHp);
+
+            if (currentHp == 0) {
+                HandleLifeLoss();
+            }
+        }
+
+        private void HandleLifeLoss() {
+            currentLives = Mathf.Clamp(currentLives - 1, 0, GlobalConfiguration.MaxLives);
+
+            if (currentLives > 0) {
+                ResetHealth();
+                Schedule<PlayerSpawn>();
+            }
+            else {
                 var ev = Schedule<HealthIsZero>();
                 ev.health = this;
             }
         }
 
-        /// <summary>
-        /// Decrement the HP of the entity until HP reaches 0.
-        /// </summary>
         public void Die() {
-            if (GlobalConfiguration.isGodMode) return;
-            while (currentHP > 0) Decrement();
+            if (GlobalConfiguration.IsGodMode) return;
+            while (currentHp > 0) DecrementHp();
         }
 
-        void Awake() {
-            currentHP = maxHP;
+        private void Awake() {
+            ResetHealth();
+        }
+
+        public void ResetHealth() {
+            SetDefaultHp();
+            SetDefaultLives();
+        }
+
+        private void SetDefaultHp() {
+            currentHp = GlobalConfiguration.DefaultHp;
+        }
+
+        private void SetDefaultLives() {
+            currentLives = GlobalConfiguration.DefaultLives;
         }
     }
 }
