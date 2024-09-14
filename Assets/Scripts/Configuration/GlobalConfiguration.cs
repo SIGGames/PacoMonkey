@@ -1,5 +1,10 @@
 ﻿namespace Configuration {
     public static class GlobalConfiguration {
+        // Screen configuration
+        public const int ScreenWidth = 1920;
+        public const int ScreenHeight = 1080;
+        public const bool FullScreen = true;
+
         // Player configuration
         public static float playerSpeed = 5.0f;
         public static float playerJumpForce = 12.0f;
