@@ -6,7 +6,8 @@ using static Platformer.Core.Simulation;
 namespace Mechanics.Health {
     public class Health : MonoBehaviour {
         private GlobalConfiguration _config;
-        public bool IsAlive => currentHp > 0 && currentLives > 0; // TODO: Mabe is alive var should be removed
+        public bool IsAlive => currentHp > 0 && currentLives > 0; // TODO: Maybe is alive var should be removed
+        // TODO: This class must be generic, so it can be used for any entity that has health
 
         [SerializeField] private int currentHp;
         [SerializeField] private int currentLives;
