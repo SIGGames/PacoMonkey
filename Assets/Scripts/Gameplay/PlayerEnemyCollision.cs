@@ -20,7 +20,7 @@ namespace Platformer.Gameplay {
             var enemyHealth = enemy.GetComponent<Health>();
 
             if (willHurtEnemy && enemyHealth != null) {
-                enemyHealth.Die(); // TODO: Ensure this is correct or playerHealth should be checked
+                enemyHealth.DecrementLive(); // TODO: Ensure this is correct or playerHealth should be checked
 
                 if (!enemyHealth.IsAlive) {
                     Schedule<EnemyDeath>().enemy = enemy;

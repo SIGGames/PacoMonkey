@@ -5,19 +5,20 @@ using static Platformer.Core.Simulation;
 
 namespace Mechanics.Health {
     public class Health : MonoBehaviour {
+        private GlobalConfiguration _config;
         public bool IsAlive => currentHp > 0 && currentLives > 0; // TODO: Mabe is alive var should be removed
 
         [SerializeField] private int currentHp;
         [SerializeField] private int currentLives;
 
         public void IncrementHp(int hp = GlobalConfiguration.DefaultHpIncrement) {
-            currentHp = Mathf.Clamp(currentHp + hp, 0, GlobalConfiguration.MaxHp);
+            currentHp = Mathf.Clamp(currentHp + hp, 0, _config.maxHp);
         }
 
         public void DecrementHp(int hp = GlobalConfiguration.DefaultHpDecrement) {
-            if (GlobalConfiguration.IsGodMode) return;
+            if (_config.isGodMode) return;
 
-            currentHp = Mathf.Clamp(currentHp - hp, 0, GlobalConfiguration.MaxHp);
+            currentHp = Mathf.Clamp(currentHp - hp, 0, _config.maxHp);
 
             if (currentHp == 0) {
                 HandleLifeLoss();
@@ -25,16 +26,16 @@ namespace Mechanics.Health {
         }
 
         public void IncrementLive() {
-            currentLives = Mathf.Clamp(currentLives + 1, 0, GlobalConfiguration.MaxLives);
+            currentLives = Mathf.Clamp(currentLives + 1, 0, _config.maxLives);
         }
 
         public void DecrementLive() {
-            if (GlobalConfiguration.IsGodMode) return;
+            if (_config.isGodMode) return;
             HandleLifeLoss();
         }
 
         private void HandleLifeLoss() {
-            currentLives = Mathf.Clamp(currentLives - 1, 0, GlobalConfiguration.MaxLives);
+            currentLives = Mathf.Clamp(currentLives - 1, 0, _config.maxLives);
 
             ResetHp();
 
@@ -43,11 +44,12 @@ namespace Mechanics.Health {
         }
 
         public void Die() {
-            if (GlobalConfiguration.IsGodMode) return;
+            if (_config.isGodMode) return;
             Schedule<PlayerDeath>();
         }
 
         private void Awake() {
+            _config = GlobalConfiguration.Instance;
             ResetHealth();
         }
 
@@ -57,11 +59,11 @@ namespace Mechanics.Health {
         }
 
         private void ResetHp() {
-            currentHp = GlobalConfiguration.DefaultHp;
+            currentHp = _config.defaultHp;
         }
 
         private void ResetLives() {
-            currentLives = GlobalConfiguration.DefaultLives;
+            currentLives = _config.defaultLives;
         }
     }
 }

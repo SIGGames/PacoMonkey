@@ -2,9 +2,9 @@
 
 namespace Configuration {
     public class ResolutionManager : MonoBehaviour {
-        [SerializeField] private int screenWidth = GlobalConfiguration.ScreenWidth;
-        [SerializeField] private int screenHeight = GlobalConfiguration.ScreenHeight;
-        [SerializeField] private bool fullScreen = GlobalConfiguration.FullScreen;
+        [SerializeField] private int screenWidth = GlobalConfiguration.DefaultScreenWidth;
+        [SerializeField] private int screenHeight = GlobalConfiguration.DefaultScreenHeight;
+        [SerializeField] private bool fullScreen = GlobalConfiguration.DefaultFullScreen;
 
         void Start() {
             int width = PlayerPrefs.GetInt("ScreenWidth", screenWidth);

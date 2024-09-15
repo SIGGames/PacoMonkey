@@ -2,42 +2,61 @@
 using UnityEngine.Serialization;
 
 namespace Configuration {
-    public static class GlobalConfiguration {
-        // Screen configuration
-        public const int ScreenWidth = 1920;
-        public const int ScreenHeight = 1080;
-        public const bool FullScreen = true;
+    public class GlobalConfiguration : MonoBehaviour {
+        public static GlobalConfiguration Instance { get; private set; }
 
-        // Player configuration
-        public static float playerSpeed = 5.0f;
-        public static float playerJumpForce = 12.0f;
-        public static int playerMaxHealth = 100;
+        // If any the fields wants to do not be modified in the inspector,
+        // use the readonly keyword. In case the field is a constant, use the const keyword.
 
-        // Enemy configuration
-        public static float enemySpeed = 3.0f;
-        public static int enemyMaxHealth = 50;
+        [Header("Screen Configuration")]
+        // These fields are hided in the inspector because they are constants
+        public const int DefaultScreenWidth = 1920;
+        public const int DefaultScreenHeight = 1080;
+        public const bool DefaultFullScreen = true;
 
-        // Health configuration
-        public const int DefaultHp = 100;
-        public const int MaxHp = 100;
-        public const int DefaultLives = 1;
-        public const int MaxLives = 10;
+        [Header("Player Configuration")]
+        public float playerSpeed = 5.0f;
+        public float playerJumpForce = 12.0f;
+        public int playerMaxHealth = 100;
+
+        [Header("Enemy Configuration")]
+        public float enemySpeed = 3.0f;
+        public int enemyMaxHealth = 50;
+
+        [FormerlySerializedAs("DefaultHp")] [Header("Health Configuration")]
+        // TODO: Refactor this to determine player and enemy health
+        public int defaultHp = 100;
+
+        public int maxHp = 100;
+        public int defaultLives = 1;
+        public int maxLives = 10;
         public const int DefaultHpIncrement = 1;
         public const int DefaultHpDecrement = 1;
 
-        // Game configuration
+        [Header("Physics Configuration")]
         public const float GravityScale = 1.0f;
 
-        // Audio configuration
-        public static float masterVolume = 1.0f;
-        public static float musicVolume = 0.8f;
-        public static float sfxVolume = 0.7f;
+        [Header("Audio Configuration")]
+        public float masterVolume = 1.0f;
+        public float musicVolume = 0.8f;
+        public float sfxVolume = 0.7f;
 
-        // Environment configuration
-        public static float windSpeed = 2.0f;
+        [Header("Environment Configuration")]
+        public float windSpeed = 2.0f;
 
-        // Flags
-        public static bool isDebugMode = false;
-        public const bool IsGodMode = false;
+        [Header("Debug Configuration")]
+        public bool isDebugMode = false;
+        public bool isGodMode = false;
+
+        void Awake() {
+            if (Instance == null) {
+                Instance = this;
+                // To make the object persist between scenes
+                DontDestroyOnLoad(gameObject);
+            }
+            else {
+                Destroy(gameObject);
+            }
+        }
     }
 }
