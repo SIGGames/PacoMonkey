@@ -2,7 +2,7 @@
 using UnityEngine.Serialization;
 
 namespace Configuration {
-    public class GlobalConfiguration : MonoBehaviour {
+    public static class GlobalConfiguration {
         // Screen configuration
         public const int ScreenWidth = 1920;
         public const int ScreenHeight = 1080;
