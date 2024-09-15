@@ -48,7 +48,11 @@ namespace Configuration {
         public bool isDebugMode = false;
         public bool isGodMode = false;
 
-        void Awake() {
+        private void Awake() {
+            SetGlobalConfigInstance();
+        }
+
+        private void SetGlobalConfigInstance() {
             if (Instance == null) {
                 Instance = this;
                 // To make the object persist between scenes

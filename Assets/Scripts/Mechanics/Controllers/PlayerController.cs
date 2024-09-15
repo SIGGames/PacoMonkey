@@ -23,6 +23,7 @@ namespace Mechanics {
 
         public JumpState jumpState = JumpState.Grounded;
         private bool _stopJump;
+        private GlobalConfiguration _config;
 
         private const float MovementThreshold = 0.01f;
 
@@ -47,6 +48,7 @@ namespace Mechanics {
         public Bounds Bounds => collider2d.bounds;
 
         void Awake() {
+            _config = Instance;
             InitializeComponents();
         }
 
@@ -233,6 +235,7 @@ namespace Mechanics {
         public void Climb(bool value = true) {
             _isClimbing = value;
             if (value) {
+                // TODO: Create a class to store those StringToHash values
                 animator.SetTrigger("climb");
                 movementState = PlayerMovementState.Climb;
             }
