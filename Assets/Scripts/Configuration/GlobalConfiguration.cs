@@ -3,17 +3,60 @@ using UnityEngine.Serialization;
 
 namespace Configuration {
     public class GlobalConfiguration : MonoBehaviour {
+        [System.Serializable]
+        public struct AudioConfig {
+            [Range(0, 100)]
+            [Tooltip("Master volume control")]
+            public int masterVolume;
+            [Range(0, 100)]
+            [Tooltip("Music volume control")]
+            public int musicVolume;
+            [Range(0, 100)]
+            [Tooltip("Sound effects volume control")]
+            public int sfxVolume;
+        }
+
+        [System.Serializable]
+        public struct PlayerConfig {
+            [Tooltip("Player running speed")]
+            public float speedRun;
+            [Tooltip("Player walking speed")]
+            public float speedWalk;
+            [Tooltip("Player crouching speed")]
+            public float speedCrouchWalk;
+            [Tooltip("Player jump force")]
+            public float jumpForce;
+            [Tooltip("Small jump force")]
+            public float smallJumpForce;
+            [Tooltip("Big jump force")]
+            public float bigJumpForce;
+            [Tooltip("Double jump force")]
+            public float doubleJumpForce;
+        }
+
+        [System.Serializable]
+        public struct HealthConfig {
+            [Tooltip("Default player HP")]
+            public int defaultHp;
+            [Tooltip("Maximum player HP")]
+            public int maxHp;
+            [Tooltip("Default player lives")]
+            public int defaultLives;
+            [Tooltip("Maximum player lives")]
+            public int maxLives;
+            [Tooltip("HP increment value")]
+            public const int DefaultHpIncrement = 1;
+            [Tooltip("HP decrement value")]
+            public const int DefaultHpDecrement = 1;
+        }
+
         public static GlobalConfiguration Instance { get; private set; }
 
-        // If any the fields wants to do not be modified in the inspector,
-        // use the readonly keyword. In case the field is a constant, use the const keyword.
-
         [Header("Debug Configuration")]
-        public bool isDebugMode = false;
-        public bool isGodMode = false;
+        public bool isDebugMode;
+        public bool isGodMode;
 
         [Header("Screen Configuration")]
-        // These fields are hided in the inspector because they are constants
         public const int DefaultScreenWidth = 1920;
         public const int DefaultScreenHeight = 1080;
         public const bool DefaultFullScreen = true;
@@ -22,29 +65,13 @@ namespace Configuration {
         public const float GravityScale = 1.0f;
 
         [Header("Audio Configuration")]
-        [Range (0, 100)]
-        public int masterVolume;
-        [Range (0, 100)]
-        public int musicVolume;
-        [Range (0, 100)]
-        public int sfxVolume;
+        public AudioConfig audioSettings;
 
         [Header("Player Configuration")]
-        public float playerSpeedRun = 7.0f;
-        public float playerSpeedWalk = 2.33f;
-        public float playerSpeedCrouchWalk = 1.5f;
-        public float playerJumpForce = 12.0f;
-        public float playerSmallJumpForce = 6.0f;
-        public float playerBigJumpForce = 12.0f;
-        public float playerDoubleJumpForce = 6.0f;
+        public PlayerConfig playerSettings;
 
-        [Header("Player Health Configuration")]
-        public int defaultHp = 100;
-        public int maxHp = 100;
-        public int defaultLives = 1;
-        public int maxLives = 10;
-        public const int DefaultHpIncrement = 1;
-        public const int DefaultHpDecrement = 1;
+        [FormerlySerializedAs("healthSettings")] [Header("Health Configuration")]
+        public HealthConfig playerHealthSettings;
 
         [Header("Character Sizes")]
         public float pacoSmallJumpHeightMultiplier = 1.5f;

@@ -12,14 +12,14 @@ namespace Mechanics.Health {
         [SerializeField] private int currentHp;
         [SerializeField] private int currentLives;
 
-        public void IncrementHp(int hp = GlobalConfiguration.DefaultHpIncrement) {
-            currentHp = Mathf.Clamp(currentHp + hp, 0, _config.maxHp);
+        public void IncrementHp(int hp = GlobalConfiguration.HealthConfig.DefaultHpIncrement) {
+            currentHp = Mathf.Clamp(currentHp + hp, 0, _config.playerHealthSettings.maxHp);
         }
 
-        public void DecrementHp(int hp = GlobalConfiguration.DefaultHpDecrement) {
+        public void DecrementHp(int hp = GlobalConfiguration.HealthConfig.DefaultHpDecrement) {
             if (_config.isGodMode) return;
 
-            currentHp = Mathf.Clamp(currentHp - hp, 0, _config.maxHp);
+            currentHp = Mathf.Clamp(currentHp - hp, 0, _config.playerHealthSettings.maxHp);
 
             if (currentHp == 0) {
                 HandleLifeLoss();
@@ -27,7 +27,7 @@ namespace Mechanics.Health {
         }
 
         public void IncrementLive() {
-            currentLives = Mathf.Clamp(currentLives + 1, 0, _config.maxLives);
+            currentLives = Mathf.Clamp(currentLives + 1, 0, _config.playerHealthSettings.maxLives);
         }
 
         public void DecrementLive() {
@@ -36,7 +36,7 @@ namespace Mechanics.Health {
         }
 
         private void HandleLifeLoss() {
-            currentLives = Mathf.Clamp(currentLives - 1, 0, _config.maxLives);
+            currentLives = Mathf.Clamp(currentLives - 1, 0, _config.playerHealthSettings.maxLives);
 
             ResetHp();
 
@@ -60,11 +60,11 @@ namespace Mechanics.Health {
         }
 
         private void ResetHp() {
-            currentHp = _config.defaultHp;
+            currentHp = _config.playerHealthSettings.defaultHp;
         }
 
         private void ResetLives() {
-            currentLives = _config.defaultLives;
+            currentLives = _config.playerHealthSettings.defaultLives;
         }
     }
 }
