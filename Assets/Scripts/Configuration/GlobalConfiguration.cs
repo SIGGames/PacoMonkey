@@ -22,9 +22,12 @@ namespace Configuration {
         public const float GravityScale = 1.0f;
 
         [Header("Audio Configuration")]
-        public float masterVolume = 1.0f;
-        public float musicVolume = 0.8f;
-        public float sfxVolume = 0.7f;
+        [Range (0, 100)]
+        public int masterVolume;
+        [Range (0, 100)]
+        public int musicVolume;
+        [Range (0, 100)]
+        public int sfxVolume;
 
         [Header("Player Configuration")]
         public float playerSpeedRun = 7.0f;
