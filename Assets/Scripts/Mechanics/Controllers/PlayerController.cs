@@ -33,6 +33,7 @@ namespace Mechanics {
         public bool controlEnabled = true;
         public bool canClimb;
         public PlayerMovementState movementState = PlayerMovementState.Idle;
+        public LayerMask ledgeLayerMask;
 
         private bool _jump;
         private float _jumpTimeCounter;
@@ -42,7 +43,9 @@ namespace Mechanics {
         private bool _isClimbing;
         private Vector2 _move;
         private SpriteRenderer _spriteRenderer;
+        private LedgeManager _ledgeManager;
         internal Animator animator;
+        private Rigidbody2D _rb;
         private readonly PlatformerModel _model = Simulation.GetModel<PlatformerModel>();
 
         public Bounds Bounds => collider2d.bounds;
@@ -50,6 +53,8 @@ namespace Mechanics {
         void Awake() {
             _config = Instance;
             InitializeComponents();
+            _ledgeManager = new LedgeManager(transform, _rb, collider2d, animator, ledgeLayerMask);
+            _ledgeManager.ledgeCheckPoint = transform.Find("ledgeCheckPoint");
         }
 
         protected override void Update() {
@@ -62,6 +67,10 @@ namespace Mechanics {
 
             UpdateJumpState();
             base.Update();
+
+            if (canClimb && _ledgeManager.DetectLedge()) {
+                _ledgeManager.ClimbLedge();
+            }
         }
 
         protected override void ComputeVelocity() {
@@ -78,6 +87,7 @@ namespace Mechanics {
             collider2d = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
+            _rb = GetComponent<Rigidbody2D>();
         }
 
         private void HandleInput() {
