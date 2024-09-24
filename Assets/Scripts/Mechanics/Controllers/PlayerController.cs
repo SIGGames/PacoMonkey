@@ -76,7 +76,6 @@ namespace Mechanics {
             UpdateSpriteDirection();
             UpdateAnimatorParameters();
             ComputeTargetVelocity();
-            HandleClimbing();
         }
 
         private void InitializeComponents() {
@@ -107,13 +106,6 @@ namespace Mechanics {
             }
             else {
                 Crouch(false);
-            }
-
-            if (GetClimbKey() && canClimb) {
-                Climb();
-            }
-            else {
-                Climb(false);
             }
         }
 
@@ -201,16 +193,6 @@ namespace Mechanics {
             }
         }
 
-        private void HandleClimbing() {
-            if (_isClimbing) {
-                velocity.y = Input.GetAxis("Vertical") * maxSpeed * 0.5f;
-                gravityModifier = 0;
-            }
-            else {
-                gravityModifier = 1;
-            }
-        }
-
         public void Idle() {
             animator.SetTrigger("idle");
             movementState = PlayerMovementState.Idle;
@@ -236,15 +218,6 @@ namespace Mechanics {
             _isCrouching = value;
             if (value) {
                 movementState = PlayerMovementState.Crouch;
-            }
-        }
-
-        public void Climb(bool value = true) {
-            _isClimbing = value;
-            if (value) {
-                // TODO: Create a class to store those StringToHash values
-                animator.SetTrigger("climb");
-                movementState = PlayerMovementState.Climb;
             }
         }
 

@@ -64,7 +64,7 @@ namespace Configuration {
         public const bool DefaultFullScreen = true;
 
         [Header("Physics Configuration")]
-        public const float GravityScale = 1.0f;
+        public const float GravityScale = 4.0f;
 
         [Header("Audio Configuration")]
         public AudioConfig audioSettings;
