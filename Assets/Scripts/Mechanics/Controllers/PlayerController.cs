@@ -34,6 +34,13 @@ namespace Mechanics {
         public bool canClimb;
         public PlayerMovementState movementState = PlayerMovementState.Idle;
 
+        public static PlayerController PCInstance { get; private set; }
+
+        public PlayerMovementState MovementState {
+            get => movementState;
+            set => movementState = value;
+        }
+
         private bool _jump;
         private float _jumpTimeCounter;
         private const float JumpTimeMax = 1.0f;

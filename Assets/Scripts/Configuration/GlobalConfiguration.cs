@@ -32,6 +32,8 @@ namespace Configuration {
             public float bigJumpForce;
             [Tooltip("Double jump force")]
             public float doubleJumpForce;
+            [Tooltip(("Climbing speed"))]
+            public float climbingSpeed;
         }
 
         [System.Serializable]
