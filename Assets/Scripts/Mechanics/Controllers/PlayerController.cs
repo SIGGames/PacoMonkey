@@ -31,9 +31,8 @@ namespace Mechanics {
         public AudioSource audioSource;
         public Health.Health health;
         public bool controlEnabled = true;
-        public bool canClimb;
-        public PlayerMovementState movementState = PlayerMovementState.Idle;
 
+        public PlayerMovementState movementState = PlayerMovementState.Idle;
         public static PlayerController PCInstance { get; private set; }
 
         public PlayerMovementState MovementState {
@@ -46,13 +45,14 @@ namespace Mechanics {
         private const float JumpTimeMax = 1.0f;
         private bool _isCrouching;
         private bool _isWalking;
-        private bool _isClimbing;
         private Vector2 _move;
         private SpriteRenderer _spriteRenderer;
         internal Animator animator;
         private readonly PlatformerModel _model = Simulation.GetModel<PlatformerModel>();
 
         public Bounds Bounds => collider2d.bounds;
+
+        private Climb _climbMechanic;
 
         void Awake() {
             _config = Instance;
@@ -76,7 +76,6 @@ namespace Mechanics {
             UpdateSpriteDirection();
             UpdateAnimatorParameters();
             ComputeTargetVelocity();
-            HandleClimbing();
         }
 
         private void InitializeComponents() {
@@ -85,6 +84,7 @@ namespace Mechanics {
             collider2d = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
+            _climbMechanic = GetComponent<Climb>();
         }
 
         private void HandleInput() {
@@ -94,26 +94,24 @@ namespace Mechanics {
 
         private void HandleMovementInput() {
             _move.x = Input.GetAxis("Horizontal");
-            if (GetWalkKey()) {
-                Walk();
-            }
-            else {
-                Walk(false);
-                movementState = PlayerMovementState.Idle;
-            }
 
-            if (GetCrouchKey()) {
-                Crouch();
-            }
-            else {
-                Crouch(false);
-            }
+            if (_climbMechanic.IsClimbing()) {
+                _climbMechanic.ClimbMovement(Input.GetAxis("Vertical"));
+            } else {
+                if (GetWalkKey()) {
+                    Walk();
+                }
+                else {
+                    Walk(false);
+                    movementState = PlayerMovementState.Idle;
+                }
 
-            if (GetClimbKey() && canClimb) {
-                Climb();
-            }
-            else {
-                Climb(false);
+                if (GetCrouchKey()) {
+                    Crouch();
+                }
+                else {
+                    Crouch(false);
+                }
             }
         }
 
@@ -201,16 +199,6 @@ namespace Mechanics {
             }
         }
 
-        private void HandleClimbing() {
-            if (_isClimbing) {
-                velocity.y = Input.GetAxis("Vertical") * maxSpeed * 0.5f;
-                gravityModifier = 0;
-            }
-            else {
-                gravityModifier = 1;
-            }
-        }
-
         public void Idle() {
             animator.SetTrigger("idle");
             movementState = PlayerMovementState.Idle;
@@ -240,12 +228,7 @@ namespace Mechanics {
         }
 
         public void Climb(bool value = true) {
-            _isClimbing = value;
-            if (value) {
-                // TODO: Create a class to store those StringToHash values
-                animator.SetTrigger("climb");
-                movementState = PlayerMovementState.Climb;
-            }
+            _climbMechanic.SetClimbingState(value);
         }
 
         public void Jump(bool value = true) {

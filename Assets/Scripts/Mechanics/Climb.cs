@@ -11,38 +11,35 @@ namespace Mechanics {
         private bool _isClimbing;
         [SerializeField] private Rigidbody2D rb;
 
-        public Climb(bool isClimbing) {
+        public bool IsClimbing() {
+            return _isClimbing;
+        }
+
+        public void SetClimbingState(bool isClimbing) {
             _isClimbing = isClimbing;
         }
 
-
-        private void Update() {
-            _vertical = Input.GetAxisRaw("Vertical");
-
+        public void ClimbMovement(float verticalInput) {
+            _vertical = verticalInput;
             if (_isLadder && Mathf.Abs(_vertical) > 0f) {
                 _isClimbing = true;
-            }
-        }
-
-        private void FixedUpdate() {
-            if (_isClimbing) {
                 rb.gravityScale = 0f;
                 rb.velocity = new Vector2(rb.velocity.x, _vertical * climbingSpeed);
-            }
-            else {
+            } else {
+                _isClimbing = false;
                 rb.gravityScale = GlobalConfiguration.GravityScale;
             }
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            if (collision.CompareTag("Ladder")) {
+            if (collision.CompareTag("Climb")) {
                 _isLadder = true;
                 PlayerController.PCInstance.MovementState = PlayerMovementState.Climb;
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision) {
-            if (collision.CompareTag("Ladder")) {
+            if (collision.CompareTag("Climb")) {
                 _isLadder = false;
                 _isClimbing = false;
                 PlayerController.PCInstance.MovementState = PlayerMovementState.Idle;
