@@ -9,23 +9,37 @@ namespace Mechanics {
         private bool _isLadder;
         private bool _isClimbing;
 
-        [SerializeField] private Rigidbody2D rb;
+        private Rigidbody2D _rb;
+        private PlayerController _playerController;
+
+        private void Awake() {
+            _rb = GetComponent<Rigidbody2D>();
+            _playerController = GetComponent<PlayerController>();
+        }
 
         private void Update() {
-            _vertical = Input.GetAxisRaw("Vertical");
+            _vertical = Input.GetAxis("Vertical");
 
-            if (_isLadder && Mathf.Abs(_vertical) > 0f) {
+            if (_isLadder && Utils.Keybinds.GetClimbKey()) {
                 _isClimbing = true;
             }
+            else if (!_isLadder) {
+                _isClimbing = false;
+            }
+
+            // TODO: Add animation for climbing, and add reference on Awake method
+            // _animator.SetBool("Climbing", _isClimbing);
         }
 
         private void FixedUpdate() {
             if (_isClimbing) {
-                rb.gravityScale = 0f;
-                rb.velocity = new Vector2(rb.velocity.x, _vertical * Speed);
+                _rb.gravityScale = 0f;
+                _rb.velocity = new Vector2(0, _vertical * Speed);
+
+                _playerController.velocity.y = 0f;
             }
             else {
-                rb.gravityScale = 4f;
+                _rb.gravityScale = 4f;
             }
         }
 
@@ -38,6 +52,7 @@ namespace Mechanics {
         private void OnTriggerExit2D(Collider2D collision) {
             if (collision.CompareTag("Ladder")) {
                 _isLadder = false;
+                _rb.gravityScale = 4f;
                 _isClimbing = false;
             }
         }

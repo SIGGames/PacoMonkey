@@ -31,7 +31,6 @@ namespace Mechanics {
         public AudioSource audioSource;
         public Health.Health health;
         public bool controlEnabled = true;
-        public bool canClimb;
         public PlayerMovementState movementState = PlayerMovementState.Idle;
 
         public static PlayerController PCInstance { get; private set; }
@@ -46,7 +45,6 @@ namespace Mechanics {
         private const float JumpTimeMax = 1.0f;
         private bool _isCrouching;
         private bool _isWalking;
-        private bool _isClimbing;
         private Vector2 _move;
         private SpriteRenderer _spriteRenderer;
         internal Animator animator;
