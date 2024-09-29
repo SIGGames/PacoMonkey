@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+﻿using Configuration;
+using Enums;
+using UnityEngine;
 
 namespace Mechanics {
     public class Climb : MonoBehaviour {
         private float _vertical;
-        private const float Speed = 8f;
-        private bool _isLadder;
-        private bool _isClimbing;
-        private bool _isHolding;
+        [SerializeField] private float climbingSpeed = GlobalConfiguration.PlayerConfig.ClimbingSpeed;
+        [SerializeField] private bool isClimbing;
 
         private Rigidbody2D _rb;
         private PlayerController _playerController;
@@ -21,52 +21,59 @@ namespace Mechanics {
         private void Update() {
             _vertical = Input.GetAxis("Vertical");
 
-            if (_isLadder) {
-                ShowClimbIndicator(true);
-
-                if (Utils.Keybinds.GetClimbKey() || _isHolding) {
-                    _isClimbing = true;
-                    _isHolding = true;
-                }
-            }
-            else {
-                ShowClimbIndicator(false);
-                _isClimbing = false;
-                _isHolding = false;
+            if (isClimbing && Utils.Keybinds.GetClimbKey()) {
+                StartClimbing();
             }
 
             // _animator.SetBool("Climbing", _isClimbing);
+            if (!isClimbing) {
+                StopClimbing();
+            }
         }
 
         private void FixedUpdate() {
-            if (_isClimbing) {
+            if (isClimbing && _playerController.jumpState == JumpState.Grounded) {
                 _rb.gravityScale = 0f;
-                _rb.velocity = new Vector2(0, _vertical * Speed);
-
+                _rb.velocity = new Vector2(0, _vertical * climbingSpeed);
                 _playerController.velocity.y = 0f;
-            }
-            else if (_isHolding) {
-                _rb.gravityScale = 0f;
-                _rb.velocity = Vector2.zero;
+                _playerController.MovementState = PlayerMovementState.Climb;
             }
             else {
-                _rb.gravityScale = 4f;
+                _rb.gravityScale = GlobalConfiguration.GravityScale;
             }
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
             if (collision.CompareTag("Ladder")) {
-                _isLadder = true;
+                isClimbing = true;
+                ShowClimbIndicator(true);
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision) {
             if (collision.CompareTag("Ladder")) {
-                _isLadder = false;
-                _isClimbing = false;
-                _isHolding = false;
-                _rb.gravityScale = 4f;
+                isClimbing = false;
+                StopClimbing();
+                ShowClimbIndicator(false);
+
+                switch (_playerController.velocity.y) {
+                    case 0 when _playerController.jumpState == JumpState.Grounded:
+                        _playerController.MovementState = PlayerMovementState.Idle;
+                        break;
+                    case > 0 when _playerController.jumpState != JumpState.Grounded:
+                        _playerController.MovementState = PlayerMovementState.Jump;
+                        _playerController.jumpState = JumpState.InFlight;
+                        break;
+                }
             }
+        }
+
+        private void StartClimbing() {
+            _rb.gravityScale = 0f;
+        }
+
+        private void StopClimbing() {
+            _rb.gravityScale = GlobalConfiguration.GravityScale;
         }
 
         private void ShowClimbIndicator(bool show) {

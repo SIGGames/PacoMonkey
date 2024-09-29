@@ -33,7 +33,7 @@ namespace Configuration {
             [Tooltip("Double jump force")]
             public float doubleJumpForce;
             [Tooltip(("Climbing speed"))]
-            public float climbingSpeed;
+            public const float ClimbingSpeed = 8f;
         }
 
         [System.Serializable]
