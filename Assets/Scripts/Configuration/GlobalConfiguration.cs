@@ -19,7 +19,7 @@ namespace Configuration {
         [System.Serializable]
         public struct PlayerConfig {
             [Tooltip("Player running speed")]
-            public const float MaxRunSpeed = 7f;
+            public const float MaxRunSpeed = 4f;
             [Tooltip("Player running acceleration")]
             public const float RunAcceleration = 75f;
             [Tooltip("Player running deceleration")]

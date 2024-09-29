@@ -66,7 +66,7 @@ namespace Mechanics.Movement {
             InitializeComponents();
         }
 
-        protected override void FixedUpdate() {
+        protected override void Update() {
             if (controlEnabled) {
                 HandleInput();
             }
@@ -75,7 +75,7 @@ namespace Mechanics.Movement {
             }
 
             UpdateJumpState();
-            base.FixedUpdate();
+            base.Update();
         }
 
         protected override void ComputeVelocity() {
