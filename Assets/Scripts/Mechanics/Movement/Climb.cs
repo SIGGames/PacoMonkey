@@ -1,4 +1,4 @@
-﻿﻿using Configuration;
+﻿using Configuration;
 using Enums;
  using Mechanics.Movement;
  using UnityEngine;

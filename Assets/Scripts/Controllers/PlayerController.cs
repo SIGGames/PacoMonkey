@@ -1,7 +1,6 @@
 ﻿using Configuration;
 using Enums;
 using Model;
-using Platformer.Core;
 using Platformer.Gameplay;
 using Platformer.Mechanics;
 using UnityEngine;
@@ -57,7 +56,7 @@ namespace Mechanics.Movement {
         private Vector2 _move;
         private SpriteRenderer _spriteRenderer;
         internal Animator animator;
-        private readonly PlatformerModel _model = Simulation.GetModel<PlatformerModel>();
+        private readonly PlatformerModel _model = GetModel<PlatformerModel>();
 
         public Bounds Bounds => collider2d.bounds;
 

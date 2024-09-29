@@ -1,4 +1,3 @@
-using Platformer.Mechanics;
 using UnityEngine;
 
 namespace Mechanics {
@@ -20,7 +19,7 @@ namespace Mechanics {
 
         [ContextMenu("Find All Tokens")]
         void FindAllTokensInScene() {
-            tokens = UnityEngine.Object.FindObjectsOfType<TokenInstance>();
+            tokens = FindObjectsOfType<TokenInstance>();
         }
 
         void Awake() {

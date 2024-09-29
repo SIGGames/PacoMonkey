@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Model;
+﻿using Model;
 using Platformer.Core;
-using UnityEngine;
 
 namespace Platformer.Gameplay {
     /// <summary>

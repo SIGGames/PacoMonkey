@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Mechanics;
+﻿using Mechanics;
 using Model;
 using Platformer.Core;
 using UnityEngine;

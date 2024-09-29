@@ -1,7 +1,6 @@
 using Enums;
 using Model;
 using Platformer.Core;
-using Platformer.Mechanics;
 
 namespace Platformer.Gameplay {
     /// <summary>

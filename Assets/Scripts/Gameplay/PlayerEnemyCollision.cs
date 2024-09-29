@@ -9,11 +9,11 @@ namespace Platformer.Gameplay {
     /// <summary>
     /// S'executa quan el jugador col·lisiona amb un enemic.
     /// </summary>
-    public class PlayerEnemyCollision : Simulation.Event<PlayerEnemyCollision> {
+    public class PlayerEnemyCollision : Event<PlayerEnemyCollision> {
         public EnemyController enemy;
         public PlayerController player;
 
-        PlatformerModel model = Simulation.GetModel<PlatformerModel>();
+        PlatformerModel model = GetModel<PlatformerModel>();
 
         public override void Execute() {
             var willHurtEnemy = player.Bounds.center.y >= enemy.Bounds.max.y;
@@ -26,10 +26,12 @@ namespace Platformer.Gameplay {
                 if (!enemyHealth.IsAlive) {
                     Schedule<EnemyDeath>().enemy = enemy;
                     player.Bounce(2);
-                } else {
+                }
+                else {
                     player.Bounce(7);
                 }
-            } else if (!willHurtEnemy) {
+            }
+            else if (!willHurtEnemy) {
                 player.health.DecrementLive();
             }
         }
