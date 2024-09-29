@@ -1,4 +1,5 @@
 using Mechanics;
+using Mechanics.Movement;
 using UnityEngine;
 
 namespace Model {

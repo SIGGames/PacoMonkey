@@ -1,6 +1,7 @@
 ﻿﻿using Configuration;
 using Enums;
-using UnityEngine;
+ using Mechanics.Movement;
+ using UnityEngine;
 
 namespace Mechanics {
     public class Climb : MonoBehaviour {

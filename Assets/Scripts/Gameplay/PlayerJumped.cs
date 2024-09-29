@@ -1,4 +1,5 @@
 using Mechanics;
+using Mechanics.Movement;
 using Platformer.Core;
 using Platformer.Mechanics;
 

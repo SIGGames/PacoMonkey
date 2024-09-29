@@ -5,28 +5,37 @@ using Platformer.Core;
 using Platformer.Gameplay;
 using Platformer.Mechanics;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
 using static Mechanics.Utils.Keybinds;
 
-namespace Mechanics {
+namespace Mechanics.Movement {
     public class PlayerController : KinematicObject, IMechanics {
         public AudioClip jumpAudio;
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
 
-        public float maxSpeed = 7;
-        public float walkSpeedMultiplier = 0.33f;
-        public float crouchSpeedMultiplier = 0.5f;
-        public float jumpTakeOffSpeed = 7;
 
+        [Header("Player Run Configuration")]
+        public float maxRunSpeed = PlayerConfig.MaxRunSpeed;
+        public float runAcceleration = PlayerConfig.RunAcceleration;
+        public float runDeceleration = PlayerConfig.RunDeceleration;
+
+        [Header("Player Walk Configuration")]
+        public float walkSpeedMultiplier = 0.33f;
+
+        [Header("Player Crouch Configuration")]
+        public float crouchSpeedMultiplier = 0.5f;
+
+        [Header("Player Jump Configuration")]
+        public float jumpTakeOffSpeed = 7;
         public JumpState jumpState = JumpState.Grounded;
         private bool _stopJump;
         private GlobalConfiguration _config;
 
         private const float MovementThreshold = 0.01f;
 
+        [Header("Player Components")]
         public Collider2D collider2d;
         public AudioSource audioSource;
         public Health.Health health;
@@ -176,18 +185,18 @@ namespace Mechanics {
 
         private void UpdateAnimatorParameters() {
             animator.SetBool("grounded", IsGrounded);
-            animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
+            animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxRunSpeed);
         }
 
         private void ComputeTargetVelocity() {
             if (_isCrouching) {
-                targetVelocity = _move * (maxSpeed * crouchSpeedMultiplier);
+                targetVelocity = _move * (maxRunSpeed * crouchSpeedMultiplier);
             }
             else if (_isWalking) {
-                targetVelocity = _move * (maxSpeed * walkSpeedMultiplier);
+                targetVelocity = _move * (maxRunSpeed * walkSpeedMultiplier);
             }
             else {
-                targetVelocity = _move * maxSpeed;
+                targetVelocity = _move * maxRunSpeed;
             }
         }
 

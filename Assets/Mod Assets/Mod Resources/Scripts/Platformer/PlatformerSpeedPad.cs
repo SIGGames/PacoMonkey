@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Mechanics;
+using Mechanics.Movement;
 using UnityEngine;
 using Platformer.Mechanics;
 
@@ -17,9 +18,9 @@ public class PlatformerSpeedPad : MonoBehaviour {
     }
 
     IEnumerator PlayerModifier(PlayerController player, float lifetime) {
-        var initialSpeed = player.maxSpeed;
-        player.maxSpeed = maxSpeed;
+        var initialSpeed = player.maxRunSpeed;
+        player.maxRunSpeed = maxSpeed;
         yield return new WaitForSeconds(lifetime);
-        player.maxSpeed = initialSpeed;
+        player.maxRunSpeed = initialSpeed;
     }
 }
