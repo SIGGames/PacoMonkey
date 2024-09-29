@@ -59,9 +59,11 @@ namespace Configuration {
         public bool isGodMode;
 
         [Header("Screen Configuration")]
-        public const int DefaultScreenWidth = 1920;
-        public const int DefaultScreenHeight = 1080;
+        public const int DefaultScreenWidth = 640;
+        public const int DefaultScreenHeight = 360;
         public const bool DefaultFullScreen = true;
+        public const int VSyncCount = 0;
+        public const int FrameRate = 12;
 
         [Header("Physics Configuration")]
         public const float GravityScale = 4.0f;

@@ -5,6 +5,8 @@ namespace Configuration {
         [SerializeField] private int screenWidth = GlobalConfiguration.DefaultScreenWidth;
         [SerializeField] private int screenHeight = GlobalConfiguration.DefaultScreenHeight;
         [SerializeField] private bool fullScreen = GlobalConfiguration.DefaultFullScreen;
+        [SerializeField] private int vSyncCount = GlobalConfiguration.VSyncCount;
+        [SerializeField] private int frameRate = GlobalConfiguration.FrameRate;
 
         void Start() {
             int width = PlayerPrefs.GetInt("ScreenWidth", screenWidth);
@@ -12,6 +14,9 @@ namespace Configuration {
             bool isFullscreen = PlayerPrefs.GetInt("FullScreen", fullScreen ? 1 : 0) == 1;
 
             Screen.SetResolution(width, height, isFullscreen);
+
+            QualitySettings.vSyncCount = vSyncCount;
+            Application.targetFrameRate = frameRate;
         }
 
         public void SaveResolutionSettings(int width, int height, bool isFullscreen) {
