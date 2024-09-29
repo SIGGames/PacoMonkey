@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Configuration {
@@ -19,7 +19,11 @@ namespace Configuration {
         [System.Serializable]
         public struct PlayerConfig {
             [Tooltip("Player running speed")]
-            public float speedRun;
+            public const float MaxRunSpeed = 9f;
+            [Tooltip("Player running acceleration")]
+            public const float RunAcceleration = 75f;
+            [Tooltip("Player running deceleration")]
+            public const float RunDeceleration = 70f;
             [Tooltip("Player walking speed")]
             public float speedWalk;
             [Tooltip("Player crouching speed")]
@@ -33,7 +37,7 @@ namespace Configuration {
             [Tooltip("Double jump force")]
             public float doubleJumpForce;
             [Tooltip(("Climbing speed"))]
-            public float climbingSpeed;
+            public const float ClimbingSpeed = 8f;
         }
 
         [System.Serializable]
