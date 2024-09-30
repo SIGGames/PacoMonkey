@@ -1,30 +1,10 @@
 ﻿using UnityEngine;
 
 namespace Mechanics {
-    /// <summary>
-    /// Implements game physics for some in game entity.
-    /// </summary>
     public class KinematicObject : MonoBehaviour {
-        /// <summary>
-        /// The minimum normal (dot product) considered suitable for the entity sit on.
-        /// </summary>
         public float minGroundNormalY = .65f;
-
-        /// <summary>
-        /// A custom gravity coefficient applied to this entity.
-        /// </summary>
-        [Range(0, 10)]
-        public float gravityModifier = 1f;
-
-        /// <summary>
-        /// The current velocity of the entity.
-        /// </summary>
+        [Range(0, 10)] public float gravityModifier = 1f;
         public Vector2 velocity;
-
-        /// <summary>
-        /// Is the entity currently sitting on a surface?
-        /// </summary>
-        /// <value></value>
         public bool IsGrounded { get; private set; }
 
         protected Vector2 targetVelocity;
@@ -36,28 +16,15 @@ namespace Mechanics {
         protected const float MinMoveDistance = 0.001f;
         protected const float ShellRadius = 0.01f;
 
-
-        /// <summary>
-        /// Bounce the object's vertical velocity.
-        /// </summary>
-        /// <param name="value"></param>
         public void Bounce(float value) {
             velocity.y = value;
         }
 
-        /// <summary>
-        /// Bounce the objects velocity in a direction.
-        /// </summary>
-        /// <param name="dir"></param>
         public void Bounce(Vector2 dir) {
             velocity.y = dir.y;
             velocity.x = dir.x;
         }
 
-        /// <summary>
-        /// Teleport to some position.
-        /// </summary>
-        /// <param name="position"></param>
         public void Teleport(Vector3 position) {
             body.position = position;
             velocity *= 0;
@@ -88,26 +55,25 @@ namespace Mechanics {
         }
 
         protected virtual void FixedUpdate() {
-            //if already falling, fall faster than the jump speed, otherwise use normal gravity.
+            ApplyGravity();
+            velocity.x = targetVelocity.x;
+            IsGrounded = false;
+            PerformMovement();
+        }
+
+        protected void ApplyGravity() {
             if (velocity.y < 0)
                 velocity += Physics2D.gravity * (gravityModifier * Time.deltaTime);
             else
                 velocity += Physics2D.gravity * Time.deltaTime;
+        }
 
-            velocity.x = targetVelocity.x;
-
-            IsGrounded = false;
-
+        protected void PerformMovement() {
             var deltaPosition = velocity * Time.deltaTime;
-
             var moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
-
             var move = moveAlongGround * deltaPosition.x;
-
             PerformMovement(move, false);
-
             move = Vector2.up * deltaPosition.y;
-
             PerformMovement(move, true);
         }
 
@@ -115,15 +81,12 @@ namespace Mechanics {
             var distance = move.magnitude;
 
             if (distance > MinMoveDistance) {
-                //check if we hit anything in current direction of travel
                 var count = body.Cast(move, contactFilter, hitBuffer, distance + ShellRadius);
                 for (var i = 0; i < count; i++) {
                     var currentNormal = hitBuffer[i].normal;
 
-                    //is this surface flat enough to land on?
                     if (currentNormal.y > minGroundNormalY) {
                         IsGrounded = true;
-                        // if moving up, change the groundNormal to new surface normal.
                         if (yMovement) {
                             groundNormal = currentNormal;
                             currentNormal.x = 0;
@@ -131,26 +94,23 @@ namespace Mechanics {
                     }
 
                     if (IsGrounded) {
-                        //how much of our velocity aligns with surface normal?
                         var projection = Vector2.Dot(velocity, currentNormal);
                         if (projection < 0) {
-                            //slower velocity if moving against the normal (up a hill).
-                            velocity = velocity - projection * currentNormal;
+                            velocity -= projection * currentNormal;
                         }
                     }
                     else {
-                        //We are airborne, but hit something, so cancel vertical up and horizontal velocity.
+                        // Object is on air, but hit something so vertical up and horizontal velocity is 0
                         velocity.x *= 0;
                         velocity.y = Mathf.Min(velocity.y, 0);
                     }
 
-                    //remove shellDistance from actual move distance.
                     var modifiedDistance = hitBuffer[i].distance - ShellRadius;
                     distance = modifiedDistance < distance ? modifiedDistance : distance;
                 }
             }
 
-            body.position = body.position + move.normalized * distance;
+            body.position += move.normalized * distance;
         }
     }
 }

@@ -14,32 +14,28 @@ namespace Mechanics.Movement {
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
 
-
-        [Header("Player Run Configuration")]
-        [Range(0, 10)]
+        [Header("Player Run Configuration")] [Range(0, 10)]
         public float maxRunSpeed = PlayerConfig.MaxRunSpeed;
+
         public float runAcceleration = PlayerConfig.RunAcceleration;
         public float runDeceleration = PlayerConfig.RunDeceleration;
 
-        [Header("Player Walk Configuration")]
-        [Range(0, 1)]
+        [Header("Player Walk Configuration")] [Range(0, 1)]
         public float walkSpeedMultiplier = 0.33f;
 
-        [Header("Player Crouch Configuration")]
-        [Range(0, 1)]
+        [Header("Player Crouch Configuration")] [Range(0, 1)]
         public float crouchSpeedMultiplier = 0.5f;
 
-        [Header("Player Jump Configuration")]
-        [Range(0, 10)]
+        [Header("Player Jump Configuration")] [Range(0, 10)]
         public float jumpTakeOffSpeed = 7;
+
         public JumpState jumpState = JumpState.Grounded;
         private bool _stopJump;
         private GlobalConfiguration _config;
 
         private const float MovementThreshold = 0.01f;
 
-        [Header("Player Components")]
-        public Collider2D collider2d;
+        [Header("Player Components")] public Collider2D collider2d;
         public AudioSource audioSource;
         public Health.Health health;
         public bool controlEnabled = true;
@@ -103,12 +99,24 @@ namespace Mechanics.Movement {
 
         private void HandleMovementInput() {
             _move.x = Input.GetAxis("Horizontal");
-            if (GetWalkKey()) {
-                Walk();
+
+            if (_move.x != 0) {
+                if (GetWalkKey()) {
+                    Walk();
+                    targetVelocity.x = Mathf.MoveTowards(targetVelocity.x, _move.x * maxRunSpeed * walkSpeedMultiplier,
+                        runAcceleration * Time.deltaTime);
+                }
+                else {
+                    Run();
+                    targetVelocity.x = Mathf.MoveTowards(targetVelocity.x, _move.x * maxRunSpeed,
+                        runAcceleration * Time.deltaTime);
+                }
             }
             else {
-                Walk(false);
-                movementState = PlayerMovementState.Idle;
+                targetVelocity.x = Mathf.MoveTowards(targetVelocity.x, 0, runDeceleration * Time.deltaTime);
+                if (IsGrounded) {
+                    Idle();
+                }
             }
 
             if (GetCrouchKey()) {
@@ -140,12 +148,14 @@ namespace Mechanics.Movement {
                         Schedule<PlayerJumped>().player = this;
                         jumpState = JumpState.InFlight;
                     }
+
                     break;
                 case JumpState.InFlight:
                     if (IsGrounded) {
                         Schedule<PlayerLanded>().player = this;
                         jumpState = JumpState.Landed;
                     }
+
                     break;
                 case JumpState.Landed:
                     jumpState = JumpState.Grounded;
@@ -215,8 +225,8 @@ namespace Mechanics.Movement {
         }
 
         public void Run(bool value = true) {
-            _isWalking = value;
             if (value) {
+                _isWalking = false;
                 animator.SetTrigger("run");
                 movementState = PlayerMovementState.Run;
             }
