@@ -31,10 +31,10 @@ namespace Mechanics {
         protected Vector2 groundNormal;
         protected Rigidbody2D body;
         protected ContactFilter2D contactFilter;
-        protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
+        protected readonly RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
-        protected const float minMoveDistance = 0.001f;
-        protected const float shellRadius = 0.01f;
+        protected const float MinMoveDistance = 0.001f;
+        protected const float ShellRadius = 0.01f;
 
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Mechanics {
         protected virtual void FixedUpdate() {
             //if already falling, fall faster than the jump speed, otherwise use normal gravity.
             if (velocity.y < 0)
-                velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
+                velocity += Physics2D.gravity * (gravityModifier * Time.deltaTime);
             else
                 velocity += Physics2D.gravity * Time.deltaTime;
 
@@ -114,9 +114,9 @@ namespace Mechanics {
         void PerformMovement(Vector2 move, bool yMovement) {
             var distance = move.magnitude;
 
-            if (distance > minMoveDistance) {
+            if (distance > MinMoveDistance) {
                 //check if we hit anything in current direction of travel
-                var count = body.Cast(move, contactFilter, hitBuffer, distance + shellRadius);
+                var count = body.Cast(move, contactFilter, hitBuffer, distance + ShellRadius);
                 for (var i = 0; i < count; i++) {
                     var currentNormal = hitBuffer[i].normal;
 
@@ -145,7 +145,7 @@ namespace Mechanics {
                     }
 
                     //remove shellDistance from actual move distance.
-                    var modifiedDistance = hitBuffer[i].distance - shellRadius;
+                    var modifiedDistance = hitBuffer[i].distance - ShellRadius;
                     distance = modifiedDistance < distance ? modifiedDistance : distance;
                 }
             }
