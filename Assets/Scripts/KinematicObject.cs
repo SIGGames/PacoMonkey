@@ -13,6 +13,7 @@ namespace Mechanics {
         /// <summary>
         /// A custom gravity coefficient applied to this entity.
         /// </summary>
+        [Range(0, 10)]
         public float gravityModifier = 1f;
 
         /// <summary>

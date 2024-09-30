@@ -16,17 +16,21 @@ namespace Mechanics.Movement {
 
 
         [Header("Player Run Configuration")]
+        [Range(0, 10)]
         public float maxRunSpeed = PlayerConfig.MaxRunSpeed;
         public float runAcceleration = PlayerConfig.RunAcceleration;
         public float runDeceleration = PlayerConfig.RunDeceleration;
 
         [Header("Player Walk Configuration")]
+        [Range(0, 1)]
         public float walkSpeedMultiplier = 0.33f;
 
         [Header("Player Crouch Configuration")]
+        [Range(0, 1)]
         public float crouchSpeedMultiplier = 0.5f;
 
         [Header("Player Jump Configuration")]
+        [Range(0, 10)]
         public float jumpTakeOffSpeed = 7;
         public JumpState jumpState = JumpState.Grounded;
         private bool _stopJump;
@@ -136,14 +140,12 @@ namespace Mechanics.Movement {
                         Schedule<PlayerJumped>().player = this;
                         jumpState = JumpState.InFlight;
                     }
-
                     break;
                 case JumpState.InFlight:
                     if (IsGrounded) {
                         Schedule<PlayerLanded>().player = this;
                         jumpState = JumpState.Landed;
                     }
-
                     break;
                 case JumpState.Landed:
                     jumpState = JumpState.Grounded;
