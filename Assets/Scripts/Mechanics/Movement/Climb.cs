@@ -11,6 +11,7 @@ namespace Mechanics {
 
         private Rigidbody2D _rb;
         private PlayerController _playerController;
+        private float _previousGravityScale = GlobalConfiguration.GravityScale;
         // private Animator _animator;
 
         private void Awake() {
@@ -40,7 +41,7 @@ namespace Mechanics {
                 _playerController.MovementState = PlayerMovementState.Climb;
             }
             else {
-                _rb.gravityScale = GlobalConfiguration.GravityScale;
+                _rb.gravityScale = _previousGravityScale;
             }
         }
 
@@ -70,11 +71,12 @@ namespace Mechanics {
         }
 
         private void StartClimbing() {
+            _previousGravityScale = _rb.gravityScale;
             _rb.gravityScale = 0f;
         }
 
         private void StopClimbing() {
-            _rb.gravityScale = GlobalConfiguration.GravityScale;
+            _rb.gravityScale = _previousGravityScale;
         }
 
         private void ShowClimbIndicator(bool show) {
