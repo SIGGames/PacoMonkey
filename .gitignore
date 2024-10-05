@@ -67,3 +67,6 @@ crashlytics-build.properties
 # Android temporary generated assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+/ProjectSettings/Packages/com.unity.learn.iet-framework/Settings.json
+/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
