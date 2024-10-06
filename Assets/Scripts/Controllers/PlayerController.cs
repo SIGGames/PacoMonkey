@@ -18,9 +18,10 @@ namespace Mechanics.Movement {
         [Range(0, 10)]
         public float maxRunSpeed = PlayerConfig.MaxRunSpeed;
 
-        [Range(0, 50)]
+        [Range(0, 100)]
         public float runAcceleration = PlayerConfig.RunAcceleration;
-        [Range(0, 50)]
+
+        [Range(0, 100)]
         public float runDeceleration = PlayerConfig.RunDeceleration;
 
         [Header("Player Walk Configuration")]
@@ -41,7 +42,9 @@ namespace Mechanics.Movement {
 
         private const float MovementThreshold = 0.01f;
 
-        [Header("Player Components")] public Collider2D collider2d;
+        [Header("Player Components")]
+        public Collider2D collider2d;
+
         public AudioSource audioSource;
         public Health.Health health;
         public bool controlEnabled = true;
@@ -100,11 +103,13 @@ namespace Mechanics.Movement {
                 targetSpeed *= walkSpeedMultiplier;
             }
 
-            float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAcceleration * maxRunSpeed : runDeceleration * maxRunSpeed;
+            float speedDifference = targetSpeed - velocity.x;
+            float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAcceleration : runDeceleration;
 
-            velocity.x = Mathf.MoveTowards(velocity.x, targetSpeed, accelerationRate * Time.deltaTime);
+            float movement = Mathf.Clamp(speedDifference, -accelerationRate * Time.deltaTime,
+                accelerationRate * Time.deltaTime);
 
-            targetVelocity = velocity;
+            targetVelocity.x = velocity.x + movement;
         }
 
         private void InitializeComponents() {

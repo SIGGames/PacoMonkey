@@ -21,9 +21,9 @@ namespace Configuration {
             [Tooltip("Player running speed")]
             public const float MaxRunSpeed = 4f;
             [Tooltip("Player running acceleration")]
-            public const float RunAcceleration = 25f;
+            public const float RunAcceleration = 70f;
             [Tooltip("Player running deceleration")]
-            public const float RunDeceleration = 40f;
+            public const float RunDeceleration = 60f;
             [Tooltip("Player walking speed")]
             public float speedWalk;
             [Tooltip("Player crouching speed")]
