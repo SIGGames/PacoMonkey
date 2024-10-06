@@ -36,6 +36,11 @@ namespace Mechanics.Movement {
         [Range(0, 10)]
         public float jumpTakeOffSpeed = 7;
 
+        [Range(0, 1)]
+        public float coyoteTime = 0.2f;
+
+        private float _coyoteTimeCounter;
+
         public JumpState jumpState = JumpState.Grounded;
         private bool _stopJump;
         private GlobalConfiguration _config;
@@ -171,6 +176,14 @@ namespace Mechanics.Movement {
 
         private void UpdateJumpState() {
             Jump(false);
+
+            if (IsGrounded) {
+                _coyoteTimeCounter = coyoteTime;
+            }
+            else {
+                _coyoteTimeCounter -= Time.deltaTime;
+            }
+
             switch (jumpState) {
                 case JumpState.PrepareToJump:
                     StartJump();
@@ -196,9 +209,11 @@ namespace Mechanics.Movement {
         }
 
         private void StartJump() {
-            jumpState = JumpState.Jumping;
-            Jump();
-            _stopJump = false;
+            if (IsGrounded || _coyoteTimeCounter > 0f) {
+                jumpState = JumpState.Jumping;
+                Jump();
+                _stopJump = false;
+            }
         }
 
         private void HandleJumpVelocity() {
