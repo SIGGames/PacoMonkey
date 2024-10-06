@@ -18,7 +18,9 @@ namespace Mechanics.Movement {
         [Range(0, 10)]
         public float maxRunSpeed = PlayerConfig.MaxRunSpeed;
 
+        [Range(0, 50)]
         public float runAcceleration = PlayerConfig.RunAcceleration;
+        [Range(0, 50)]
         public float runDeceleration = PlayerConfig.RunDeceleration;
 
         [Header("Player Walk Configuration")]
@@ -85,7 +87,24 @@ namespace Mechanics.Movement {
             HandleJumpVelocity();
             UpdateSpriteDirection();
             UpdateAnimatorParameters();
-            ComputeTargetVelocity();
+            HandleHorizontalMovement();
+        }
+
+        private void HandleHorizontalMovement() {
+            float targetSpeed = _move.x * maxRunSpeed;
+
+            if (_isCrouching) {
+                targetSpeed *= crouchSpeedMultiplier;
+            }
+            else if (_isWalking) {
+                targetSpeed *= walkSpeedMultiplier;
+            }
+
+            float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAcceleration * maxRunSpeed : runDeceleration * maxRunSpeed;
+
+            velocity.x = Mathf.MoveTowards(velocity.x, targetSpeed, accelerationRate * Time.deltaTime);
+
+            targetVelocity = velocity;
         }
 
         private void InitializeComponents() {
@@ -118,20 +137,13 @@ namespace Mechanics.Movement {
             if (_move.x != 0) {
                 if (GetWalkKey()) {
                     Walk();
-                    targetVelocity.x = Mathf.MoveTowards(targetVelocity.x, _move.x * maxRunSpeed * walkSpeedMultiplier,
-                        runAcceleration * Time.deltaTime);
                 }
                 else {
                     Run();
-                    targetVelocity.x = Mathf.MoveTowards(targetVelocity.x, _move.x * maxRunSpeed,
-                        runAcceleration * Time.deltaTime);
                 }
             }
-            else {
-                targetVelocity.x = Mathf.MoveTowards(targetVelocity.x, 0, runDeceleration * Time.deltaTime);
-                if (IsGrounded) {
-                    Idle();
-                }
+            else if (IsGrounded) {
+                Idle();
             }
 
             if (GetCrouchKey() && IsGrounded && movementState != PlayerMovementState.Climb) {
@@ -212,18 +224,6 @@ namespace Mechanics.Movement {
         private void UpdateAnimatorParameters() {
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxRunSpeed);
-        }
-
-        private void ComputeTargetVelocity() {
-            if (_isCrouching) {
-                targetVelocity = _move * (maxRunSpeed * crouchSpeedMultiplier);
-            }
-            else if (_isWalking) {
-                targetVelocity = _move * (maxRunSpeed * walkSpeedMultiplier);
-            }
-            else {
-                targetVelocity = _move * maxRunSpeed;
-            }
         }
 
         public void Idle() {

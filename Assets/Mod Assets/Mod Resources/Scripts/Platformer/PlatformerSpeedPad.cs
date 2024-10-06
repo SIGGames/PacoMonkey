@@ -9,6 +9,8 @@ public class PlatformerSpeedPad : MonoBehaviour {
 
     [Range(0, 5)] public float duration = 1f;
 
+    public float accelerationMultiplier = 1f;
+
     void OnTriggerEnter2D(Collider2D other) {
         var rb = other.attachedRigidbody;
         if (rb == null) return;
@@ -19,8 +21,17 @@ public class PlatformerSpeedPad : MonoBehaviour {
 
     IEnumerator PlayerModifier(PlayerController player, float lifetime) {
         var initialSpeed = player.maxRunSpeed;
+        var initialAcceleration = player.runAcceleration;
+        var initialDeceleration = player.runDeceleration;
+
         player.maxRunSpeed = maxSpeed;
+        player.runAcceleration *= accelerationMultiplier;
+        player.runDeceleration *= accelerationMultiplier;
+
         yield return new WaitForSeconds(lifetime);
+
         player.maxRunSpeed = initialSpeed;
+        player.runAcceleration = initialAcceleration;
+        player.runDeceleration = initialDeceleration;
     }
 }
