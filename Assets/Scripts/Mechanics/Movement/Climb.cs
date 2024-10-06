@@ -1,60 +1,66 @@
 ﻿using Configuration;
 using Enums;
- using Mechanics.Movement;
- using UnityEngine;
+using Mechanics.Movement;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Mechanics {
     public class Climb : MonoBehaviour {
         private float _vertical;
+        [FormerlySerializedAs("isClimbing")] [SerializeField] private bool canClimb;
+
+        [Range(0, 10)]
         [SerializeField] private float climbingSpeed = GlobalConfiguration.PlayerConfig.ClimbingSpeed;
-        [SerializeField] private bool isClimbing;
+
+        [Range(0, 10)]
+        [SerializeField] private float climbingGravityScale;
 
         private Rigidbody2D _rb;
         private PlayerController _playerController;
-        private float _previousGravityScale = GlobalConfiguration.GravityScale;
+        private float _previousGravityScale;
         // private Animator _animator;
 
         private void Awake() {
             _rb = GetComponent<Rigidbody2D>();
             _playerController = GetComponent<PlayerController>();
             // _animator = GetComponent<Animator>();
+            _previousGravityScale = _rb.gravityScale;
         }
 
         private void Update() {
             _vertical = Input.GetAxis("Vertical");
 
-            if (isClimbing && Utils.Keybinds.GetClimbKey()) {
+            if (canClimb && Utils.Keybinds.GetClimbKey()) {
                 StartClimbing();
             }
 
             // _animator.SetBool("Climbing", _isClimbing);
-            if (!isClimbing) {
+            if (!canClimb) {
                 StopClimbing();
             }
         }
 
         private void FixedUpdate() {
-            if (isClimbing && _playerController.jumpState == JumpState.Grounded) {
-                _rb.gravityScale = 0f;
+            // Here some jump or player movement conditions can be checked
+            if (canClimb) {
                 _rb.velocity = new Vector2(0, _vertical * climbingSpeed);
                 _playerController.velocity.y = 0f;
                 _playerController.MovementState = PlayerMovementState.Climb;
-            }
-            else {
-                _rb.gravityScale = _previousGravityScale;
+                _rb.gravityScale = climbingGravityScale;
+                _playerController.gravityModifier = climbingGravityScale;
             }
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
             if (collision.CompareTag("Ladder")) {
-                isClimbing = true;
+                canClimb = true;
                 ShowClimbIndicator(true);
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision) {
             if (collision.CompareTag("Ladder")) {
-                isClimbing = false;
+                canClimb = false;
                 StopClimbing();
                 ShowClimbIndicator(false);
 
@@ -71,12 +77,17 @@ namespace Mechanics {
         }
 
         private void StartClimbing() {
-            _previousGravityScale = _rb.gravityScale;
-            _rb.gravityScale = 0f;
+            if (!canClimb) {
+                _previousGravityScale = _rb.gravityScale;
+            }
+
+            _rb.gravityScale = climbingGravityScale;
+            _playerController.gravityModifier = climbingGravityScale;
         }
 
         private void StopClimbing() {
             _rb.gravityScale = _previousGravityScale;
+            _playerController.gravityModifier = _previousGravityScale;
         }
 
         private void ShowClimbIndicator(bool show) {

@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using Configuration;
+using UnityEngine;
 
 namespace Mechanics {
     public class KinematicObject : MonoBehaviour {
         public float minGroundNormalY = .65f;
-        [Range(0, 10)] public float gravityModifier = 1f;
+
+        [Range(0, 10)]
+        public float gravityModifier;
         public Vector2 velocity;
         public bool IsGrounded { get; private set; }
 
@@ -44,6 +48,8 @@ namespace Mechanics {
             contactFilter.useTriggers = false;
             contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
             contactFilter.useLayerMask = true;
+
+            gravityModifier = GlobalConfiguration.GravityScale;
         }
 
         protected virtual void Update() {
@@ -61,7 +67,11 @@ namespace Mechanics {
             PerformMovement();
         }
 
-        protected void ApplyGravity() {
+        protected virtual void ApplyGravity() {
+            if (gravityModifier == 0) {
+                return;
+            }
+
             if (velocity.y < 0)
                 velocity += Physics2D.gravity * (gravityModifier * Time.deltaTime);
             else

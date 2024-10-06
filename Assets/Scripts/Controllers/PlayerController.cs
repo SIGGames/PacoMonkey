@@ -14,19 +14,23 @@ namespace Mechanics.Movement {
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
 
-        [Header("Player Run Configuration")] [Range(0, 10)]
+        [Header("Player Run Configuration")]
+        [Range(0, 10)]
         public float maxRunSpeed = PlayerConfig.MaxRunSpeed;
 
         public float runAcceleration = PlayerConfig.RunAcceleration;
         public float runDeceleration = PlayerConfig.RunDeceleration;
 
-        [Header("Player Walk Configuration")] [Range(0, 1)]
+        [Header("Player Walk Configuration")]
+        [Range(0, 1)]
         public float walkSpeedMultiplier = 0.33f;
 
-        [Header("Player Crouch Configuration")] [Range(0, 1)]
+        [Header("Player Crouch Configuration")]
+        [Range(0, 1)]
         public float crouchSpeedMultiplier = 0.5f;
 
-        [Header("Player Jump Configuration")] [Range(0, 10)]
+        [Header("Player Jump Configuration")]
+        [Range(0, 10)]
         public float jumpTakeOffSpeed = 7;
 
         public JumpState jumpState = JumpState.Grounded;
@@ -95,6 +99,17 @@ namespace Mechanics.Movement {
         private void HandleInput() {
             HandleMovementInput();
             HandleActionInput();
+        }
+
+        protected override void ApplyGravity() {
+            if (gravityModifier == 0) {
+                return;
+            }
+
+            if (velocity.y < 0)
+                velocity += Physics2D.gravity * (gravityModifier * Time.deltaTime);
+            else
+                velocity += Physics2D.gravity * (gravityModifier * Time.deltaTime);
         }
 
         private void HandleMovementInput() {

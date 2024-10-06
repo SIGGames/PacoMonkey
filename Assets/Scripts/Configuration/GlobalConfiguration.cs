@@ -70,7 +70,7 @@ namespace Configuration {
         public const int FrameRate = 12;
 
         [Header("Physics Configuration")]
-        public const float GravityScale = 4.0f;
+        public const float GravityScale = 1.0f;
 
         [Header("Audio Configuration")]
         public AudioConfig audioSettings;
