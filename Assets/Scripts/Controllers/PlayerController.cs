@@ -35,7 +35,7 @@ namespace Mechanics.Movement {
         [Header("Player Jump Configuration")]
         [Tooltip("Initial jump velocity")]
         [Range(0, 3)]
-        public float jumpModifier = 0.9f;
+        public float jumpModifier = 1.5f;
 
         [Range(0, 10)]
         public float jumpTakeOffSpeed = 7;
@@ -50,6 +50,16 @@ namespace Mechanics.Movement {
         [Tooltip("Time in seconds to allow the player to jump before landing")]
         [Range(0.01f, 1)]
         [SerializeField] private float jumpBufferTime = 0.2f;
+
+        [Tooltip("Multiplier for controlling the falling speed of the player (when the player is on the max height of the jump)")]
+        [Range(0, 3)]
+        public float fallSpeedMultiplier = 1.5f;
+
+        [Tooltip("0 -> totally horizontal, 100 -> totally vertical")]
+        [Range(0F, 100F)]
+        public float jumpComponentBalance = 55f;
+
+        private float _balanceFactor;
 
         private float _jumpBufferCounter;
 
@@ -101,6 +111,8 @@ namespace Mechanics.Movement {
                 _move.x = 0;
             }
 
+            _balanceFactor = Mathf.Clamp(jumpComponentBalance / 100f, 0f, 1f);
+
             UpdateJumpState();
             base.Update();
         }
@@ -149,10 +161,12 @@ namespace Mechanics.Movement {
                 return;
             }
 
-            if (velocity.y < 0)
+            if (velocity.y < 0) {
+                velocity += Physics2D.gravity * (gravityModifier * fallSpeedMultiplier * Time.deltaTime);
+            }
+            else {
                 velocity += Physics2D.gravity * (gravityModifier * Time.deltaTime);
-            else
-                velocity += Physics2D.gravity * (gravityModifier * Time.deltaTime);
+            }
         }
 
         private void HandleMovementInput() {
@@ -242,12 +256,17 @@ namespace Mechanics.Movement {
 
         private void HandleJumpVelocity() {
             if (_jump && IsGrounded) {
-                velocity.y = jumpTakeOffSpeed * jumpModifier;
+                _balanceFactor = Mathf.Clamp(jumpComponentBalance / 100f, 0f, 1f);
+
+                velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
+
+                velocity.x *= (1 - _balanceFactor);
+
                 Jump();
                 _jumpTimeCounter = 0;
             }
             else if (_jump && _jumpTimeCounter < JumpTimeMax) {
-                velocity.y = jumpTakeOffSpeed * jumpModifier;
+                velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
                 _jumpTimeCounter += Time.deltaTime;
             }
             else if (_stopJump || _jumpTimeCounter >= JumpTimeMax) {
