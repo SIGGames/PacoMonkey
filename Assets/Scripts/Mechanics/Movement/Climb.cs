@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 namespace Mechanics {
     public class Climb : MonoBehaviour {
         private float _vertical;
-        [FormerlySerializedAs("isClimbing")] [SerializeField] private bool canClimb;
+        [FormerlySerializedAs("canClimb")] [SerializeField] private bool isClimbing;
 
         [Range(0, 10)]
         [SerializeField] private float climbingSpeed = GlobalConfiguration.PlayerConfig.ClimbingSpeed;
@@ -30,19 +30,19 @@ namespace Mechanics {
         private void Update() {
             _vertical = Input.GetAxis("Vertical");
 
-            if (canClimb && Utils.Keybinds.GetClimbKey()) {
+            if (isClimbing && Utils.Keybinds.GetClimbKey()) {
                 StartClimbing();
             }
 
             // _animator.SetBool("Climbing", _isClimbing);
-            if (!canClimb) {
+            if (!isClimbing) {
                 StopClimbing();
             }
         }
 
         private void FixedUpdate() {
             // Here some jump or player movement conditions can be checked
-            if (canClimb) {
+            if (isClimbing) {
                 _rb.velocity = new Vector2(0, _vertical * climbingSpeed);
                 _playerController.velocity.y = 0f;
                 _playerController.MovementState = PlayerMovementState.Climb;
@@ -53,14 +53,14 @@ namespace Mechanics {
 
         private void OnTriggerEnter2D(Collider2D collision) {
             if (collision.CompareTag("Ladder")) {
-                canClimb = true;
+                isClimbing = true;
                 ShowClimbIndicator(true);
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision) {
             if (collision.CompareTag("Ladder")) {
-                canClimb = false;
+                isClimbing = false;
                 StopClimbing();
                 ShowClimbIndicator(false);
 
@@ -77,7 +77,7 @@ namespace Mechanics {
         }
 
         private void StartClimbing() {
-            if (!canClimb) {
+            if (!isClimbing) {
                 _previousGravityScale = _rb.gravityScale;
             }
 

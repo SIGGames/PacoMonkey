@@ -29,13 +29,13 @@ namespace Model {
         /// <summary>
         /// A global jump modifier applied to all initial jump velocities.
         /// </summary>
-        public float jumpModifier = 1.5f;
+        public float jumpModifier = 0.9f;
 
         /// <summary>
         /// A global jump modifier applied to slow down an active jump when 
         /// the user releases the jump input.
         /// </summary>
         [Range(0, 2)]
-        public float jumpDeceleration = 1f;
+        public float jumpDeceleration = 0.7f;
     }
 }

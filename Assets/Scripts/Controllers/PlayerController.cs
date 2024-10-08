@@ -33,8 +33,16 @@ namespace Mechanics.Movement {
         public float crouchSpeedMultiplier = 0.5f;
 
         [Header("Player Jump Configuration")]
+        [Tooltip("Initial jump velocity")]
+        [Range(0, 3)]
+        public float jumpModifier = 0.9f;
+
         [Range(0, 10)]
         public float jumpTakeOffSpeed = 7;
+
+        [Tooltip("Parameter to slow down an active jump when the user releases the jump input")]
+        [Range(0, 2)]
+        public float jumpDeceleration = 0.7f;
 
         [Range(0, 1)]
         public float coyoteTime = 0.2f;
@@ -218,18 +226,18 @@ namespace Mechanics.Movement {
 
         private void HandleJumpVelocity() {
             if (_jump && IsGrounded) {
-                velocity.y = jumpTakeOffSpeed * _model.jumpModifier;
+                velocity.y = jumpTakeOffSpeed * jumpModifier;
                 Jump();
                 _jumpTimeCounter = 0;
             }
             else if (_jump && _jumpTimeCounter < JumpTimeMax) {
-                velocity.y = jumpTakeOffSpeed * _model.jumpModifier;
+                velocity.y = jumpTakeOffSpeed * jumpModifier;
                 _jumpTimeCounter += Time.deltaTime;
             }
             else if (_stopJump || _jumpTimeCounter >= JumpTimeMax) {
                 _stopJump = false;
                 if (velocity.y > 0) {
-                    velocity.y *= _model.jumpDeceleration;
+                    velocity.y *= jumpDeceleration;
                 }
             }
         }
