@@ -7,7 +7,8 @@ using UnityEngine.Serialization;
 namespace Mechanics {
     public class Climb : MonoBehaviour {
         private float _vertical;
-        [FormerlySerializedAs("canClimb")] [SerializeField] private bool isClimbing;
+        private float _horizontal;
+        [SerializeField] private bool isClimbing;
 
         [Range(0, 10)]
         [SerializeField] private float climbingSpeed = GlobalConfiguration.PlayerConfig.ClimbingSpeed;
@@ -19,18 +20,23 @@ namespace Mechanics {
         private PlayerController _playerController;
         private float _previousGravityScale;
         // private Animator _animator;
+        private bool _canClimb;
 
         private void Awake() {
             _rb = GetComponent<Rigidbody2D>();
             _playerController = GetComponent<PlayerController>();
-            // _animator = GetComponent<Animator>();
             _previousGravityScale = _rb.gravityScale;
         }
 
         private void Update() {
             _vertical = Input.GetAxis("Vertical");
+            _horizontal = Input.GetAxis("Horizontal");
 
-            if (isClimbing && Utils.Keybinds.GetClimbKey()) {
+            if (isClimbing && Mathf.Abs(_horizontal) > 0.01f) {
+                isClimbing = false;
+            }
+
+            if (_canClimb && Utils.Keybinds.GetClimbKey()) {
                 StartClimbing();
             }
 
@@ -53,13 +59,14 @@ namespace Mechanics {
 
         private void OnTriggerEnter2D(Collider2D collision) {
             if (collision.CompareTag("Ladder")) {
-                isClimbing = true;
+                _canClimb = true;
                 ShowClimbIndicator(true);
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision) {
             if (collision.CompareTag("Ladder")) {
+                _canClimb = false;
                 isClimbing = false;
                 StopClimbing();
                 ShowClimbIndicator(false);
@@ -80,12 +87,13 @@ namespace Mechanics {
             if (!isClimbing) {
                 _previousGravityScale = _rb.gravityScale;
             }
-
+            isClimbing = true;
             _rb.gravityScale = climbingGravityScale;
             _playerController.gravityModifier = climbingGravityScale;
         }
 
         private void StopClimbing() {
+            isClimbing = false;
             _rb.gravityScale = _previousGravityScale;
             _playerController.gravityModifier = _previousGravityScale;
         }
