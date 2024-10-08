@@ -2,7 +2,6 @@
 using Enums;
 using Mechanics.Movement;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Mechanics {
     public class Climb : MonoBehaviour {
@@ -18,7 +17,9 @@ namespace Mechanics {
 
         private Rigidbody2D _rb;
         private PlayerController _playerController;
+
         private float _previousGravityScale;
+
         // private Animator _animator;
         private bool _canClimb;
 
@@ -34,6 +35,7 @@ namespace Mechanics {
 
             if (isClimbing && Mathf.Abs(_horizontal) > 0.01f) {
                 isClimbing = false;
+                StopClimbing();
             }
 
             if (_canClimb && Utils.Keybinds.GetClimbKey()) {
@@ -71,14 +73,13 @@ namespace Mechanics {
                 StopClimbing();
                 ShowClimbIndicator(false);
 
-                switch (_playerController.velocity.y) {
-                    case 0 when _playerController.jumpState == JumpState.Grounded:
-                        _playerController.MovementState = PlayerMovementState.Idle;
-                        break;
-                    case > 0 when _playerController.jumpState != JumpState.Grounded:
-                        _playerController.MovementState = PlayerMovementState.Jump;
-                        _playerController.jumpState = JumpState.InFlight;
-                        break;
+                // Reset player movement state
+                if (_playerController.velocity.y == 0) {
+                    _playerController.MovementState = PlayerMovementState.Idle;
+                }
+                else if (_playerController.velocity.y > 0) {
+                    _playerController.MovementState = PlayerMovementState.Jump;
+                    _playerController.jumpState = JumpState.InFlight;
                 }
             }
         }
@@ -87,6 +88,7 @@ namespace Mechanics {
             if (!isClimbing) {
                 _previousGravityScale = _rb.gravityScale;
             }
+
             isClimbing = true;
             _rb.gravityScale = climbingGravityScale;
             _playerController.gravityModifier = climbingGravityScale;
