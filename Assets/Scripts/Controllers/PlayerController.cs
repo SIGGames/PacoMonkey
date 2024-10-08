@@ -47,6 +47,12 @@ namespace Mechanics.Movement {
         [Range(0, 1)]
         public float coyoteTime = 0.2f;
 
+        [Tooltip("Time in seconds to allow the player to jump before landing")]
+        [Range(0.01f, 1)]
+        [SerializeField] private float jumpBufferTime = 0.2f;
+
+        private float _jumpBufferCounter;
+
         private float _coyoteTimeCounter;
 
         public JumpState jumpState = JumpState.Grounded;
@@ -173,10 +179,15 @@ namespace Mechanics.Movement {
         }
 
         private void HandleActionInput() {
-            if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump")) {
+            if (Input.GetButtonDown("Jump")) {
+                _jumpBufferCounter = jumpBufferTime;
+            }
+
+            if (jumpState == JumpState.Grounded && _jumpBufferCounter > 0) {
                 jumpState = JumpState.PrepareToJump;
             }
-            else if (Input.GetButtonUp("Jump")) {
+
+            if (Input.GetButtonUp("Jump")) {
                 _stopJump = true;
                 Schedule<PlayerStopJump>().player = this;
             }
@@ -190,6 +201,10 @@ namespace Mechanics.Movement {
             }
             else {
                 _coyoteTimeCounter -= Time.deltaTime;
+            }
+
+            if (_jumpBufferCounter > 0) {
+                _jumpBufferCounter -= Time.deltaTime;
             }
 
             switch (jumpState) {
@@ -217,10 +232,11 @@ namespace Mechanics.Movement {
         }
 
         private void StartJump() {
-            if (IsGrounded || _coyoteTimeCounter > 0f) {
+            if ((IsGrounded || _coyoteTimeCounter > 0f) && _jumpBufferCounter > 0) {
                 jumpState = JumpState.Jumping;
                 Jump();
                 _stopJump = false;
+                _jumpBufferCounter = 0;
             }
         }
 
