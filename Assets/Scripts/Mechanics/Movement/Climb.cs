@@ -4,6 +4,7 @@ using Mechanics.Movement;
 using UnityEngine;
 
 namespace Mechanics {
+    [RequireComponent(typeof(PlayerController))]
     public class Climb : MonoBehaviour {
         private float _vertical;
         private float _horizontal;
