@@ -2,6 +2,7 @@
 using Enums;
 using Mechanics.Movement;
 using UnityEngine;
+using static Mechanics.Utils.Keybinds;
 
 namespace Mechanics {
     [RequireComponent(typeof(PlayerController))]
@@ -34,29 +35,31 @@ namespace Mechanics {
             _vertical = Input.GetAxis("Vertical");
             _horizontal = Input.GetAxis("Horizontal");
 
-            if (isClimbing && Mathf.Abs(_horizontal) > 0.01f) {
-                isClimbing = false;
-                StopClimbing();
+            if (isClimbing) {
+                if (Mathf.Abs(_horizontal) > 0.01f) {
+                    isClimbing = false;
+                    StopClimbing();
+                }
+                else {
+                    _rb.velocity = new Vector2(0, _vertical * climbingSpeed);
+                    _playerController.velocity = Vector2.zero;
+                    _playerController.SetMovementState(PlayerMovementState.Climb);
+                    _rb.gravityScale = climbingGravityScale;
+                    _playerController.gravityModifier = climbingGravityScale;
+                }
+            }
+            else {
+                _rb.gravityScale = _previousGravityScale;
+                _playerController.gravityModifier = 1f;
             }
 
-            if (_canClimb && Utils.Keybinds.GetClimbKey()) {
+            if (_canClimb && GetClimbKey()) {
                 StartClimbing();
             }
 
             // _animator.SetBool("Climbing", _isClimbing);
             if (!isClimbing) {
                 StopClimbing();
-            }
-        }
-
-        private void FixedUpdate() {
-            // Here some jump or player movement conditions can be checked
-            if (isClimbing) {
-                _rb.velocity = new Vector2(0, _vertical * climbingSpeed);
-                _playerController.velocity.y = 0f;
-                _playerController.MovementState = PlayerMovementState.Climb;
-                _rb.gravityScale = climbingGravityScale;
-                _playerController.gravityModifier = climbingGravityScale;
             }
         }
 
@@ -76,10 +79,10 @@ namespace Mechanics {
 
                 // Reset player movement state
                 if (_playerController.velocity.y == 0) {
-                    _playerController.MovementState = PlayerMovementState.Idle;
+                    _playerController.SetMovementState(PlayerMovementState.Idle);
                 }
                 else if (_playerController.velocity.y > 0) {
-                    _playerController.MovementState = PlayerMovementState.Jump;
+                    _playerController.SetMovementState(PlayerMovementState.Jump);
                     _playerController.jumpState = JumpState.InFlight;
                 }
             }
@@ -93,12 +96,13 @@ namespace Mechanics {
             isClimbing = true;
             _rb.gravityScale = climbingGravityScale;
             _playerController.gravityModifier = climbingGravityScale;
+            _playerController.velocity = Vector2.zero;
         }
 
         private void StopClimbing() {
             isClimbing = false;
             _rb.gravityScale = _previousGravityScale;
-            _playerController.gravityModifier = _previousGravityScale;
+            _playerController.gravityModifier = 1f;
         }
 
         private void ShowClimbIndicator(bool show) {

@@ -182,7 +182,7 @@ namespace Mechanics.Movement {
                 SetMovementState(PlayerMovementState.Idle);
             }
 
-            if (GetCrouchKey() && IsGrounded && movementState != PlayerMovementState.Climb) {
+            if (GetCrouchKey() && IsGrounded) {
                 Crouch(true);
             }
             else {
