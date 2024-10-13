@@ -90,6 +90,7 @@ namespace Mechanics.Movement {
         private bool _isCrouching;
         private bool _isWalking;
         [SerializeField] private bool isFacingRight = true;
+        [HideInInspector]
         public Vector2 move;
         private SpriteRenderer _spriteRenderer;
         internal Animator animator;
