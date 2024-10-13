@@ -20,7 +20,7 @@ namespace Mechanics {
 
         [Tooltip("The threshold for horizontal movement while climbing, if the player moves horizontally more than " +
                  "this value, will stop climbing")]
-        [Range(0, 1)]
+        [Range(0.01f, 1)]
         [SerializeField] private float horizontalMovementThreshold = 0.01f;
 
         [Tooltip("The tag of the object that the player can climb")]
