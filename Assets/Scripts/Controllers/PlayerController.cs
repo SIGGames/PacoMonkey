@@ -1,7 +1,5 @@
-﻿using System;
-using Enums;
+﻿using Enums;
 using Platformer.Gameplay;
-using Platformer.Mechanics;
 using UnityEngine;
 using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
