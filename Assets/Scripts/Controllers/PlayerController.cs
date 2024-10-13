@@ -1,6 +1,5 @@
-﻿using Configuration;
+﻿using System;
 using Enums;
-using Model;
 using Platformer.Gameplay;
 using Platformer.Mechanics;
 using UnityEngine;
@@ -9,7 +8,7 @@ using static Configuration.GlobalConfiguration;
 using static Mechanics.Utils.Keybinds;
 
 namespace Mechanics.Movement {
-    public class PlayerController : KinematicObject, IMechanics {
+    public class PlayerController : KinematicObject {
         public AudioClip jumpAudio;
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
@@ -67,7 +66,6 @@ namespace Mechanics.Movement {
 
         public JumpState jumpState = JumpState.Grounded;
         private bool _stopJump;
-        private GlobalConfiguration _config;
 
         private const float MovementThreshold = 0.01f;
 
@@ -94,13 +92,12 @@ namespace Mechanics.Movement {
         private Vector2 _move;
         private SpriteRenderer _spriteRenderer;
         internal Animator animator;
-        private readonly PlatformerModel _model = GetModel<PlatformerModel>();
 
         public Bounds Bounds => collider2d.bounds;
 
         void Awake() {
-            _config = Instance;
             InitializeComponents();
+            PCInstance = this;
         }
 
         protected override void Update() {
@@ -208,7 +205,7 @@ namespace Mechanics.Movement {
         }
 
         private void UpdateJumpState() {
-            Jump(false);
+            _jump = false;
 
             if (IsGrounded) {
                 _coyoteTimeCounter = coyoteTime;
@@ -248,7 +245,9 @@ namespace Mechanics.Movement {
         private void StartJump() {
             if ((IsGrounded || _coyoteTimeCounter > 0f) && _jumpBufferCounter > 0) {
                 jumpState = JumpState.Jumping;
-                Jump();
+                _jump = true;
+                animator.SetTrigger("jump");
+                movementState = PlayerMovementState.Jump;
                 _stopJump = false;
                 _jumpBufferCounter = 0;
             }
@@ -256,13 +255,8 @@ namespace Mechanics.Movement {
 
         private void HandleJumpVelocity() {
             if (_jump && IsGrounded) {
-                _balanceFactor = Mathf.Clamp(jumpComponentBalance / 100f, 0f, 1f);
-
                 velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
-
                 velocity.x *= (1 - _balanceFactor);
-
-                Jump();
                 _jumpTimeCounter = 0;
             }
             else if (_jump && _jumpTimeCounter < JumpTimeMax) {
@@ -314,14 +308,6 @@ namespace Mechanics.Movement {
             _isCrouching = value;
             if (value) {
                 movementState = PlayerMovementState.Crouch;
-            }
-        }
-
-        public void Jump(bool value = true) {
-            _jump = value;
-            if (value) {
-                animator.SetTrigger("jump");
-                movementState = PlayerMovementState.Jump;
             }
         }
     }
