@@ -89,7 +89,7 @@ namespace Mechanics.Movement {
         private const float JumpTimeMax = 1.0f;
         private bool _isCrouching;
         private bool _isWalking;
-        [SerializeField] private bool _isFacingRight = true;
+        [SerializeField] private bool isFacingRight = true;
         public Vector2 move;
         private SpriteRenderer _spriteRenderer;
         internal Animator animator;
@@ -276,16 +276,16 @@ namespace Mechanics.Movement {
         private void UpdateSpriteDirection() {
             if (move.x > MovementThreshold) {
                 _spriteRenderer.flipX = false;
-                _isFacingRight = true;
+                isFacingRight = true;
             }
             else if (move.x < -MovementThreshold) {
                 _spriteRenderer.flipX = true;
-                _isFacingRight = false;
+                isFacingRight = false;
             }
         }
 
         public void Flip() {
-            _isFacingRight = !_isFacingRight;
+            isFacingRight = !isFacingRight;
             _spriteRenderer.flipX = !_spriteRenderer.flipX;
         }
 
@@ -330,7 +330,7 @@ namespace Mechanics.Movement {
         }
 
         public bool IsFacingRight() {
-            return _isFacingRight;
+            return isFacingRight;
         }
     }
 }
