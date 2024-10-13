@@ -3,6 +3,7 @@ using Enums;
 using Mechanics.Movement;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static Mechanics.Utils.Keybinds;
 
 namespace Mechanics {
@@ -26,6 +27,10 @@ namespace Mechanics {
         [Tooltip("The tag of the object that the player can climb")]
         [TagSelector]
         [SerializeField] private string climbTag = "Ladder";
+
+        [Tooltip("The layer that will stop the player from climbing")]
+        [LayerSelector]
+        [SerializeField] private int contactLayer;
 
         [Header("Climbing State")]
         [Tooltip("Tell if the player is currently climbing")]
@@ -91,6 +96,18 @@ namespace Mechanics {
                     _playerController.SetMovementState(PlayerMovementState.Jump);
                     _playerController.jumpState = JumpState.InFlight;
                 }
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision) {
+            if (collision.gameObject.layer == contactLayer) {
+                StopClimbing();
+            }
+        }
+
+        private void OnCollisionStay2D(Collision2D collision) {
+            if (collision.gameObject.layer == contactLayer) {
+                StopClimbing();
             }
         }
 
