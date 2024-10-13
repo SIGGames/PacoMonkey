@@ -51,7 +51,7 @@ namespace Mechanics.Movement {
         [Range(0.01f, 1)]
         [SerializeField] private float jumpBufferTime = 0.2f;
 
-        [Tooltip("Multiplier for controlling the falling speed of the player (when the player is on the max height of the jump)")]
+        [Tooltip("Multiplier to control the players falling speed (when the player is at the max height of the jump)")]
         [Range(0, 3)]
         public float fallSpeedMultiplier = 1.5f;
 
