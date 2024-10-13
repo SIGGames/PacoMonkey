@@ -1,6 +1,7 @@
 ﻿using Enums;
 using Platformer.Gameplay;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
 using static Mechanics.Utils.Keybinds;
@@ -88,7 +89,8 @@ namespace Mechanics.Movement {
         private const float JumpTimeMax = 1.0f;
         private bool _isCrouching;
         private bool _isWalking;
-        private Vector2 _move;
+        [SerializeField] private bool _isFacingRight = true;
+        public Vector2 move;
         private SpriteRenderer _spriteRenderer;
         internal Animator animator;
 
@@ -104,7 +106,7 @@ namespace Mechanics.Movement {
                 HandleInput();
             }
             else {
-                _move.x = 0;
+                move.x = 0;
             }
 
             _balanceFactor = Mathf.Clamp(jumpComponentBalance / 100f, 0f, 1f);
@@ -121,7 +123,7 @@ namespace Mechanics.Movement {
         }
 
         private void HandleHorizontalMovement() {
-            float targetSpeed = _move.x * maxRunSpeed;
+            float targetSpeed = move.x * maxRunSpeed;
 
             if (_isCrouching) {
                 targetSpeed *= crouchSpeedMultiplier;
@@ -166,9 +168,9 @@ namespace Mechanics.Movement {
         }
 
         private void HandleMovementInput() {
-            _move.x = Input.GetAxis("Horizontal");
+            move.x = Input.GetAxis("Horizontal");
 
-            if (_move.x != 0) {
+            if (move.x != 0) {
                 if (GetWalkKey()) {
                     SetMovementState(PlayerMovementState.Walk);
                 }
@@ -272,10 +274,19 @@ namespace Mechanics.Movement {
         }
 
         private void UpdateSpriteDirection() {
-            if (_move.x > MovementThreshold)
+            if (move.x > MovementThreshold) {
                 _spriteRenderer.flipX = false;
-            else if (_move.x < -MovementThreshold)
+                _isFacingRight = true;
+            }
+            else if (move.x < -MovementThreshold) {
                 _spriteRenderer.flipX = true;
+                _isFacingRight = false;
+            }
+        }
+
+        public void Flip() {
+            _isFacingRight = !_isFacingRight;
+            _spriteRenderer.flipX = !_spriteRenderer.flipX;
         }
 
         private void UpdateAnimatorParameters() {
@@ -316,6 +327,10 @@ namespace Mechanics.Movement {
             if (value) {
                 SetMovementState(PlayerMovementState.Crouch);
             }
+        }
+
+        public bool IsFacingRight() {
+            return _isFacingRight;
         }
     }
 }
