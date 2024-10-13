@@ -67,6 +67,7 @@ namespace Mechanics.Movement {
         public JumpState jumpState = JumpState.Grounded;
         private bool _stopJump;
 
+        // Threshold to determine if the player sprite should be flipped
         private const float MovementThreshold = 0.01f;
 
         [Header("Player Components")]
@@ -132,7 +133,7 @@ namespace Mechanics.Movement {
             }
 
             float speedDifference = targetSpeed - velocity.x;
-            float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAcceleration : runDeceleration;
+            float accelerationRate = (Mathf.Abs(targetSpeed) > MovementThreshold) ? runAcceleration : runDeceleration;
 
             float movement = Mathf.Clamp(speedDifference, -accelerationRate * Time.deltaTime,
                 accelerationRate * Time.deltaTime);
@@ -158,12 +159,12 @@ namespace Mechanics.Movement {
                 return;
             }
 
+            float gravityScale = gravityModifier * Time.deltaTime;
             if (velocity.y < 0) {
-                velocity += Physics2D.gravity * (gravityModifier * fallSpeedMultiplier * Time.deltaTime);
+                gravityScale *= fallSpeedMultiplier;
             }
-            else {
-                velocity += Physics2D.gravity * (gravityModifier * Time.deltaTime);
-            }
+
+            velocity += Physics2D.gravity * gravityScale;
         }
 
         private void HandleMovementInput() {
@@ -171,18 +172,18 @@ namespace Mechanics.Movement {
 
             if (_move.x != 0) {
                 if (GetWalkKey()) {
-                    Walk();
+                    SetMovementState(PlayerMovementState.Walk);
                 }
                 else {
-                    Run();
+                    SetMovementState(PlayerMovementState.Run);
                 }
             }
             else if (IsGrounded) {
-                Idle();
+                SetMovementState(PlayerMovementState.Idle);
             }
 
             if (GetCrouchKey() && IsGrounded && movementState != PlayerMovementState.Climb) {
-                Crouch();
+                Crouch(true);
             }
             else {
                 Crouch(false);
@@ -263,7 +264,8 @@ namespace Mechanics.Movement {
                 velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
                 _jumpTimeCounter += Time.deltaTime;
             }
-            else if (_stopJump || _jumpTimeCounter >= JumpTimeMax) {
+
+            if (_stopJump || _jumpTimeCounter >= JumpTimeMax) {
                 _stopJump = false;
                 if (velocity.y > 0) {
                     velocity.y *= jumpDeceleration;
@@ -283,31 +285,38 @@ namespace Mechanics.Movement {
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxRunSpeed);
         }
 
-        public void Idle() {
-            animator.SetTrigger("idle");
-            movementState = PlayerMovementState.Idle;
-        }
-
-        public void Walk(bool value = true) {
-            _isWalking = value;
-            if (value) {
-                animator.SetTrigger("walk");
-                movementState = PlayerMovementState.Walk;
-            }
-        }
-
-        public void Run(bool value = true) {
-            if (value) {
-                _isWalking = false;
-                animator.SetTrigger("run");
-                movementState = PlayerMovementState.Run;
+        public void SetMovementState(PlayerMovementState state) {
+            movementState = state;
+            switch (state) {
+                case PlayerMovementState.Idle:
+                    animator.SetTrigger("idle");
+                    _isWalking = false;
+                    _isCrouching = false;
+                    break;
+                case PlayerMovementState.Walk:
+                    animator.SetTrigger("walk");
+                    _isWalking = true;
+                    _isCrouching = false;
+                    break;
+                case PlayerMovementState.Run:
+                    animator.SetTrigger("run");
+                    _isWalking = false;
+                    _isCrouching = false;
+                    break;
+                case PlayerMovementState.Crouch:
+                    _isCrouching = true;
+                    break;
+                case PlayerMovementState.Jump:
+                    animator.SetTrigger("jump");
+                    _isCrouching = false;
+                    break;
             }
         }
 
         public void Crouch(bool value = true) {
             _isCrouching = value;
             if (value) {
-                movementState = PlayerMovementState.Crouch;
+                SetMovementState(PlayerMovementState.Crouch);
             }
         }
     }
