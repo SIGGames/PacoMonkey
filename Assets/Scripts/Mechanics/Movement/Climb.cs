@@ -24,6 +24,11 @@ namespace Mechanics {
                  "while climbing, it will be set to this value")]
         [SerializeField] private float climbingGravityScale;
 
+        [Range(0, 1)]
+        [Tooltip("The threshold for horizontal movement while climbing, if the player moves horizontally more than this " +
+                 "value, will stop climbing")]
+        [SerializeField] private float horizontalMovementThreshold = 0.01f;
+
         private Rigidbody2D _rb;
         private PlayerController _playerController;
 
@@ -42,7 +47,7 @@ namespace Mechanics {
             _horizontal = Input.GetAxis("Horizontal");
 
             if (isClimbing) {
-                if (Mathf.Abs(_horizontal) > 0.01f) {
+                if (Mathf.Abs(_horizontal) > horizontalMovementThreshold) {
                     StopClimbing();
                 }
                 else {
