@@ -2,34 +2,39 @@
 using Enums;
 using Mechanics.Movement;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using static Mechanics.Utils.Keybinds;
 
 namespace Mechanics {
     [RequireComponent(typeof(PlayerController))]
     public class Climb : MonoBehaviour {
-        private float _vertical;
-        private float _horizontal;
-        [SerializeField] private bool isClimbing;
-
-        [TagSelector]
-        [Tooltip("The tag of the object that the player can climb")]
-        [SerializeField] private string climbTag = "Ladder";
-
-        [Range(0, 10)]
+        [Header("Climbing Configuration")]
         [Tooltip("How fast the player will climb up or down")]
+        [Range(0, 10)]
         [SerializeField] private float climbingSpeed = GlobalConfiguration.PlayerConfig.ClimbingSpeed;
 
+        [Tooltip("This value sets the player's gravity scale while climbing, so if the player's gravity scale " +
+                 "changes while climbing, it will be set to this value")]
         [Range(0, 10)]
-        [Tooltip("This value sets the player's gravity scale while climbing, so if the player's gravity scale changes " +
-                 "while climbing, it will be set to this value")]
         [SerializeField] private float climbingGravityScale;
 
+        [Tooltip("The threshold for horizontal movement while climbing, if the player moves horizontally more than " +
+                 "this value, will stop climbing")]
         [Range(0, 1)]
-        [Tooltip("The threshold for horizontal movement while climbing, if the player moves horizontally more than this " +
-                 "value, will stop climbing")]
         [SerializeField] private float horizontalMovementThreshold = 0.01f;
+
+        [Tooltip("The tag of the object that the player can climb")]
+        [TagSelector]
+        [SerializeField] private string climbTag = "Ladder";
+
+        [Header("Climbing State")]
+        [Tooltip("Tell if the player is currently climbing")]
+        [SerializeField] private bool isClimbing;
+
+        [Space]
+        private float _vertical;
+
+        private float _horizontal;
 
         private Rigidbody2D _rb;
         private PlayerController _playerController;
