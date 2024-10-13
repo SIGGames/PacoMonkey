@@ -1,6 +1,7 @@
 ﻿using Configuration;
 using Enums;
 using Mechanics.Movement;
+using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using static Mechanics.Utils.Keybinds;
@@ -12,6 +13,7 @@ namespace Mechanics {
         private float _horizontal;
         [SerializeField] private bool isClimbing;
 
+        [TagSelector]
         [Tooltip("The tag of the object that the player can climb")]
         [SerializeField] private string climbTag = "Ladder";
 
