@@ -6,7 +6,7 @@ namespace Mechanics {
     public class KinematicObject : MonoBehaviour {
         public float minGroundNormalY = .65f;
 
-        [Range(0, 10)]
+        [Range(0, 2)]
         public float gravityModifier;
         public Vector2 velocity;
         public bool IsGrounded { get; private set; }
