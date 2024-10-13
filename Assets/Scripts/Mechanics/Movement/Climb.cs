@@ -22,13 +22,12 @@ namespace Mechanics {
 
         private float _previousGravityScale;
 
-        // private Animator _animator;
         private bool _canClimb;
 
         private void Awake() {
             _rb = GetComponent<Rigidbody2D>();
             _playerController = GetComponent<PlayerController>();
-            _previousGravityScale = _rb.gravityScale;
+            _previousGravityScale = _playerController.gravityModifier;
         }
 
         private void Update() {
@@ -37,29 +36,19 @@ namespace Mechanics {
 
             if (isClimbing) {
                 if (Mathf.Abs(_horizontal) > 0.01f) {
-                    isClimbing = false;
                     StopClimbing();
                 }
                 else {
+                    _rb.gravityScale = climbingGravityScale;
+                    _playerController.gravityModifier = climbingGravityScale;
                     _rb.velocity = new Vector2(0, _vertical * climbingSpeed);
                     _playerController.velocity = Vector2.zero;
                     _playerController.SetMovementState(PlayerMovementState.Climb);
-                    _rb.gravityScale = climbingGravityScale;
-                    _playerController.gravityModifier = climbingGravityScale;
                 }
-            }
-            else {
-                _rb.gravityScale = _previousGravityScale;
-                _playerController.gravityModifier = 1f;
             }
 
             if (_canClimb && GetClimbKey()) {
                 StartClimbing();
-            }
-
-            // _animator.SetBool("Climbing", _isClimbing);
-            if (!isClimbing) {
-                StopClimbing();
             }
         }
 
@@ -73,11 +62,9 @@ namespace Mechanics {
         private void OnTriggerExit2D(Collider2D collision) {
             if (collision.CompareTag("Ladder")) {
                 _canClimb = false;
-                isClimbing = false;
                 StopClimbing();
                 ShowClimbIndicator(false);
 
-                // Reset player movement state
                 if (_playerController.velocity.y == 0) {
                     _playerController.SetMovementState(PlayerMovementState.Idle);
                 }
@@ -90,19 +77,21 @@ namespace Mechanics {
 
         private void StartClimbing() {
             if (!isClimbing) {
-                _previousGravityScale = _rb.gravityScale;
+                _previousGravityScale = _playerController.gravityModifier;
+                isClimbing = true;
+                _rb.gravityScale = climbingGravityScale;
+                _playerController.gravityModifier = climbingGravityScale;
+                _playerController.velocity = Vector2.zero;
             }
-
-            isClimbing = true;
-            _rb.gravityScale = climbingGravityScale;
-            _playerController.gravityModifier = climbingGravityScale;
-            _playerController.velocity = Vector2.zero;
         }
 
         private void StopClimbing() {
-            isClimbing = false;
-            _rb.gravityScale = _previousGravityScale;
-            _playerController.gravityModifier = 1f;
+            if (isClimbing) {
+                isClimbing = false;
+                Debug.Log("Setting gravity scale to " + _previousGravityScale);
+                _rb.gravityScale = _previousGravityScale;
+                _playerController.gravityModifier = _previousGravityScale;
+            }
         }
 
         private void ShowClimbIndicator(bool show) {
