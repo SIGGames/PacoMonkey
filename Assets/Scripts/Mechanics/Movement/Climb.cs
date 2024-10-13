@@ -32,9 +32,6 @@ namespace Mechanics {
         [LayerSelector]
         [SerializeField] private int contactLayer;
 
-        // Flag to tell if the player is currently resetting the player movement system
-        private bool _resettingPlayerMovementSystem;
-
         [Header("Climbing State")]
         [Tooltip("Tell if the player is currently climbing")]
         [SerializeField] private bool isClimbing;
