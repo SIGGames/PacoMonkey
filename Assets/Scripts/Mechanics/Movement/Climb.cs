@@ -32,6 +32,14 @@ namespace Mechanics {
         [LayerSelector]
         [SerializeField] private int contactLayer;
 
+        [SerializeField]
+        [Tooltip("Delay before resetting the player movement system after stopping climbing")]
+        [Range(0, 2)]
+        private float resetDelay = 0.8f;
+
+        // Flag to tell if the player is currently resetting the player movement system
+        private bool _resettingPlayerMovementSystem;
+
         [Header("Climbing State")]
         [Tooltip("Tell if the player is currently climbing")]
         [SerializeField] private bool isClimbing;
@@ -126,6 +134,23 @@ namespace Mechanics {
                 isClimbing = false;
                 _rb.gravityScale = _previousGravityScale;
                 _playerController.gravityModifier = _previousGravityScale;
+
+                Invoke(nameof(ResetPlayerMovementSystem), resetDelay);
+                _resettingPlayerMovementSystem = false;
+            }
+        }
+
+        private void ResetPlayerMovementSystem() {
+            if (_resettingPlayerMovementSystem) return;
+            _resettingPlayerMovementSystem = true;
+            _rb.velocity = Vector2.zero;
+            _playerController.velocity = Vector2.zero;
+
+            if (_playerController.IsGrounded) {
+                _playerController.SetMovementState(PlayerMovementState.Idle);
+            }
+            else {
+                _playerController.SetMovementState(PlayerMovementState.Jump);
             }
         }
 
