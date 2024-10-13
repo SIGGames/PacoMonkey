@@ -1,6 +1,7 @@
 ﻿using Configuration;
 using Enums;
 using Mechanics.Movement;
+using UnityEditor.UIElements;
 using UnityEngine;
 using static Mechanics.Utils.Keybinds;
 
@@ -11,10 +12,16 @@ namespace Mechanics {
         private float _horizontal;
         [SerializeField] private bool isClimbing;
 
+        [Tooltip("The tag of the object that the player can climb")]
+        [SerializeField] private string climbTag = "Ladder";
+
         [Range(0, 10)]
+        [Tooltip("How fast the player will climb up or down")]
         [SerializeField] private float climbingSpeed = GlobalConfiguration.PlayerConfig.ClimbingSpeed;
 
         [Range(0, 10)]
+        [Tooltip("This value sets the player's gravity scale while climbing, so if the player's gravity scale changes " +
+                 "while climbing, it will be set to this value")]
         [SerializeField] private float climbingGravityScale;
 
         private Rigidbody2D _rb;
@@ -53,14 +60,14 @@ namespace Mechanics {
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            if (collision.CompareTag("Ladder")) {
+            if (collision.CompareTag(climbTag)) {
                 _canClimb = true;
                 ShowClimbIndicator(true);
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision) {
-            if (collision.CompareTag("Ladder")) {
+            if (collision.CompareTag(climbTag)) {
                 _canClimb = false;
                 StopClimbing();
                 ShowClimbIndicator(false);
@@ -88,7 +95,6 @@ namespace Mechanics {
         private void StopClimbing() {
             if (isClimbing) {
                 isClimbing = false;
-                Debug.Log("Setting gravity scale to " + _previousGravityScale);
                 _rb.gravityScale = _previousGravityScale;
                 _playerController.gravityModifier = _previousGravityScale;
             }
