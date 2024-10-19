@@ -57,7 +57,9 @@ namespace Mechanics.Movement {
         [Range(0F, 100F)]
         public float jumpComponentBalance = 55f;
 
-        private float _balanceFactor;
+        public float BalanceFactor {
+            get => Mathf.Clamp(jumpComponentBalance / 100f, 0f, 1f);
+        }
 
         private float _jumpBufferCounter;
 
@@ -109,8 +111,6 @@ namespace Mechanics.Movement {
             else {
                 move.x = 0;
             }
-
-            _balanceFactor = Mathf.Clamp(jumpComponentBalance / 100f, 0f, 1f);
 
             UpdateJumpState();
             base.Update();
@@ -244,7 +244,7 @@ namespace Mechanics.Movement {
             }
         }
 
-        private void StartJump() {
+        public void StartJump() {
             if ((IsGrounded || _coyoteTimeCounter > 0f) && _jumpBufferCounter > 0) {
                 jumpState = JumpState.Jumping;
                 _jump = true;
@@ -257,12 +257,12 @@ namespace Mechanics.Movement {
 
         private void HandleJumpVelocity() {
             if (_jump && IsGrounded) {
-                velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
-                velocity.x *= (1 - _balanceFactor);
+                velocity.y = jumpTakeOffSpeed * jumpModifier * BalanceFactor;
+                velocity.x *= (1 - BalanceFactor);
                 _jumpTimeCounter = 0;
             }
             else if (_jump && _jumpTimeCounter < JumpTimeMax) {
-                velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
+                velocity.y = jumpTakeOffSpeed * jumpModifier * BalanceFactor;
                 _jumpTimeCounter += Time.deltaTime;
             }
 

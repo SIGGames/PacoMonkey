@@ -3,7 +3,6 @@ using Enums;
 using Mechanics.Movement;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static Mechanics.Utils.Keybinds;
 
 namespace Mechanics {
@@ -40,6 +39,7 @@ namespace Mechanics {
         private float _vertical;
 
         private float _horizontal;
+        private float _balanceFactor;
 
         private Rigidbody2D _rb;
         private PlayerController _playerController;
@@ -63,17 +63,37 @@ namespace Mechanics {
                     StopClimbing();
                 }
                 else {
-                    _rb.gravityScale = climbingGravityScale;
-                    _playerController.gravityModifier = climbingGravityScale;
-                    _rb.velocity = new Vector2(0, _vertical * climbingSpeed);
-                    _playerController.velocity = Vector2.zero;
-                    _playerController.SetMovementState(PlayerMovementState.Climb);
+                    HandleClimbingMovement();
+                }
+
+                if (Input.GetButtonDown("Jump")) {
+                    JumpFromClimb();
                 }
             }
 
             if (_canClimb && GetClimbKey()) {
                 StartClimbing();
             }
+        }
+
+        private void HandleClimbingMovement() {
+            _rb.gravityScale = climbingGravityScale;
+            _playerController.gravityModifier = climbingGravityScale;
+            _rb.velocity = new Vector2(0, _vertical * climbingSpeed);
+            _playerController.velocity = Vector2.zero;
+            _playerController.SetMovementState(PlayerMovementState.Climb);
+        }
+
+        private void JumpFromClimb() {
+            StopClimbing();
+
+            _playerController.velocity.y = _playerController.jumpTakeOffSpeed * _playerController.jumpModifier *
+                                           _playerController.BalanceFactor;
+
+            _playerController.jumpState = JumpState.Jumping;
+            _playerController.SetMovementState(PlayerMovementState.Jump);
+
+            _playerController.animator.SetTrigger("jump");
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
@@ -118,6 +138,7 @@ namespace Mechanics {
                 _rb.gravityScale = climbingGravityScale;
                 _playerController.gravityModifier = climbingGravityScale;
                 _playerController.velocity = Vector2.zero;
+                _rb.velocity = Vector2.zero;
             }
         }
 
