@@ -1,4 +1,5 @@
 ﻿using Enums;
+using Managers;
 using Platformer.Gameplay;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -30,7 +31,8 @@ namespace Mechanics.Movement {
         [Range(0, 1)]
         public float crouchSpeedMultiplier = 0.5f;
 
-        [Header("Player Slide Configuration")]
+        [SerializeField] private Vector2 cameraOffsetOnCrouch = new(0f, -1.3f);
+
         [Range(0, 5)]
         public float slideDuration = 1.5f;
 
@@ -38,7 +40,7 @@ namespace Mechanics.Movement {
         [SerializeField] private bool isSliding;
 
         [Range(0, 10)]
-        public float slideMinSpeedMultiplier = 0.5f;
+        [SerializeField] private float slideMinSpeedMultiplier = 0.5f;
 
         [Header("Player Jump Configuration")]
         [Tooltip("Initial jump velocity")]
@@ -259,6 +261,51 @@ namespace Mechanics.Movement {
                 _stopJump = true;
                 Schedule<PlayerStopJump>().player = this;
             }
+
+            TestCameraManager();
+        }
+
+        private void TestCameraManager() {
+            // TODO: Remove this test method, now is used for testing camera manager
+            if (Input.GetKey(KeyCode.Alpha1)) {
+                CameraManager.Instance.SetZoom(3f);
+            }
+
+            if (Input.GetKey(KeyCode.Alpha2)) {
+                CameraManager.Instance.SetZoom(7f);
+            }
+
+            if (Input.GetKey(KeyCode.Alpha3)) {
+                CameraManager.Instance.ResetCamera();
+            }
+
+            if (Input.GetKey(KeyCode.Alpha4)) {
+                CameraManager.Instance.SetOffset(new Vector2(2f, 0f));
+            }
+
+            if (Input.GetKey(KeyCode.Alpha5)) {
+                CameraManager.Instance.SetOffset(new Vector2(-2f, 0f));
+            }
+
+            if (Input.GetKey(KeyCode.Alpha6)) {
+                CameraManager.Instance.SetOffset(new Vector2(0f, 2f));
+            }
+
+            if (Input.GetKey(KeyCode.Alpha7)) {
+                CameraManager.Instance.SetOffset(new Vector2(0f, -2f));
+            }
+
+            if (Input.GetKey(KeyCode.Alpha8)) {
+                CameraManager.Instance.ShakeCamera(1f, 1f, 0.5f);
+            }
+
+            if (Input.GetKey(KeyCode.Alpha9)) {
+                CameraManager.Instance.ShakeCamera(3f, 3f, 1f);
+            }
+
+            if (Input.GetKey(KeyCode.Alpha0)) {
+                CameraManager.Instance.ResetCamera();
+            }
         }
 
         private void UpdateJumpState() {
@@ -384,6 +431,7 @@ namespace Mechanics.Movement {
             collider2dBounds.size = value ? _crouchColliderSize : _originalColliderSize;
 
             if (value) {
+                CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);
                 if (movementState == PlayerMovementState.Run && !isSliding) {
                     isSliding = true;
                     _slideTimer = slideDuration;
@@ -394,6 +442,7 @@ namespace Mechanics.Movement {
                 }
             }
             else {
+                CameraManager.Instance.SetOffset(Vector2.zero);
                 isSliding = false;
                 _slideTimer = slideDuration;
             }
