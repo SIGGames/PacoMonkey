@@ -19,6 +19,10 @@ namespace Mechanics.Utils {
             return Input.GetKey(KeyCode.LeftShift);
         }
 
+        public static bool GetRunKey() {
+            return Input.GetKeyDown(KeyCode.W);
+        }
+
         public static bool GetClimbKey() {
             return Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
         }

@@ -30,6 +30,16 @@ namespace Mechanics.Movement {
         [Range(0, 1)]
         public float crouchSpeedMultiplier = 0.5f;
 
+        [Header("Player Slide Configuration")]
+        [Range(0, 5)]
+        public float slideDuration = 1.5f;
+
+        private float _slideTimer;
+        [SerializeField] private bool isSliding;
+
+        [Range(0, 10)]
+        public float slideMinSpeedMultiplier = 0.5f;
+
         [Header("Player Jump Configuration")]
         [Tooltip("Initial jump velocity")]
         [Range(0, 3)]
@@ -90,16 +100,23 @@ namespace Mechanics.Movement {
         private bool _isCrouching;
         private bool _isWalking;
         [SerializeField] private bool isFacingRight = true;
+
         [HideInInspector]
         public Vector2 move;
+
         private SpriteRenderer _spriteRenderer;
         internal Animator animator;
+
+        private Vector2 _originalColliderSize;
+        private readonly Vector2 _crouchColliderSize = new(0.2f, 0.2f);
 
         public Bounds Bounds => collider2d.bounds;
 
         void Awake() {
             InitializeComponents();
             PCInstance = this;
+            _originalColliderSize = collider2d.bounds.size;
+            _slideTimer = slideDuration;
         }
 
         protected override void Update() {
@@ -111,7 +128,6 @@ namespace Mechanics.Movement {
             }
 
             _balanceFactor = Mathf.Clamp(jumpComponentBalance / 100f, 0f, 1f);
-
             UpdateJumpState();
             base.Update();
         }
@@ -124,22 +140,59 @@ namespace Mechanics.Movement {
         }
 
         private void HandleHorizontalMovement() {
-            float targetSpeed = move.x * maxRunSpeed;
-
-            if (_isCrouching) {
-                targetSpeed *= crouchSpeedMultiplier;
+            if (isSliding) {
+                Slide();
             }
-            else if (_isWalking) {
-                targetSpeed *= walkSpeedMultiplier;
+            else {
+                float targetSpeed = move.x * maxRunSpeed;
+
+                if (_isCrouching) {
+                    if (_isWalking) {
+                        targetSpeed *= crouchSpeedMultiplier * walkSpeedMultiplier;
+                    }
+                    else {
+                        targetSpeed *= crouchSpeedMultiplier;
+                    }
+                }
+                else if (_isWalking) {
+                    targetSpeed *= walkSpeedMultiplier;
+                }
+
+                float speedDifference = targetSpeed - velocity.x;
+                float accelerationRate =
+                    (Mathf.Abs(targetSpeed) > MovementThreshold) ? runAcceleration : runDeceleration;
+                float movement = Mathf.Clamp(speedDifference, -accelerationRate * Time.deltaTime,
+                    accelerationRate * Time.deltaTime);
+
+                targetVelocity.x = velocity.x + movement;
             }
+        }
 
-            float speedDifference = targetSpeed - velocity.x;
-            float accelerationRate = (Mathf.Abs(targetSpeed) > MovementThreshold) ? runAcceleration : runDeceleration;
+        private void Slide() {
+            _slideTimer -= Time.deltaTime;
 
-            float movement = Mathf.Clamp(speedDifference, -accelerationRate * Time.deltaTime,
-                accelerationRate * Time.deltaTime);
+            float targetSlideSpeed = maxRunSpeed * slideMinSpeedMultiplier;
+            float slideProgress = 1 - (_slideTimer / slideDuration);
+            float slideSpeed = Mathf.Lerp(maxRunSpeed, targetSlideSpeed, slideProgress);
+            targetVelocity.x = isFacingRight ? slideSpeed : -slideSpeed;
 
-            targetVelocity.x = velocity.x + movement;
+            if (_slideTimer <= 0 || !GetCrouchKey()) {
+                isSliding = false;
+                _slideTimer = slideDuration;
+
+                if (GetCrouchKey()) {
+                    if (Mathf.Abs(move.x) < MovementThreshold) {
+                        SetMovementState(PlayerMovementState.Idle);
+                        animator.SetTrigger("sit");
+                    }
+                    else {
+                        SetMovementState(PlayerMovementState.Run);
+                    }
+                }
+                else if (GetRunKey()) {
+                    SetMovementState(PlayerMovementState.Run);
+                }
+            }
         }
 
         private void InitializeComponents() {
@@ -173,9 +226,11 @@ namespace Mechanics.Movement {
 
             if (move.x != 0) {
                 if (GetWalkKey()) {
+                    _isWalking = true;
                     SetMovementState(PlayerMovementState.Walk);
                 }
                 else {
+                    _isWalking = false;
                     SetMovementState(PlayerMovementState.Run);
                 }
             }
@@ -323,12 +378,27 @@ namespace Mechanics.Movement {
             }
         }
 
-        public void Crouch(bool value = true) {
+        public void Crouch(bool value) {
             _isCrouching = value;
+            Bounds collider2dBounds = collider2d.bounds;
+            collider2dBounds.size = value ? _crouchColliderSize : _originalColliderSize;
+
             if (value) {
-                SetMovementState(PlayerMovementState.Crouch);
+                if (movementState == PlayerMovementState.Run && !isSliding) {
+                    isSliding = true;
+                    _slideTimer = slideDuration;
+                    SetMovementState(PlayerMovementState.Crouch);
+                }
+                else {
+                    SetMovementState(PlayerMovementState.Crouch);
+                }
+            }
+            else {
+                isSliding = false;
+                _slideTimer = slideDuration;
             }
         }
+
 
         public bool IsFacingRight() {
             return isFacingRight;
