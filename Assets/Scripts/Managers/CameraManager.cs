@@ -10,6 +10,13 @@ namespace Managers {
         private float _initialOrthographicSize;
         private Vector3 _initialOffset;
         private Vector3 _initialCameraPosition;
+        private bool _isFramingTransposerNotNull;
+        private bool _isVirtualCameraNotNull;
+
+        private void Start() {
+            _isVirtualCameraNotNull = _virtualCamera != null;
+            _isFramingTransposerNotNull = _framingTransposer != null;
+        }
 
         void Awake() {
             InitializeSingleton();
@@ -49,20 +56,20 @@ namespace Managers {
         }
 
         public void SetZoom(float zoomAmount) {
-            if (_virtualCamera != null) {
+            if (_isVirtualCameraNotNull) {
                 _virtualCamera.m_Lens.OrthographicSize = zoomAmount;
             }
         }
 
         public void SetOffset(Vector2 offset) {
-            if (_framingTransposer != null) {
+            if (_isFramingTransposerNotNull) {
                 _framingTransposer.m_TrackedObjectOffset =
                     new Vector3(offset.x, offset.y, _framingTransposer.m_TrackedObjectOffset.z);
             }
         }
 
         public void ResetCamera() {
-            if (_virtualCamera != null && _framingTransposer != null) {
+            if (_isVirtualCameraNotNull && _isFramingTransposerNotNull) {
                 _virtualCamera.m_Lens.OrthographicSize = _initialOrthographicSize;
                 _framingTransposer.m_TrackedObjectOffset = _initialOffset;
                 _virtualCamera.transform.position = _initialCameraPosition;
