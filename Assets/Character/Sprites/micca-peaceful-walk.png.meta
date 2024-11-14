@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,7 +121,217 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: micca-peaceful-walk_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 0
+        width: 24
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 548fb38bd1806b149b3e0da7b6bd09a6
+      internalID: 1098126394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-peaceful-walk_1
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 0
+        width: 30
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb69d46afa7f63a438f5cd0d1a875f02
+      internalID: -1559818913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-peaceful-walk_2
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 0
+        width: 33
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b83e68858aaa49947b8fd055aae9abed
+      internalID: -112874762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-peaceful-walk_3
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 0
+        width: 27
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3bcfb6310931f9449d4529df2714df5
+      internalID: 1024556585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-peaceful-walk_4
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 0
+        width: 24
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90c9b4af199fc8d4a83a411304f96088
+      internalID: 1526288966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-peaceful-walk_5
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 0
+        width: 24
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 344419e55cf8d7c40a07930b41b5870b
+      internalID: -1516451002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-peaceful-walk_6
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 0
+        width: 29
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0781b53ce00750408c935c4a9ec33ff
+      internalID: -189145151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-peaceful-walk_7
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 0
+        width: 32
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af94ee406e9b4dc479f5b74c8d163ae4
+      internalID: -1955776785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-peaceful-walk_8
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 0
+        width: 27
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cebac708260fc44cac4f5b5ecdd4077
+      internalID: 370429229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-peaceful-walk_9
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 0
+        width: 24
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd736c30b51be574dbe6f6531932ebd8
+      internalID: -888721105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +342,17 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      micca-peaceful-walk_0: 1098126394
+      micca-peaceful-walk_1: -1559818913
+      micca-peaceful-walk_2: -112874762
+      micca-peaceful-walk_3: 1024556585
+      micca-peaceful-walk_4: 1526288966
+      micca-peaceful-walk_5: -1516451002
+      micca-peaceful-walk_6: -189145151
+      micca-peaceful-walk_7: -1955776785
+      micca-peaceful-walk_8: 370429229
+      micca-peaceful-walk_9: -888721105
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

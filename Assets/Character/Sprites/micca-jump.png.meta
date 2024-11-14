@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,7 +121,238 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: micca-jump_0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 0
+        width: 27
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa7350bc15ad4a74e8aee795b5f61b85
+      internalID: -1932074146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-jump_1
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 1
+        width: 32
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8202f231d9bc72045a927c5726e1ffbc
+      internalID: 906930758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-jump_2
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 4
+        width: 32
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e967fbd0e67ecd44fb1d6a580bc0d930
+      internalID: 803827643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-jump_3
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 24
+        width: 51
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 293ec60dcb47a124ba5ce90ef9236c17
+      internalID: -836210450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-jump_4
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 23
+        width: 45
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbabb702a78d45e43b8a85466a8839ee
+      internalID: 318021868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-jump_5
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 21
+        width: 29
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76f88ecf68ac06843bb16450f7ff8917
+      internalID: -1252760227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-jump_6
+      rect:
+        serializedVersion: 2
+        x: 355
+        y: 28
+        width: 40
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91d52f26b27165545ac0a64268a89abb
+      internalID: -789238767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-jump_7
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 21
+        width: 47
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efe2c361c1ed01642a9299815c384b05
+      internalID: -1814364651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-jump_8
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 4
+        width: 27
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3acfd091e55c94b44b15cfe3fe4381d3
+      internalID: -1654283182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-jump_9
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 0
+        width: 24
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a770c64ad924d2147a95905fe1328118
+      internalID: -878746390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: micca-jump_10
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 0
+        width: 26
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c0f7e2eb862d4d42bd6562a06eb3f66
+      internalID: -816063728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +363,18 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      micca-jump_0: -1932074146
+      micca-jump_1: 906930758
+      micca-jump_10: -816063728
+      micca-jump_2: 803827643
+      micca-jump_3: -836210450
+      micca-jump_4: 318021868
+      micca-jump_5: -1252760227
+      micca-jump_6: -789238767
+      micca-jump_7: -1814364651
+      micca-jump_8: -1654283182
+      micca-jump_9: -878746390
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
