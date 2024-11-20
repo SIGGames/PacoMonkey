@@ -185,7 +185,6 @@ namespace Mechanics.Movement {
                 if (GetCrouchKey()) {
                     if (Mathf.Abs(move.x) < MovementThreshold) {
                         SetMovementState(PlayerMovementState.Idle);
-                        animator.SetTrigger("sit");
                     }
                     else {
                         SetMovementState(PlayerMovementState.Run);
@@ -241,9 +240,11 @@ namespace Mechanics.Movement {
             }
 
             if (GetCrouchKey() && IsGrounded) {
+                animator.SetBool("isCrouching", true);
                 Crouch(true);
             }
             else {
+                animator.SetBool("isCrouching", false);
                 Crouch(false);
             }
         }
@@ -416,6 +417,7 @@ namespace Mechanics.Movement {
                     _isCrouching = false;
                     break;
                 case PlayerMovementState.Crouch:
+                    animator.SetTrigger("crouch");
                     _isCrouching = true;
                     break;
                 case PlayerMovementState.Jump:
