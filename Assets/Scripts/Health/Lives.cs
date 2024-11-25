@@ -1,6 +1,7 @@
 using Configuration;
 using Platformer.Gameplay;
 using Unity.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using static Platformer.Core.Simulation;
@@ -8,8 +9,8 @@ using static Platformer.Core.Simulation;
 namespace Health {
     public class Lives : MonoBehaviour {
         // Note that lives can be a whole number or 0.5
-        [SerializeField] private float startingLives = 3;
-        [SerializeField] private float maxLives = 5;
+        [SerializeField, HalfStepSlider(0, 10)] private float startingLives = 3;
+        [SerializeField, HalfStepSlider(0, 10)] private float maxLives = 5;
         private float _currentLives;
         public bool IsAlive => _currentLives > 0;
         private GlobalConfiguration _config;
