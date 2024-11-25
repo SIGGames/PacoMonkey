@@ -66740,6 +66740,16 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: 0, y: 0, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 17
+      m_TileSpriteIndex: 1
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 10
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: 1, y: 0, z: 0}
     second:
       serializedVersion: 2
@@ -90186,7 +90196,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 69e5c21c0061dab4ea2f316e2b1c2ce1, type: 2}
   - m_RefCount: 44
     m_Data: {fileID: 11400000, guid: 8b91432a8171fa94cbe203223fb63754, type: 2}
-  - m_RefCount: 349
+  - m_RefCount: 350
     m_Data: {fileID: 11400000, guid: 84e8eec64542bcd46bd5ae959f724ac2, type: 2}
   - m_RefCount: 53
     m_Data: {fileID: 11400000, guid: e4352709bf1176646917e9469204be93, type: 2}
@@ -90209,7 +90219,7 @@ Tilemap:
   m_TileSpriteArray:
   - m_RefCount: 19
     m_Data: {fileID: 1655944243, guid: d0625dd35ac724142afdc014cd35d380, type: 3}
-  - m_RefCount: 349
+  - m_RefCount: 350
     m_Data: {fileID: 2000023287, guid: d0625dd35ac724142afdc014cd35d380, type: 3}
   - m_RefCount: 100
     m_Data: {fileID: 2109015892, guid: d0625dd35ac724142afdc014cd35d380, type: 3}
@@ -90262,7 +90272,7 @@ Tilemap:
   - m_RefCount: 199
     m_Data: {fileID: 1858877235, guid: d0625dd35ac724142afdc014cd35d380, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 8871
+  - m_RefCount: 8872
     m_Data:
       e00: 1
       e01: 0
@@ -90319,7 +90329,7 @@ Tilemap:
     m_Data: {r: 4.165e-41, g: 4.165e-41, b: 4.165e-41, a: 4.165e-41}
   - m_RefCount: 0
     m_Data: {r: 4.165e-41, g: 4.165e-41, b: 4.165e-41, a: 4.165e-41}
-  - m_RefCount: 8871
+  - m_RefCount: 8872
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -94737,7 +94747,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 2.8125
+  orthographic size: 3.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
