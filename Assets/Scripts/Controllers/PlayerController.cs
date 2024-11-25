@@ -85,7 +85,7 @@ namespace Mechanics.Movement {
         public Collider2D collider2d;
 
         public AudioSource audioSource;
-        public Health.Health health;
+        public Health.Lives lives;
         public bool controlEnabled = true;
         public PlayerMovementState movementState = PlayerMovementState.Idle;
 
@@ -132,6 +132,8 @@ namespace Mechanics.Movement {
             _balanceFactor = Mathf.Clamp(jumpComponentBalance / 100f, 0f, 1f);
             UpdateJumpState();
             base.Update();
+
+            HandleLives();
         }
 
         protected override void ComputeVelocity() {
@@ -139,6 +141,13 @@ namespace Mechanics.Movement {
             UpdateSpriteDirection();
             UpdateAnimatorParameters();
             HandleHorizontalMovement();
+        }
+
+        private void HandleLives() {
+            if (lives.IsAlive) {
+                return;
+            }
+            Schedule<PlayerDeath>();
         }
 
         private void HandleHorizontalMovement() {
@@ -197,7 +206,7 @@ namespace Mechanics.Movement {
         }
 
         private void InitializeComponents() {
-            health = GetComponent<Health.Health>();
+            lives = GetComponent<Health.Lives>();
             audioSource = GetComponent<AudioSource>();
             collider2d = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();

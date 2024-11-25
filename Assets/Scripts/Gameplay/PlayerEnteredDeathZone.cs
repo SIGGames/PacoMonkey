@@ -13,7 +13,7 @@ namespace Platformer.Gameplay {
         PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
         public override void Execute() {
-            model.player.health.Die();
+            model.player.lives.Die();
         }
     }
 }

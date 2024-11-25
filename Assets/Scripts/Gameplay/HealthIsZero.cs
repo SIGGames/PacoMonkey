@@ -1,4 +1,4 @@
-using Mechanics.Health;
+using Health;
 using static Platformer.Core.Simulation;
 
 namespace Platformer.Gameplay {
@@ -8,7 +8,7 @@ namespace Platformer.Gameplay {
     /// </summary>
     /// <typeparam name="HealthIsZero"></typeparam>
     public class HealthIsZero : Event<HealthIsZero> {
-        public Health health;
+        public Lives health;
 
         public override void Execute() {
             Schedule<PlayerDeath>();

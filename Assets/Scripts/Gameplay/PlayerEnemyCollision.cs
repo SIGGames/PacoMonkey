@@ -1,8 +1,7 @@
+using Health;
 using Mechanics;
-using Mechanics.Health;
 using Mechanics.Movement;
 using Model;
-using Platformer.Core;
 using static Platformer.Core.Simulation;
 
 namespace Platformer.Gameplay {
@@ -18,7 +17,7 @@ namespace Platformer.Gameplay {
         public override void Execute() {
             var willHurtEnemy = player.Bounds.center.y >= enemy.Bounds.max.y;
 
-            var enemyHealth = enemy.GetComponent<Health>();
+            var enemyHealth = enemy.GetComponent<Lives>();
 
             if (willHurtEnemy && enemyHealth != null) {
                 enemyHealth.DecrementLive(); // TODO: Ensure this is correct or playerHealth should be checked
@@ -32,7 +31,7 @@ namespace Platformer.Gameplay {
                 }
             }
             else if (!willHurtEnemy) {
-                player.health.DecrementLive();
+                player.lives.DecrementLive();
             }
         }
     }

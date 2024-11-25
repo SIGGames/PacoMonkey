@@ -11,7 +11,7 @@ namespace Platformer.Gameplay {
 
         public override void Execute() {
             var player = model.player;
-            player.health.ResetHealth();
+            player.lives.ResetLives();
             model.virtualCamera.m_Follow = null;
             model.virtualCamera.m_LookAt = null;
             // player.collider.enabled = false;
