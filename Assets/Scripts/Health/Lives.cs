@@ -12,7 +12,7 @@ namespace Health {
         private float startingLives = 3;
 
         [SerializeField, HalfStepSlider(0, 10)]
-        private float maxLives = 5;
+        public float maxLives = 5;
 
         private float _currentLives;
         public event Action OnLivesChanged;
@@ -57,6 +57,16 @@ namespace Health {
 
         public void ResetLives() {
             CurrentLives = startingLives;
+        }
+
+        public float GetMaxLives() {
+            return maxLives;
+        }
+
+        private void Update() {
+            if (Input.GetKeyDown(KeyCode.K)) {
+                DecrementLive();
+            }
         }
     }
 }
