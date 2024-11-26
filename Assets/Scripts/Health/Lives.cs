@@ -30,7 +30,7 @@ namespace Health {
 
         public float CurrentLives {
             get => _currentLives;
-            private set {
+            set {
                 _currentLives = Mathf.Clamp(Mathf.Round(value * 2) / 2, 0, maxLives);
                 OnLivesChanged?.Invoke();
             }
@@ -65,20 +65,6 @@ namespace Health {
 
         public float GetMaxLives() {
             return maxLives;
-        }
-
-        private void Update() {
-            if (Input.GetKeyDown(KeyCode.J)) {
-                ResetLives();
-            }
-
-            if (Input.GetKeyDown(KeyCode.K)) {
-                DecrementLive();
-            }
-
-            if (Input.GetKeyDown(KeyCode.L)) {
-                IncrementLive();
-            }
         }
     }
 }
