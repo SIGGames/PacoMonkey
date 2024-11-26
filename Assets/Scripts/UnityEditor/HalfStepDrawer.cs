@@ -11,10 +11,14 @@ namespace UnityEditor {
                 float min = halfStep.Min;
                 float max = halfStep.Max;
 
+                EditorGUI.BeginChangeCheck();
                 float value = EditorGUI.Slider(position, label, property.floatValue, min, max);
-
                 value = Mathf.Round(value * 2) / 2;
-                property.floatValue = value;
+
+                if (EditorGUI.EndChangeCheck()) {
+                    property.floatValue = value;
+                    property.serializedObject.ApplyModifiedProperties();
+                }
 
                 EditorGUI.EndProperty();
             } else {
