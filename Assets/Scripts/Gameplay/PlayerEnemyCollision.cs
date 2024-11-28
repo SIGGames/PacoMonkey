@@ -2,6 +2,7 @@ using Controllers;
 using Mechanics.Movement;
 using Model;
 using Platformer.Gameplay;
+using UnityEngine;
 using static Platformer.Core.Simulation;
 
 namespace Gameplay {
@@ -9,31 +10,36 @@ namespace Gameplay {
         public EnemyController enemy;
         public PlayerController player;
 
-        PlatformerModel model = GetModel<PlatformerModel>();
+        private const int DamageToEnemy = 20;
+        private const float BounceForceOnHit = 7f;
+        private const float BounceForceOnKill = 3f;
+
+        private Health.Health _enemyHealth;
+        private Health.Lives _playerLives;
 
         public override void Execute() {
-            var willHurtEnemy = player.Bounds.center.y >= enemy.Bounds.max.y;
+            if (_enemyHealth == null) {
+                _enemyHealth = enemy.GetComponent<Health.Health>();
+            }
+
+            if (_playerLives == null) {
+                _playerLives = player.GetComponent<Health.Lives>();
+            }
+
+            bool willHurtEnemy = player.Bounds.center.y >= enemy.Bounds.max.y;
 
             if (willHurtEnemy) {
-                var enemyHealth = enemy.GetComponent<Health.Health>();
-                if (enemyHealth != null) {
-                    enemy.TakeDamage(20);
-                    if (!enemyHealth.IsAlive) {
-                        player.Bounce(2);
-                    } else {
-                        player.Bounce(7);
-                    }
+                if (_enemyHealth != null) {
+                    enemy.TakeDamage(DamageToEnemy);
+                    player.Bounce(_enemyHealth.IsAlive ? BounceForceOnHit : BounceForceOnKill);
                 }
                 else {
                     Schedule<EnemyDeath>().enemy = enemy;
-                    player.Bounce(2);
+                    player.Bounce(BounceForceOnKill);
                 }
             }
             else {
-                var playerLives = player.GetComponent<Health.Lives>();
-                if (playerLives != null) {
-                    playerLives.DecrementLive();
-                }
+                _playerLives?.DecrementLive();
             }
         }
     }
