@@ -1,32 +1,76 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Health.UI {
     public class HealthBar : MonoBehaviour {
-        [SerializeField] private Lives playerLives;
-        [SerializeField] private Image totalHealthBar;
-        [SerializeField] private Image currentHealthBar;
+        public GameObject heartPrefab;
+        public Lives playerLives;
+        private readonly List<HealthHeart> _hearts = new List<HealthHeart>();
 
         void Start() {
-            totalHealthBar.fillAmount = playerLives.CurrentLives / playerLives.GetMaxLives();
-            playerLives.OnLivesChanged += UpdateHealthBar;
+            playerLives.OnLivesChanged += UpdateUI;
+            InitializeHearts();
+            UpdateUI();
         }
 
-        private void UpdateHealthBar() {
-            currentHealthBar.fillAmount = playerLives.CurrentLives / playerLives.GetMaxLives();
+        private void OnDestroy() {
+            playerLives.OnLivesChanged -= UpdateUI;
         }
 
-        private void HideHealthBar() {
-            gameObject.SetActive(false);
+        private void InitializeHearts() {
+            ClearHearts();
+            int maxLives = Mathf.CeilToInt(playerLives.GetMaxLives());
+            for (int i = 0; i < maxLives; i++) {
+                GameObject newHeart = Instantiate(heartPrefab, transform);
+                newHeart.transform.SetParent(transform);
+                _hearts.Add(newHeart.GetComponent<HealthHeart>());
+            }
         }
 
-        private void ShowHealthBar() {
-            gameObject.SetActive(true);
-            currentHealthBar.fillAmount = currentHealthBar.fillAmount;
+        public void UpdateUI() {
+            int maxLives = Mathf.CeilToInt(playerLives.GetMaxLives());
+
+            if (_hearts.Count != maxLives) {
+                AdjustHearts(maxLives);
+            }
+
+            float currentLives = playerLives.CurrentLives;
+
+            for (int i = 0; i < _hearts.Count; i++) {
+                if (currentLives >= i + 1) {
+                    _hearts[i].SetHeartImage(HeartState.Full);
+                }
+                else if (currentLives > i && currentLives < i + 1) {
+                    _hearts[i].SetHeartImage(HeartState.Half);
+                }
+                else {
+                    _hearts[i].SetHeartImage(HeartState.Empty);
+                }
+            }
         }
 
-        void OnDestroy() {
-            playerLives.OnLivesChanged -= UpdateHealthBar;
+        private void AdjustHearts(int maxLives) {
+            if (_hearts.Count < maxLives) {
+                for (int i = _hearts.Count; i < maxLives; i++) {
+                    GameObject newHeart = Instantiate(heartPrefab, transform);
+                    newHeart.transform.SetParent(transform);
+                    _hearts.Add(newHeart.GetComponent<HealthHeart>());
+                }
+            }
+            else if (_hearts.Count > maxLives) {
+                for (int i = _hearts.Count - 1; i >= maxLives; i--) {
+                    Destroy(_hearts[i].gameObject);
+                    _hearts.RemoveAt(i);
+                }
+            }
+        }
+
+        private void ClearHearts() {
+            foreach (Transform t in transform) {
+                Destroy(t.gameObject);
+            }
+
+            _hearts.Clear();
         }
     }
 }

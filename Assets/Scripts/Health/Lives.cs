@@ -8,19 +8,19 @@ using static Platformer.Core.Simulation;
 
 namespace Health {
     public class Lives : MonoBehaviour {
-        // Note that lives can be a whole number or 0.5
         private const float MaxInspectorLives = 10;
 
         [SerializeField, HalfStepSlider(0, MaxInspectorLives)]
         private float startingLives = 3;
 
         [SerializeField, HalfStepSlider(0, MaxInspectorLives)]
-        public float maxLives = 5;
+        private float maxLives = 5;
 
         [SerializeField, HalfStepSlider(0, MaxInspectorLives), ReadOnly(true)]
-        private float _currentLives;
+        private float currentLives;
+
         public event Action OnLivesChanged;
-        public bool IsAlive => _currentLives > 0;
+        public bool IsAlive => currentLives > 0;
         private GlobalConfiguration _config;
 
         private void Awake() {
@@ -29,9 +29,17 @@ namespace Health {
         }
 
         public float CurrentLives {
-            get => _currentLives;
+            get => currentLives;
             set {
-                _currentLives = Mathf.Clamp(Mathf.Round(value * 2) / 2, 0, maxLives);
+                currentLives = Mathf.Clamp(Mathf.Round(value * 2) / 2, 0, MaxLives);
+                OnLivesChanged?.Invoke();
+            }
+        }
+
+        public float MaxLives {
+            get => maxLives;
+            set {
+                maxLives = Mathf.Clamp(value, 0, MaxInspectorLives);
                 OnLivesChanged?.Invoke();
             }
         }
@@ -64,7 +72,13 @@ namespace Health {
         }
 
         public float GetMaxLives() {
-            return maxLives;
+            return MaxLives;
+        }
+
+        private void OnValidate() {
+            maxLives = Mathf.Clamp(maxLives, 0, MaxInspectorLives);
+            currentLives = Mathf.Clamp(currentLives, 0, maxLives);
+            OnLivesChanged?.Invoke();
         }
     }
 }
