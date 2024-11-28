@@ -1,6 +1,7 @@
 using Mechanics;
 using Model;
 using Platformer.Core;
+using Zones;
 
 namespace Platformer.Gameplay {
     /// <summary>

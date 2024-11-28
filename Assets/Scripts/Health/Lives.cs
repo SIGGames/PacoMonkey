@@ -9,6 +9,7 @@ using static Platformer.Core.Simulation;
 namespace Health {
     public class Lives : MonoBehaviour {
         private const float MaxInspectorLives = 10;
+        private const float MinMaxLives = 0.5f;
 
         [SerializeField, HalfStepSlider(0, MaxInspectorLives)]
         private float startingLives = 3;
@@ -22,6 +23,11 @@ namespace Health {
         public event Action OnLivesChanged;
         public bool IsAlive => currentLives > 0;
         private GlobalConfiguration _config;
+        private bool _isConfigNotNull;
+
+        private void Start() {
+            _isConfigNotNull = _config != null;
+        }
 
         private void Awake() {
             _config = GlobalConfiguration.Instance;
@@ -31,16 +37,22 @@ namespace Health {
         public float CurrentLives {
             get => currentLives;
             set {
-                currentLives = Mathf.Clamp(Mathf.Round(value * 2) / 2, 0, MaxLives);
-                OnLivesChanged?.Invoke();
+                float clampedValue = Mathf.Clamp(Mathf.Round(value * 2) / 2, 0, MaxLives);
+                if (Math.Abs(currentLives - clampedValue) > Mathf.Epsilon) {
+                    currentLives = clampedValue;
+                    OnLivesChanged?.Invoke();
+                }
             }
         }
 
         public float MaxLives {
             get => maxLives;
             set {
-                maxLives = Mathf.Clamp(value, 0, MaxInspectorLives);
-                OnLivesChanged?.Invoke();
+                float clampedValue = Math.Max(Mathf.Clamp(value, 0, MaxInspectorLives), MinMaxLives);
+                if (Math.Abs(maxLives - clampedValue) > Mathf.Epsilon) {
+                    maxLives = clampedValue;
+                    OnLivesChanged?.Invoke();
+                }
             }
         }
 
@@ -52,6 +64,10 @@ namespace Health {
             CurrentLives += lives;
         }
 
+        public void IncrementLivesToMax() {
+            CurrentLives = MaxLives;
+        }
+
         public void DecrementLive() {
             CurrentLives -= 1;
             if (!IsAlive) {
@@ -60,7 +76,7 @@ namespace Health {
         }
 
         public void Die() {
-            if (_config.isGodMode) {
+            if (_isConfigNotNull && _config.isGodMode) {
                 return;
             }
 
