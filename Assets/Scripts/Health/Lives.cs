@@ -24,6 +24,7 @@ namespace Health {
         public bool IsAlive => currentLives > 0;
         private GlobalConfiguration _config;
         private bool _isConfigNotNull;
+        private Coroutine _incrementCoroutine;
 
         private void Start() {
             _isConfigNotNull = _config != null;
@@ -56,16 +57,27 @@ namespace Health {
             }
         }
 
-        public void IncrementLive() {
-            CurrentLives += 1;
-        }
-
         public void IncrementLives(float lives) {
             CurrentLives += lives;
         }
 
-        public void IncrementLivesToMax() {
-            CurrentLives = MaxLives;
+        public void IncrementLivesToMaxSlow(float timeBetweenIncrements = 1f, float healthIncrement = 0.5f) {
+            StopIncrementingLives();
+            _incrementCoroutine = StartCoroutine(IncrementLivesSlowRoutine(timeBetweenIncrements, healthIncrement));
+        }
+
+        public void StopIncrementingLives() {
+            if (_incrementCoroutine != null) {
+                StopCoroutine(_incrementCoroutine);
+                _incrementCoroutine = null;
+            }
+        }
+
+        private System.Collections.IEnumerator IncrementLivesSlowRoutine(float timeBetweenIncrements, float healthIncrement = 0.5f) {
+            while (CurrentLives < MaxLives) {
+                CurrentLives = Mathf.Clamp(CurrentLives + healthIncrement, 0, MaxLives);
+                yield return new WaitForSeconds(timeBetweenIncrements);
+            }
         }
 
         public void DecrementLive() {
