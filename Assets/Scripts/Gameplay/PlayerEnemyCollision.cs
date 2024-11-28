@@ -1,14 +1,10 @@
 using Controllers;
-using Health;
-using Mechanics;
 using Mechanics.Movement;
 using Model;
+using Platformer.Gameplay;
 using static Platformer.Core.Simulation;
 
-namespace Platformer.Gameplay {
-    /// <summary>
-    /// S'executa quan el jugador col·lisiona amb un enemic.
-    /// </summary>
+namespace Gameplay {
     public class PlayerEnemyCollision : Event<PlayerEnemyCollision> {
         public EnemyController enemy;
         public PlayerController player;
@@ -18,21 +14,26 @@ namespace Platformer.Gameplay {
         public override void Execute() {
             var willHurtEnemy = player.Bounds.center.y >= enemy.Bounds.max.y;
 
-            var enemyHealth = enemy.GetComponent<Lives>();
-
-            if (willHurtEnemy && enemyHealth != null) {
-                enemyHealth.DecrementLive(); // TODO: Ensure this is correct or playerHealth should be checked
-
-                if (!enemyHealth.IsAlive) {
+            if (willHurtEnemy) {
+                var enemyHealth = enemy.GetComponent<Health.Health>();
+                if (enemyHealth != null) {
+                    enemy.TakeDamage(20);
+                    if (!enemyHealth.IsAlive) {
+                        player.Bounce(2);
+                    } else {
+                        player.Bounce(7);
+                    }
+                }
+                else {
                     Schedule<EnemyDeath>().enemy = enemy;
                     player.Bounce(2);
                 }
-                else {
-                    player.Bounce(7);
-                }
             }
-            else if (!willHurtEnemy) {
-                player.lives.DecrementLive();
+            else {
+                var playerLives = player.GetComponent<Health.Lives>();
+                if (playerLives != null) {
+                    playerLives.DecrementLive();
+                }
             }
         }
     }

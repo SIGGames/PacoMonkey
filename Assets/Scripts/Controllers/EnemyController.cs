@@ -1,5 +1,4 @@
-﻿using System;
-using Health;
+﻿using Gameplay;
 using Health.UI;
 using Mechanics;
 using Mechanics.Movement;
@@ -78,7 +77,7 @@ namespace Controllers {
                 healthBar.ShowFloatingHealthBar();
             }
 
-            if (health.CurrentHealth <= 0) {
+            if (!health.IsAlive) {
                 Schedule<EnemyDeath>().enemy = this;
             }
         }
