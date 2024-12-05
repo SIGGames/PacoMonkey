@@ -1,12 +1,10 @@
 ﻿using Configuration;
 using Enums;
-using Mechanics.Movement;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static Mechanics.Utils.Keybinds;
 
-namespace Mechanics {
+namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
     public class Climb : MonoBehaviour {
         [Header("Climbing Configuration")]

@@ -8,10 +8,7 @@ namespace Mechanics.Movement {
     public class WallClimb : MonoBehaviour {
         [Header("Wall Climb Configuration")]
         [TagSelector]
-        [SerializeField] private string wallTag = "Wall";
-
-        [LayerSelector]
-        [SerializeField] private int wallLayer;
+        [SerializeField] private string wallTag;
 
         [Tooltip("Gravity scale while attached to a wall")]
         [Range(0, 10)]
@@ -28,8 +25,8 @@ namespace Mechanics.Movement {
         private PlayerController _playerController;
         private Rigidbody2D _rb;
 
-        private bool _isTouchingWall;
-        private bool _isClimbingWall;
+        [SerializeField] private bool _isTouchingWall;
+        [SerializeField] private bool _isClimbingWall;
 
         private void Awake() {
             _playerController = GetComponent<PlayerController>();
@@ -37,6 +34,8 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
+            _isTouchingWall = IsTouchingWall();
+
             if (_isTouchingWall && Keybinds.GetClimbKey()) {
                 StartWallClimb();
             }
@@ -50,27 +49,25 @@ namespace Mechanics.Movement {
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision) {
-            if (collision.CompareTag(wallTag) || collision.gameObject.layer == wallLayer) {
-                _isTouchingWall = true;
-            }
-        }
-
-        private void OnTriggerExit2D(Collider2D collision) {
-            if (collision.CompareTag(wallTag) || collision.gameObject.layer == wallLayer) {
-                StopWallClimb();
-                _isTouchingWall = false;
-            }
-        }
-
         private void StartWallClimb() {
             if (!_isClimbingWall) {
                 _isClimbingWall = true;
+                _rb.velocity = Vector2.zero;
                 _rb.gravityScale = wallGravityScale;
                 _playerController.velocity = Vector2.zero;
                 _playerController.SetMovementState(PlayerMovementState.Climb);
             }
         }
+
+        private bool IsTouchingWall() {
+            float direction = _playerController.IsFacingRight() ? 1 : -1;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * direction, 0.5f,
+                LayerMask.GetMask("Default"));
+            Debug.DrawRay(transform.position, Vector2.right * direction * 0.5f, Color.red);
+
+            return hit.collider != null && hit.collider.CompareTag(wallTag);
+        }
+
 
         private void HandleWallClimb() {
             float vertical = Input.GetAxis("Vertical");

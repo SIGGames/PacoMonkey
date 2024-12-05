@@ -433,6 +433,10 @@ namespace Mechanics.Movement {
                     animator.SetTrigger("jump");
                     _isCrouching = false;
                     break;
+                case PlayerMovementState.Climb:
+                    animator.SetTrigger("climb");
+                    _isCrouching = false;
+                    break;
             }
         }
 
