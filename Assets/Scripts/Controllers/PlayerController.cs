@@ -114,11 +114,15 @@ namespace Mechanics.Movement {
 
         public Bounds Bounds => collider2d.bounds;
 
+        [SerializeField] private float flipOffsetChange = 0.06f;
+        private BoxCollider2D _boxCollider;
+
         void Awake() {
             InitializeComponents();
             PCInstance = this;
             _originalColliderSize = collider2d.bounds.size;
             _slideTimer = slideDuration;
+            _boxCollider = GetComponent<BoxCollider2D>();
         }
 
         protected override void Update() {
@@ -138,7 +142,7 @@ namespace Mechanics.Movement {
 
         protected override void ComputeVelocity() {
             HandleJumpVelocity();
-            UpdateSpriteDirection();
+            Flip();
             UpdateAnimatorParameters();
             HandleHorizontalMovement();
         }
@@ -147,6 +151,7 @@ namespace Mechanics.Movement {
             if (lives.IsAlive) {
                 return;
             }
+
             Schedule<PlayerDeath>();
         }
 
@@ -386,20 +391,18 @@ namespace Mechanics.Movement {
             }
         }
 
-        private void UpdateSpriteDirection() {
-            if (move.x > MovementThreshold) {
-                _spriteRenderer.flipX = false;
-                isFacingRight = true;
-            }
-            else if (move.x < -MovementThreshold) {
-                _spriteRenderer.flipX = true;
-                isFacingRight = false;
-            }
-        }
-
         public void Flip() {
-            isFacingRight = !isFacingRight;
-            _spriteRenderer.flipX = !_spriteRenderer.flipX;
+            if ((isFacingRight && move.x < 0) || (!isFacingRight && move.x > 0)) {
+                isFacingRight = !isFacingRight;
+                _spriteRenderer.flipX = !isFacingRight;
+
+                if (_boxCollider != null) {
+                    Vector2 newOffset = _boxCollider.offset;
+                    newOffset.x += isFacingRight ? -flipOffsetChange : flipOffsetChange;
+
+                    _boxCollider.offset = newOffset;
+                }
+            }
         }
 
         private void UpdateAnimatorParameters() {
