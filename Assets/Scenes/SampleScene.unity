@@ -98811,6 +98811,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114230831923080080, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
         type: 3}
+      propertyPath: lives
+      value: 
+      objectReference: {fileID: 1213308534}
+    - target: {fileID: 114230831923080080, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
+        type: 3}
       propertyPath: isSliding
       value: 0
       objectReference: {fileID: 0}
@@ -98819,6 +98824,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114230831923080080, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
+        type: 3}
+      propertyPath: collider2d
+      value: 
+      objectReference: {fileID: 838423051}
     - target: {fileID: 114230831923080080, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
         type: 3}
       propertyPath: slideTimer
@@ -98833,6 +98843,11 @@ PrefabInstance:
         type: 3}
       propertyPath: jumpModifier
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114230831923080080, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
+        type: 3}
+      propertyPath: slideDuration
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114230831923080080, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
         type: 3}
@@ -98966,6 +98981,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Id: 2cedde77-9eec-414f-a172-5c4b3c8e2891
+--- !u!61 &838423051 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 1824045667, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
+    type: 3}
+  m_PrefabInstance: {fileID: 838423047}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &867167375
 GameObject:
   m_ObjectHideFlags: 0
@@ -102418,6 +102439,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizeMultiplier: {x: 1, y: 1}
   manualOffset: {x: 0, y: 0}
+--- !u!212 &1213308551 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212064061491315838, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
+    type: 3}
+  m_PrefabInstance: {fileID: 838423047}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1223006653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -108412,6 +108439,7 @@ GameObject:
   - component: {fileID: 1754240609}
   - component: {fileID: 1754240610}
   - component: {fileID: 1754240611}
+  - component: {fileID: 1754240612}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -108577,6 +108605,29 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1754240612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754240606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccba193b60cd4f03b5ec3db0bab1cb35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characters:
+  - characterType: 0
+    characterSprite: {fileID: 336901792, guid: dc6175d7061dcb544bde3a23a723fd64, type: 3}
+    colliderOffset: {x: -0.03, y: 0}
+    colliderSize: {x: 0.2, y: 0.66}
+    crouchSpeedMultiplier: 0.3
+    maxRunSpeed: 4
+    jumpModifier: 1.5
+  spriteRenderer: {fileID: 1213308551}
+  boxCollider: {fileID: 838423051}
+  playerController: {fileID: 838423048}
 --- !u!1 &1757862670
 GameObject:
   m_ObjectHideFlags: 0
