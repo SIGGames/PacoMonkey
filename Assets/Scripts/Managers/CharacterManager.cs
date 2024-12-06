@@ -1,4 +1,5 @@
-﻿using Enums;
+﻿using Controllers;
+using Enums;
 using Mechanics.Movement;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace Managers {
         public SpriteRenderer spriteRenderer;
         public BoxCollider2D boxCollider;
         public PlayerController playerController;
+        public Crouch crouch;
 
         private Character _currentCharacter;
 
@@ -52,9 +54,13 @@ namespace Managers {
 
             // Update player settings
             if (playerController != null) {
-                playerController.crouchSpeedMultiplier = config.crouchSpeedMultiplier;
                 playerController.maxRunSpeed = config.maxRunSpeed;
                 playerController.jumpModifier = config.jumpModifier;
+            }
+
+            // Update crouch settings
+            if (crouch != null) {
+                crouch.crouchSpeedMultiplier = config.crouchSpeedMultiplier;
             }
         }
 

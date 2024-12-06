@@ -3,12 +3,10 @@
 namespace Managers {
     public class ColliderManager {
         private Collider2D _collider;
-        private Vector2 _crouchSize;
-        private Vector2 _originalSize;
-        private Vector2 _crouchOffset;
         private Vector2 _originalOffset;
+        private Vector2 _originalSize;
 
-        public ColliderManager(Collider2D collider, Vector2 crouchOffset, Vector2 crouchSize) {
+        public ColliderManager(Collider2D collider) {
             _collider = collider;
 
             if (_collider is BoxCollider2D boxCollider) {
@@ -18,18 +16,15 @@ namespace Managers {
                 _originalOffset = capsuleCollider.offset;
                 _originalSize = capsuleCollider.size;
             }
-
-            _crouchOffset = crouchOffset;
-            _crouchSize = crouchSize;
         }
 
-        public void UpdateCollider(bool isCrouching) {
+        public void UpdateCollider(bool isCrouching, Vector2 crouchOffset, Vector2 crouchSize) {
             if (_collider is BoxCollider2D boxCollider) {
-                boxCollider.offset = isCrouching ? _crouchOffset : _originalOffset;
-                boxCollider.size = isCrouching ? _crouchSize : _originalSize;
+                boxCollider.offset = isCrouching ? crouchOffset : _originalOffset;
+                boxCollider.size = isCrouching ? crouchSize : _originalSize;
             } else if (_collider is CapsuleCollider2D capsuleCollider) {
-                capsuleCollider.offset = isCrouching ? _crouchOffset : _originalOffset;
-                capsuleCollider.size = isCrouching ? _crouchSize : _originalSize;
+                capsuleCollider.offset = isCrouching ? crouchOffset : _originalOffset;
+                capsuleCollider.size = isCrouching ? crouchSize : _originalSize;
             }
         }
     }

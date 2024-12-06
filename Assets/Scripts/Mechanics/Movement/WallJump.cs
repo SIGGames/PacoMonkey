@@ -1,6 +1,7 @@
 ﻿using System;
-using Mechanics.Utils;
+using Controllers;
 using UnityEngine;
+using Utils;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
@@ -63,7 +64,7 @@ namespace Mechanics.Movement {
                 wallJumpingCounter -= Time.deltaTime;
             }
 
-            if (Keybinds.GetJumpKey() && wallJumpingCounter > 0) {
+            if (KeyBinds.GetJumpKey() && wallJumpingCounter > 0) {
                 isWallJumping = true;
                 _rb.velocity = new Vector2(wallJumpingPower.x * _wallJumpingDirection, wallJumpingPower.y);
                 wallJumpingCounter = 0f;

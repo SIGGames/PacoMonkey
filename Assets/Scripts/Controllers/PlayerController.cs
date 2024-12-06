@@ -1,15 +1,15 @@
 ﻿using Enums;
 using Gameplay;
+using Health;
 using Managers;
-using Mechanics.Utils;
+using Mechanics;
 using Platformer.Gameplay;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
-using static Mechanics.Utils.Keybinds;
+using static Utils.KeyBinds;
 
-namespace Mechanics.Movement {
+namespace Controllers {
     public class PlayerController : KinematicObject {
         public AudioClip jumpAudio;
         public AudioClip respawnAudio;
@@ -28,21 +28,6 @@ namespace Mechanics.Movement {
         [Header("Player Walk Configuration")]
         [Range(0, 1)]
         public float walkSpeedMultiplier = 0.33f;
-
-        [Header("Player Crouch Configuration")]
-        [Range(0, 1)]
-        public float crouchSpeedMultiplier = 0.5f;
-
-        [SerializeField] private Vector2 cameraOffsetOnCrouch = new(0f, -1.3f);
-
-        [Range(0, 5)]
-        public float slideDuration = 1.5f;
-
-        private float _slideTimer;
-        [SerializeField] private bool isSliding;
-
-        [Range(0, 10)]
-        [SerializeField] private float slideMinSpeedMultiplier = 0.5f;
 
         [Header("Player Jump Configuration")]
         [Tooltip("Initial jump velocity")]
@@ -87,7 +72,7 @@ namespace Mechanics.Movement {
         public Collider2D collider2d;
 
         public AudioSource audioSource;
-        public Health.Lives lives;
+        public Lives lives;
         public bool controlEnabled = true;
         public PlayerMovementState movementState = PlayerMovementState.Idle;
 
@@ -101,18 +86,14 @@ namespace Mechanics.Movement {
         private bool _jump;
         private float _jumpTimeCounter;
         private const float JumpTimeMax = 1.0f;
-        private bool _isCrouching;
         private bool _isWalking;
-        [SerializeField] private bool isFacingRight = true;
+        [SerializeField] public bool isFacingRight = true;
 
         [HideInInspector]
         public Vector2 move;
 
         private SpriteRenderer _spriteRenderer;
         internal Animator animator;
-
-        private Vector2 _originalColliderSize;
-        private readonly Vector2 _crouchColliderSize = new(0.2f, 0.2f);
 
         public Bounds Bounds => collider2d.bounds;
 
@@ -122,30 +103,11 @@ namespace Mechanics.Movement {
         private FlipManager _flipManager;
         private bool _wasMoving;
 
-        private PlayerCrouch _playerCrouch;
-
         void Awake() {
             InitializeComponents();
             PCInstance = this;
-            _originalColliderSize = collider2d.bounds.size;
-            _slideTimer = slideDuration;
             _boxCollider = GetComponent<BoxCollider2D>();
             _flipManager = new FlipManager(_spriteRenderer, _boxCollider, flipOffsetChange, isFacingRight);
-
-            var colliderManager = new ColliderManager(
-                collider2d,
-                new Vector2(0, -0.09f), // Crouch collider offset
-                new Vector2(0.2f, 0.47f) // Crouch collider size
-            );
-
-            _playerCrouch = new PlayerCrouch(
-                colliderManager,
-                animator,
-                cameraOffsetOnCrouch,
-                slideDuration,
-                slideMinSpeedMultiplier,
-                crouchSpeedMultiplier
-            );
         }
 
         protected override void Update() {
@@ -168,14 +130,6 @@ namespace Mechanics.Movement {
             HandleFlipLogic();
             UpdateAnimatorParameters();
             HandleHorizontalMovement();
-
-            _playerCrouch.UpdateSlide(
-                ref movementState,
-                ref targetVelocity.x,
-                GetCrouchKey(),
-                maxRunSpeed,
-                isFacingRight
-            );
         }
 
         private void HandleLives() {
@@ -187,62 +141,23 @@ namespace Mechanics.Movement {
         }
 
         private void HandleHorizontalMovement() {
-            if (isSliding) {
-                Slide();
+            float targetSpeed = move.x * maxRunSpeed;
+
+            if (_isWalking) {
+                targetSpeed *= walkSpeedMultiplier;
             }
-            else {
-                float targetSpeed = move.x * maxRunSpeed;
 
-                if (_isCrouching) {
-                    if (_isWalking) {
-                        targetSpeed *= crouchSpeedMultiplier * walkSpeedMultiplier;
-                    }
-                    else {
-                        targetSpeed *= crouchSpeedMultiplier;
-                    }
-                }
-                else if (_isWalking) {
-                    targetSpeed *= walkSpeedMultiplier;
-                }
+            float speedDifference = targetSpeed - velocity.x;
+            float accelerationRate =
+                (Mathf.Abs(targetSpeed) > MovementThreshold) ? runAcceleration : runDeceleration;
+            float movement = Mathf.Clamp(speedDifference, -accelerationRate * Time.deltaTime,
+                accelerationRate * Time.deltaTime);
 
-                float speedDifference = targetSpeed - velocity.x;
-                float accelerationRate =
-                    (Mathf.Abs(targetSpeed) > MovementThreshold) ? runAcceleration : runDeceleration;
-                float movement = Mathf.Clamp(speedDifference, -accelerationRate * Time.deltaTime,
-                    accelerationRate * Time.deltaTime);
-
-                targetVelocity.x = velocity.x + movement;
-            }
-        }
-
-        private void Slide() {
-            _slideTimer -= Time.deltaTime;
-
-            float targetSlideSpeed = maxRunSpeed * slideMinSpeedMultiplier;
-            float slideProgress = 1 - (_slideTimer / slideDuration);
-            float slideSpeed = Mathf.Lerp(maxRunSpeed, targetSlideSpeed, slideProgress);
-            targetVelocity.x = isFacingRight ? slideSpeed : -slideSpeed;
-
-            if (_slideTimer <= 0 || !GetCrouchKey()) {
-                isSliding = false;
-                _slideTimer = slideDuration;
-
-                if (GetCrouchKey()) {
-                    if (Mathf.Abs(move.x) < MovementThreshold) {
-                        SetMovementState(PlayerMovementState.Idle);
-                    }
-                    else {
-                        SetMovementState(PlayerMovementState.Run);
-                    }
-                }
-                else if (GetRunKey()) {
-                    SetMovementState(PlayerMovementState.Run);
-                }
-            }
+            targetVelocity.x = velocity.x + movement;
         }
 
         private void InitializeComponents() {
-            lives = GetComponent<Health.Lives>();
+            lives = GetComponent<Lives>();
             audioSource = GetComponent<AudioSource>();
             collider2d = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -283,17 +198,10 @@ namespace Mechanics.Movement {
             else if (IsGrounded) {
                 SetMovementState(PlayerMovementState.Idle);
             }
-
-            _playerCrouch.Crouch(
-                GetCrouchKey(),
-                move.x != 0,
-                ref movementState,
-                ref targetVelocity.x
-            );
         }
 
         private void HandleActionInput() {
-            if (Input.GetButtonDown("Jump")) {
+            if (GetJumpKey()) {
                 _jumpBufferCounter = jumpBufferTime;
             }
 
@@ -448,58 +356,28 @@ namespace Mechanics.Movement {
                 case PlayerMovementState.Idle:
                     animator.SetTrigger("idle");
                     _isWalking = false;
-                    _isCrouching = false;
                     break;
                 case PlayerMovementState.Walk:
                     animator.SetTrigger("walk");
                     _isWalking = true;
-                    _isCrouching = false;
                     break;
                 case PlayerMovementState.Run:
                     animator.SetTrigger("run");
                     _isWalking = false;
-                    _isCrouching = false;
                     break;
                 case PlayerMovementState.Crouch:
                     animator.SetTrigger("crouch");
-                    _isCrouching = true;
                     break;
                 case PlayerMovementState.Jump:
                     animator.SetTrigger("jump");
-                    _isCrouching = false;
                     break;
                 case PlayerMovementState.Climb:
                     animator.SetTrigger("climb");
-                    _isCrouching = false;
                     break;
                 case PlayerMovementState.Up:
                     break;
             }
         }
-
-        public void Crouch(bool value) {
-            _isCrouching = value;
-            Bounds collider2dBounds = collider2d.bounds;
-            collider2dBounds.size = value ? _crouchColliderSize : _originalColliderSize;
-
-            if (value) {
-                CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);
-                if (movementState == PlayerMovementState.Run && !isSliding) {
-                    isSliding = true;
-                    _slideTimer = slideDuration;
-                    SetMovementState(PlayerMovementState.Crouch);
-                }
-                else {
-                    SetMovementState(PlayerMovementState.Crouch);
-                }
-            }
-            else {
-                CameraManager.Instance.SetOffset(Vector2.zero);
-                isSliding = false;
-                _slideTimer = slideDuration;
-            }
-        }
-
 
         public bool IsFacingRight() {
             return isFacingRight;

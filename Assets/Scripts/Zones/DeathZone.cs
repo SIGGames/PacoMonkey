@@ -1,4 +1,5 @@
-﻿using Mechanics.Movement;
+﻿using Controllers;
+using Mechanics.Movement;
 using Platformer.Gameplay;
 using UnityEngine;
 using static Platformer.Core.Simulation;

@@ -1,7 +1,8 @@
-﻿using Enums;
-using Mechanics.Utils;
+﻿using Controllers;
+using Enums;
 using UnityEditor;
 using UnityEngine;
+using Utils;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
@@ -36,7 +37,7 @@ namespace Mechanics.Movement {
         private void Update() {
             _isTouchingWall = IsTouchingWall();
 
-            if (_isTouchingWall && Keybinds.GetClimbKey()) {
+            if (_isTouchingWall && KeyBinds.GetClimbKey()) {
                 StartWallClimb();
             }
 

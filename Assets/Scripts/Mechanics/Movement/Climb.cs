@@ -1,8 +1,9 @@
 ﻿using Configuration;
+using Controllers;
 using Enums;
 using UnityEditor;
 using UnityEngine;
-using static Mechanics.Utils.Keybinds;
+using static Utils.KeyBinds;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]

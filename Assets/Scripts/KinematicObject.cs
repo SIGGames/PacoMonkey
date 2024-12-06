@@ -11,7 +11,7 @@ namespace Mechanics {
         public Vector2 velocity;
         public bool IsGrounded { get; private set; }
 
-        protected Vector2 targetVelocity;
+        public Vector2 targetVelocity;
         protected Vector2 groundNormal;
         protected Rigidbody2D body;
         protected ContactFilter2D contactFilter;

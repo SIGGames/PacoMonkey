@@ -1,7 +1,8 @@
-﻿using Enums;
+﻿using Controllers;
+using Enums;
 using Managers;
-using Mechanics.Utils;
 using UnityEngine;
+using Utils;
 
 namespace Mechanics.Movement {
     public class Up : MonoBehaviour {
@@ -14,7 +15,7 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            if (Keybinds.GetUpKey()) {
+            if (KeyBinds.GetUpKey()) {
                 LookUp();
             }
         }

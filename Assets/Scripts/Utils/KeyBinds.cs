@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 
-namespace Mechanics.Utils {
-    // TODO: Add keybinds by unity config
-    public static class Keybinds {
+namespace Utils {
+    public static class KeyBinds {
         public static bool GetJumpKey() {
-            return Input.GetKeyDown(KeyCode.Space);
+            return Input.GetButtonDown("Jump");
         }
 
         public static bool GetCrouchKey() {
