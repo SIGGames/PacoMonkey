@@ -131,11 +131,21 @@ namespace Mechanics.Movement {
             _slideTimer = slideDuration;
             _boxCollider = GetComponent<BoxCollider2D>();
             _flipManager = new FlipManager(_spriteRenderer, _boxCollider, flipOffsetChange, isFacingRight);
-            var colliderManager = new ColliderManager(collider2d,
+
+            var colliderManager = new ColliderManager(
+                collider2d,
                 new Vector2(0, -0.09f), // Crouch collider offset
                 new Vector2(0.2f, 0.47f) // Crouch collider size
             );
-            _playerCrouch = new PlayerCrouch(colliderManager, animator, cameraOffsetOnCrouch);
+
+            _playerCrouch = new PlayerCrouch(
+                colliderManager,
+                animator,
+                cameraOffsetOnCrouch,
+                slideDuration,
+                slideMinSpeedMultiplier,
+                crouchSpeedMultiplier
+            );
         }
 
         protected override void Update() {
@@ -158,6 +168,14 @@ namespace Mechanics.Movement {
             HandleFlipLogic();
             UpdateAnimatorParameters();
             HandleHorizontalMovement();
+
+            _playerCrouch.UpdateSlide(
+                ref movementState,
+                ref targetVelocity.x,
+                GetCrouchKey(),
+                maxRunSpeed,
+                isFacingRight
+            );
         }
 
         private void HandleLives() {
@@ -266,12 +284,12 @@ namespace Mechanics.Movement {
                 SetMovementState(PlayerMovementState.Idle);
             }
 
-            if ((GetCrouchKey() && IsGrounded) || true) {
-                _playerCrouch.Crouch(true);
-            }
-            else {
-                _playerCrouch.Crouch(false);
-            }
+            _playerCrouch.Crouch(
+                GetCrouchKey(),
+                move.x != 0,
+                ref movementState,
+                ref targetVelocity.x
+            );
         }
 
         private void HandleActionInput() {
