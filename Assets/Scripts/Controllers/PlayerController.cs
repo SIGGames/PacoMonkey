@@ -1,4 +1,5 @@
 ﻿using Enums;
+using Gameplay;
 using Managers;
 using Mechanics.Utils;
 using Platformer.Gameplay;
@@ -80,7 +81,7 @@ namespace Mechanics.Movement {
         private bool _stopJump;
 
         // Threshold to determine if the player sprite should be flipped
-        private const float MovementThreshold = 0.01f;
+        private const float MovementThreshold = 0.00001f;
 
         [Header("Player Components")]
         public Collider2D collider2d;
@@ -118,12 +119,16 @@ namespace Mechanics.Movement {
         [SerializeField] private float flipOffsetChange = 0.06f;
         private BoxCollider2D _boxCollider;
 
+        private FlipManager _flipManager;
+        private bool _wasMoving;
+
         void Awake() {
             InitializeComponents();
             PCInstance = this;
             _originalColliderSize = collider2d.bounds.size;
             _slideTimer = slideDuration;
             _boxCollider = GetComponent<BoxCollider2D>();
+            _flipManager = new FlipManager(_spriteRenderer, _boxCollider, flipOffsetChange, isFacingRight);
         }
 
         protected override void Update() {
@@ -143,7 +148,7 @@ namespace Mechanics.Movement {
 
         protected override void ComputeVelocity() {
             HandleJumpVelocity();
-            Flip();
+            HandleFlipLogic();
             UpdateAnimatorParameters();
             HandleHorizontalMovement();
         }
@@ -392,18 +397,19 @@ namespace Mechanics.Movement {
             }
         }
 
-        public void Flip() {
-            if ((isFacingRight && move.x < 0) || (!isFacingRight && move.x > 0)) {
-                isFacingRight = !isFacingRight;
-                _spriteRenderer.flipX = !isFacingRight;
+        private void HandleFlipLogic() {
+            bool isCurrentlyMovingRight = move.x > 0;
+            bool isCurrentlyMovingLeft = move.x < 0;
 
-                if (_boxCollider != null) {
-                    Vector2 newOffset = _boxCollider.offset;
-                    newOffset.x += isFacingRight ? -flipOffsetChange : flipOffsetChange;
-
-                    _boxCollider.offset = newOffset;
-                }
+            if (isCurrentlyMovingRight) {
+                isFacingRight = _flipManager.Flip(true);
+            } else if (isCurrentlyMovingLeft) {
+                isFacingRight = _flipManager.Flip(false);
+            } else if (_wasMoving) {
+                _flipManager.Flip(!isFacingRight);
             }
+
+            _wasMoving = Mathf.Abs(move.x) > MovementThreshold;
         }
 
         private void UpdateAnimatorParameters() {

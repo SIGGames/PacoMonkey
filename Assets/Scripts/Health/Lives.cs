@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using Configuration;
+using Gameplay;
 using Platformer.Gameplay;
 using UnityEditor;
 using UnityEngine;

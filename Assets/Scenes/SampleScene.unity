@@ -98847,7 +98847,7 @@ PrefabInstance:
     - target: {fileID: 114230831923080080, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
         type: 3}
       propertyPath: flipOffsetChange
-      value: 0.005
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114230831923080080, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
         type: 3}
@@ -98929,15 +98929,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1208144871472054, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1213308528}
-    - targetCorrespondingSourceObject: {fileID: 1208144871472054, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1213308540}
-    - targetCorrespondingSourceObject: {fileID: 1208144871472054, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1213308546}
+    - targetCorrespondingSourceObject: {fileID: 1208144871472054, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1213308547}
   m_SourcePrefab: {fileID: 100100000, guid: 7d60c822c3f1b408ea7a00ecdb5e047a, type: 3}
 --- !u!114 &838423048 stripped
 MonoBehaviour:
@@ -102380,29 +102376,6 @@ MonoBehaviour:
   climbTag: Ladder
   contactLayer: 0
   isClimbing: 0
---- !u!114 &1213308528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 838423049}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bfa6c70c83f46f89786aad1aa4fceb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isWallSliding: 0
-  wallSlideSpeed: 8.86
-  isWallJumping: 0
-  wallJumpingTime: 0.2
-  wallJumpingCounter: 0
-  wallJumpingPower: {x: 4, y: 5}
-  wallCheck: {fileID: 447503343}
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  wallCheckRadius: 0.2
 --- !u!114 &1213308534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102418,24 +102391,6 @@ MonoBehaviour:
   startingLives: 3.5
   maxLives: 8
   currentLives: 0
---- !u!114 &1213308540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 838423049}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 971472ddd5ec477b8207e8c7374025d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wallTag: ClimbableWall
-  wallGravityScale: 0.5
-  climbingSpeed: 3.11
-  wallJumpForce: {x: 10, y: 15}
-  _isTouchingWall: 0
-  _isClimbingWall: 0
 --- !u!114 &1213308546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102448,7 +102403,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b10baef090497aa7eb9a832e7ac9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lookUpOffset: 1.3
+  lookUpOffset: 1.3
+--- !u!114 &1213308547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838423049}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcadd244d3404608b131e6d70dc840ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sizeMultiplier: {x: 1, y: 1}
+  manualOffset: {x: 0, y: 0}
 --- !u!1001 &1223006653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107576,7 +107545,7 @@ Transform:
   m_GameObject: {fileID: 1741395205}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0.01, y: -1.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

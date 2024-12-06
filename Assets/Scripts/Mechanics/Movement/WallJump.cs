@@ -69,7 +69,7 @@ namespace Mechanics.Movement {
                 wallJumpingCounter = 0f;
 
                 if (_playerController.IsFacingRight() != (_wallJumpingDirection == 1)) {
-                    _playerController.Flip();
+                    // _playerController.Flip();
                 }
             }
 
