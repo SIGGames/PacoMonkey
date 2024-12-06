@@ -122,6 +122,8 @@ namespace Mechanics.Movement {
         private FlipManager _flipManager;
         private bool _wasMoving;
 
+        private PlayerCrouch _playerCrouch;
+
         void Awake() {
             InitializeComponents();
             PCInstance = this;
@@ -129,6 +131,11 @@ namespace Mechanics.Movement {
             _slideTimer = slideDuration;
             _boxCollider = GetComponent<BoxCollider2D>();
             _flipManager = new FlipManager(_spriteRenderer, _boxCollider, flipOffsetChange, isFacingRight);
+            var colliderManager = new ColliderManager(collider2d,
+                new Vector2(0, -0.09f), // Crouch collider offset
+                new Vector2(0.2f, 0.47f) // Crouch collider size
+            );
+            _playerCrouch = new PlayerCrouch(colliderManager, animator, cameraOffsetOnCrouch);
         }
 
         protected override void Update() {
@@ -259,13 +266,11 @@ namespace Mechanics.Movement {
                 SetMovementState(PlayerMovementState.Idle);
             }
 
-            if (GetCrouchKey() && IsGrounded) {
-                animator.SetBool("isCrouching", true);
-                Crouch(true);
+            if ((GetCrouchKey() && IsGrounded) || true) {
+                _playerCrouch.Crouch(true);
             }
             else {
-                animator.SetBool("isCrouching", false);
-                Crouch(false);
+                _playerCrouch.Crouch(false);
             }
         }
 
@@ -403,9 +408,11 @@ namespace Mechanics.Movement {
 
             if (isCurrentlyMovingRight) {
                 isFacingRight = _flipManager.Flip(true);
-            } else if (isCurrentlyMovingLeft) {
+            }
+            else if (isCurrentlyMovingLeft) {
                 isFacingRight = _flipManager.Flip(false);
-            } else if (_wasMoving) {
+            }
+            else if (_wasMoving) {
                 _flipManager.Flip(!isFacingRight);
             }
 
