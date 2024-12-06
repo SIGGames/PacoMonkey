@@ -7,6 +7,7 @@
         Jump,
         DoubleJump,
         Climb,
-        Hold
+        Hold,
+        Up
     }
 }

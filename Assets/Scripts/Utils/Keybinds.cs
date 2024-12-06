@@ -26,5 +26,9 @@ namespace Mechanics.Utils {
         public static bool GetClimbKey() {
             return Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
         }
+
+        public static bool GetUpKey() {
+            return Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
+        }
     }
 }

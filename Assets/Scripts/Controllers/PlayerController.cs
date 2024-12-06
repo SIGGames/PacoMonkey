@@ -1,5 +1,6 @@
 ﻿using Enums;
 using Managers;
+using Mechanics.Utils;
 using Platformer.Gameplay;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -439,6 +440,8 @@ namespace Mechanics.Movement {
                 case PlayerMovementState.Climb:
                     animator.SetTrigger("climb");
                     _isCrouching = false;
+                    break;
+                case PlayerMovementState.Up:
                     break;
             }
         }
