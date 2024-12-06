@@ -5,6 +5,7 @@ using UnityEngine;
 using Utils;
 
 namespace Mechanics.Movement {
+    [RequireComponent(typeof(PlayerController))]
     public class Crouch : MonoBehaviour {
         private bool _isCrouching;
         private bool _isSliding;
@@ -13,8 +14,16 @@ namespace Mechanics.Movement {
         [Header("Crouch Configuration")]
         [Range(0, 1)] public float crouchSpeedMultiplier = 0.5f;
 
-        [Range(0, 5)] public float slideDuration = 1.5f;
-        [Range(0, 10)] public float slideMinSpeedMultiplier = 0.5f;
+        [Range(0, 5)]
+        public float slideDuration = 1.5f;
+
+        [Range(0, 5)]
+        public float slideCooldown = 1f;
+
+        private float _slideCooldownTimer;
+
+        [Range(0, 10)]
+        public float slideMinSpeedMultiplier = 0.5f;
 
         [SerializeField] private Vector2 cameraOffsetOnCrouch = new Vector2(0f, -1.3f);
 
@@ -39,17 +48,20 @@ namespace Mechanics.Movement {
             }
 
             _playerController = GetComponent<PlayerController>();
-            if (_playerController == null) {
-                Debug.LogError("PlayerController not found! Please attach Crouch to the same GameObject as PlayerController.");
-            }
         }
 
         private void Update() {
             HandleCrouchInput();
+
+            if (_slideCooldownTimer > 0) {
+                _slideCooldownTimer -= Time.deltaTime;
+            }
         }
 
         private void HandleCrouchInput() {
-            if (_playerController == null) return;
+            if (_playerController == null) {
+                return;
+            }
 
             bool crouchKeyHeld = KeyBinds.GetCrouchKey();
             bool isRunning = Mathf.Abs(_playerController.move.x) > 0.1f;
@@ -66,7 +78,8 @@ namespace Mechanics.Movement {
             if (_isCrouching != crouchKeyHeld) {
                 if (crouchKeyHeld) {
                     StartCrouch(isRunning);
-                } else {
+                }
+                else {
                     EndCrouch();
                 }
             }
@@ -82,7 +95,8 @@ namespace Mechanics.Movement {
 
             if (isRunning) {
                 StartSlide();
-            } else {
+            }
+            else {
                 _playerController.MovementState = PlayerMovementState.Crouch;
             }
 
@@ -93,6 +107,7 @@ namespace Mechanics.Movement {
             _isCrouching = false;
             _isSliding = false;
             _slideTimer = slideDuration;
+            _slideCooldownTimer = 0f;
 
             if (animator != null) animator.SetBool("isCrouching", false);
             CameraManager.Instance.SetOffset(Vector2.zero);
@@ -103,8 +118,13 @@ namespace Mechanics.Movement {
         }
 
         private void StartSlide() {
+            if (_slideCooldownTimer > 0) {
+                return;
+            }
+
             _isSliding = true;
             _slideTimer = slideDuration;
+            _slideCooldownTimer = slideCooldown;
             _playerController.MovementState = PlayerMovementState.Crouch;
         }
 
@@ -116,7 +136,15 @@ namespace Mechanics.Movement {
             float slideSpeed = Mathf.Lerp(_playerController.maxRunSpeed, targetSlideSpeed, slideProgress);
             _playerController.targetVelocity.x = _playerController.isFacingRight ? slideSpeed : -slideSpeed;
 
-            if (_slideTimer <= 0 || !crouchKeyHeld) {
+            if (_slideTimer <= 0) {
+                _isSliding = false;
+
+                if (crouchKeyHeld && _slideCooldownTimer <= 0) {
+                    StartSlide();
+                }
+            }
+
+            if (!crouchKeyHeld) {
                 EndSlide();
             }
         }
@@ -127,7 +155,8 @@ namespace Mechanics.Movement {
 
             if (_isCrouching) {
                 _playerController.MovementState = PlayerMovementState.Crouch;
-            } else {
+            }
+            else {
                 _playerController.MovementState = PlayerMovementState.Idle;
             }
         }
