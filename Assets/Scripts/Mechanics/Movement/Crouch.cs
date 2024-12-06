@@ -139,7 +139,7 @@ namespace Mechanics.Movement {
             if (_slideTimer <= 0) {
                 _isSliding = false;
 
-                if (crouchKeyHeld && _slideCooldownTimer <= 0) {
+                if (crouchKeyHeld && _slideCooldownTimer <= 0 && Mathf.Abs(_playerController.move.x) > 0.1f) {
                     StartSlide();
                 }
             }
