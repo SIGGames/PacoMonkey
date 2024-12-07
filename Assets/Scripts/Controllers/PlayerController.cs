@@ -53,7 +53,7 @@ namespace Controllers {
         public float fallSpeedMultiplier = 1.5f;
 
         [Tooltip("0 -> totally horizontal, 100 -> totally vertical")]
-        [Range(0F, 100F)]
+        [Range(0f, 100f)]
         public float jumpComponentBalance = 55f;
 
         private float _balanceFactor;
@@ -352,31 +352,8 @@ namespace Controllers {
 
         public void SetMovementState(PlayerMovementState state) {
             movementState = state;
-            switch (state) {
-                case PlayerMovementState.Idle:
-                    animator.SetTrigger("idle");
-                    _isWalking = false;
-                    break;
-                case PlayerMovementState.Walk:
-                    animator.SetTrigger("walk");
-                    _isWalking = true;
-                    break;
-                case PlayerMovementState.Run:
-                    animator.SetTrigger("run");
-                    _isWalking = false;
-                    break;
-                case PlayerMovementState.Crouch:
-                    animator.SetTrigger("crouch");
-                    break;
-                case PlayerMovementState.Jump:
-                    animator.SetTrigger("jump");
-                    break;
-                case PlayerMovementState.Climb:
-                    animator.SetTrigger("climb");
-                    break;
-                case PlayerMovementState.Up:
-                    break;
-            }
+            animator.SetTrigger(state.ToString().ToLower());
+            _isWalking = state == PlayerMovementState.Walk;
         }
 
         public bool IsFacingRight() {
