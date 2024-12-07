@@ -103,12 +103,16 @@ namespace Controllers {
         private FlipManager _flipManager;
         private bool _wasMoving;
         private bool _isMovementStateLocked;
+        private ColliderManager _colliderManager;
+        private bool _isColliderInitialized;
 
         void Awake() {
             InitializeComponents();
             PCInstance = this;
             _boxCollider = GetComponent<BoxCollider2D>();
             _flipManager = new FlipManager(_spriteRenderer, _boxCollider, flipOffsetChange, isFacingRight);
+            _colliderManager = new ColliderManager(collider2d);
+            _colliderManager.UpdateCollider(false, _boxCollider.offset, _boxCollider.size);
         }
 
         protected override void Update() {
@@ -124,6 +128,11 @@ namespace Controllers {
             base.Update();
 
             HandleLives();
+
+            if (!_isColliderInitialized) {
+                InitializeCollider();
+                _isColliderInitialized = true;
+            }
         }
 
         protected override void ComputeVelocity() {
@@ -131,6 +140,12 @@ namespace Controllers {
             HandleFlipLogic();
             UpdateAnimatorParameters();
             HandleHorizontalMovement();
+        }
+
+        private void InitializeCollider() {
+            if (_colliderManager != null) {
+                _colliderManager.UpdateCollider(false, _boxCollider.offset, _boxCollider.size);
+            }
         }
 
         private void HandleLives() {
