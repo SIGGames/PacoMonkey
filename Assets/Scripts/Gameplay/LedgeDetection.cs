@@ -1,5 +1,4 @@
-﻿using System;
-using Controllers;
+﻿using Controllers;
 using UnityEngine;
 
 namespace Gameplay {
@@ -39,11 +38,8 @@ namespace Gameplay {
         }
 
         private void ClimbLedge() {
-
             Vector3 ledgePosition = ledgeCheck.transform.position;
             player.transform.position = new Vector3(ledgePosition.x, ledgePosition.y + 1f, player.transform.position.z);
-
-            player.ledgeDetected = false;
         }
 
         private void UpdateLedgeCheckPosition() {
@@ -54,7 +50,8 @@ namespace Gameplay {
                     Mathf.Abs(ledgeCheckPosition.x),
                     ledgeCheckPosition.y,
                     ledgeCheckPosition.z);
-            } else {
+            }
+            else {
                 ledgeCheck.transform.localPosition = new Vector3(
                     -Mathf.Abs(ledgeCheckPosition.x),
                     ledgeCheckPosition.y,
