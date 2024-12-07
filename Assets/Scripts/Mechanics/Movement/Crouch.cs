@@ -97,7 +97,7 @@ namespace Mechanics.Movement {
                 StartSlide();
             }
             else {
-                _playerController.MovementState = PlayerMovementState.Crouch;
+                _playerController.SetMovementState(PlayerMovementState.Crouch, true);
             }
 
             _playerController.targetVelocity.x *= crouchSpeedMultiplier;
@@ -114,7 +114,8 @@ namespace Mechanics.Movement {
 
             colliderManager.UpdateCollider(false, Vector2.zero, Vector2.zero);
 
-            _playerController.MovementState = PlayerMovementState.Idle;
+            _playerController.UnlockMovementState();
+            _playerController.SetMovementState(PlayerMovementState.Idle);
         }
 
         private void StartSlide() {
@@ -125,7 +126,6 @@ namespace Mechanics.Movement {
             _isSliding = true;
             _slideTimer = slideDuration;
             _slideCooldownTimer = slideCooldown;
-            _playerController.MovementState = PlayerMovementState.Crouch;
         }
 
         private void UpdateSlide(bool crouchKeyHeld) {
@@ -152,13 +152,6 @@ namespace Mechanics.Movement {
         private void EndSlide() {
             _isSliding = false;
             _slideTimer = slideDuration;
-
-            if (_isCrouching) {
-                _playerController.MovementState = PlayerMovementState.Crouch;
-            }
-            else {
-                _playerController.MovementState = PlayerMovementState.Idle;
-            }
         }
     }
 }

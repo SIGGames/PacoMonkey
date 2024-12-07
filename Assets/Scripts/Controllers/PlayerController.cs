@@ -80,7 +80,7 @@ namespace Controllers {
 
         public PlayerMovementState MovementState {
             get => movementState;
-            set => movementState = value;
+            private set => movementState = value;
         }
 
         private bool _jump;
@@ -102,6 +102,7 @@ namespace Controllers {
 
         private FlipManager _flipManager;
         private bool _wasMoving;
+        private bool _isMovementStateLocked;
 
         void Awake() {
             InitializeComponents();
@@ -350,10 +351,26 @@ namespace Controllers {
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxRunSpeed);
         }
 
-        public void SetMovementState(PlayerMovementState state) {
+        public void SetMovementState(PlayerMovementState state, bool lockState = false) {
+            if (movementState == state) {
+                return;
+            }
+
+            if (_isMovementStateLocked) {
+                return;
+            }
+
+            if (lockState) {
+                _isMovementStateLocked = true;
+            }
+
             movementState = state;
             animator.SetTrigger(state.ToString().ToLower());
             _isWalking = state == PlayerMovementState.Walk;
+        }
+
+        public void UnlockMovementState() {
+            _isMovementStateLocked = false;
         }
 
         public bool IsFacingRight() {
