@@ -2,6 +2,7 @@
 using Enums;
 using Managers;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Utils;
 
 namespace Mechanics.Movement {
@@ -32,12 +33,17 @@ namespace Mechanics.Movement {
 
         [SerializeField] private Vector2 crouchColliderSize = new Vector2(0.2f, 0.47f);
 
+        [Header("Tilemap for One-Way Platforms")]
+        [Tooltip("GameObject with TilemapCollider2D to interact with when crouching.")]
+        public GameObject oneWayTilemapGameObject;
+
         [Header("References")]
         public ColliderManager colliderManager;
 
         public Animator animator;
 
         private PlayerController _playerController;
+        private TilemapCollider2D _tilemapCollider;
 
         private void Awake() {
             _slideTimer = slideDuration;
@@ -48,6 +54,10 @@ namespace Mechanics.Movement {
             }
 
             _playerController = GetComponent<PlayerController>();
+
+            if (oneWayTilemapGameObject != null) {
+                _tilemapCollider = oneWayTilemapGameObject.GetComponent<TilemapCollider2D>();
+            }
         }
 
         private void Update() {
@@ -101,6 +111,10 @@ namespace Mechanics.Movement {
             }
 
             _playerController.targetVelocity.x *= crouchSpeedMultiplier;
+
+            if (_tilemapCollider != null) {
+                _tilemapCollider.enabled = false;
+            }
         }
 
         private void EndCrouch() {
@@ -116,6 +130,10 @@ namespace Mechanics.Movement {
 
             _playerController.UnlockMovementState();
             _playerController.SetMovementState(PlayerMovementState.Idle);
+
+            if (_tilemapCollider != null) {
+                _tilemapCollider.enabled = true;
+            }
         }
 
         private void StartSlide() {
