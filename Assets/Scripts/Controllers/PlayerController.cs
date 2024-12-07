@@ -106,6 +106,8 @@ namespace Controllers {
         private ColliderManager _colliderManager;
         private bool _isColliderInitialized;
 
+        private float _speedMultiplier = 1f;
+
         void Awake() {
             InitializeComponents();
             PCInstance = this;
@@ -135,6 +137,10 @@ namespace Controllers {
             }
         }
 
+        public void SetSpeedMultiplier(float multiplier = 1f) {
+            _speedMultiplier = multiplier;
+        }
+
         protected override void ComputeVelocity() {
             HandleJumpVelocity();
             HandleFlipLogic();
@@ -157,7 +163,7 @@ namespace Controllers {
         }
 
         private void HandleHorizontalMovement() {
-            float targetSpeed = move.x * maxRunSpeed;
+            float targetSpeed = move.x * maxRunSpeed * _speedMultiplier;
 
             if (_isWalking) {
                 targetSpeed *= walkSpeedMultiplier;

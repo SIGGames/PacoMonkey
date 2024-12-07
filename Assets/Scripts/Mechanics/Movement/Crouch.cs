@@ -105,8 +105,11 @@ namespace Mechanics.Movement {
 
         private void StartCrouch(bool isRunning) {
             _isCrouching = true;
+            _playerController.SetSpeedMultiplier(crouchSpeedMultiplier);
 
-            if (animator != null) animator.SetBool("isCrouching", true);
+            if (animator != null) {
+                animator.SetBool("isCrouching", true);
+            }
             CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);
 
             colliderManager.UpdateCollider(true, crouchColliderOffset, crouchColliderSize);
@@ -159,8 +162,12 @@ namespace Mechanics.Movement {
             _isSliding = false;
             _slideTimer = slideDuration;
             _slideCooldownTimer = 0f;
+            
+            _playerController.SetSpeedMultiplier();
 
-            if (animator != null) animator.SetBool("isCrouching", false);
+            if (animator != null) {
+                animator.SetBool("isCrouching", false);
+            }
             CameraManager.Instance.SetOffset(Vector2.zero);
 
             colliderManager.UpdateCollider(false, standingColliderOffset, standingColliderSize);
