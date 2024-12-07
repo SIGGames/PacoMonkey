@@ -3,7 +3,6 @@ using Enums;
 using Managers;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 using Utils;
 
 namespace Mechanics.Movement {
@@ -13,6 +12,8 @@ namespace Mechanics.Movement {
         private bool _isSliding;
         private bool _keepFalling;
         private float _slideTimer;
+        private float _groundCheckDelay = 0.5f;
+        private float _groundCheckTimer;
 
         [Header("Crouch Configuration")]
         [Range(0, 1)] public float crouchSpeedMultiplier = 0.5f;
@@ -32,6 +33,7 @@ namespace Mechanics.Movement {
 
         [Header("Collider Configuration")]
         [SerializeField] private Vector2 crouchColliderOffset = new Vector2(0, -0.09f);
+
         [SerializeField] private Vector2 crouchColliderSize = new Vector2(0.2f, 0.47f);
 
         [SerializeField] private Vector2 standingColliderOffset = new Vector2(0, 0.1f);
@@ -72,7 +74,7 @@ namespace Mechanics.Movement {
             }
 
             if (_keepFalling) {
-                CheckIfPlayerExitedTile();
+                HandleGroundCheck();
             }
         }
 
@@ -110,6 +112,7 @@ namespace Mechanics.Movement {
             if (animator != null) {
                 animator.SetBool("isCrouching", true);
             }
+
             CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);
 
             colliderManager.UpdateCollider(true, crouchColliderOffset, crouchColliderSize);
@@ -125,6 +128,8 @@ namespace Mechanics.Movement {
 
             if (_tilemapCollider != null) {
                 _tilemapCollider.enabled = false;
+                _keepFalling = true;
+                _groundCheckTimer = _groundCheckDelay;
             }
         }
 
@@ -144,6 +149,7 @@ namespace Mechanics.Movement {
                     if (overlap.gameObject.layer == 1) {
                         continue;
                     }
+
                     canStand = false;
                     break;
                 }
@@ -151,34 +157,30 @@ namespace Mechanics.Movement {
 
             if (canStand) {
                 EndCrouch();
-            } else {
+            }
+            else {
                 colliderManager.UpdateCollider(true, crouchColliderOffset, crouchColliderSize);
             }
         }
-
 
         private void EndCrouch() {
             _isCrouching = false;
             _isSliding = false;
             _slideTimer = slideDuration;
             _slideCooldownTimer = 0f;
-            
+
             _playerController.SetSpeedMultiplier();
 
             if (animator != null) {
                 animator.SetBool("isCrouching", false);
             }
+
             CameraManager.Instance.SetOffset(Vector2.zero);
 
             colliderManager.UpdateCollider(false, standingColliderOffset, standingColliderSize);
 
             _playerController.UnlockMovementState();
             _playerController.SetMovementState(PlayerMovementState.Idle);
-
-            if (_tilemapCollider != null) {
-                _tilemapCollider.enabled = true;
-                _keepFalling = false;
-            }
         }
 
         private void StartSlide() {
@@ -217,8 +219,13 @@ namespace Mechanics.Movement {
             _slideTimer = slideDuration;
         }
 
-        private void CheckIfPlayerExitedTile() {
-            if (!_playerController.IsGrounded) {
+        private void HandleGroundCheck() {
+            if (_groundCheckTimer > 0) {
+                _groundCheckTimer -= Time.deltaTime;
+                return;
+            }
+
+            if (_playerController.IsGrounded) {
                 _tilemapCollider.enabled = true;
                 _keepFalling = false;
             }
