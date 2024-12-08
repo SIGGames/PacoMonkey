@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using Vector2 = UnityEngine.Vector2;
 
 namespace PlayerInput {
     public static class KeyBinds {
@@ -15,6 +15,14 @@ namespace PlayerInput {
 
         public static Vector2 GetMoveAxis() {
             return PlayerControls.Move.ReadValue<Vector2>();
+        }
+
+        public static float GetHorizontalAxis() {
+            return GetMoveAxis().x;
+        }
+
+        public static float GetVerticalAxis() {
+            return GetMoveAxis().y;
         }
 
         public static bool GetCrouchKey() {

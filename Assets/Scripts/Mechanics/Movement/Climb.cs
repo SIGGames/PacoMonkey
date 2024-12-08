@@ -54,8 +54,8 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            _vertical = Input.GetAxis("Vertical");
-            _horizontal = Input.GetAxis("Horizontal");
+            _vertical = GetVerticalAxis();
+            _horizontal = GetHorizontalAxis();
 
             if (isClimbing) {
                 if (Mathf.Abs(_horizontal) > horizontalMovementThreshold) {

@@ -1,8 +1,8 @@
 ﻿using Controllers;
 using Enums;
 using Managers;
-using PlayerInput;
 using UnityEngine;
+using static PlayerInput.KeyBinds;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
@@ -26,7 +26,7 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            if (KeyBinds.GetUpKey()) {
+            if (GetUpKey()) {
                 LookUp();
             }
 

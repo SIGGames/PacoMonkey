@@ -1,7 +1,7 @@
 ﻿using Controllers;
 using Enums;
 using Gameplay;
-using PlayerInput;
+using static PlayerInput.KeyBinds;
 using UnityEngine;
 
 namespace Mechanics.Movement {
@@ -51,7 +51,7 @@ namespace Mechanics.Movement {
 
         private void HandlePlayerActions() {
             if (ledgeCheck.isNearLedge) {
-                if (KeyBinds.GetUpKey()) {
+                if (GetUpKey()) {
                     ClimbLedge();
                 }
             } else {

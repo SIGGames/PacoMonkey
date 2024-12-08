@@ -203,7 +203,7 @@ namespace Controllers {
         }
 
         private void HandleMovementInput() {
-            move.x = Input.GetAxis("Horizontal");
+            move.x = GetHorizontalAxis();
 
             if (move.x != 0) {
                 if (GetWalkKey()) {

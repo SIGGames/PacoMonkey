@@ -1,8 +1,8 @@
 ﻿using Controllers;
 using Enums;
-using PlayerInput;
 using UnityEditor;
 using UnityEngine;
+using static PlayerInput.KeyBinds;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
@@ -37,7 +37,7 @@ namespace Mechanics.Movement {
         private void Update() {
             _isTouchingWall = IsTouchingWall();
 
-            if (_isTouchingWall && KeyBinds.GetClimbKey()) {
+            if (_isTouchingWall && GetClimbKey()) {
                 StartWallClimb();
             }
 
@@ -71,7 +71,7 @@ namespace Mechanics.Movement {
 
 
         private void HandleWallClimb() {
-            float vertical = Input.GetAxis("Vertical");
+            float vertical = GetVerticalAxis();
             _rb.velocity = new Vector2(0, vertical * climbingSpeed);
 
             if (Mathf.Abs(vertical) < 0.01f) {

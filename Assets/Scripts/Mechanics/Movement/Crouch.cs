@@ -1,9 +1,9 @@
 ﻿using Controllers;
 using Enums;
 using Managers;
-using PlayerInput;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static PlayerInput.KeyBinds;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
@@ -83,7 +83,7 @@ namespace Mechanics.Movement {
                 return;
             }
 
-            bool crouchKeyHeld = KeyBinds.GetCrouchKey();
+            bool crouchKeyHeld = GetCrouchKey();
             bool isRunning = Mathf.Abs(_playerController.move.x) > 0.1f;
 
             PerformCrouch(crouchKeyHeld, isRunning);
