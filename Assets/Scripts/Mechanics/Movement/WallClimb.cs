@@ -1,8 +1,8 @@
 ﻿using Controllers;
 using Enums;
+using PlayerInput;
 using UnityEditor;
 using UnityEngine;
-using Utils;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]

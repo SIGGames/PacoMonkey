@@ -7,7 +7,7 @@ using Platformer.Gameplay;
 using UnityEngine;
 using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
-using static Utils.KeyBinds;
+using static PlayerInput.KeyBinds;
 
 namespace Controllers {
     public class PlayerController : KinematicObject {

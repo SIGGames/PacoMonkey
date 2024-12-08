@@ -1,9 +1,9 @@
 ﻿using Controllers;
 using Enums;
 using Managers;
+using PlayerInput;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Utils;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]

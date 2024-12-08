@@ -1,7 +1,6 @@
-﻿using System;
-using Controllers;
+﻿using Controllers;
+using PlayerInput;
 using UnityEngine;
-using Utils;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]

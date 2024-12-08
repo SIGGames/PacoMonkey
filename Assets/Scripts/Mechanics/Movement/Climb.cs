@@ -3,7 +3,7 @@ using Controllers;
 using Enums;
 using UnityEditor;
 using UnityEngine;
-using static Utils.KeyBinds;
+using static PlayerInput.KeyBinds;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
