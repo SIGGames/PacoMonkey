@@ -64,7 +64,7 @@ namespace Mechanics.Movement {
                 wallJumpingCounter -= Time.deltaTime;
             }
 
-            if (KeyBinds.GetJumpKey() && wallJumpingCounter > 0) {
+            if (KeyBinds.GetJumpKeyDown() && wallJumpingCounter > 0) {
                 isWallJumping = true;
                 _rb.velocity = new Vector2(wallJumpingPower.x * _wallJumpingDirection, wallJumpingPower.y);
                 wallJumpingCounter = 0f;

@@ -2,8 +2,12 @@
 
 namespace Utils {
     public static class KeyBinds {
-        public static bool GetJumpKey() {
+        public static bool GetJumpKeyDown() {
             return Input.GetButtonDown("Jump");
+        }
+
+        public static bool GetJumpKeyUp() {
+            return Input.GetButtonUp("Jump");
         }
 
         public static bool GetCrouchKey() {

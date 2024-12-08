@@ -11,11 +11,13 @@ using static Utils.KeyBinds;
 
 namespace Controllers {
     public class PlayerController : KinematicObject {
-        public AudioClip jumpAudio;
-        public AudioClip respawnAudio;
-        public AudioClip ouchAudio;
+        [Header("Player")]
+        public bool controlEnabled = true;
 
-        [Header("Player Run Configuration")]
+        public PlayerMovementState movementState = PlayerMovementState.Idle;
+        [SerializeField] public bool isFacingRight = true;
+
+        [Header("Player Run")]
         [Range(0, 10)]
         public float maxRunSpeed = PlayerConfig.MaxRunSpeed;
 
@@ -25,11 +27,13 @@ namespace Controllers {
         [Range(0, 100)]
         public float runDeceleration = PlayerConfig.RunDeceleration;
 
-        [Header("Player Walk Configuration")]
+        [SerializeField] private float flipOffsetChange = 0.06f;
+
+        [Header("Player Walk")]
         [Range(0, 1)]
         public float walkSpeedMultiplier = 0.33f;
 
-        [Header("Player Jump Configuration")]
+        [Header("Player Jump")]
         [Tooltip("Initial jump velocity")]
         [Range(0, 3)]
         public float jumpModifier = 1.5f;
@@ -57,11 +61,8 @@ namespace Controllers {
         public float jumpComponentBalance = 55f;
 
         private float _balanceFactor;
-
         private float _jumpBufferCounter;
-
         private float _coyoteTimeCounter;
-
         public JumpState jumpState = JumpState.Grounded;
         private bool _stopJump;
 
@@ -71,23 +72,21 @@ namespace Controllers {
         [Header("Player Components")]
         public Collider2D collider2d;
 
-        public AudioSource audioSource;
         public Lives lives;
-        public bool controlEnabled = true;
-        public PlayerMovementState movementState = PlayerMovementState.Idle;
+
+        [Header("Player Audio")]
+        public AudioSource audioSource;
+
+        public AudioClip jumpAudio;
+        public AudioClip respawnAudio;
+        public AudioClip ouchAudio;
 
         public static PlayerController PCInstance { get; private set; }
-
-        public PlayerMovementState MovementState {
-            get => movementState;
-            private set => movementState = value;
-        }
 
         private bool _jump;
         private float _jumpTimeCounter;
         private const float JumpTimeMax = 1.0f;
         private bool _isWalking;
-        [SerializeField] public bool isFacingRight = true;
 
         [HideInInspector]
         public Vector2 move;
@@ -97,7 +96,6 @@ namespace Controllers {
 
         public Bounds Bounds => collider2d.bounds;
 
-        [SerializeField] private float flipOffsetChange = 0.06f;
         private BoxCollider2D _boxCollider;
 
         private FlipManager _flipManager;
@@ -223,7 +221,7 @@ namespace Controllers {
         }
 
         private void HandleActionInput() {
-            if (GetJumpKey()) {
+            if (GetJumpKeyDown()) {
                 _jumpBufferCounter = jumpBufferTime;
             }
 
@@ -231,8 +229,9 @@ namespace Controllers {
                 jumpState = JumpState.PrepareToJump;
             }
 
-            if (Input.GetButtonUp("Jump")) {
+            if (GetJumpKeyUp()) {
                 _stopJump = true;
+                UnlockMovementState();
                 Schedule<PlayerStopJump>().player = this;
             }
         }
@@ -322,8 +321,7 @@ namespace Controllers {
             if ((IsGrounded || _coyoteTimeCounter > 0f) && _jumpBufferCounter > 0) {
                 jumpState = JumpState.Jumping;
                 _jump = true;
-                animator.SetTrigger("jump");
-                movementState = PlayerMovementState.Jump;
+                SetMovementState(PlayerMovementState.Jump, true);
                 _stopJump = false;
                 _jumpBufferCounter = 0;
             }
