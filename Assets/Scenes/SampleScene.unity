@@ -106894,7 +106894,7 @@ Transform:
   m_GameObject: {fileID: 447503342}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.14, y: 0.45, z: 0}
+  m_LocalPosition: {x: 0.31, y: 0.45, z: 0}
   m_LocalScale: {x: 0.23, y: 0.23, z: 0.23}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -106936,7 +106936,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.92, y: 0.59, z: 0.99999994}
   m_Center: {x: 0, y: 0.29, z: 0}
@@ -107446,14 +107446,14 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.041666668
-    width: 0.25
-    height: 0.25
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.1
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 2.8125
+  orthographic size: 3.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -114728,6 +114728,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289f6ce197494e5fbb604cdeba4b44b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  wallSlideSpeed: 1
+  upKey: 119
+  jumpKey: 32
 --- !u!1001 &1223006653
 PrefabInstance:
   m_ObjectHideFlags: 0

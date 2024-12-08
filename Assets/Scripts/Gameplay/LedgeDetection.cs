@@ -6,6 +6,8 @@ namespace Gameplay {
         [Range(0, 1)]
         [SerializeField] private float radius;
 
+        [SerializeField] private Vector2 playerMoveOnClimb = new(0, 1f);
+
         [SerializeField] private LayerMask whatIsGround;
         [SerializeField] private PlayerController player;
         [SerializeField] private KeyCode getUpKey = KeyCode.W;
@@ -39,7 +41,8 @@ namespace Gameplay {
 
         private void ClimbLedge() {
             Vector3 ledgePosition = ledgeCheck.transform.position;
-            player.transform.position = new Vector3(ledgePosition.x, ledgePosition.y + 1f, player.transform.position.z);
+            player.transform.position = new Vector3(ledgePosition.x + playerMoveOnClimb.x,
+                ledgePosition.y + playerMoveOnClimb.y, player.transform.position.z);
         }
 
         private void UpdateLedgeCheckPosition() {
