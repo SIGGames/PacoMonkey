@@ -44,7 +44,7 @@ namespace Mechanics.Movement {
         private void StartHold() {
             // TODO: Freeze player movement and add animation
             isHolding = true;
-            player.SetMovementState(PlayerMovementState.Hold);
+            player.SetMovementState(PlayerMovementState.Hold, true);
             player.velocity = Vector2.zero;
             // player.controlEnabled = false;
         }
@@ -59,6 +59,7 @@ namespace Mechanics.Movement {
         }
 
         private void ClimbLedge() {
+            player.SetMovementState(PlayerMovementState.Climb);
             Vector3 ledgeCheckPosition = ledgeCheck.transform.position;
             player.transform.position = new Vector3(ledgeCheckPosition.x + playerMoveOnClimb.x,
                 ledgeCheckPosition.y + playerMoveOnClimb.y, player.transform.position.z);
@@ -68,6 +69,7 @@ namespace Mechanics.Movement {
         private void EndHold() {
             isHolding = false;
             player.SetMovementState(PlayerMovementState.Idle);
+            player.UnlockMovementState();
             player.controlEnabled = true;
         }
     }
