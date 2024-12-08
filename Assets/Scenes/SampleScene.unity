@@ -106877,7 +106877,6 @@ GameObject:
   m_Component:
   - component: {fileID: 447503343}
   - component: {fileID: 447503344}
-  - component: {fileID: 447503345}
   m_Layer: 0
   m_Name: LedgeCheck
   m_TagString: Untagged
@@ -106917,29 +106916,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   player: {fileID: 838423048}
-  getUpKey: 119
   ledgeCheck: {fileID: 447503342}
---- !u!65 &447503345
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 447503342}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.92, y: 0.59, z: 0.99999994}
-  m_Center: {x: 0, y: 0.29, z: 0}
+  isNearLedge: 0
 --- !u!1 &465705417
 GameObject:
   m_ObjectHideFlags: 0
@@ -114728,10 +114706,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 289f6ce197494e5fbb604cdeba4b44b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  wallSlideSpeed: 1
-  upKey: 119
-  jumpKey: 32
+  ledgeCheck: {fileID: 447503344}
+  player: {fileID: 838423048}
+  playerMoveOnClimb: {x: 0, y: 0.5}
 --- !u!1001 &1223006653
 PrefabInstance:
   m_ObjectHideFlags: 0

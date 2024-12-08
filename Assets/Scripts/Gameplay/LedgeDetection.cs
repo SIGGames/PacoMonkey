@@ -6,25 +6,16 @@ namespace Gameplay {
         [Range(0, 1)]
         [SerializeField] private float radius;
 
-        [SerializeField] private Vector2 playerMoveOnClimb = new(0, 1f);
-
         [SerializeField] private LayerMask whatIsGround;
         [SerializeField] private PlayerController player;
-        [SerializeField] private KeyCode getUpKey = KeyCode.W;
 
-        // Offset detection ledge on flip
-        private const float LedgeDetectionOffsetOnFlip = 0.4f;
 
         [SerializeField] private GameObject ledgeCheck;
 
-        private bool _isNearLedge;
+        public bool isNearLedge;
 
         private void Update() {
-            _isNearLedge = IsLedge();
-
-            if (_isNearLedge && Input.GetKeyDown(getUpKey)) {
-                ClimbLedge();
-            }
+            isNearLedge = IsLedge();
 
             UpdateLedgeCheckPosition();
         }
@@ -37,12 +28,6 @@ namespace Gameplay {
             RaycastHit2D hitUp = Physics2D.Raycast(spherePosition, Vector2.up, radius, whatIsGround);
 
             return hitDown.collider != null && hitUp.collider == null;
-        }
-
-        private void ClimbLedge() {
-            Vector3 ledgePosition = ledgeCheck.transform.position;
-            player.transform.position = new Vector3(ledgePosition.x + playerMoveOnClimb.x,
-                ledgePosition.y + playerMoveOnClimb.y, player.transform.position.z);
         }
 
         private void UpdateLedgeCheckPosition() {
