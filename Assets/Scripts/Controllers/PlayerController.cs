@@ -235,8 +235,6 @@ namespace Controllers {
                 _stopJump = true;
                 Schedule<PlayerStopJump>().player = this;
             }
-
-            TestCameraManager();
         }
 
         private void TestCameraManager() {

@@ -106893,7 +106893,7 @@ Transform:
   m_GameObject: {fileID: 447503342}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.31, y: 0.45, z: 0}
+  m_LocalPosition: {x: 0.13, y: 0.45, z: 0}
   m_LocalScale: {x: 0.23, y: 0.23, z: 0.23}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -106911,7 +106911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c925cf79825a4ccf95b359da7994b348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.1
+  radius: 0.2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
@@ -114709,6 +114709,7 @@ MonoBehaviour:
   ledgeCheck: {fileID: 447503344}
   player: {fileID: 838423048}
   playerMoveOnClimb: {x: 0, y: 0.5}
+  isHolding: 0
 --- !u!1001 &1223006653
 PrefabInstance:
   m_ObjectHideFlags: 0

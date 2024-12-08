@@ -50,13 +50,15 @@ namespace Mechanics.Movement {
         }
 
         private void HandlePlayerActions() {
-            if (KeyBinds.GetUpKey()) {
-                ClimbLedge();
-            }
-            else if (!ledgeCheck.isNearLedge) {
+            if (ledgeCheck.isNearLedge) {
+                if (KeyBinds.GetUpKey()) {
+                    ClimbLedge();
+                }
+            } else {
                 EndHold();
             }
         }
+
 
         private void ClimbLedge() {
             player.SetMovementState(PlayerMovementState.Climb);
