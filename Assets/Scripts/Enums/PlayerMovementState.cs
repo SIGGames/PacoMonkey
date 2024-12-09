@@ -10,4 +10,11 @@
         Hold,
         Up
     }
+
+    public static class PlayerMovementStateMethods {
+        public static bool IsPlayerMoving(PlayerMovementState state) {
+            return state == PlayerMovementState.Walk || state == PlayerMovementState.Run ||
+                   state == PlayerMovementState.Crouch || state == PlayerMovementState.Jump;
+        }
+    }
 }

@@ -26,11 +26,12 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            if (GetUpKey()) {
+            if (GetUpKey() && _playerController.movementState == PlayerMovementState.Idle) {
                 LookUp();
             }
 
-            if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) {
+            if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) ||
+               PlayerMovementStateMethods.IsPlayerMoving(_playerController.movementState)) {
                 CameraManager.Instance.ResetCamera();
             }
         }
