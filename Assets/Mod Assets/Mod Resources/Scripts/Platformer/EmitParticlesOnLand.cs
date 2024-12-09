@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
+using Gameplay;
 
 [RequireComponent(typeof(ParticleSystem))]
 public class EmitParticlesOnLand : MonoBehaviour {
@@ -16,9 +17,9 @@ public class EmitParticlesOnLand : MonoBehaviour {
         p = GetComponent<ParticleSystem>();
 
         if (emitOnLand) {
-            Platformer.Gameplay.PlayerLanded.OnExecute += PlayerLanded_OnExecute;
+            PlayerLanded.OnExecute += PlayerLanded_OnExecute;
 
-            void PlayerLanded_OnExecute(Platformer.Gameplay.PlayerLanded obj) {
+            void PlayerLanded_OnExecute(PlayerLanded obj) {
                 p.Play();
             }
         }

@@ -1,12 +1,13 @@
 using Controllers;
-using Mechanics.Movement;
 using Platformer.Core;
 
-namespace Platformer.Gameplay {
+namespace Gameplay {
     public class PlayerLanded : Simulation.Event<PlayerLanded> {
         public PlayerController player;
 
         public override void Execute() {
+            // Since player is grounded, we can unlock movement state
+            player.UnlockMovementState();
         }
     }
 }
