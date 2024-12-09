@@ -1,25 +1,15 @@
 using Mechanics;
 using UnityEngine;
+using static PlayerInput.KeyBinds;
 
 namespace UI {
-    /// <summary>
-    /// The MetaGameController is responsible for switching control between the high level
-    /// contexts of the application, eg the Main Menu and Gameplay systems.
-    /// </summary>
     public class MetaGameController : MonoBehaviour {
-        /// <summary>
-        /// The main UI object which used for the menu.
-        /// </summary>
+        // The main UI object which used for the menu.
         public MainUIController mainMenu;
 
-        /// <summary>
-        /// A list of canvas objects which are used during gameplay (when the main ui is turned off)
-        /// </summary>
+        // List of canvas objects which are used during gameplay (when the main ui is turned off)
         public Canvas[] gamePlayCanvasii;
 
-        /// <summary>
-        /// The game controller.
-        /// </summary>
         public GameController gameController;
 
         bool showMainCanvas = false;
@@ -28,10 +18,6 @@ namespace UI {
             _ToggleMainMenu(showMainCanvas);
         }
 
-        /// <summary>
-        /// Turn the main menu on or off.
-        /// </summary>
-        /// <param name="show"></param>
         public void ToggleMainMenu(bool show) {
             if (this.showMainCanvas != show) {
                 _ToggleMainMenu(show);
@@ -50,11 +36,11 @@ namespace UI {
                 foreach (var i in gamePlayCanvasii) i.gameObject.SetActive(true);
             }
 
-            this.showMainCanvas = show;
+            showMainCanvas = show;
         }
 
         void Update() {
-            if (Input.GetButtonDown("Menu")) {
+            if (GetPauseKey()) {
                 ToggleMainMenu(show: !showMainCanvas);
             }
         }

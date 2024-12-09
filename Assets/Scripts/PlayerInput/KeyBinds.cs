@@ -40,5 +40,9 @@ namespace PlayerInput {
         public static bool GetUpKey() {
             return PlayerControls.Up.IsPressed();
         }
+
+        public static bool GetPauseKey() {
+            return PlayerControls.Pause.triggered;
+        }
     }
 }
