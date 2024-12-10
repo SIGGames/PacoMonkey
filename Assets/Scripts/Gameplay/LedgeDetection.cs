@@ -9,7 +9,6 @@ namespace Gameplay {
         [SerializeField] private LayerMask whatIsGround;
         [SerializeField] private PlayerController player;
 
-
         [SerializeField] private GameObject ledgeCheck;
 
         public bool isNearLedge;
@@ -31,7 +30,7 @@ namespace Gameplay {
         }
 
         private void UpdateLedgeCheckPosition() {
-            var ledgeCheckPosition = ledgeCheck.transform.localPosition;
+            Vector3 ledgeCheckPosition = ledgeCheck.transform.localPosition;
 
             if (player.isFacingRight) {
                 ledgeCheck.transform.localPosition = new Vector3(
@@ -48,15 +47,14 @@ namespace Gameplay {
         }
 
         private void OnDrawGizmos() {
-            Gizmos.DrawWireSphere(ledgeCheck.transform.position, radius);
+            Vector3 ledgeCheckPosition = ledgeCheck.transform.position;
+            Gizmos.DrawWireSphere(ledgeCheckPosition, radius);
 
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(ledgeCheck.transform.position,
-                ledgeCheck.transform.position + Vector3.down * radius);
+            Gizmos.DrawLine(ledgeCheckPosition, ledgeCheckPosition + Vector3.down * radius);
 
             Gizmos.color = Color.blue;
-            Gizmos.DrawLine(ledgeCheck.transform.position,
-                ledgeCheck.transform.position + Vector3.up * radius);
+            Gizmos.DrawLine(ledgeCheckPosition, ledgeCheckPosition + Vector3.up * radius);
         }
     }
 }
