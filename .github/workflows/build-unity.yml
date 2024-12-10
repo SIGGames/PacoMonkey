@@ -14,25 +14,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Cache Unity packages
-        uses: actions/cache@v3
+      - name: Restore Library cache
+        uses: actions/cache@v4
         with:
-          path: Library
-          key: Library-$(runner.os)-$(hashFiles('**/Packages/manifest.json'))
+          path: PacoMonkey/Library
+          key: Library-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
-            Library-$(runner.os)-
+            Library-${{ runner.os }}
 
-      - name: Activate Unity license
+      - name: Create Unity license file
+        run: |
+          mkdir -p $HOME/.local/share/unity3d/Unity
+          echo "${{ secrets.UNITY_LICENSE }}" > $HOME/.local/share/unity3d/Unity/Unity_lic.ulf
+
+      - name: Verify license file
+        run: cat $HOME/.local/share/unity3d/Unity/Unity_lic.ulf
+
+      - name: Activate Unity License
         uses: game-ci/unity-activate@v2
         with:
           unityVersion: '2022.3.14f1'
-          activationFile: ${{ secrets.UNITY_LICENSE }}
 
       - name: Build project
         uses: game-ci/unity-builder@v2
         with:
-          unityVersion: '2022.3.14f1'
+          projectPath: PacoMonkey
           targetPlatform: WebGL
 
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: WebGL Build
+          path: PacoMonkey/build/WebGL
