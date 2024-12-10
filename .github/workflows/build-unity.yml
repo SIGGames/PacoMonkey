@@ -23,9 +23,20 @@ jobs:
           sudo mkdir -p /opt/Unity
           sudo tar -xf Unity-2022.3.14f1.tar.xz -C /opt/Unity --strip-components=1
 
+      - name: Verify Unity Installation Directory
+        run: |
+          echo "Unity installed at:"
+          find /opt/Unity -type f -name "Unity" -exec echo {} \;
+
       - name: Run Unity Build
         run: |
-          /opt/Unity/Editor/Unity \
+          UNITY_EXECUTABLE=$(find /opt/Unity -type f -name "Unity")
+          if [ -z "$UNITY_EXECUTABLE" ]; then
+            echo "Unity executable not found."
+            exit 1
+          fi
+          echo "Using Unity executable at $UNITY_EXECUTABLE"
+          $UNITY_EXECUTABLE \
           -batchmode \
           -nographics \
           -quit \
