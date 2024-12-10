@@ -20,9 +20,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y lib32gcc-s1 lib32stdc++6
           wget https://download.unity3d.com/download_unity/eff2de9070d8/LinuxEditorInstaller/Unity-2022.3.14f1.tar.xz
-          mkdir -p Unity
-          tar -xf Unity.tar.xz -C Unity
-          sudo mv Unity /opt/
+          sudo mkdir -p /opt/Unity
+          sudo tar -xf Unity-2022.3.14f1.tar.xz -C /opt/Unity --strip-components=1
 
       - name: Run Unity Build
         run: |
