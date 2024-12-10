@@ -24,10 +24,13 @@ jobs:
           restore-keys: |
             Library-${{ runner.os }}
 
+      - name: Save Unity license to file
+        run: echo "${{ secrets.UNITY_LICENSE }}" > unity.ulf
+
       - name: Activate Unity license
         uses: game-ci/unity-activate@v2
         with:
-          unityLicense: ${{ secrets.UNITY_LICENSE }}
+          activationFile: unity.ulf
 
       - name: Run Unity tests
         uses: game-ci/unity-test-runner@v2
