@@ -32,11 +32,11 @@ jobs:
       - name: Verify license file
         run: cat $HOME/.local/share/unity3d/Unity/Unity_lic.ulf
 
-      - name: Activate Unity license
+      - name: Activate Unity License
         uses: game-ci/unity-activate@v2
         with:
-          unityVersion: 2022.3.14f1
-          dockerImage: unityci/editor:ubuntu-2022.3.14f1-android-3.1.0
+          unityVersion: '2022.3.14f1'
+          dockerImage: 'unityci/editor:ubuntu-2022.3.14f1-linux-il2cpp-3'
 
       - name: Build project
         uses: game-ci/unity-builder@v2
