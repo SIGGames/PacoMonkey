@@ -24,13 +24,18 @@ jobs:
           restore-keys: |
             Library-${{ runner.os }}
 
-      - name: Save Unity license to file
-        run: echo "${{ secrets.UNITY_LICENSE }}" > unity.ulf
+      - name: Create Unity license file
+        run: |
+          mkdir -p $HOME/.local/share/unity3d/Unity
+          echo "${{ secrets.UNITY_LICENSE }}" > $HOME/.local/share/unity3d/Unity/Unity_lic.ulf
+
+      - name: Verify license file
+        run: cat $HOME/.local/share/unity3d/Unity/Unity_lic.ulf
 
       - name: Activate Unity license
         uses: game-ci/unity-activate@v2
         with:
-          activationFile: unity.ulf
+          unityVersion: 2022.3.14f1
 
       - name: Run Unity tests
         uses: game-ci/unity-test-runner@v2
