@@ -1,0 +1,41 @@
+name: Unity Build [Windows64]
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Unity Project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Unity
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lib32gcc1 lib32stdc++6
+          wget https://download.unity3d.com/download_unity/2022.3.14f1/Unity.tar.xz
+          mkdir -p Unity
+          tar -xf Unity.tar.xz -C Unity
+          sudo mv Unity /opt/
+
+      - name: Run Unity Build
+        run: |
+          /opt/Unity/Editor/Unity \
+          -batchmode \
+          -nographics \
+          -quit \
+          -projectPath . \
+          -buildTarget StandaloneWindows64 \
+          -buildOutput build/PacoMonkeyBuild.exe
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: PacoMonkey-Build
+          path: build/
