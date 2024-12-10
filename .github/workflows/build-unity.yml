@@ -18,7 +18,7 @@ jobs:
       - name: Install Unity
         run: |
           sudo apt-get update
-          sudo apt-get install -y lib32gcc1 lib32stdc++6
+          sudo apt-get install -y lib32gcc-s1 lib32stdc++6
           wget https://download.unity3d.com/download_unity/2022.3.14f1/Unity.tar.xz
           mkdir -p Unity
           tar -xf Unity.tar.xz -C Unity
