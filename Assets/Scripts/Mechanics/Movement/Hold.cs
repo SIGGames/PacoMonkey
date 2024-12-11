@@ -24,44 +24,36 @@ namespace Mechanics.Movement {
                 ledgeCheck = GetComponent<LedgeDetection>();
             }
 
+            if (ledgeCheck == null || player == null) {
+                Debug.LogError("Hold script requires a LedgeDetection and PlayerController component");
+                enabled = false;
+                return;
+            }
+
             _animator = GetComponent<Animator>();
         }
 
         private void Update() {
-            if (ledgeCheck == null) {
-                return;
-            }
-
-            if (ledgeCheck.isNearLedge && !isHolding) {
+            if (ledgeCheck.isNearLedge && !isHolding && PlayerMovementStateMethods.IsPlayerOnAir(player.movementState)) {
                 StartHold();
             }
 
-            if (isHolding) {
-                HandlePlayerActions();
+            if (isHolding && GetUpKey() && player.movementState == PlayerMovementState.Hold) {
+                ClimbLedge();
             }
         }
 
         private void StartHold() {
-            // TODO: Freeze player movement and add animation
+            // TODO: Add animation
             isHolding = true;
+            player.UnlockMovementState();
             player.SetMovementState(PlayerMovementState.Hold, true);
-            player.velocity = Vector2.zero;
-            // player.controlEnabled = false;
+            player.FreezePosition();
         }
-
-        private void HandlePlayerActions() {
-            if (ledgeCheck.isNearLedge) {
-                if (GetUpKey()) {
-                    ClimbLedge();
-                }
-            } else {
-                EndHold();
-            }
-        }
-
 
         private void ClimbLedge() {
-            player.SetMovementState(PlayerMovementState.Climb);
+            player.UnlockMovementState();
+            player.SetMovementState(PlayerMovementState.Climb, true);
             Vector3 ledgeCheckPosition = ledgeCheck.transform.position;
             player.transform.position = new Vector3(ledgeCheckPosition.x + playerMoveOnClimb.x,
                 ledgeCheckPosition.y + playerMoveOnClimb.y, player.transform.position.z);
@@ -72,7 +64,7 @@ namespace Mechanics.Movement {
             isHolding = false;
             player.SetMovementState(PlayerMovementState.Idle);
             player.UnlockMovementState();
-            player.controlEnabled = true;
+            player.FreezePosition(false);
         }
     }
 }

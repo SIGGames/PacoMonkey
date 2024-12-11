@@ -14,6 +14,8 @@ namespace Controllers {
         [Header("Player")]
         public bool controlEnabled = true;
 
+        [SerializeField] private bool isPositionFreezed;
+
         public PlayerMovementState movementState = PlayerMovementState.Idle;
         [SerializeField] public bool isFacingRight = true;
 
@@ -103,6 +105,7 @@ namespace Controllers {
         private bool _isMovementStateLocked;
         private ColliderManager _colliderManager;
         private bool _isColliderInitialized;
+        private Rigidbody2D _rigidbody;
 
         private float _speedMultiplier = 1f;
 
@@ -182,6 +185,7 @@ namespace Controllers {
             collider2d = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
+            _rigidbody = GetComponent<Rigidbody2D>();
         }
 
         private void HandleInput() {
@@ -392,6 +396,21 @@ namespace Controllers {
 
         public bool IsFacingRight() {
             return isFacingRight;
+        }
+
+        public void FreezePosition(bool value = true) {
+            isPositionFreezed = value;
+
+            if (isPositionFreezed) {
+                controlEnabled = false;
+                _rigidbody.velocity = Vector2.zero;
+                velocity = Vector2.zero;
+                _rigidbody.bodyType = RigidbodyType2D.Static;
+            }
+            else {
+                controlEnabled = true;
+                _rigidbody.bodyType = RigidbodyType2D.Kinematic;
+            }
         }
     }
 }
