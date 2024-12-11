@@ -5,6 +5,7 @@ using static PlayerInput.KeyBinds;
 using UnityEngine;
 
 namespace Mechanics.Movement {
+    [RequireComponent(typeof(PlayerController))]
     public class Hold : MonoBehaviour {
         [SerializeField] private LedgeDetection ledgeCheck;
         [SerializeField] private PlayerController player;
@@ -40,6 +41,8 @@ namespace Mechanics.Movement {
 
             if (isHolding && GetUpKey() && player.movementState == PlayerMovementState.Hold) {
                 ClimbLedge();
+            } else if (isHolding && GetUpKey()) {
+                EndHold();
             }
         }
 
