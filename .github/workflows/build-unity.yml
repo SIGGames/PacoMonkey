@@ -1,10 +1,11 @@
 name: Unity Build Workflow 🔨
 
 on:
-  push:
-    branches:
-      - main
-  pull_request: {}
+  workflow_dispatch:
+  #push:
+  #  branches:
+  #  - main
+  #  pull_request: {}
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
