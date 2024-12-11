@@ -10,18 +10,13 @@ namespace Mechanics.Movement {
         [SerializeField] private float lookUpOffset = 1.3f;
 
         private PlayerController _playerController;
-        private bool _isCameraManagerValid;
 
         private void Awake() {
             _playerController = GetComponent<PlayerController>();
-            _isCameraManagerValid = CameraManager.Instance != null;
 
-            if (_playerController == null) {
-                Debug.LogWarning("PlayerController is not set.");
-            }
-
-            if (!_isCameraManagerValid) {
-                Debug.LogWarning("CameraManager is not set.");
+            if (_playerController == null || CameraManager.Instance == null) {
+                Debug.LogError("Up script requires a PlayerController and CameraManager component");
+                enabled = false;
             }
         }
 
@@ -42,7 +37,6 @@ namespace Mechanics.Movement {
             }
 
             _playerController.SetMovementState(PlayerMovementState.Up);
-
             CameraManager.Instance.SetOffset(new Vector2(0, lookUpOffset));
         }
     }
