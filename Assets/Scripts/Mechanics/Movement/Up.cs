@@ -26,7 +26,7 @@ namespace Mechanics.Movement {
             }
 
             if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow) ||
-               PlayerMovementStateMethods.IsPlayerMoving(_playerController.movementState)) {
+                PlayerMovementStateMethods.IsPlayerMoving(_playerController.movementState)) {
                 CameraManager.Instance.ResetCamera();
             }
         }
