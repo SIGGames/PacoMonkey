@@ -111257,6 +111257,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1213308553}
+    - targetCorrespondingSourceObject: {fileID: 1208144871472054, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1213308556}
   m_SourcePrefab: {fileID: 100100000, guid: 7d60c822c3f1b408ea7a00ecdb5e047a, type: 3}
 --- !u!114 &838423048 stripped
 MonoBehaviour:
@@ -114798,6 +114802,19 @@ MonoBehaviour:
   player: {fileID: 838423048}
   playerMoveOnClimb: {x: 0, y: 0.5}
   isHolding: 0
+--- !u!114 &1213308556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838423049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a69ee7244cd4849a3cc781269043134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraMove: {x: 2, y: 2}
 --- !u!1001 &1223006653
 PrefabInstance:
   m_ObjectHideFlags: 0

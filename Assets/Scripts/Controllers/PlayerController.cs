@@ -240,49 +240,6 @@ namespace Controllers {
             }
         }
 
-        private void TestCameraManager() {
-            // TODO: Remove this test method, now is used for testing camera manager
-            if (Input.GetKey(KeyCode.Alpha1)) {
-                CameraManager.Instance.SetZoom(3f);
-            }
-
-            if (Input.GetKey(KeyCode.Alpha2)) {
-                CameraManager.Instance.SetZoom(7f);
-            }
-
-            if (Input.GetKey(KeyCode.Alpha3)) {
-                CameraManager.Instance.ResetCamera();
-            }
-
-            if (Input.GetKey(KeyCode.Alpha4)) {
-                CameraManager.Instance.SetOffset(new Vector2(2f, 0f));
-            }
-
-            if (Input.GetKey(KeyCode.Alpha5)) {
-                CameraManager.Instance.SetOffset(new Vector2(-2f, 0f));
-            }
-
-            if (Input.GetKey(KeyCode.Alpha6)) {
-                CameraManager.Instance.SetOffset(new Vector2(0f, 2f));
-            }
-
-            if (Input.GetKey(KeyCode.Alpha7)) {
-                CameraManager.Instance.SetOffset(new Vector2(0f, -2f));
-            }
-
-            if (Input.GetKey(KeyCode.Alpha8)) {
-                CameraManager.Instance.ShakeCamera(1f, 1f, 0.5f);
-            }
-
-            if (Input.GetKey(KeyCode.Alpha9)) {
-                CameraManager.Instance.ShakeCamera(3f, 3f, 1f);
-            }
-
-            if (Input.GetKey(KeyCode.Alpha0)) {
-                CameraManager.Instance.ResetCamera();
-            }
-        }
-
         private void UpdateJumpState() {
             _jump = false;
 

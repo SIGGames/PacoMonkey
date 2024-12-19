@@ -2,7 +2,8 @@
 
 namespace PlayerInput {
     public static class KeyBinds {
-        private static PlayerInputActions.PlayerControlsActions PlayerControls => PlayerInputManager.Instance.InputActions.PlayerControls;
+        private static PlayerInputActions.PlayerControlsActions PlayerControls =>
+            PlayerInputManager.Instance.InputActions.PlayerControls;
 
         public static bool GetJumpKeyDown() {
             return PlayerControls.Jump.triggered;
@@ -43,6 +44,34 @@ namespace PlayerInput {
 
         public static bool GetPauseKey() {
             return PlayerControls.Pause.triggered;
+        }
+
+        private static Vector2 GetCameraMoveAxis() {
+            return PlayerControls.CameraMove.ReadValue<Vector2>();
+        }
+
+        private static float GetCameraHorizontalAxis() {
+            return GetCameraMoveAxis().x;
+        }
+
+        private static float GetCameraVerticalAxis() {
+            return GetCameraMoveAxis().y;
+        }
+
+        public static bool GetCameraUpKey() {
+            return GetCameraVerticalAxis() > 0;
+        }
+
+        public static bool GetCameraDownKey() {
+            return GetCameraVerticalAxis() < 0;
+        }
+
+        public static bool GetCameraLeftKey() {
+            return GetCameraHorizontalAxis() < 0;
+        }
+
+        public static bool GetCameraRightKey() {
+            return GetCameraHorizontalAxis() > 0;
         }
     }
 }
