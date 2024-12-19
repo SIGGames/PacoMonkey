@@ -42,8 +42,12 @@ namespace PlayerInput {
             return PlayerControls.Up.IsPressed();
         }
 
-        public static bool GetPauseKey() {
-            return PlayerControls.Pause.triggered;
+        public static bool GetMenuKey() {
+            return PlayerControls.Menu.triggered;
+        }
+
+        public static bool GetConfigurationKey() {
+            return PlayerControls.Configuration.triggered;
         }
 
         private static Vector2 GetCameraMoveAxis() {

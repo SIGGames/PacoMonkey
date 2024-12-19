@@ -40,7 +40,7 @@ namespace UI {
         }
 
         void Update() {
-            if (GetPauseKey()) {
+            if (GetMenuKey()) {
                 ToggleMainMenu(show: !showMainCanvas);
             }
         }
