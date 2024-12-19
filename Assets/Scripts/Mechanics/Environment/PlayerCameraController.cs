@@ -6,6 +6,7 @@ namespace Mechanics.Environment {
     public class PlayerCameraController : MonoBehaviour {
         [SerializeField] private Vector2 cameraMove;
         private bool _anyKeyPressed;
+        private Vector2 _modifiedOffset;
 
         private void Update() {
             ManageCameraInput();
@@ -18,22 +19,27 @@ namespace Mechanics.Environment {
             if (GetCameraUpKey()) {
                 offset = new Vector2(0f, cameraMove.y);
                 isKeyPressed = true;
-            } else if (GetCameraDownKey()) {
+            }
+            else if (GetCameraDownKey()) {
                 offset = new Vector2(0f, -cameraMove.y);
                 isKeyPressed = true;
-            } else if (GetCameraLeftKey()) {
+            }
+            else if (GetCameraLeftKey()) {
                 offset = new Vector2(-cameraMove.x, 0f);
                 isKeyPressed = true;
-            } else if (GetCameraRightKey()) {
+            }
+            else if (GetCameraRightKey()) {
                 offset = new Vector2(cameraMove.x, 0f);
                 isKeyPressed = true;
             }
 
             if (isKeyPressed) {
                 CameraManager.Instance.SetOffset(offset);
+                _modifiedOffset = offset;
                 _anyKeyPressed = true;
-            } else if (_anyKeyPressed) {
-                CameraManager.Instance.ResetCamera();
+            }
+            else if (_anyKeyPressed) {
+                CameraManager.Instance.SetOffset(-_modifiedOffset / 2);
                 _anyKeyPressed = false;
             }
         }
