@@ -105641,12 +105641,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336753519}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 9.73, y: 1.4, z: 1.0008316}
   m_LocalScale: {x: 2.1383777, y: 2.1024158, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1082779267}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &353788237
 GameObject:
@@ -108946,7 +108946,7 @@ MonoBehaviour:
   lookUpOffset: 1.3
 --- !u!114 &619641543
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -113201,7 +113201,7 @@ GameObject:
   - component: {fileID: 1082779267}
   - component: {fileID: 1082779266}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113238,6 +113238,7 @@ Transform:
   - {fileID: 132676414}
   - {fileID: 1741395206}
   - {fileID: 1656154791}
+  - {fileID: 336753522}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1090666645
@@ -121892,26 +121893,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccba193b60cd4f03b5ec3db0bab1cb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialCharacter: 0
+  currentCharacter: 0
   characters:
   - characterType: 0
-    characterSprite: {fileID: -413917357, guid: 4f250872be64bfb4280b2a2bfad6bafb,
-      type: 3}
-    colliderOffset: {x: -0.03, y: 0}
-    colliderSize: {x: 0.2, y: 0.66}
-    crouchSpeedMultiplier: 0.3
-    maxRunSpeed: 4
-    jumpModifier: 1.5
     characterGameObject: {fileID: 838423049}
   - characterType: 1
-    characterSprite: {fileID: 2053560344, guid: 15bb8904ce3a1ac4494261d47d626876,
-      type: 3}
-    colliderOffset: {x: -0.03, y: 0}
-    colliderSize: {x: 0.2, y: 0.66}
-    crouchSpeedMultiplier: 0.3
-    maxRunSpeed: 2
-    jumpModifier: 1.5
     characterGameObject: {fileID: 619641537}
-  initialCharacter: 0
 --- !u!114 &1754240613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125935,6 +125923,5 @@ SceneRoots:
   - {fileID: 395934702}
   - {fileID: 1401340532}
   - {fileID: 1913502574}
-  - {fileID: 336753522}
   - {fileID: 1733562646}
   - {fileID: 1712055826}

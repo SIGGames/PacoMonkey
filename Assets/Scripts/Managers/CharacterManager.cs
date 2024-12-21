@@ -1,49 +1,43 @@
 ﻿using System;
 using Cinemachine;
-using Controllers;
 using Enums;
-using Mechanics.Movement;
 using UnityEngine;
 
 namespace Managers {
     public class CharacterManager : MonoBehaviour {
+        [Header("Character")]
+        [SerializeField] private Character initialCharacter;
+
+        [SerializeField] private Character currentCharacter;
+
         [Serializable]
         public class CharacterConfiguration {
             public Character characterType;
-            public Sprite characterSprite;
-            public Vector2 colliderOffset;
-            public Vector2 colliderSize;
-            public float crouchSpeedMultiplier;
-            public float maxRunSpeed;
-            public float jumpModifier;
             public GameObject characterGameObject;
         }
 
         [Header("Character Configurations")]
-        public CharacterConfiguration[] characters;
-
-        [Header("Starting Character")]
-        public Character initialCharacter;
+        [SerializeField] private CharacterConfiguration[] characters;
 
         [Header("Cinemachine")]
-        public CinemachineVirtualCamera cinemachineCamera;
+        private CinemachineVirtualCamera _cinemachineCamera;
 
-        private Character _currentCharacter;
-        private int currentCharacterIndex;
+        private int _currentCharacterIndex;
 
         private void Start() {
-            currentCharacterIndex = Array.FindIndex(characters, c => c.characterType == initialCharacter);
-            if (currentCharacterIndex < 0) {
-                currentCharacterIndex = 0;
+            _currentCharacterIndex = Array.FindIndex(characters, c => c.characterType == initialCharacter);
+            if (_currentCharacterIndex < 0) {
+                _currentCharacterIndex = 0;
             }
 
-            SetCharacter(characters[currentCharacterIndex].characterType);
+            SetCharacter(characters[_currentCharacterIndex].characterType);
         }
 
         private void Update() {
             if (Input.GetKeyDown(KeyCode.F5)) {
-                currentCharacterIndex = (currentCharacterIndex + 1) % characters.Length;
-                SetCharacter(characters[currentCharacterIndex].characterType);
+                Debug.Log("[INFO]: This bind is just for testing purposes, this will be removed");
+                _currentCharacterIndex = (_currentCharacterIndex + 1) % characters.Length;
+                SetCharacter(characters[_currentCharacterIndex].characterType);
             }
         }
 
@@ -68,44 +62,17 @@ namespace Managers {
                 selectedConfig.characterGameObject.SetActive(true);
             }
 
-            ApplyCharacterConfiguration(selectedConfig);
+            currentCharacter = character;
 
-            _currentCharacter = character;
-
-            if (cinemachineCamera != null && selectedConfig.characterGameObject != null) {
-                cinemachineCamera.Follow = selectedConfig.characterGameObject.transform;
-            }
-        }
-
-        private void ApplyCharacterConfiguration(CharacterConfiguration config) {
-            if (config.characterGameObject != null) {
-                var spriteRenderer = config.characterGameObject.GetComponent<SpriteRenderer>();
-                var boxCollider = config.characterGameObject.GetComponent<BoxCollider2D>();
-                var playerController = config.characterGameObject.GetComponent<PlayerController>();
-                var crouch = config.characterGameObject.GetComponent<Crouch>();
-
-                if (spriteRenderer != null) {
-                    spriteRenderer.sprite = config.characterSprite;
-                }
-
-                if (boxCollider != null) {
-                    boxCollider.offset = config.colliderOffset;
-                    boxCollider.size = config.colliderSize;
-                }
-
-                if (playerController != null) {
-                    playerController.maxRunSpeed = config.maxRunSpeed;
-                    playerController.jumpModifier = config.jumpModifier;
-                }
-
-                if (crouch != null) {
-                    crouch.crouchSpeedMultiplier = config.crouchSpeedMultiplier;
-                }
+            // Update the Cinemachine camera to follow the new character
+            if (_cinemachineCamera != null && selectedConfig.characterGameObject != null) {
+                _cinemachineCamera.Follow = selectedConfig.characterGameObject.transform;
+                _cinemachineCamera.LookAt = selectedConfig.characterGameObject.transform;
             }
         }
 
         public Character GetCurrentCharacter() {
-            return _currentCharacter;
+            return currentCharacter;
         }
     }
 }
