@@ -92,7 +92,6 @@ namespace Controllers {
         private bool _jump;
         private float _jumpTimeCounter;
         private const float JumpTimeMax = 1.0f;
-        private bool _isWalking;
 
         [HideInInspector]
         public Vector2 move;
@@ -171,10 +170,8 @@ namespace Controllers {
 
             if (canWalk && !canRun) {
                 targetSpeed *= walkSpeedMultiplier;
-                _isWalking = true;
                 SetMovementState(PlayerMovementState.Walk);
             } else if (canRun && !canWalk) {
-                _isWalking = false;
                 SetMovementState(PlayerMovementState.Run);
             }
 
@@ -219,16 +216,12 @@ namespace Controllers {
 
             if (move.x != 0) {
                 if (canWalk && !canRun) {
-                    _isWalking = true;
                     SetMovementState(PlayerMovementState.Walk);
                 } else if (canRun && !canWalk) {
-                    _isWalking = false;
                     SetMovementState(PlayerMovementState.Run);
                 } else if (GetWalkKey() && canWalk) {
-                    _isWalking = true;
                     SetMovementState(PlayerMovementState.Walk);
                 } else {
-                    _isWalking = false;
                     SetMovementState(PlayerMovementState.Run);
                 }
             } else if (IsGrounded) {
@@ -321,15 +314,11 @@ namespace Controllers {
             bool isCurrentlyMovingRight = move.x > 0;
             bool isCurrentlyMovingLeft = move.x < 0;
 
-            if (isCurrentlyMovingRight) {
+            if (isCurrentlyMovingRight && !isFacingRight) {
                 isFacingRight = _flipManager.Flip(true);
-            } else if (isCurrentlyMovingLeft) {
+            } else if (isCurrentlyMovingLeft && isFacingRight) {
                 isFacingRight = _flipManager.Flip(false);
-            } else if (_wasMoving) {
-                _flipManager.Flip(!isFacingRight);
             }
-
-            _wasMoving = Mathf.Abs(move.x) > MovementThreshold;
         }
 
         private void UpdateAnimatorParameters() {
@@ -352,7 +341,6 @@ namespace Controllers {
 
             movementState = state;
             animator.SetTrigger(state.ToString().ToLower());
-            _isWalking = state == PlayerMovementState.Walk;
         }
 
         public void UnlockMovementState() {
