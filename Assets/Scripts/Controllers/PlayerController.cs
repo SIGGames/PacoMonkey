@@ -20,6 +20,8 @@ namespace Controllers {
         [SerializeField] public bool isFacingRight = true;
 
         [Header("Player Run")]
+        public bool canRun = true;
+
         [Range(0, 10)]
         public float maxRunSpeed = PlayerConfig.MaxRunSpeed;
 
@@ -32,6 +34,8 @@ namespace Controllers {
         [SerializeField] private float flipOffsetChange = 0.06f;
 
         [Header("Player Walk")]
+        public bool canWalk = true;
+
         [Range(0, 1)]
         public float walkSpeedMultiplier = 0.33f;
 
@@ -121,8 +125,7 @@ namespace Controllers {
         protected override void Update() {
             if (controlEnabled) {
                 HandleInput();
-            }
-            else {
+            } else {
                 move.x = 0;
             }
 
@@ -166,8 +169,13 @@ namespace Controllers {
         private void HandleHorizontalMovement() {
             float targetSpeed = move.x * maxRunSpeed * _speedMultiplier;
 
-            if (_isWalking) {
+            if (canWalk && !canRun) {
                 targetSpeed *= walkSpeedMultiplier;
+                _isWalking = true;
+                SetMovementState(PlayerMovementState.Walk);
+            } else if (canRun && !canWalk) {
+                _isWalking = false;
+                SetMovementState(PlayerMovementState.Run);
             }
 
             float speedDifference = targetSpeed - velocity.x;
@@ -188,11 +196,6 @@ namespace Controllers {
             _rigidbody = GetComponent<Rigidbody2D>();
         }
 
-        private void HandleInput() {
-            HandleMovementInput();
-            HandleActionInput();
-        }
-
         protected override void ApplyGravity() {
             if (gravityModifier == 0) {
                 return;
@@ -206,25 +209,34 @@ namespace Controllers {
             velocity += Physics2D.gravity * gravityScale;
         }
 
+        private void HandleInput() {
+            HandleMovementInput();
+            HandleJumpInput();
+        }
+
         private void HandleMovementInput() {
             move.x = GetHorizontalAxis();
 
             if (move.x != 0) {
-                if (GetWalkKey()) {
+                if (canWalk && !canRun) {
                     _isWalking = true;
                     SetMovementState(PlayerMovementState.Walk);
-                }
-                else {
+                } else if (canRun && !canWalk) {
+                    _isWalking = false;
+                    SetMovementState(PlayerMovementState.Run);
+                } else if (GetWalkKey() && canWalk) {
+                    _isWalking = true;
+                    SetMovementState(PlayerMovementState.Walk);
+                } else {
                     _isWalking = false;
                     SetMovementState(PlayerMovementState.Run);
                 }
-            }
-            else if (IsGrounded) {
+            } else if (IsGrounded) {
                 SetMovementState(PlayerMovementState.Idle);
             }
         }
 
-        private void HandleActionInput() {
+        private void HandleJumpInput() {
             if (GetJumpKeyDown()) {
                 _jumpBufferCounter = jumpBufferTime;
             }
@@ -245,8 +257,7 @@ namespace Controllers {
 
             if (IsGrounded) {
                 _coyoteTimeCounter = coyoteTime;
-            }
-            else {
+            } else {
                 _coyoteTimeCounter -= Time.deltaTime;
             }
 
@@ -293,8 +304,7 @@ namespace Controllers {
                 velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
                 velocity.x *= (1 - _balanceFactor);
                 _jumpTimeCounter = 0;
-            }
-            else if (_jump && _jumpTimeCounter < JumpTimeMax) {
+            } else if (_jump && _jumpTimeCounter < JumpTimeMax) {
                 velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
                 _jumpTimeCounter += Time.deltaTime;
             }
@@ -313,11 +323,9 @@ namespace Controllers {
 
             if (isCurrentlyMovingRight) {
                 isFacingRight = _flipManager.Flip(true);
-            }
-            else if (isCurrentlyMovingLeft) {
+            } else if (isCurrentlyMovingLeft) {
                 isFacingRight = _flipManager.Flip(false);
-            }
-            else if (_wasMoving) {
+            } else if (_wasMoving) {
                 _flipManager.Flip(!isFacingRight);
             }
 
@@ -363,8 +371,7 @@ namespace Controllers {
                 _rigidbody.velocity = Vector2.zero;
                 velocity = Vector2.zero;
                 _rigidbody.bodyType = RigidbodyType2D.Static;
-            }
-            else {
+            } else {
                 controlEnabled = true;
                 _rigidbody.bodyType = RigidbodyType2D.Kinematic;
             }
