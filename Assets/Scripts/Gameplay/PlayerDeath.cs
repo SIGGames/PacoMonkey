@@ -18,7 +18,7 @@ namespace Gameplay {
             // TODO: Enable this when death animation is implemented
             // player.animator.SetTrigger("hurt");
             // player.animator.SetBool("dead", true);
-            Simulation.Schedule<PlayerSpawn>(2);
+            Simulation.Schedule<PlayerSpawn>(0.01f);
         }
     }
 }
