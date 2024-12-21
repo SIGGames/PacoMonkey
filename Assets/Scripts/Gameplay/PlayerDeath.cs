@@ -1,6 +1,5 @@
 ﻿using Model;
 using Platformer.Core;
-using Platformer.Gameplay;
 
 namespace Gameplay {
     public class PlayerDeath : Simulation.Event<PlayerDeath> {
@@ -9,8 +8,6 @@ namespace Gameplay {
         public override void Execute() {
             var player = _model.player;
             player.lives.ResetLives();
-            _model.virtualCamera.m_Follow = null;
-            _model.virtualCamera.m_LookAt = null;
             // player.collider.enabled = false;
             player.controlEnabled = false;
 
