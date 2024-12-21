@@ -26,6 +26,14 @@ namespace Managers {
         private int _currentCharacterIndex;
 
         private void Start() {
+            foreach (var config in characters) {
+                if (config.characterGameObject == null) {
+                    Debug.LogError($"Character {config.characterType} is missing its GameObject");
+                    enabled = false;
+                    return;
+                }
+            }
+
             _currentCharacterIndex = Array.FindIndex(characters, c => c.characterType == initialCharacter);
             if (_currentCharacterIndex < 0) {
                 _currentCharacterIndex = 0;
@@ -43,43 +51,33 @@ namespace Managers {
         }
 
         public void SetCharacter(Character character) {
-            CharacterConfiguration selectedConfig = null;
             Vector3 previousPosition = Vector3.zero;
 
             foreach (var config in characters) {
-                if (config.characterGameObject != null && config.characterType == currentCharacter) {
+                if (config.characterType == currentCharacter) {
                     previousPosition = config.characterGameObject.transform.position;
                 }
+
+                config.characterGameObject.SetActive(false);
             }
 
-            foreach (var config in characters) {
-                if (config.characterGameObject != null) {
-                    config.characterGameObject.SetActive(false);
-                }
-
-                if (config.characterType == character) {
-                    selectedConfig = config;
-                }
-            }
-
+            var selectedConfig = Array.Find(characters, c => c.characterType == character);
             if (selectedConfig == null) {
                 return;
             }
 
-            if (selectedConfig.characterGameObject != null) {
-                selectedConfig.characterGameObject.transform.position = previousPosition;
-                selectedConfig.characterGameObject.SetActive(true);
+            selectedConfig.characterGameObject.transform.position = previousPosition;
+            selectedConfig.characterGameObject.SetActive(true);
 
-                var animator = selectedConfig.characterGameObject.GetComponent<Animator>();
-                if (animator != null && selectedConfig.animatorOverrideController != null) {
-                    animator.runtimeAnimatorController = selectedConfig.animatorOverrideController;
-                }
+            var animator = selectedConfig.characterGameObject.GetComponent<Animator>();
+            if (animator != null && selectedConfig.animatorOverrideController != null) {
+                animator.runtimeAnimatorController = selectedConfig.animatorOverrideController;
             }
 
             currentCharacter = character;
 
             // Update the Cinemachine camera to follow the new character
-            if (cinemachineCamera != null && selectedConfig.characterGameObject != null) {
+            if (cinemachineCamera != null) {
                 cinemachineCamera.Follow = selectedConfig.characterGameObject.transform;
                 cinemachineCamera.LookAt = selectedConfig.characterGameObject.transform;
             }
