@@ -3,10 +3,14 @@ using UnityEngine;
 
 namespace Controllers {
     [RequireComponent(typeof(Animator))]
-    public class AnimationController : KinematicObject {
+    public sealed class AnimationController : KinematicObject {
         public float maxSpeed = 7;
 
         public float jumpTakeOffSpeed = 7;
+
+        public float jumpDeceleration = 0.5f;
+
+        public float jumpModifier = 1f;
 
         public Vector2 move;
 
@@ -14,28 +18,25 @@ namespace Controllers {
 
         public bool stopJump;
 
-        Animator animator;
-        private PlayerController player;
+        Animator _animator;
 
-        protected virtual void Awake() {
-            animator = GetComponent<Animator>();
-            player = GetComponent<PlayerController>();
+        private void Awake() {
+            _animator = GetComponent<Animator>();
         }
 
         protected override void ComputeVelocity() {
             if (jump && IsGrounded) {
-                velocity.y = jumpTakeOffSpeed * player.jumpModifier;
+                velocity.y = jumpTakeOffSpeed * jumpModifier;
                 jump = false;
-            }
-            else if (stopJump) {
+            } else if (stopJump) {
                 stopJump = false;
                 if (velocity.y > 0) {
-                    velocity.y *= player.jumpDeceleration;
+                    velocity.y *= jumpDeceleration;
                 }
             }
 
-            animator.SetBool("grounded", IsGrounded);
-            animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
+            _animator.SetBool("grounded", IsGrounded);
+            _animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
 
             targetVelocity = move * maxSpeed;
         }
