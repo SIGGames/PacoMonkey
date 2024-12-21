@@ -170,7 +170,9 @@ namespace Controllers {
 
             if (canWalk && !canRun) {
                 targetSpeed *= walkSpeedMultiplier;
-            } else if (canRun && !canWalk) {
+            } else if (canRun && canWalk && GetWalkKey()) {
+                targetSpeed *= walkSpeedMultiplier;
+                SetMovementState(PlayerMovementState.Walk);
             }
 
             float speedDifference = targetSpeed - velocity.x;
@@ -213,14 +215,10 @@ namespace Controllers {
             move.x = GetHorizontalAxis();
 
             if (move.x != 0) {
-                if (canWalk && !canRun) {
-                    SetMovementState(PlayerMovementState.Walk);
-                } else if (canRun && !canWalk) {
+                if (canRun) {
                     SetMovementState(PlayerMovementState.Run);
-                } else if (GetWalkKey() && canWalk) {
+                } else if (canWalk) {
                     SetMovementState(PlayerMovementState.Walk);
-                } else {
-                    SetMovementState(PlayerMovementState.Run);
                 }
             } else if (IsGrounded) {
                 SetMovementState(PlayerMovementState.Idle);
