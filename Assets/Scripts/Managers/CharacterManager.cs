@@ -20,7 +20,7 @@ namespace Managers {
         [SerializeField] private CharacterConfiguration[] characters;
 
         [Header("Cinemachine")]
-        private CinemachineVirtualCamera _cinemachineCamera;
+        [SerializeField] private CinemachineVirtualCamera cinemachineCamera;
 
         private int _currentCharacterIndex;
 
@@ -34,8 +34,8 @@ namespace Managers {
         }
 
         private void Update() {
+            // TODO: This bind is just for testing purposes, this will be removed
             if (Input.GetKeyDown(KeyCode.F5)) {
-                Debug.Log("[INFO]: This bind is just for testing purposes, this will be removed");
                 _currentCharacterIndex = (_currentCharacterIndex + 1) % characters.Length;
                 SetCharacter(characters[_currentCharacterIndex].characterType);
             }
@@ -65,9 +65,9 @@ namespace Managers {
             currentCharacter = character;
 
             // Update the Cinemachine camera to follow the new character
-            if (_cinemachineCamera != null && selectedConfig.characterGameObject != null) {
-                _cinemachineCamera.Follow = selectedConfig.characterGameObject.transform;
-                _cinemachineCamera.LookAt = selectedConfig.characterGameObject.transform;
+            if (cinemachineCamera != null && selectedConfig.characterGameObject != null) {
+                cinemachineCamera.Follow = selectedConfig.characterGameObject.transform;
+                cinemachineCamera.LookAt = selectedConfig.characterGameObject.transform;
             }
         }
 

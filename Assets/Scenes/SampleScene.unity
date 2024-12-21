@@ -121923,8 +121923,13 @@ MonoBehaviour:
   characters:
   - characterType: 0
     characterGameObject: {fileID: 838423049}
+    animatorOverrideController: {fileID: 22100000, guid: 9e37e894d7ca17145ba496f87ab9fcdb,
+      type: 2}
   - characterType: 1
     characterGameObject: {fileID: 619641537}
+    animatorOverrideController: {fileID: 22100000, guid: 3da7f453005038946812fa1b0e35aa7f,
+      type: 2}
+  cinemachineCamera: {fileID: 1946717924}
 --- !u!114 &1754240613
 MonoBehaviour:
   m_ObjectHideFlags: 0
