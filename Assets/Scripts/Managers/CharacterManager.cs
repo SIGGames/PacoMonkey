@@ -44,6 +44,13 @@ namespace Managers {
 
         public void SetCharacter(Character character) {
             CharacterConfiguration selectedConfig = null;
+            Vector3 previousPosition = Vector3.zero;
+
+            foreach (var config in characters) {
+                if (config.characterGameObject != null && config.characterType == currentCharacter) {
+                    previousPosition = config.characterGameObject.transform.position;
+                }
+            }
 
             foreach (var config in characters) {
                 if (config.characterGameObject != null) {
@@ -60,6 +67,7 @@ namespace Managers {
             }
 
             if (selectedConfig.characterGameObject != null) {
+                selectedConfig.characterGameObject.transform.position = previousPosition;
                 selectedConfig.characterGameObject.SetActive(true);
 
                 var animator = selectedConfig.characterGameObject.GetComponent<Animator>();
