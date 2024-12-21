@@ -170,9 +170,7 @@ namespace Controllers {
 
             if (canWalk && !canRun) {
                 targetSpeed *= walkSpeedMultiplier;
-                SetMovementState(PlayerMovementState.Walk);
             } else if (canRun && !canWalk) {
-                SetMovementState(PlayerMovementState.Run);
             }
 
             float speedDifference = targetSpeed - velocity.x;
