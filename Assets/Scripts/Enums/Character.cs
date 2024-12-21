@@ -1,6 +1,6 @@
 ﻿namespace Enums {
     public enum Character {
-        Micca,
+        Micca1,
         Micca2,
         Paco
     }
