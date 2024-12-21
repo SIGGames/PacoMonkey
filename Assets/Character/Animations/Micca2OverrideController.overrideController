@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Micca2OverrideController
+  m_Controller: {fileID: 9100000, guid: b09e60546065cf9448b36ebb7f759a91, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 56811a918221743d69fe84599f43c740, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 56811a918221743d69fe84599f43c740, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5fc5d63685e6779428acea7bc4ff8507, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 08367d65841120841a47437585b4f034, type: 2}

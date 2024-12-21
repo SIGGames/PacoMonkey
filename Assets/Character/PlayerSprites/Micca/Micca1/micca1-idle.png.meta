@@ -128,8 +128,8 @@ TextureImporter:
         serializedVersion: 2
         x: 7
         y: 0
-        width: 28
-        height: 62
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,8 +149,8 @@ TextureImporter:
         serializedVersion: 2
         x: 55
         y: 0
-        width: 28
-        height: 62
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -170,8 +170,8 @@ TextureImporter:
         serializedVersion: 2
         x: 103
         y: 0
-        width: 28
-        height: 62
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,8 +191,8 @@ TextureImporter:
         serializedVersion: 2
         x: 151
         y: 0
-        width: 28
-        height: 63
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -212,8 +212,8 @@ TextureImporter:
         serializedVersion: 2
         x: 199
         y: 0
-        width: 28
-        height: 63
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -233,8 +233,8 @@ TextureImporter:
         serializedVersion: 2
         x: 247
         y: 0
-        width: 28
-        height: 63
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -252,10 +252,10 @@ TextureImporter:
       name: micca1-idle_6
       rect:
         serializedVersion: 2
-        x: 296
+        x: 295
         y: 0
-        width: 27
-        height: 63
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -273,10 +273,10 @@ TextureImporter:
       name: micca1-idle_7
       rect:
         serializedVersion: 2
-        x: 345
+        x: 343
         y: 0
-        width: 26
-        height: 63
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -294,10 +294,10 @@ TextureImporter:
       name: micca1-idle_8
       rect:
         serializedVersion: 2
-        x: 393
+        x: 391
         y: 0
-        width: 26
-        height: 63
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -315,10 +315,10 @@ TextureImporter:
       name: micca1-idle_9
       rect:
         serializedVersion: 2
-        x: 441
+        x: 439
         y: 0
-        width: 26
-        height: 63
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -336,10 +336,10 @@ TextureImporter:
       name: micca1-idle_10
       rect:
         serializedVersion: 2
-        x: 489
+        x: 487
         y: 0
-        width: 26
-        height: 62
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -357,10 +357,10 @@ TextureImporter:
       name: micca1-idle_11
       rect:
         serializedVersion: 2
-        x: 537
+        x: 535
         y: 0
-        width: 26
-        height: 62
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -378,10 +378,10 @@ TextureImporter:
       name: micca1-idle_12
       rect:
         serializedVersion: 2
-        x: 584
+        x: 583
         y: 0
-        width: 27
-        height: 62
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -401,8 +401,8 @@ TextureImporter:
         serializedVersion: 2
         x: 631
         y: 0
-        width: 28
-        height: 62
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -422,8 +422,8 @@ TextureImporter:
         serializedVersion: 2
         x: 679
         y: 0
-        width: 28
-        height: 62
+        width: 29
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -14,6 +14,7 @@ namespace Managers {
         public class CharacterConfiguration {
             public Character characterType;
             public GameObject characterGameObject;
+            public AnimatorOverrideController animatorOverrideController;
         }
 
         [Header("Character Configurations")]
@@ -60,6 +61,11 @@ namespace Managers {
 
             if (selectedConfig.characterGameObject != null) {
                 selectedConfig.characterGameObject.SetActive(true);
+
+                var animator = selectedConfig.characterGameObject.GetComponent<Animator>();
+                if (animator != null && selectedConfig.animatorOverrideController != null) {
+                    animator.runtimeAnimatorController = selectedConfig.animatorOverrideController;
+                }
             }
 
             currentCharacter = character;
