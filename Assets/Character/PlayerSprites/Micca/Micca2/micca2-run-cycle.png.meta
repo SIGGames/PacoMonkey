@@ -127,11 +127,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 12
+        y: 0
         width: 73
-        height: 32
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -148,11 +148,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 79
-        y: 25
+        y: 0
         width: 73
-        height: 22
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -171,9 +171,9 @@ TextureImporter:
         x: 168
         y: 0
         width: 57
-        height: 40
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -192,9 +192,9 @@ TextureImporter:
         x: 259
         y: 0
         width: 42
-        height: 34
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -213,9 +213,9 @@ TextureImporter:
         x: 317
         y: 0
         width: 60
-        height: 32
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -243,6 +243,7 @@ TextureImporter:
       micca2-run-cycle_2: -1688187448
       micca2-run-cycle_3: 53437424
       micca2-run-cycle_4: -1590055371
+      micca2-run-cycle_5: 1252240349
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
