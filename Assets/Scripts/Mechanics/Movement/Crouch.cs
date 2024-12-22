@@ -116,7 +116,8 @@ namespace Mechanics.Movement {
             }
 
             if (!crouchKeyHeld && _isCrouching) {
-                TryEndCrouch();
+                EndCrouch();
+                // TryEndCrouch();
                 return;
             }
 
@@ -135,6 +136,7 @@ namespace Mechanics.Movement {
             animator.SetBool(IsCrouching, true);
             CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);
 
+            _playerController.AddPosition(0f, -0.3f);
             colliderManager.UpdateCollider(true, crouchColliderOffset, crouchColliderSize);
 
             if (isRunning) {
@@ -188,7 +190,9 @@ namespace Mechanics.Movement {
 
             CameraManager.Instance.SetOffset(Vector2.zero);
 
-            colliderManager.UpdateColliderWithDelay(this, false, standingColliderOffset, standingColliderSize, DelayTimeAfterCrouch);
+            _playerController.AddPosition(0f, 0.3f);
+            // colliderManager.UpdateColliderWithDelay(this, false, standingColliderOffset, standingColliderSize, DelayTimeAfterCrouch);
+            colliderManager.UpdateCollider(false, standingColliderOffset, standingColliderSize);
 
             _playerController.UnlockMovementState();
             _playerController.SetMovementState(PlayerMovementState.Idle);
