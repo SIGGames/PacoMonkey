@@ -55,8 +55,7 @@ namespace Mechanics.Movement {
 
             Vector3 playerPosition = player.transform.position;
             float xOffset = player.isFacingRight ? holdPositionOffset.x : -holdPositionOffset.x;
-            player.transform.position = new Vector3(playerPosition.x + xOffset,
-                playerPosition.y + holdPositionOffset.y, playerPosition.z);
+            player.SetPosition(playerPosition.x + xOffset, playerPosition.y + holdPositionOffset.y);
 
             player.UnlockMovementState();
             player.SetMovementState(PlayerMovementState.Hold, true);
@@ -69,8 +68,7 @@ namespace Mechanics.Movement {
 
             Vector3 ledgeCheckPosition = ledgeCheck.transform.position;
             float xOffset = player.isFacingRight ? playerMoveOnClimb.x : -playerMoveOnClimb.x;
-            player.transform.position = new Vector3(ledgeCheckPosition.x + xOffset,
-                ledgeCheckPosition.y + playerMoveOnClimb.y, player.transform.position.z);
+            player.SetPosition(ledgeCheckPosition.x + xOffset, ledgeCheckPosition.y + playerMoveOnClimb.y);
 
             EndHold();
         }

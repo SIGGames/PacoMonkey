@@ -360,5 +360,14 @@ namespace Controllers {
                 _rigidbody.bodyType = RigidbodyType2D.Kinematic;
             }
         }
+
+        public void SetPosition(float? x = null, float? y = null, float? z = null) {
+            Vector3 position = transform.position;
+            SetPosition(new Vector3(x ?? position.x, y ?? position.y, z ?? position.z));
+        }
+
+        public void SetPosition(Vector3 position) {
+            transform.position = position;
+        }
     }
 }
