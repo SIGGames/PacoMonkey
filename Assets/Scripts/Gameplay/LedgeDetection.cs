@@ -23,10 +23,17 @@ namespace Gameplay {
             Vector2 spherePosition = ledgeCheck.transform.position;
 
             RaycastHit2D hitDown = Physics2D.Raycast(spherePosition, Vector2.down, radius, whatIsGround);
-
             RaycastHit2D hitUp = Physics2D.Raycast(spherePosition, Vector2.up, radius, whatIsGround);
 
-            return hitDown.collider != null && hitUp.collider == null;
+            if (hitDown.collider == null) {
+                return false;
+            }
+
+            if (hitUp.collider != null) {
+                return false;
+            }
+
+            return true;
         }
 
         private void UpdateLedgeCheckPosition() {
@@ -37,8 +44,7 @@ namespace Gameplay {
                     Mathf.Abs(ledgeCheckPosition.x),
                     ledgeCheckPosition.y,
                     ledgeCheckPosition.z);
-            }
-            else {
+            } else {
                 ledgeCheck.transform.localPosition = new Vector3(
                     -Mathf.Abs(ledgeCheckPosition.x),
                     ledgeCheckPosition.y,
