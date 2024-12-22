@@ -55,6 +55,7 @@ namespace Mechanics.Movement {
         private TilemapCollider2D _tilemapCollider;
         private static readonly int IsCrouching = Animator.StringToHash("isCrouching");
         private bool _isledgeCheckNotNull;
+        private const float DelayTimeAfterCrouch = 0.5f;
 
         private void Awake() {
             _slideTimer = slideDuration;
@@ -156,8 +157,6 @@ namespace Mechanics.Movement {
         }
 
         private void TryEndCrouch() {
-            colliderManager.UpdateCollider(false, standingColliderOffset, standingColliderSize);
-
             Vector2 boxCenter = (Vector2)transform.position + standingColliderOffset;
             Collider2D[] overlaps = Physics2D.OverlapBoxAll(boxCenter, standingColliderSize, 0);
 
@@ -174,8 +173,6 @@ namespace Mechanics.Movement {
 
             if (canStand) {
                 EndCrouch();
-            } else {
-                colliderManager.UpdateCollider(true, crouchColliderOffset, crouchColliderSize);
             }
         }
 
@@ -195,7 +192,7 @@ namespace Mechanics.Movement {
 
             CameraManager.Instance.SetOffset(Vector2.zero);
 
-            colliderManager.UpdateCollider(false, standingColliderOffset, standingColliderSize);
+            colliderManager.UpdateColliderWithDelay(this, false, standingColliderOffset, standingColliderSize, DelayTimeAfterCrouch);
 
             _playerController.UnlockMovementState();
             _playerController.SetMovementState(PlayerMovementState.Idle);

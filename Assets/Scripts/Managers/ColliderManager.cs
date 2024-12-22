@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Managers {
     public class ColliderManager {
@@ -26,6 +27,16 @@ namespace Managers {
                 capsuleCollider.offset = isCrouching ? crouchOffset : _originalOffset;
                 capsuleCollider.size = isCrouching ? crouchSize : _originalSize;
             }
+        }
+
+        public void UpdateColliderWithDelay(MonoBehaviour context, bool isCrouching, Vector2 offset, Vector2 size,
+            float delay) {
+            context.StartCoroutine(CallUpdateColliderWithDelay(isCrouching, offset, size, delay));
+        }
+
+        private IEnumerator CallUpdateColliderWithDelay(bool isCrouching, Vector2 offset, Vector2 size, float delay) {
+            yield return new WaitForSeconds(delay);
+            UpdateCollider(isCrouching, offset, size);
         }
     }
 }
