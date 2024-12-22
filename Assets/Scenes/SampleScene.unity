@@ -108201,7 +108201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c925cf79825a4ccf95b359da7994b348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.2
+  radius: 0.15
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
@@ -108217,7 +108217,7 @@ Transform:
   m_GameObject: {fileID: 564901628}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.14, y: 0.24, z: 0}
+  m_LocalPosition: {x: 0.17, y: 0.28, z: 0}
   m_LocalScale: {x: 0.23, y: 0.23, z: 0.23}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -108892,6 +108892,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ledgeCheck: {fileID: 564901629}
   player: {fileID: 619641551}
+  holdPositionOffset: {x: 0.09, y: 0.16}
   playerMoveOnClimb: {x: 0, y: 0.5}
   isHolding: 0
 --- !u!114 &619641541
@@ -111376,7 +111377,7 @@ PrefabInstance:
     - target: {fileID: 114230831923080080, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
         type: 3}
       propertyPath: walkSpeedMultiplier
-      value: 0.55
+      value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 114230831923080080, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
         type: 3}
@@ -114964,6 +114965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ledgeCheck: {fileID: 447503344}
   player: {fileID: 838423048}
+  holdPositionOffset: {x: 0.09, y: 0.16}
   playerMoveOnClimb: {x: 0, y: 0.5}
   isHolding: 0
 --- !u!114 &1213308556

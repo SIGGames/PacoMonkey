@@ -10,7 +10,8 @@ namespace Mechanics.Movement {
         [SerializeField] private LedgeDetection ledgeCheck;
         [SerializeField] private PlayerController player;
 
-        [SerializeField] private Vector2 playerMoveOnClimb = new(0.5f, 1f);
+        [SerializeField] private Vector2 holdPositionOffset = new(0.09f, 0.16f);
+        [SerializeField] private Vector2 playerMoveOnClimb = new(0f, 0.5f);
 
         [SerializeField] private bool isHolding;
 
@@ -36,7 +37,8 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            if (ledgeCheck.isNearLedge && !isHolding && PlayerMovementStateMethods.IsPlayerOnAir(player.movementState)) {
+            if (ledgeCheck.isNearLedge && !isHolding &&
+                PlayerMovementStateMethods.IsPlayerOnAir(player.movementState)) {
                 StartHold();
             }
 
@@ -50,6 +52,12 @@ namespace Mechanics.Movement {
         private void StartHold() {
             _animator.SetBool(IsHolding, true);
             isHolding = true;
+
+            Vector3 playerPosition = player.transform.position;
+            float xOffset = player.isFacingRight ? holdPositionOffset.x : -holdPositionOffset.x;
+            player.transform.position = new Vector3(playerPosition.x + xOffset,
+                playerPosition.y + holdPositionOffset.y, playerPosition.z);
+
             player.UnlockMovementState();
             player.SetMovementState(PlayerMovementState.Hold, true);
             player.FreezePosition();
@@ -58,9 +66,12 @@ namespace Mechanics.Movement {
         private void ClimbLedge() {
             player.UnlockMovementState();
             player.SetMovementState(PlayerMovementState.Climb, true);
+
             Vector3 ledgeCheckPosition = ledgeCheck.transform.position;
-            player.transform.position = new Vector3(ledgeCheckPosition.x + playerMoveOnClimb.x,
+            float xOffset = player.isFacingRight ? playerMoveOnClimb.x : -playerMoveOnClimb.x;
+            player.transform.position = new Vector3(ledgeCheckPosition.x + xOffset,
                 ledgeCheckPosition.y + playerMoveOnClimb.y, player.transform.position.z);
+
             EndHold();
         }
 
