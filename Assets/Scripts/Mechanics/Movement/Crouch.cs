@@ -2,7 +2,6 @@
 using Enums;
 using Gameplay;
 using Managers;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static PlayerInput.KeyBinds;
@@ -117,7 +116,6 @@ namespace Mechanics.Movement {
 
             if (!crouchKeyHeld && _isCrouching) {
                 EndCrouch();
-                // TryEndCrouch();
                 return;
             }
 
@@ -129,9 +127,6 @@ namespace Mechanics.Movement {
         private void StartCrouch(bool isRunning) {
             _isCrouching = true;
             _playerController.SetSpeedMultiplier(crouchSpeedMultiplier);
-            if (_isledgeCheckNotNull) {
-                ledgeCheck.GameObject().SetActive(false);
-            }
 
             animator.SetBool(IsCrouching, true);
             CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);
@@ -154,35 +149,15 @@ namespace Mechanics.Movement {
             }
         }
 
-        private void TryEndCrouch() {
-            Vector2 boxCenter = (Vector2)transform.position + standingColliderOffset;
-            Collider2D[] overlaps = Physics2D.OverlapBoxAll(boxCenter, standingColliderSize, 0);
-
-            bool canStand = true;
-            foreach (var overlap in overlaps) {
-                if (overlap != null && overlap != _playerController.collider2d) {
-                    if (overlap.gameObject.layer == 7) {
-                        // Layer 7 (Ground)
-                        canStand = false;
-                        break;
-                    }
-                }
-            }
-
-            if (canStand) {
-                EndCrouch();
-            }
-        }
-
         private void EndCrouch() {
+            if (!CanResizeCollider()) {
+                return;
+            }
+
             _isCrouching = false;
             _isSliding = false;
             _slideTimer = slideDuration;
             _slideCooldownTimer = 0f;
-
-            if (_isledgeCheckNotNull) {
-                ledgeCheck.GameObject().SetActive(true);
-            }
 
             _playerController.SetSpeedMultiplier();
 
@@ -190,8 +165,7 @@ namespace Mechanics.Movement {
 
             CameraManager.Instance.SetOffset(Vector2.zero);
 
-            _playerController.AddPosition(0f, 0.3f);
-            // colliderManager.UpdateColliderWithDelay(this, false, standingColliderOffset, standingColliderSize, DelayTimeAfterCrouch);
+            _playerController.AddPosition(0, 0.3f);
             colliderManager.UpdateCollider(false, standingColliderOffset, standingColliderSize);
 
             _playerController.UnlockMovementState();
@@ -244,6 +218,22 @@ namespace Mechanics.Movement {
                 _tilemapCollider.enabled = true;
                 _keepFalling = false;
             }
+        }
+
+        private bool CanResizeCollider() {
+            if (_isledgeCheckNotNull) {
+                Vector3 ledgeCheckPosition = ledgeCheck.transform.position + new Vector3(0, 0.2f, 0);
+                Collider2D[] ledgeCheckCollisions = Physics2D.OverlapCircleAll(ledgeCheckPosition, 0.1f);
+
+                foreach (var collision in ledgeCheckCollisions) {
+                    if (collision != null && collision.gameObject.layer == 7) {
+                        // Layer 7 (Ground)
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }
