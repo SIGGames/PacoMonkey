@@ -131,6 +131,7 @@ namespace Mechanics.Movement {
             animator.SetBool(IsCrouching, true);
             CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);
 
+            ledgeCheck.transform.position += new Vector3(0, -0.1f, 0);
             _playerController.AddPosition(0f, -0.3f);
             colliderManager.UpdateCollider(true, crouchColliderOffset, crouchColliderSize);
 
@@ -165,6 +166,7 @@ namespace Mechanics.Movement {
 
             CameraManager.Instance.SetOffset(Vector2.zero);
 
+            ledgeCheck.transform.position += new Vector3(0, 0.1f, 0);
             _playerController.AddPosition(0, 0.3f);
             colliderManager.UpdateCollider(false, standingColliderOffset, standingColliderSize);
 
