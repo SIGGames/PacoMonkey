@@ -361,6 +361,11 @@ namespace Controllers {
             }
         }
 
+        public void AddPosition(float x = 0f, float y = 0f, float z = 0f) {
+            Vector3 position = transform.position;
+            SetPosition(position.x + x, position.y + y, position.z + z);
+        }
+
         public void SetPosition(float? x = null, float? y = null, float? z = null) {
             Vector3 position = transform.position;
             SetPosition(new Vector3(x ?? position.x, y ?? position.y, z ?? position.z));

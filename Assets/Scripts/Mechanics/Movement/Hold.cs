@@ -53,9 +53,8 @@ namespace Mechanics.Movement {
             _animator.SetBool(IsHolding, true);
             isHolding = true;
 
-            Vector3 playerPosition = player.transform.position;
             float xOffset = player.isFacingRight ? holdPositionOffset.x : -holdPositionOffset.x;
-            player.SetPosition(playerPosition.x + xOffset, playerPosition.y + holdPositionOffset.y);
+            player.AddPosition(xOffset, holdPositionOffset.y);
 
             player.UnlockMovementState();
             player.SetMovementState(PlayerMovementState.Hold, true);
