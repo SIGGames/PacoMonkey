@@ -138,6 +138,11 @@ namespace Controllers {
                 InitializeCollider();
                 _isColliderInitialized = true;
             }
+
+            if (Input.GetKeyDown(KeyCode.F6)) {
+                // TODO: This bind is just for testing purposes, this will be removed
+                Schedule<PlayerSpawn>();
+            }
         }
 
         public void SetSpeedMultiplier(float multiplier = 1f) {
