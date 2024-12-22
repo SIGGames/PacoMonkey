@@ -10,7 +10,7 @@ namespace Mechanics.Movement {
         [SerializeField] private LedgeDetection ledgeCheck;
         [SerializeField] private PlayerController player;
 
-        [SerializeField] private Vector2 holdPositionOffset = new(0.09f, 0.16f);
+        [SerializeField] private Vector2 holdPositionOffset = new(0.1f, 0.1f);
         [SerializeField] private Vector2 playerMoveOnClimb = new(0f, 0.5f);
 
         [SerializeField] private bool isHolding;

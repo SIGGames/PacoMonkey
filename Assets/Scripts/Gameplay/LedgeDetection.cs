@@ -2,65 +2,62 @@
 using UnityEngine;
 
 namespace Gameplay {
+    [RequireComponent(typeof(Collider2D))]
     public class LedgeDetection : MonoBehaviour {
-        [Range(0, 1)]
-        [SerializeField] private float radius;
-
         [SerializeField] private LayerMask whatIsGround;
         [SerializeField] private PlayerController player;
 
         [SerializeField] private GameObject ledgeCheck;
 
         public bool isNearLedge;
+        private Collider2D _detectedLedge;
 
-        private void Update() {
-            isNearLedge = IsLedge();
+        private void Awake() {
+            if (player == null) {
+                player = GetComponentInParent<PlayerController>();
+            }
 
-            UpdateLedgeCheckPosition();
+            if (ledgeCheck == null) {
+                Debug.LogError("LedgeDetection script requires a ledgeCheck object");
+                enabled = false;
+            }
         }
 
-        private bool IsLedge() {
-            Vector2 spherePosition = ledgeCheck.transform.position;
-
-            RaycastHit2D hitDown = Physics2D.Raycast(spherePosition, Vector2.down, radius, whatIsGround);
-            RaycastHit2D hitUp = Physics2D.Raycast(spherePosition, Vector2.up, radius, whatIsGround);
-
-            if (hitDown.collider == null) {
-                return false;
-            }
-
-            if (hitUp.collider != null) {
-                return false;
-            }
-
-            return true;
+        private void Update() {
+            UpdateLedgeCheckPosition();
         }
 
         private void UpdateLedgeCheckPosition() {
             Vector3 ledgeCheckPosition = ledgeCheck.transform.localPosition;
+            ledgeCheck.transform.localPosition = new Vector3(
+                player.isFacingRight ? Mathf.Abs(ledgeCheckPosition.x) : -Mathf.Abs(ledgeCheckPosition.x),
+                ledgeCheckPosition.y,
+                ledgeCheckPosition.z
+            );
+        }
 
-            if (player.isFacingRight) {
-                ledgeCheck.transform.localPosition = new Vector3(
-                    Mathf.Abs(ledgeCheckPosition.x),
-                    ledgeCheckPosition.y,
-                    ledgeCheckPosition.z);
-            } else {
-                ledgeCheck.transform.localPosition = new Vector3(
-                    -Mathf.Abs(ledgeCheckPosition.x),
-                    ledgeCheckPosition.y,
-                    ledgeCheckPosition.z);
+        private void OnTriggerEnter2D(Collider2D collision) {
+            if (((1 << collision.gameObject.layer) & whatIsGround) != 0) {
+                _detectedLedge = collision;
+                if (IsValidLedge()) {
+                    isNearLedge = true;
+                }
             }
         }
 
-        private void OnDrawGizmos() {
-            Vector3 ledgeCheckPosition = ledgeCheck.transform.position;
-            Gizmos.DrawWireSphere(ledgeCheckPosition, radius);
+        private void OnTriggerExit2D(Collider2D collision) {
+            if (collision == _detectedLedge) {
+                isNearLedge = false;
+                _detectedLedge = null;
+            }
+        }
 
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(ledgeCheckPosition, ledgeCheckPosition + Vector3.down * radius);
+        private bool IsValidLedge() {
+            Vector3 ledgePosition = ledgeCheck.transform.position;
+            Vector2 topPoint = ledgePosition + Vector3.up * 0.1f;
+            Collider2D hitUp = Physics2D.OverlapCircle(topPoint, 0.1f, whatIsGround);
 
-            Gizmos.color = Color.blue;
-            Gizmos.DrawLine(ledgeCheckPosition, ledgeCheckPosition + Vector3.up * radius);
+            return hitUp == null;
         }
     }
 }
