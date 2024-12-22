@@ -15,6 +15,7 @@ namespace Mechanics.Movement {
         [SerializeField] private bool isHolding;
 
         private Animator _animator;
+        private static readonly int IsHolding = Animator.StringToHash("isHolding");
 
         private void Awake() {
             if (player == null) {
@@ -47,7 +48,7 @@ namespace Mechanics.Movement {
         }
 
         private void StartHold() {
-            // TODO: Add animation
+            _animator.SetBool(IsHolding, true);
             isHolding = true;
             player.UnlockMovementState();
             player.SetMovementState(PlayerMovementState.Hold, true);
@@ -68,6 +69,7 @@ namespace Mechanics.Movement {
             player.SetMovementState(PlayerMovementState.Idle);
             player.UnlockMovementState();
             player.FreezePosition(false);
+            _animator.SetBool(IsHolding, false);
         }
     }
 }
