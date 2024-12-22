@@ -95,7 +95,7 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            HandleCrouchInput();
+            PerformCrouch();
 
             if (_slideCooldownTimer > 0) {
                 _slideCooldownTimer -= Time.deltaTime;
@@ -106,14 +106,10 @@ namespace Mechanics.Movement {
             }
         }
 
-        private void HandleCrouchInput() {
+        public void PerformCrouch() {
             bool crouchKeyHeld = GetCrouchKey();
             bool isRunning = Mathf.Abs(_playerController.move.x) > 0.1f;
 
-            PerformCrouch(crouchKeyHeld, isRunning);
-        }
-
-        public void PerformCrouch(bool crouchKeyHeld, bool isRunning) {
             if (_isSliding) {
                 UpdateSlide(crouchKeyHeld);
                 return;
