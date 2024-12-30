@@ -118,7 +118,7 @@ namespace Controllers {
             _boxCollider = GetComponent<BoxCollider2D>();
             _flipManager = new FlipManager(_spriteRenderer, _boxCollider, flipOffsetChange, isFacingRight);
             _colliderManager = new ColliderManager(collider2d);
-            _colliderManager.UpdateCollider(false, _boxCollider.offset, _boxCollider.size);
+            _colliderManager.UpdateCollider(false, _boxCollider.size);
         }
 
         protected override void Update() {
@@ -158,7 +158,7 @@ namespace Controllers {
 
         private void InitializeCollider() {
             if (_colliderManager != null) {
-                _colliderManager.UpdateCollider(false, _boxCollider.offset, _boxCollider.size);
+                _colliderManager.UpdateCollider(false, _boxCollider.size);
             }
         }
 

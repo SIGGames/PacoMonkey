@@ -19,24 +19,40 @@ namespace Managers {
             }
         }
 
-        public void UpdateCollider(bool isCrouching, Vector2 crouchOffset, Vector2 crouchSize) {
+        public void UpdateCollider(bool isCrouching, Vector2 crouchSize) {
             if (_collider is BoxCollider2D boxCollider) {
-                boxCollider.offset = isCrouching ? crouchOffset : _originalOffset;
-                boxCollider.size = isCrouching ? crouchSize : _originalSize;
+                if (isCrouching) {
+                    AdjustColliderForCrouch(boxCollider, crouchSize);
+                } else {
+                    boxCollider.offset = _originalOffset;
+                    boxCollider.size = _originalSize;
+                }
             } else if (_collider is CapsuleCollider2D capsuleCollider) {
-                capsuleCollider.offset = isCrouching ? crouchOffset : _originalOffset;
-                capsuleCollider.size = isCrouching ? crouchSize : _originalSize;
+                if (isCrouching) {
+                    AdjustColliderForCrouch(capsuleCollider, crouchSize);
+                } else {
+                    capsuleCollider.offset = _originalOffset;
+                    capsuleCollider.size = _originalSize;
+                }
             }
         }
 
-        public void UpdateColliderWithDelay(MonoBehaviour context, bool isCrouching, Vector2 offset, Vector2 size,
-            float delay) {
-            context.StartCoroutine(CallUpdateColliderWithDelay(isCrouching, offset, size, delay));
+        private void AdjustColliderForCrouch(BoxCollider2D boxCollider, Vector2 newSize) {
+            float heightDifference = boxCollider.size.y - newSize.y;
+            Vector2 newOffset = boxCollider.offset;
+            newOffset.y -= heightDifference / 2;
+
+            boxCollider.offset = newOffset;
+            boxCollider.size = newSize;
         }
 
-        private IEnumerator CallUpdateColliderWithDelay(bool isCrouching, Vector2 offset, Vector2 size, float delay) {
-            yield return new WaitForSeconds(delay);
-            UpdateCollider(isCrouching, offset, size);
+        private void AdjustColliderForCrouch(CapsuleCollider2D capsuleCollider, Vector2 newSize) {
+            float heightDifference = capsuleCollider.size.y - newSize.y;
+            Vector2 newOffset = capsuleCollider.offset;
+            newOffset.y -= heightDifference / 2;
+
+            capsuleCollider.offset = newOffset;
+            capsuleCollider.size = newSize;
         }
     }
 }

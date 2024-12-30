@@ -33,11 +33,10 @@ namespace Mechanics.Movement {
         [SerializeField] private Vector2 cameraOffsetOnCrouch = new(0f, -1.3f);
 
         [Header("Collider Configuration")]
-        [SerializeField] private Vector2 crouchColliderOffset = new(0, -0.09f);
-
         [SerializeField] private Vector2 crouchColliderSize = new(0.2f, 0.47f);
 
-        [SerializeField] private Vector2 standingColliderOffset = new(0, 0.1f);
+        [SerializeField] private Vector2 ledgeCheckOffsetOnCrouch = new(0, -0.35f);
+
         [SerializeField] private Vector2 standingColliderSize = new(0.2f, 0.9f);
 
         [Header("Tilemap for One-Way Platforms")]
@@ -131,7 +130,9 @@ namespace Mechanics.Movement {
             animator.SetBool(IsCrouching, true);
             CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);
 
-            colliderManager.UpdateCollider(true, crouchColliderOffset, crouchColliderSize);
+            ledgeCheck.transform.position += new Vector3(ledgeCheckOffsetOnCrouch.x, ledgeCheckOffsetOnCrouch.y, 0);
+
+            colliderManager.UpdateCollider(true, crouchColliderSize);
 
             if (isRunning) {
                 StartSlide();
@@ -164,7 +165,9 @@ namespace Mechanics.Movement {
 
             CameraManager.Instance.SetOffset(Vector2.zero);
 
-            colliderManager.UpdateCollider(false, standingColliderOffset, standingColliderSize);
+            ledgeCheck.transform.position -= new Vector3(ledgeCheckOffsetOnCrouch.x, ledgeCheckOffsetOnCrouch.y, 0);
+
+            colliderManager.UpdateCollider(false, standingColliderSize);
 
             _playerController.UnlockMovementState();
             _playerController.SetMovementState(PlayerMovementState.Idle);
