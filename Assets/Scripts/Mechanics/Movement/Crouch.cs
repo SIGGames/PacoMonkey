@@ -222,15 +222,19 @@ namespace Mechanics.Movement {
         }
 
         private bool CanResizeCollider() {
-            if (_isledgeCheckNotNull) {
-                Vector3 ledgeCheckPosition = ledgeCheck.transform.position + new Vector3(ledgeCheckOffsetOnCrouch.x, ledgeCheckOffsetOnCrouch.y, 0);
-                Collider2D[] ledgeCheckCollisions = Physics2D.OverlapCircleAll(ledgeCheckPosition, 0.1f);
+            if (!_isledgeCheckNotNull) {
+                return true;
+            }
 
-                foreach (var collision in ledgeCheckCollisions) {
-                    if (collision != null && collision.gameObject.layer == 7) {
-                        // Layer 7 (Ground)
-                        return false;
-                    }
+            Vector2 position = (Vector2)transform.position + colliderManager.GetOriginalOffset();
+            Vector2 size = colliderManager.GetOriginalSize();
+
+            Collider2D[] collisions = Physics2D.OverlapBoxAll(position, size, 0f);
+
+            foreach (var collision in collisions) {
+                // Ground layer
+                if (collision != null && collision.gameObject.layer == 7) {
+                    return false;
                 }
             }
 

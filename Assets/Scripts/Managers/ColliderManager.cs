@@ -54,5 +54,13 @@ namespace Managers {
             capsuleCollider.offset = newOffset;
             capsuleCollider.size = newSize;
         }
+
+        public Vector2 GetOriginalOffset() {
+            return _originalOffset;
+        }
+
+        public Vector2 GetOriginalSize() {
+            return _originalSize;
+        }
     }
 }
