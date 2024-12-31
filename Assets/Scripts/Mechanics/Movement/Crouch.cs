@@ -223,7 +223,7 @@ namespace Mechanics.Movement {
 
         private bool CanResizeCollider() {
             if (_isledgeCheckNotNull) {
-                Vector3 ledgeCheckPosition = ledgeCheck.transform.position + new Vector3(0, 0.2f, 0);
+                Vector3 ledgeCheckPosition = ledgeCheck.transform.position + new Vector3(ledgeCheckOffsetOnCrouch.x, ledgeCheckOffsetOnCrouch.y, 0);
                 Collider2D[] ledgeCheckCollisions = Physics2D.OverlapCircleAll(ledgeCheckPosition, 0.1f);
 
                 foreach (var collision in ledgeCheckCollisions) {
