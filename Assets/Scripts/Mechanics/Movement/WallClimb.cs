@@ -74,6 +74,8 @@ namespace Mechanics.Movement {
 
             player.FreezeHorizontalPosition();
 
+            player.flipManager.Flip(!player.isFacingRight);
+
             SetClimbingState(true);
 
             float offsetX = player.isFacingRight ? attachOffset.x : -attachOffset.x;
@@ -89,7 +91,7 @@ namespace Mechanics.Movement {
             float verticalInput = GetVerticalAxis();
 
             if (verticalInput != 0) {
-                player.AddPosition(0, climbSpeed * Time.deltaTime);
+                player.AddPosition(0, climbSpeed * Time.deltaTime * verticalInput);
             }
 
             // In case there is a ledge or the player wants to stop climbing
@@ -109,6 +111,7 @@ namespace Mechanics.Movement {
 
             player.FreezeHorizontalPosition(false);
             SetClimbingState(false);
+            player.UnlockMovementState();
 
             _animator.SetBool(IsClimbing, false);
 
