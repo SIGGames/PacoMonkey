@@ -104,7 +104,7 @@ namespace Controllers {
 
         public BoxCollider2D boxCollider;
 
-        private FlipManager _flipManager;
+        public FlipManager flipManager;
         private bool _wasMoving;
         private bool _isMovementStateLocked;
         private ColliderManager _colliderManager;
@@ -117,7 +117,7 @@ namespace Controllers {
             InitializeComponents();
             PCInstance = this;
             boxCollider = GetComponent<BoxCollider2D>();
-            _flipManager = new FlipManager(_spriteRenderer, boxCollider, flipOffsetChange, isFacingRight);
+            flipManager = new FlipManager(_spriteRenderer, boxCollider, flipOffsetChange, isFacingRight);
             _colliderManager = new ColliderManager(collider2d);
             _colliderManager.UpdateCollider(false, boxCollider.size);
         }
@@ -317,9 +317,9 @@ namespace Controllers {
             bool isCurrentlyMovingLeft = move.x < 0;
 
             if (isCurrentlyMovingRight && !isFacingRight) {
-                isFacingRight = _flipManager.Flip(true);
+                isFacingRight = flipManager.Flip(true);
             } else if (isCurrentlyMovingLeft && isFacingRight) {
-                isFacingRight = _flipManager.Flip(false);
+                isFacingRight = flipManager.Flip(false);
             }
         }
 

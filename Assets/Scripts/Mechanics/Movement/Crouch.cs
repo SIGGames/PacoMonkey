@@ -105,6 +105,10 @@ namespace Mechanics.Movement {
         }
 
         public void PerformCrouch() {
+            if (!PlayerMovementStateMethods.IsPlayerAbleToCrouch(_playerController.movementState)) {
+                return;
+            }
+
             bool crouchKeyHeld = GetCrouchKey();
             bool isRunning = Mathf.Abs(_playerController.move.x) > 0.1f;
 

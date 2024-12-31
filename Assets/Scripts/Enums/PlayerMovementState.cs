@@ -21,5 +21,9 @@
         public static bool IsPlayerOnAir(PlayerMovementState state) {
             return state == PlayerMovementState.Jump || state == PlayerMovementState.DoubleJump;
         }
+
+        public static bool IsPlayerAbleToCrouch(PlayerMovementState state) {
+            return state == PlayerMovementState.Idle || state == PlayerMovementState.Walk || state == PlayerMovementState.Run;
+        }
     }
 }
