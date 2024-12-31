@@ -7,6 +7,7 @@
         Jump,
         DoubleJump,
         Climb,
+        WallClimb,
         Hold,
         Up
     }

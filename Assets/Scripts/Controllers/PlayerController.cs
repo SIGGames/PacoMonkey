@@ -5,6 +5,7 @@ using Managers;
 using Mechanics;
 using Platformer.Gameplay;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
 using static PlayerInput.KeyBinds;
@@ -101,24 +102,24 @@ namespace Controllers {
 
         public Bounds Bounds => collider2d.bounds;
 
-        private BoxCollider2D _boxCollider;
+        public BoxCollider2D boxCollider;
 
         private FlipManager _flipManager;
         private bool _wasMoving;
         private bool _isMovementStateLocked;
         private ColliderManager _colliderManager;
         private bool _isColliderInitialized;
-        private Rigidbody2D _rigidbody;
+        public Rigidbody2D rb;
 
         private float _speedMultiplier = 1f;
 
         void Awake() {
             InitializeComponents();
             PCInstance = this;
-            _boxCollider = GetComponent<BoxCollider2D>();
-            _flipManager = new FlipManager(_spriteRenderer, _boxCollider, flipOffsetChange, isFacingRight);
+            boxCollider = GetComponent<BoxCollider2D>();
+            _flipManager = new FlipManager(_spriteRenderer, boxCollider, flipOffsetChange, isFacingRight);
             _colliderManager = new ColliderManager(collider2d);
-            _colliderManager.UpdateCollider(false, _boxCollider.size);
+            _colliderManager.UpdateCollider(false, boxCollider.size);
         }
 
         protected override void Update() {
@@ -158,7 +159,7 @@ namespace Controllers {
 
         private void InitializeCollider() {
             if (_colliderManager != null) {
-                _colliderManager.UpdateCollider(false, _boxCollider.size);
+                _colliderManager.UpdateCollider(false, boxCollider.size);
             }
         }
 
@@ -195,7 +196,7 @@ namespace Controllers {
             collider2d = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
-            _rigidbody = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
         }
 
         protected override void ApplyGravity() {
@@ -357,12 +358,24 @@ namespace Controllers {
 
             if (isPositionFreezed) {
                 controlEnabled = false;
-                _rigidbody.velocity = Vector2.zero;
+                rb.velocity = Vector2.zero;
                 velocity = Vector2.zero;
-                _rigidbody.bodyType = RigidbodyType2D.Static;
+                rb.bodyType = RigidbodyType2D.Static;
             } else {
                 controlEnabled = true;
-                _rigidbody.bodyType = RigidbodyType2D.Kinematic;
+                rb.bodyType = RigidbodyType2D.Kinematic;
+            }
+        }
+
+        public void FreezeHorizontalPosition(bool value = true) {
+            if (value) {
+                controlEnabled = false;
+                rb.velocity = new Vector2(0, rb.velocity.y);
+                velocity = new Vector2(0, velocity.y);
+                rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            } else {
+                controlEnabled = true;
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             }
         }
 

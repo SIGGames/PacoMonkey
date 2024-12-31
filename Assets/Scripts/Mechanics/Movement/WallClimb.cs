@@ -1,99 +1,159 @@
 ﻿using Controllers;
 using Enums;
+using Gameplay;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using Utils;
 using static PlayerInput.KeyBinds;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
     public class WallClimb : MonoBehaviour {
-        [Header("Wall Climb Configuration")]
-        [TagSelector]
-        [SerializeField] private string wallTag;
+        [Header("Wall Climbing Settings")]
+        [SerializeField] private float climbSpeed = 2f;
 
-        [Tooltip("Gravity scale while attached to a wall")]
-        [Range(0, 10)]
-        [SerializeField] private float wallGravityScale = 0.5f;
+        [TagSelector] [SerializeField] private string wallTag = "ClimbableWall";
 
-        [Tooltip("How fast the player can climb the wall")]
-        [Range(0, 10)]
-        [SerializeField] private float climbingSpeed = 3f;
+        [Range(0, 5)]
+        [SerializeField] private float slideEffect = 5f;
 
-        [Tooltip("Jump force away from wall")]
-        [Range(0, 20)]
-        [SerializeField] private Vector2 wallJumpForce = new Vector2(10f, 15f);
+        [Tooltip("Offset applied to the player when attached to the wall")]
+        [SerializeField] private Vector2 attachOffset = new(0.2f, 0.3f);
 
-        private PlayerController _playerController;
-        private Rigidbody2D _rb;
+        [Header("References")]
+        [SerializeField] private LedgeDetection ledgeCheck;
 
-        [SerializeField] private bool _isTouchingWall;
-        [SerializeField] private bool _isClimbingWall;
+        [SerializeField] private TilemapCollider2D climbableTilemap;
+
+        [SerializeField] private PlayerController player;
+
+        private bool _isClimbing;
+        private bool _canAttach;
+        private float _gravityModifier;
+
+        private Animator _animator;
+        private Collider2D _playerCollider;
+        private static readonly int IsClimbing = Animator.StringToHash("isClimbing");
 
         private void Awake() {
-            _playerController = GetComponent<PlayerController>();
-            _rb = GetComponent<Rigidbody2D>();
+            if (player == null) {
+                player = GetComponent<PlayerController>();
+            }
+
+            if (ledgeCheck == null) {
+                ledgeCheck = GetComponentInChildren<LedgeDetection>();
+            }
+
+            _animator = GetComponent<Animator>();
+            _playerCollider = player.collider2d;
+
+            if (climbableTilemap == null) {
+                climbableTilemap = FindObjectOfType<TilemapCollider2D>();
+            }
+
+            _gravityModifier = player.gravityModifier;
+
+            if (player == null || ledgeCheck == null || _playerCollider == null || climbableTilemap == null) {
+                Debugger.Print(("Player", player), ("LedgeCheck", ledgeCheck), ("PlayerCollider", _playerCollider),
+                    ("ClimbableTilemap", climbableTilemap));
+                enabled = false;
+            }
         }
 
         private void Update() {
-            _isTouchingWall = IsTouchingWall();
-
-            if (_isTouchingWall && GetClimbKey()) {
-                StartWallClimb();
-            }
-
-            if (_isClimbingWall) {
-                HandleWallClimb();
-            }
-
-            if (_isClimbingWall && Input.GetButtonDown("Jump")) {
-                WallJump();
+            if (!_isClimbing && _canAttach && ledgeCheck.isNearWall && GetUpKey()) {
+                StartClimbing();
+            } else if (_isClimbing) {
+                HandleClimbing();
             }
         }
 
-        private void StartWallClimb() {
-            if (!_isClimbingWall) {
-                _isClimbingWall = true;
-                _rb.velocity = Vector2.zero;
-                _rb.gravityScale = wallGravityScale;
-                _playerController.velocity = Vector2.zero;
-                _playerController.SetMovementState(PlayerMovementState.Climb);
+        private void StartClimbing() {
+            _isClimbing = true;
+
+            player.FreezeHorizontalPosition();
+
+            SetClimbingState(true);
+
+            float offsetX = player.isFacingRight ? attachOffset.x : -attachOffset.x;
+            player.AddPosition(offsetX, attachOffset.y);
+
+            player.SetMovementState(PlayerMovementState.WallClimb, true);
+            _animator.SetBool(IsClimbing, true);
+
+            climbableTilemap.isTrigger = true;
+        }
+
+        private void HandleClimbing() {
+            float verticalInput = GetVerticalAxis();
+
+            if (verticalInput != 0) {
+                player.AddPosition(0, climbSpeed * Time.deltaTime);
+            }
+
+            // In case there is a ledge or the player wants to stop climbing
+            if (AnyStopClimbKeyIsPressed() || !ledgeCheck.isNearWall || ledgeCheck.isNearLedge) {
+                Debugger.Print(("isNearWall", ledgeCheck.isNearWall), ("isNearLedge", ledgeCheck.isNearLedge));
+                StopClimbing();
             }
         }
 
-        private bool IsTouchingWall() {
-            float direction = _playerController.IsFacingRight() ? 1 : -1;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * direction, 0.5f,
-                LayerMask.GetMask("Default"));
-            Debug.DrawRay(transform.position, Vector2.right * direction * 0.5f, Color.red);
+        private bool AnyStopClimbKeyIsPressed() {
+            return GetJumpKeyDown();
+        }
 
-            return hit.collider != null && hit.collider.CompareTag(wallTag);
+        private void StopClimbing() {
+            _isClimbing = false;
+            _canAttach = false;
+
+            player.FreezeHorizontalPosition(false);
+            SetClimbingState(false);
+
+            _animator.SetBool(IsClimbing, false);
+
+            climbableTilemap.isTrigger = false;
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision) {
+            if (collision.CompareTag(wallTag)) {
+                _canAttach = true;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision) {
+            if (collision.CompareTag(wallTag)) {
+                _canAttach = false;
+            }
         }
 
 
-        private void HandleWallClimb() {
-            float vertical = GetVerticalAxis();
-            _rb.velocity = new Vector2(0, vertical * climbingSpeed);
+        private void SetClimbingState(bool isClimbing) {
+            Physics2D.IgnoreLayerCollision(player.gameObject.layer, LayerMask.NameToLayer("Ground"), isClimbing);
 
-            if (Mathf.Abs(vertical) < 0.01f) {
-                _playerController.SetMovementState(PlayerMovementState.Idle);
-            }
-            else {
-                _playerController.SetMovementState(PlayerMovementState.Climb);
+            if (isClimbing) {
+                SetColliderEnabledStatus(false);
+                SetGravity(slideEffect);
+            } else {
+                SetColliderEnabledStatus(true);
+                SetGravity(_gravityModifier * 100);
             }
         }
 
-        private void WallJump() {
-            _isClimbingWall = false;
-            _rb.gravityScale = _playerController.gravityModifier;
-            _rb.velocity = wallJumpForce * new Vector2(_playerController.IsFacingRight() ? -1 : 1, 1);
-            _playerController.SetMovementState(PlayerMovementState.Jump);
+        private void SetColliderEnabledStatus(bool value) {
+            player.boxCollider.enabled = value;
+            ledgeCheck.enabled = value;
         }
 
-        private void StopWallClimb() {
-            if (_isClimbingWall) {
-                _isClimbingWall = false;
-                _rb.gravityScale = _playerController.gravityModifier;
+        private void SetGravity(float value) {
+            if (value > 0) {
+                player.gravityModifier = value / 100;
+            } else {
+                player.gravityModifier = 0;
             }
+
+            player.rb.velocity = Vector2.zero;
+            player.velocity = Vector2.zero;
         }
     }
 }

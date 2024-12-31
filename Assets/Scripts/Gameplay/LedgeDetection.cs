@@ -10,6 +10,7 @@ namespace Gameplay {
         [SerializeField] private GameObject ledgeCheck;
 
         public bool isNearLedge;
+        public bool isNearWall;
         private Collider2D _detectedLedge;
 
         private void Awake() {
@@ -25,6 +26,17 @@ namespace Gameplay {
 
         private void Update() {
             UpdateLedgeCheckPosition();
+            UpdateWallCheck();
+        }
+
+        private void UpdateWallCheck() {
+            Vector2 direction = player.isFacingRight ? Vector2.right : Vector2.left;
+            Vector2 origin = ledgeCheck.transform.position;
+
+            RaycastHit2D hit = Physics2D.Raycast(origin, direction, 0.5f, whatIsGround);
+            isNearWall = hit.collider != null;
+
+            Debug.DrawRay(origin, direction * 0.5f, isNearWall ? Color.green : Color.red);
         }
 
         private void UpdateLedgeCheckPosition() {
