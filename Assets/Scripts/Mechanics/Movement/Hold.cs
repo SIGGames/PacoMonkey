@@ -1,8 +1,8 @@
 ﻿using Controllers;
 using Enums;
 using Gameplay;
-using static PlayerInput.KeyBinds;
 using UnityEngine;
+using static PlayerInput.KeyBinds;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
@@ -49,7 +49,7 @@ namespace Mechanics.Movement {
             }
         }
 
-        private void StartHold() {
+        public void StartHold() {
             _animator.SetBool(IsHolding, true);
             isHolding = true;
 
@@ -57,13 +57,13 @@ namespace Mechanics.Movement {
             player.AddPosition(xOffset, holdPositionOffset.y);
 
             player.UnlockMovementState();
-            player.SetMovementState(PlayerMovementState.Hold, true);
+            player.SetMovementState(PlayerMovementState.Hold, 2);
             player.FreezePosition();
         }
 
         private void ClimbLedge() {
             player.UnlockMovementState();
-            player.SetMovementState(PlayerMovementState.Climb, true);
+            player.SetMovementState(PlayerMovementState.Climb, 2);
 
             Vector3 ledgeCheckPosition = ledgeCheck.transform.position;
             float xOffset = player.isFacingRight ? playerMoveOnClimb.x : -playerMoveOnClimb.x;

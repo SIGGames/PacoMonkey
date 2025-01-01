@@ -106,7 +106,7 @@ namespace Controllers {
 
         public FlipManager flipManager;
         private bool _wasMoving;
-        private bool _isMovementStateLocked;
+        private int _currentPriority;
         private ColliderManager _colliderManager;
         private bool _isColliderInitialized;
         public Rigidbody2D rb;
@@ -288,7 +288,7 @@ namespace Controllers {
             if ((IsGrounded || _coyoteTimeCounter > 0f) && _jumpBufferCounter > 0) {
                 jumpState = JumpState.Jumping;
                 _jump = true;
-                SetMovementState(PlayerMovementState.Jump, true);
+                SetMovementState(PlayerMovementState.Jump, 2);
                 _stopJump = false;
                 _jumpBufferCounter = 0;
             }
@@ -328,25 +328,20 @@ namespace Controllers {
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxRunSpeed);
         }
 
-        public void SetMovementState(PlayerMovementState state, bool lockState = false) {
-            if (movementState == state) {
+        public void SetMovementState(PlayerMovementState state, int priority = 1) {
+            if (priority < _currentPriority) {
                 return;
             }
 
-            if (_isMovementStateLocked) {
-                return;
+            if (movementState != state || priority > _currentPriority) {
+                _currentPriority = priority;
+                movementState = state;
+                animator.SetTrigger(state.ToString().ToLower());
             }
-
-            if (lockState) {
-                _isMovementStateLocked = true;
-            }
-
-            movementState = state;
-            animator.SetTrigger(state.ToString().ToLower());
         }
 
         public void UnlockMovementState() {
-            _isMovementStateLocked = false;
+            _currentPriority = 0;
         }
 
         public bool IsFacingRight() {

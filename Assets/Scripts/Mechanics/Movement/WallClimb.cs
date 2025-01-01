@@ -34,6 +34,7 @@ namespace Mechanics.Movement {
 
         private Animator _animator;
         private Collider2D _playerCollider;
+        private Hold _hold;
         private static readonly int IsClimbing = Animator.StringToHash("isClimbing");
 
         private void Awake() {
@@ -45,6 +46,10 @@ namespace Mechanics.Movement {
                 ledgeCheck = GetComponentInChildren<LedgeDetection>();
             }
 
+            if (_hold == null) {
+                _hold = GetComponent<Hold>();
+            }
+
             _animator = GetComponent<Animator>();
             _playerCollider = player.collider2d;
 
@@ -54,14 +59,19 @@ namespace Mechanics.Movement {
 
             _gravityModifier = player.gravityModifier;
 
-            if (player == null || ledgeCheck == null || _playerCollider == null || climbableTilemap == null) {
-                Debugger.Print(("Player", player), ("LedgeCheck", ledgeCheck), ("PlayerCollider", _playerCollider),
-                    ("ClimbableTilemap", climbableTilemap));
+            if (player == null || ledgeCheck == null || _playerCollider == null || climbableTilemap == null ||
+                _hold == null) {
+                Debugger.Print(("Player", player), ("LedgeCheck", ledgeCheck),
+                    ("PlayerCollider", _playerCollider), ("ClimbableTilemap", climbableTilemap), ("Hold", _hold));
                 enabled = false;
             }
         }
 
         private void Update() {
+            if (ledgeCheck.isNearLedge) {
+                _hold.StartHold();
+            }
+
             if (!_isClimbing && _canAttach && ledgeCheck.isNearWall && GetUpKey()) {
                 StartClimbing();
             } else if (_isClimbing) {
@@ -74,17 +84,16 @@ namespace Mechanics.Movement {
 
             player.FreezeHorizontalPosition();
 
-            player.flipManager.Flip(!player.isFacingRight);
+            // TODO: Flip the player when player prepares to jump
+            //player.flipManager.Flip(!player.isFacingRight);
 
             SetClimbingState(true);
 
             float offsetX = player.isFacingRight ? attachOffset.x : -attachOffset.x;
             player.AddPosition(offsetX, attachOffset.y);
 
-            player.SetMovementState(PlayerMovementState.WallClimb, true);
+            player.SetMovementState(PlayerMovementState.WallClimb, 3);
             _animator.SetBool(IsClimbing, true);
-
-            climbableTilemap.isTrigger = true;
         }
 
         private void HandleClimbing() {
@@ -114,8 +123,6 @@ namespace Mechanics.Movement {
             player.UnlockMovementState();
 
             _animator.SetBool(IsClimbing, false);
-
-            climbableTilemap.isTrigger = false;
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
@@ -144,8 +151,7 @@ namespace Mechanics.Movement {
         }
 
         private void SetColliderEnabledStatus(bool value) {
-            player.boxCollider.enabled = value;
-            ledgeCheck.enabled = value;
+            climbableTilemap.isTrigger = !value;
         }
 
         private void SetGravity(float value) {

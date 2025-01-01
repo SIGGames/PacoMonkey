@@ -141,7 +141,7 @@ namespace Mechanics.Movement {
             if (isRunning) {
                 StartSlide();
             } else {
-                _playerController.SetMovementState(PlayerMovementState.Crouch, true);
+                _playerController.SetMovementState(PlayerMovementState.Crouch, 2);
             }
 
             _playerController.targetVelocity.x *= crouchSpeedMultiplier;
