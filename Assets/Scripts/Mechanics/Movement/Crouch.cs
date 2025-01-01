@@ -4,6 +4,7 @@ using Gameplay;
 using Managers;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Utils;
 using static PlayerInput.KeyBinds;
 
 namespace Mechanics.Movement {
@@ -52,7 +53,6 @@ namespace Mechanics.Movement {
         private PlayerController _playerController;
         private TilemapCollider2D _tilemapCollider;
         private static readonly int IsCrouching = Animator.StringToHash("isCrouching");
-        private bool _isledgeCheckNotNull;
         private const float DelayTimeAfterCrouch = 0.5f;
 
         private void Awake() {
@@ -65,30 +65,23 @@ namespace Mechanics.Movement {
 
             _playerController = GetComponent<PlayerController>();
 
-            if (_playerController == null) {
-                Debug.LogError("Crouch script requires a PlayerController component");
-                enabled = false;
-                return;
-            }
-
             if (animator == null) {
                 animator = GetComponent<Animator>();
-            }
-
-            if (animator == null) {
-                Debug.LogError("Crouch script requires an Animator component");
-                enabled = false;
-                return;
             }
 
             if (ledgeCheck == null) {
                 ledgeCheck = GetComponent<LedgeDetection>();
             }
 
-            _isledgeCheckNotNull = ledgeCheck != null;
-
             if (oneWayTilemapGameObject != null) {
                 _tilemapCollider = oneWayTilemapGameObject.GetComponent<TilemapCollider2D>();
+            }
+
+            if (_playerController == null || colliderManager == null || animator == null || ledgeCheck == null ||
+                (_tilemapCollider == null && oneWayTilemapGameObject != null)) {
+                Debugger.Log(("PlayerController", _playerController), ("ColliderManager", colliderManager),
+                    ("Animator", animator), ("LedgeCheck", ledgeCheck), ("TilemapCollider", _tilemapCollider));
+                enabled = false;
             }
         }
 
@@ -105,10 +98,6 @@ namespace Mechanics.Movement {
         }
 
         public void PerformCrouch() {
-            if (!PlayerMovementStateMethods.IsPlayerAbleToCrouch(_playerController.movementState)) {
-                return;
-            }
-
             bool crouchKeyHeld = GetCrouchKey();
             bool isRunning = Mathf.Abs(_playerController.move.x) > 0.1f;
 
@@ -122,7 +111,8 @@ namespace Mechanics.Movement {
                 return;
             }
 
-            if (crouchKeyHeld && !_isCrouching) {
+            if (crouchKeyHeld && !_isCrouching &&
+                PlayerMovementStateMethods.IsPlayerAbleToCrouch(_playerController.movementState)) {
                 StartCrouch(isRunning);
             }
         }
@@ -146,11 +136,9 @@ namespace Mechanics.Movement {
 
             _playerController.targetVelocity.x *= crouchSpeedMultiplier;
 
-            if (_tilemapCollider != null) {
-                _tilemapCollider.enabled = false;
-                _keepFalling = true;
-                _groundCheckTimer = _groundCheckDelay;
-            }
+            _tilemapCollider.enabled = false;
+            _keepFalling = true;
+            _groundCheckTimer = _groundCheckDelay;
         }
 
         private void EndCrouch() {
@@ -226,10 +214,6 @@ namespace Mechanics.Movement {
         }
 
         private bool CanResizeCollider() {
-            if (!_isledgeCheckNotNull) {
-                return true;
-            }
-
             Vector2 position = (Vector2)transform.position + colliderManager.GetOriginalOffset();
             Vector2 size = colliderManager.GetOriginalSize();
 

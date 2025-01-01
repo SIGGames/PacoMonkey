@@ -61,7 +61,7 @@ namespace Mechanics.Movement {
 
             if (player == null || ledgeCheck == null || _playerCollider == null || climbableTilemap == null ||
                 _hold == null) {
-                Debugger.Print(("Player", player), ("LedgeCheck", ledgeCheck),
+                Debugger.Log(("Player", player), ("LedgeCheck", ledgeCheck),
                     ("PlayerCollider", _playerCollider), ("ClimbableTilemap", climbableTilemap), ("Hold", _hold));
                 enabled = false;
             }
@@ -105,7 +105,7 @@ namespace Mechanics.Movement {
 
             // In case there is a ledge or the player wants to stop climbing
             if (AnyStopClimbKeyIsPressed() || !ledgeCheck.isNearWall || ledgeCheck.isNearLedge) {
-                Debugger.Print(("isNearWall", ledgeCheck.isNearWall), ("isNearLedge", ledgeCheck.isNearLedge));
+                Debugger.Log(("isNearWall", ledgeCheck.isNearWall), ("isNearLedge", ledgeCheck.isNearLedge));
                 StopClimbing();
             }
         }
