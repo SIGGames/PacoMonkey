@@ -14,7 +14,7 @@ namespace Mechanics.Movement {
         private bool _isSliding;
         private bool _keepFalling;
         private float _slideTimer;
-        private float _groundCheckDelay = 0.5f;
+        private readonly float _groundCheckDelay = 0.5f;
         private float _groundCheckTimer;
 
         [Header("Crouch Configuration")]
@@ -45,7 +45,7 @@ namespace Mechanics.Movement {
         public GameObject oneWayTilemapGameObject;
 
         [Header("References")]
-        public ColliderManager colliderManager;
+        private ColliderManager _colliderManager;
 
         public Animator animator;
         [SerializeField] private LedgeDetection ledgeCheck;
@@ -58,9 +58,9 @@ namespace Mechanics.Movement {
         private void Awake() {
             _slideTimer = slideDuration;
 
-            if (colliderManager == null) {
+            if (_colliderManager == null) {
                 Collider2D collider2d = GetComponent<Collider2D>();
-                colliderManager = new ColliderManager(collider2d);
+                _colliderManager = new ColliderManager(collider2d);
             }
 
             _playerController = GetComponent<PlayerController>();
@@ -77,9 +77,9 @@ namespace Mechanics.Movement {
                 _tilemapCollider = oneWayTilemapGameObject.GetComponent<TilemapCollider2D>();
             }
 
-            if (_playerController == null || colliderManager == null || animator == null || ledgeCheck == null ||
+            if (_playerController == null || _colliderManager == null || animator == null || ledgeCheck == null ||
                 (_tilemapCollider == null && oneWayTilemapGameObject != null)) {
-                Debugger.Log(("PlayerController", _playerController), ("ColliderManager", colliderManager),
+                Debugger.Log(("PlayerController", _playerController), ("ColliderManager", _colliderManager),
                     ("Animator", animator), ("LedgeCheck", ledgeCheck), ("TilemapCollider", _tilemapCollider));
                 enabled = false;
             }
@@ -97,7 +97,7 @@ namespace Mechanics.Movement {
             }
         }
 
-        public void PerformCrouch() {
+        private void PerformCrouch() {
             bool crouchKeyHeld = GetCrouchKey();
             bool isRunning = Mathf.Abs(_playerController.move.x) > 0.1f;
 
@@ -126,7 +126,7 @@ namespace Mechanics.Movement {
 
             ledgeCheck.transform.position += new Vector3(ledgeCheckOffsetOnCrouch.x, ledgeCheckOffsetOnCrouch.y, 0);
 
-            colliderManager.UpdateCollider(true, crouchColliderSize);
+            _colliderManager.UpdateCollider(true, crouchColliderSize);
 
             if (isRunning) {
                 StartSlide();
@@ -159,7 +159,7 @@ namespace Mechanics.Movement {
 
             ledgeCheck.transform.position -= new Vector3(ledgeCheckOffsetOnCrouch.x, ledgeCheckOffsetOnCrouch.y, 0);
 
-            colliderManager.UpdateCollider(false, standingColliderSize);
+            _colliderManager.UpdateCollider(false, standingColliderSize);
 
             _playerController.UnlockMovementState();
             _playerController.SetMovementState(PlayerMovementState.Idle);
@@ -214,8 +214,8 @@ namespace Mechanics.Movement {
         }
 
         private bool CanResizeCollider() {
-            Vector2 position = (Vector2)transform.position + colliderManager.GetOriginalOffset();
-            Vector2 size = colliderManager.GetOriginalSize();
+            Vector2 position = (Vector2)transform.position + _colliderManager.GetOriginalOffset();
+            Vector2 size = _colliderManager.GetOriginalSize();
 
             Collider2D[] collisions = Physics2D.OverlapBoxAll(position, size, 0f);
 
