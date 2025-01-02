@@ -333,7 +333,6 @@ namespace Controllers {
                 return;
             }
 
-            Debug.Log("State: " + state + " Priority: " + priority);
             if (movementState != state || priority > _currentPriority) {
                 _currentPriority = priority;
                 movementState = state;
