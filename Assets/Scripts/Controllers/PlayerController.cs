@@ -329,10 +329,11 @@ namespace Controllers {
         }
 
         public void SetMovementState(PlayerMovementState state, int priority = 1) {
-            if (priority < _currentPriority) {
+            if (priority < _currentPriority || movementState == state) {
                 return;
             }
 
+            Debug.Log("State: " + state + " Priority: " + priority);
             if (movementState != state || priority > _currentPriority) {
                 _currentPriority = priority;
                 movementState = state;

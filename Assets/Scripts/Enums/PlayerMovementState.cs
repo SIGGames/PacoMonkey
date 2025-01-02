@@ -9,13 +9,16 @@
         Climb,
         WallClimb,
         Hold,
-        Up
+        Up,
+        Slide
     }
 
     public static class PlayerMovementStateMethods {
         public static bool IsPlayerMoving(PlayerMovementState state) {
             return state == PlayerMovementState.Walk || state == PlayerMovementState.Run ||
-                   state == PlayerMovementState.Crouch || state == PlayerMovementState.Jump;
+                   state == PlayerMovementState.Crouch || state == PlayerMovementState.Jump ||
+                   state == PlayerMovementState.DoubleJump || state == PlayerMovementState.Climb ||
+                   state == PlayerMovementState.WallClimb || state == PlayerMovementState.Slide;
         }
 
         public static bool IsPlayerOnAir(PlayerMovementState state) {

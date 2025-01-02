@@ -169,6 +169,7 @@ namespace Mechanics.Movement {
             if (_slideCooldownTimer > 0) {
                 return;
             }
+            _playerController.SetMovementState(PlayerMovementState.Slide, 2);
 
             _isSliding = true;
             _slideTimer = slideDuration;
