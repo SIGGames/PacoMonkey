@@ -232,7 +232,7 @@ namespace Controllers {
         }
 
         private void HandleJumpInput() {
-            if (GetJumpKeyDown()) {
+            if (GetJumpKeyDown() && PlayerMovementStateMethods.IsPlayerAbleToJump(movementState)) {
                 _jumpBufferCounter = jumpBufferTime;
             }
 

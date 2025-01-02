@@ -42,9 +42,9 @@ namespace Mechanics.Movement {
                 StartHold();
             }
 
-            if (isHolding && GetUpKey() && player.movementState == PlayerMovementState.Hold) {
+            if (isHolding && GetJumpKeyDown() && player.movementState == PlayerMovementState.Hold) {
                 ClimbLedge();
-            } else if (isHolding && GetUpKey()) {
+            } else if (isHolding && GetJumpKeyDown()) {
                 EndHold();
             }
         }
