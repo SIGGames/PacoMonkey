@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e7c35c11edf38a14ba11135d443afec8
+guid: 22b3b9654c0627b4085de1d09deb126f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,9 +126,9 @@ TextureImporter:
       name: micca-crouch-idle_0
       rect:
         serializedVersion: 2
-        x: 6
+        x: 0
         y: 0
-        width: 56
+        width: 64
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -137,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c2dbbea7f3d504478b399f819488bae
-      internalID: 265377237
+      spriteID: 83b9fbe652ffc54448a2f24c8a24cf4f
+      internalID: -993889263
       vertices: []
       indices: 
       edges: []
@@ -147,9 +147,9 @@ TextureImporter:
       name: micca-crouch-idle_1
       rect:
         serializedVersion: 2
-        x: 70
+        x: 64
         y: 0
-        width: 56
+        width: 64
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -158,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4e51f14d755b5745a06eb2b31e7fa36
-      internalID: 1967499966
+      spriteID: e96e8f7cf451db643989ad71f91d7463
+      internalID: -2054054415
       vertices: []
       indices: 
       edges: []
@@ -168,9 +168,9 @@ TextureImporter:
       name: micca-crouch-idle_2
       rect:
         serializedVersion: 2
-        x: 134
+        x: 128
         y: 0
-        width: 56
+        width: 64
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -179,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e641e912b66411c4b8190ea0626fe40e
-      internalID: 184247436
+      spriteID: 3118b5afa6c0de1419f4b8aa208b0251
+      internalID: 845335114
       vertices: []
       indices: 
       edges: []
@@ -189,9 +189,9 @@ TextureImporter:
       name: micca-crouch-idle_3
       rect:
         serializedVersion: 2
-        x: 198
+        x: 192
         y: 0
-        width: 56
+        width: 64
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -200,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f350ae15e1c05b143be9f346c655cd70
-      internalID: 117447390
+      spriteID: 8643fa5a4325b0141976044d2e659edd
+      internalID: -1118329765
       vertices: []
       indices: 
       edges: []
@@ -210,9 +210,9 @@ TextureImporter:
       name: micca-crouch-idle_4
       rect:
         serializedVersion: 2
-        x: 261
+        x: 256
         y: 0
-        width: 57
+        width: 64
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -221,8 +221,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e7f20b2a539c6a4093d0ae7960a4ab5
-      internalID: 1341270797
+      spriteID: 0eb92f5cf47026f4895c82ee0b2d6c38
+      internalID: -52445169
       vertices: []
       indices: 
       edges: []
@@ -231,9 +231,9 @@ TextureImporter:
       name: micca-crouch-idle_5
       rect:
         serializedVersion: 2
-        x: 324
+        x: 320
         y: 0
-        width: 58
+        width: 64
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -242,8 +242,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 065070dff14d5bb4ca7742889bb46932
-      internalID: 2005710698
+      spriteID: e7e6638fdedf3144bb4d5284c56d146f
+      internalID: 550376952
       vertices: []
       indices: 
       edges: []
@@ -252,19 +252,19 @@ TextureImporter:
       name: micca-crouch-idle_6
       rect:
         serializedVersion: 2
-        x: 389
+        x: 384
         y: 0
-        width: 57
+        width: 64
         height: 32
-      alignment: 9
-      pivot: {x: 0.49999946, y: 0.99645126}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b89ec5590f909494785ca4674984e338
-      internalID: 2110348144
+      spriteID: e76eda96f7c8f3d489f7f838653a088b
+      internalID: -1067306129
       vertices: []
       indices: 
       edges: []
@@ -273,9 +273,9 @@ TextureImporter:
       name: micca-crouch-idle_7
       rect:
         serializedVersion: 2
-        x: 453
+        x: 448
         y: 0
-        width: 57
+        width: 64
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -284,8 +284,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0b92d30bdbbcbb1438aaff9567d41d1a
-      internalID: -2025379692
+      spriteID: 9a6d46adebf917141af434aa8a357495
+      internalID: -1050516322
       vertices: []
       indices: 
       edges: []
@@ -294,9 +294,9 @@ TextureImporter:
       name: micca-crouch-idle_8
       rect:
         serializedVersion: 2
-        x: 517
+        x: 512
         y: 0
-        width: 57
+        width: 64
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -305,8 +305,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36a2002d874ab8d4f97861996c4a2bd4
-      internalID: 1752929850
+      spriteID: 072c8ac37130eed46bd48956b31e2ad5
+      internalID: 1019959122
       vertices: []
       indices: 
       edges: []
@@ -315,9 +315,9 @@ TextureImporter:
       name: micca-crouch-idle_9
       rect:
         serializedVersion: 2
-        x: 582
+        x: 576
         y: 0
-        width: 56
+        width: 64
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -326,8 +326,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 749f35440d6cc5845891e5cce28517a8
-      internalID: -146471700
+      spriteID: bcdced7fea93b174a9e492affe424832
+      internalID: 978962916
       vertices: []
       indices: 
       edges: []
@@ -336,9 +336,9 @@ TextureImporter:
       name: micca-crouch-idle_10
       rect:
         serializedVersion: 2
-        x: 646
+        x: 640
         y: 0
-        width: 56
+        width: 64
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -347,8 +347,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a73906510aa7369438828671728554c9
-      internalID: 1831027058
+      spriteID: b2e518acde5dc1741af6db5fc9a9c6e8
+      internalID: 1635430307
       vertices: []
       indices: 
       edges: []
@@ -364,17 +364,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      micca-crouch-idle_0: 265377237
-      micca-crouch-idle_1: 1967499966
-      micca-crouch-idle_10: 1831027058
-      micca-crouch-idle_2: 184247436
-      micca-crouch-idle_3: 117447390
-      micca-crouch-idle_4: 1341270797
-      micca-crouch-idle_5: 2005710698
-      micca-crouch-idle_6: 2110348144
-      micca-crouch-idle_7: -2025379692
-      micca-crouch-idle_8: 1752929850
-      micca-crouch-idle_9: -146471700
+      micca-crouch-idle_0: -993889263
+      micca-crouch-idle_1: -2054054415
+      micca-crouch-idle_10: 1635430307
+      micca-crouch-idle_2: 845335114
+      micca-crouch-idle_3: -1118329765
+      micca-crouch-idle_4: -52445169
+      micca-crouch-idle_5: 550376952
+      micca-crouch-idle_6: -1067306129
+      micca-crouch-idle_7: -1050516322
+      micca-crouch-idle_8: 1019959122
+      micca-crouch-idle_9: 978962916
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
