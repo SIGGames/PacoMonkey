@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2d67eb8ca8cdc8b4f9d9d03f4bb2be04
+guid: ed00b3df90a480240b3ab283e34657ab
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -123,106 +123,106 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: micca2-run-cycle_0
+      name: micca-run-cycle_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 73
+        width: 76
         height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 357de8256cfc12c428bc5b506c956dbd
-      internalID: 1675463157
+      spriteID: 1720679f4483d17459f86ff37a3f2a32
+      internalID: 1730258647
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca2-run-cycle_1
+      name: micca-run-cycle_1
       rect:
         serializedVersion: 2
-        x: 79
+        x: 76
         y: 0
-        width: 73
+        width: 76
         height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2d907cb9e02f4f41ba81366c22e3d03
-      internalID: 1060557169
+      spriteID: 79e6929c99d8d4547b3e0ba7e10ed2e3
+      internalID: 2107804423
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca2-run-cycle_2
+      name: micca-run-cycle_2
       rect:
         serializedVersion: 2
-        x: 168
+        x: 152
         y: 0
-        width: 57
+        width: 76
         height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9ad96dc50f6036e449cc78179714a2d5
-      internalID: -1688187448
+      spriteID: 1c18e45924a57d4488e0e8d36d5a5982
+      internalID: -464328679
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca2-run-cycle_3
+      name: micca-run-cycle_3
       rect:
         serializedVersion: 2
-        x: 259
+        x: 228
         y: 0
-        width: 42
+        width: 76
         height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d75999235dde5b544adf4ad382d4e510
-      internalID: 53437424
+      spriteID: 1eeee7402a188e549b8e7fe9bb08816b
+      internalID: 1472052809
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca2-run-cycle_4
+      name: micca-run-cycle_4
       rect:
         serializedVersion: 2
-        x: 317
+        x: 304
         y: 0
-        width: 60
+        width: 76
         height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 57e0fb5e3a302f249bcba10c244b27e7
-      internalID: -1590055371
+      spriteID: d400949d6ca7ef0449f4a89dec95625e
+      internalID: -1116318779
       vertices: []
       indices: 
       edges: []
@@ -238,12 +238,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      micca2-run-cycle_0: 1675463157
-      micca2-run-cycle_1: 1060557169
-      micca2-run-cycle_2: -1688187448
-      micca2-run-cycle_3: 53437424
-      micca2-run-cycle_4: -1590055371
-      micca2-run-cycle_5: 1252240349
+      micca-run-cycle_0: 1730258647
+      micca-run-cycle_1: 2107804423
+      micca-run-cycle_2: -464328679
+      micca-run-cycle_3: 1472052809
+      micca-run-cycle_4: -1116318779
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
