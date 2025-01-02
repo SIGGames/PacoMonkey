@@ -105,7 +105,6 @@ namespace Mechanics.Movement {
 
             // In case there is a ledge or the player wants to stop climbing
             if (AnyStopClimbKeyIsPressed() || !ledgeCheck.isNearWall || ledgeCheck.isNearLedge) {
-                Debugger.Log(("isNearWall", ledgeCheck.isNearWall), ("isNearLedge", ledgeCheck.isNearLedge));
                 StopClimbing();
             }
         }
