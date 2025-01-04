@@ -1,5 +1,6 @@
 ﻿using System;
-using Vector2 = UnityEngine.Vector2;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace PlayerInput {
     public static class KeyBinds {
@@ -12,7 +13,7 @@ namespace PlayerInput {
 
         public static bool GetJumpKeyUp() {
             // Simulation of "KeyUp" using canceled in Unity Input System.
-            return PlayerControls.Jump.phase == UnityEngine.InputSystem.InputActionPhase.Canceled;
+            return PlayerControls.Jump.phase == InputActionPhase.Canceled;
         }
 
         public static Vector2 GetMoveAxis() {
@@ -20,7 +21,12 @@ namespace PlayerInput {
         }
 
         public static float GetHorizontalAxis() {
-            return Math.Sign(GetMoveAxis().x);
+            float horizontal = GetMoveAxis().x;
+            if (Mathf.Abs(horizontal) < 0.2f) {
+                return 0f;
+            }
+
+            return Math.Sign(horizontal);
         }
 
         public static float GetVerticalAxis() {
