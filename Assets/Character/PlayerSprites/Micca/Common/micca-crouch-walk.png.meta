@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,9 +126,9 @@ TextureImporter:
       name: micca-crouch-walk_0
       rect:
         serializedVersion: 2
-        x: 9
+        x: 0
         y: 0
-        width: 61
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -137,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 811a2c966ea77d348be8f85853a574cc
-      internalID: 2074953171
+      spriteID: bad121ab2a0850c49a16f9a7d4c3947a
+      internalID: -1064981171
       vertices: []
       indices: 
       edges: []
@@ -147,9 +147,9 @@ TextureImporter:
       name: micca-crouch-walk_1
       rect:
         serializedVersion: 2
-        x: 98
+        x: 80
         y: 0
-        width: 52
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -158,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b705367d3f3eb5542a2998bf335b8a28
-      internalID: -268514731
+      spriteID: 639e24add5635fc42b57f204ef505d67
+      internalID: 128485967
       vertices: []
       indices: 
       edges: []
@@ -168,9 +168,9 @@ TextureImporter:
       name: micca-crouch-walk_2
       rect:
         serializedVersion: 2
-        x: 177
+        x: 160
         y: 0
-        width: 53
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -179,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7cab5ea6e86efd041a5bbc1d0a765178
-      internalID: 1944124624
+      spriteID: 7a07147f7f0c81c43ae3213088111452
+      internalID: 1056885307
       vertices: []
       indices: 
       edges: []
@@ -189,9 +189,9 @@ TextureImporter:
       name: micca-crouch-walk_3
       rect:
         serializedVersion: 2
-        x: 257
+        x: 240
         y: 0
-        width: 52
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -200,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6811fdea9661e6e469937c5eb5160906
-      internalID: 1822946130
+      spriteID: 1174c2bf6458fac40bd25859c64e516e
+      internalID: 1797895247
       vertices: []
       indices: 
       edges: []
@@ -210,9 +210,9 @@ TextureImporter:
       name: micca-crouch-walk_4
       rect:
         serializedVersion: 2
-        x: 336
+        x: 320
         y: 0
-        width: 50
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -221,8 +221,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a2e67b681ae1ef43bb76860695ba611
-      internalID: 2020361356
+      spriteID: cb1d2ca905d18bd4fa66803c913e6622
+      internalID: 326791230
       vertices: []
       indices: 
       edges: []
@@ -231,9 +231,9 @@ TextureImporter:
       name: micca-crouch-walk_5
       rect:
         serializedVersion: 2
-        x: 417
+        x: 400
         y: 0
-        width: 46
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -242,8 +242,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd8d71052edf70e4a94cd09957589cce
-      internalID: -13194444
+      spriteID: 4a1e30dd2ed9cbf41bc6d14227dabd90
+      internalID: 2131127473
       vertices: []
       indices: 
       edges: []
@@ -252,9 +252,9 @@ TextureImporter:
       name: micca-crouch-walk_6
       rect:
         serializedVersion: 2
-        x: 495
+        x: 480
         y: 0
-        width: 56
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -263,8 +263,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a4a043d564b4e844bc16f837aeecd79
-      internalID: 995390808
+      spriteID: c892e168b108951458cdfda11e9c42cc
+      internalID: -1476226009
       vertices: []
       indices: 
       edges: []
@@ -273,9 +273,9 @@ TextureImporter:
       name: micca-crouch-walk_7
       rect:
         serializedVersion: 2
-        x: 576
+        x: 560
         y: 0
-        width: 55
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -284,8 +284,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4336048acd985694da70c6883a833c3e
-      internalID: 1818184466
+      spriteID: eb2b9ae71240d494d833ca4c5be1757b
+      internalID: 1608173419
       vertices: []
       indices: 
       edges: []
@@ -294,9 +294,9 @@ TextureImporter:
       name: micca-crouch-walk_8
       rect:
         serializedVersion: 2
-        x: 656
+        x: 640
         y: 0
-        width: 55
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -305,8 +305,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 58cf4e14d3bd4c848ab8cc1b90e2ebc3
-      internalID: -573537891
+      spriteID: 9bb4c0bb77e786d4c8b8472ab03e6356
+      internalID: -1138430555
       vertices: []
       indices: 
       edges: []
@@ -315,9 +315,9 @@ TextureImporter:
       name: micca-crouch-walk_9
       rect:
         serializedVersion: 2
-        x: 737
+        x: 720
         y: 0
-        width: 54
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -326,8 +326,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4553b3441173164bad2a2f0d69f3ed4
-      internalID: 1438677577
+      spriteID: a0d0b70d5e9bdfc4893b1ffb7028dafc
+      internalID: -461452480
       vertices: []
       indices: 
       edges: []
@@ -336,9 +336,9 @@ TextureImporter:
       name: micca-crouch-walk_10
       rect:
         serializedVersion: 2
-        x: 815
+        x: 800
         y: 0
-        width: 54
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -347,8 +347,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 218ce6245dddddc46b1dd3ec7d0019fd
-      internalID: 1823229206
+      spriteID: 8e8ae41417190b04f8e4be101991071e
+      internalID: -1163788301
       vertices: []
       indices: 
       edges: []
@@ -357,9 +357,9 @@ TextureImporter:
       name: micca-crouch-walk_11
       rect:
         serializedVersion: 2
-        x: 896
+        x: 880
         y: 0
-        width: 46
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -368,8 +368,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 93064459cd30b0a48b1aaec4c94a4ea3
-      internalID: -189974363
+      spriteID: 794bfafd693d76e47b668de5da024435
+      internalID: -1967569541
       vertices: []
       indices: 
       edges: []
@@ -378,9 +378,9 @@ TextureImporter:
       name: micca-crouch-walk_12
       rect:
         serializedVersion: 2
-        x: 971
+        x: 960
         y: 0
-        width: 52
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -389,8 +389,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a4af24cf2425494d87f30751c9d52f0
-      internalID: -104916863
+      spriteID: 1510e97ad58e17a4fa4bf76d587fd5d2
+      internalID: -826367834
       vertices: []
       indices: 
       edges: []
@@ -399,9 +399,9 @@ TextureImporter:
       name: micca-crouch-walk_13
       rect:
         serializedVersion: 2
-        x: 1045
+        x: 1040
         y: 0
-        width: 59
+        width: 80
         height: 32
       alignment: 2
       pivot: {x: 0.5, y: 1}
@@ -410,8 +410,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5bc1934ef73cac54fb93597b95f22a91
-      internalID: -1562668564
+      spriteID: a61c0119d4fcc8c45b3c5da75d1d6eb3
+      internalID: 1255415691
       vertices: []
       indices: 
       edges: []
@@ -427,20 +427,20 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      micca-crouch-walk_0: 2074953171
-      micca-crouch-walk_1: -268514731
-      micca-crouch-walk_10: 1823229206
-      micca-crouch-walk_11: -189974363
-      micca-crouch-walk_12: -104916863
-      micca-crouch-walk_13: -1562668564
-      micca-crouch-walk_2: 1944124624
-      micca-crouch-walk_3: 1822946130
-      micca-crouch-walk_4: 2020361356
-      micca-crouch-walk_5: -13194444
-      micca-crouch-walk_6: 995390808
-      micca-crouch-walk_7: 1818184466
-      micca-crouch-walk_8: -573537891
-      micca-crouch-walk_9: 1438677577
+      micca-crouch-walk_0: -1064981171
+      micca-crouch-walk_1: 128485967
+      micca-crouch-walk_10: -1163788301
+      micca-crouch-walk_11: -1967569541
+      micca-crouch-walk_12: -826367834
+      micca-crouch-walk_13: 1255415691
+      micca-crouch-walk_2: 1056885307
+      micca-crouch-walk_3: 1797895247
+      micca-crouch-walk_4: 326791230
+      micca-crouch-walk_5: 2131127473
+      micca-crouch-walk_6: -1476226009
+      micca-crouch-walk_7: 1608173419
+      micca-crouch-walk_8: -1138430555
+      micca-crouch-walk_9: -461452480
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
