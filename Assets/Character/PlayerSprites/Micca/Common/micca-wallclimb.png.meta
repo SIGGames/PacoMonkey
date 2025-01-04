@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: micca-climb_0
+      name: micca-wallclimb_0
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de487aae69b2d2941a4f601bd5491721
-      internalID: -1402534825
+      spriteID: e16874fdc1d2ba94cae9c34b648fae46
+      internalID: 517418016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-climb_1
+      name: micca-wallclimb_1
       rect:
         serializedVersion: 2
         x: 32
@@ -158,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0edd3c43607498348bb3b10d7555ad77
-      internalID: 1805986761
+      spriteID: 735dadb66e5e8aa4d9eef767b40cdbb6
+      internalID: -226983537
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-climb_2
+      name: micca-wallclimb_2
       rect:
         serializedVersion: 2
         x: 64
@@ -179,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75699f5f27924a94e8ae0f6df143b24a
-      internalID: -913820976
+      spriteID: dc641047bde41294ea6d19da0a45dee7
+      internalID: -558236812
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-climb_3
+      name: micca-wallclimb_3
       rect:
         serializedVersion: 2
         x: 96
@@ -200,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 739471acd202767429d64b08b09d58c0
-      internalID: 572011911
+      spriteID: fe6a471ff34f9dd418294cf07a84fb75
+      internalID: 1258368174
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-climb_4
+      name: micca-wallclimb_4
       rect:
         serializedVersion: 2
         x: 128
@@ -221,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 57791124da60eee46b54a010deff1ced
-      internalID: -731151553
+      spriteID: 7304d8c791880004fa940b73944e71e2
+      internalID: 1139158792
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-climb_5
+      name: micca-wallclimb_5
       rect:
         serializedVersion: 2
         x: 160
@@ -242,14 +242,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 529c37274a6a2814cba938cbd50d0156
-      internalID: -1069836860
+      spriteID: 64744b67d1cd4354dab5cdef8c613c5d
+      internalID: 15304282
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-climb_6
+      name: micca-wallclimb_6
       rect:
         serializedVersion: 2
         x: 192
@@ -263,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8722ee80ca7afb54fbb7d93ebb8138cd
-      internalID: -590136860
+      spriteID: 2881e1e3d1f74714a9ba1e59fb0d0428
+      internalID: -2140354574
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-climb_7
+      name: micca-wallclimb_7
       rect:
         serializedVersion: 2
         x: 224
@@ -284,8 +284,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d0b4b9cb6740ff4b8609b84c708e732
-      internalID: 1756793458
+      spriteID: a188f4edf2110ac4dba1a7706fa2b588
+      internalID: 963638754
       vertices: []
       indices: 
       edges: []
@@ -301,14 +301,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      micca-climb_0: -1402534825
-      micca-climb_1: 1805986761
-      micca-climb_2: -913820976
-      micca-climb_3: 572011911
-      micca-climb_4: -731151553
-      micca-climb_5: -1069836860
-      micca-climb_6: -590136860
-      micca-climb_7: 1756793458
+      micca-wallclimb_0: 517418016
+      micca-wallclimb_1: -226983537
+      micca-wallclimb_2: -558236812
+      micca-wallclimb_3: 1258368174
+      micca-wallclimb_4: 1139158792
+      micca-wallclimb_5: 15304282
+      micca-wallclimb_6: -2140354574
+      micca-wallclimb_7: 963638754
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
