@@ -114,6 +114,9 @@ namespace Controllers {
         public Rigidbody2D rb;
 
         private float _speedMultiplier = 1f;
+        private static readonly int VelocityY = Animator.StringToHash("velocityY");
+        private static readonly int VelocityX = Animator.StringToHash("velocityX");
+        private static readonly int Grounded = Animator.StringToHash("grounded");
 
         void Awake() {
             InitializeComponents();
@@ -331,8 +334,9 @@ namespace Controllers {
         }
 
         private void UpdateAnimatorParameters() {
-            animator.SetBool("grounded", IsGrounded);
-            animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxRunSpeed);
+            animator.SetBool(Grounded, IsGrounded);
+            animator.SetFloat(VelocityX, Mathf.Abs(velocity.x) / maxRunSpeed);
+            animator.SetFloat(VelocityY, Mathf.Abs(velocity.y));
         }
 
         public void SetMovementState(PlayerMovementState state, int priority = 1) {

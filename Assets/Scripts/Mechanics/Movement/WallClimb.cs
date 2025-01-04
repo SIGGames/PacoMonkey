@@ -101,6 +101,9 @@ namespace Mechanics.Movement {
 
             if (verticalInput != 0) {
                 player.AddPosition(0, climbSpeed * Time.deltaTime * verticalInput);
+                player.velocity.y = climbSpeed * verticalInput;
+            } else {
+                player.velocity.y = 0f;
             }
 
             // In case there is a ledge or the player wants to stop climbing
