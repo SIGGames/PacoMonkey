@@ -26,6 +26,8 @@ namespace Controllers {
         [Range(0, 10)]
         public float maxRunSpeed = PlayerConfig.MaxRunSpeed;
 
+        private float _maxRunSpeedOriginal = PlayerConfig.MaxRunSpeed;
+
         [Range(0, 100)]
         public float runAcceleration = PlayerConfig.RunAcceleration;
 
@@ -146,8 +148,13 @@ namespace Controllers {
             }
         }
 
-        public void SetSpeedMultiplier(float multiplier = 1f) {
-            _speedMultiplier = multiplier;
+        public void SetSpeed(float newSpeed) {
+            _maxRunSpeedOriginal = maxRunSpeed;
+            maxRunSpeed = Mathf.Clamp(newSpeed, 0, 10);
+        }
+
+        public void ResetSpeed() {
+            maxRunSpeed = _maxRunSpeedOriginal;
         }
 
         protected override void ComputeVelocity() {

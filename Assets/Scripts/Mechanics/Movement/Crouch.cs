@@ -18,7 +18,7 @@ namespace Mechanics.Movement {
         private float _groundCheckTimer;
 
         [Header("Crouch Configuration")]
-        [Range(0, 1)] public float crouchSpeedMultiplier = 0.5f;
+        [Range(0, 10)] public float crouchSpeed = 5f;
 
         [Range(0, 5)]
         public float slideDuration = 1.5f;
@@ -119,7 +119,7 @@ namespace Mechanics.Movement {
 
         private void StartCrouch(bool isRunning) {
             _isCrouching = true;
-            _playerController.SetSpeedMultiplier(crouchSpeedMultiplier);
+            _playerController.SetSpeed(crouchSpeed);
 
             animator.SetBool(IsCrouching, true);
             CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);
@@ -134,7 +134,7 @@ namespace Mechanics.Movement {
                 _playerController.SetMovementState(PlayerMovementState.Crouch, 2);
             }
 
-            _playerController.targetVelocity.x *= crouchSpeedMultiplier;
+            _playerController.targetVelocity.x *= crouchSpeed;
 
             _tilemapCollider.enabled = false;
             _keepFalling = true;
@@ -151,7 +151,7 @@ namespace Mechanics.Movement {
             _slideTimer = slideDuration;
             _slideCooldownTimer = 0f;
 
-            _playerController.SetSpeedMultiplier();
+            _playerController.ResetSpeed();
 
             animator.SetBool(IsCrouching, false);
 
