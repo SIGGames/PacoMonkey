@@ -130,7 +130,7 @@ namespace Mechanics.Movement {
         }
 
         private IEnumerator DelayedEndCrouch() {
-            yield return new WaitForSeconds(Mathf.Abs(_playerController.velocity.x / 2));
+            yield return new WaitForSeconds(Mathf.Abs(_playerController.velocity.x / 5));
 
             EndCrouch();
             _endCrouchCoroutine = null;
@@ -195,6 +195,7 @@ namespace Mechanics.Movement {
             if (_slideCooldownTimer > 0) {
                 return;
             }
+
             _playerController.SetMovementState(PlayerMovementState.Slide, 2);
 
             _isSliding = true;
