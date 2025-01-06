@@ -1,4 +1,5 @@
-﻿using Controllers;
+﻿using System.Collections;
+using Controllers;
 using Enums;
 using Gameplay;
 using Managers;
@@ -55,6 +56,8 @@ namespace Mechanics.Movement {
         private static readonly int IsCrouching = Animator.StringToHash("isCrouching");
         private const float DelayTimeAfterCrouch = 0.5f;
 
+        private Coroutine _endCrouchCoroutine;
+
         private void Awake() {
             _slideTimer = slideDuration;
 
@@ -107,13 +110,42 @@ namespace Mechanics.Movement {
             }
 
             if (!crouchKeyHeld && _isCrouching) {
-                EndCrouch();
+                StartDelayedEndCrouch();
                 return;
             }
 
             if (crouchKeyHeld && !_isCrouching &&
                 PlayerMovementStateMethods.IsPlayerAbleToCrouch(_playerController.movementState)) {
+                CancelDelayedEndCrouch();
                 StartCrouch(isRunning);
+            }
+        }
+
+        private void StartDelayedEndCrouch() {
+            if (_endCrouchCoroutine != null) {
+                return;
+            }
+
+            // First attempt to update player sprite in case collider can be reset
+            if (CanResizeCollider()) {
+                animator.SetBool(IsCrouching, false);
+                CameraManager.Instance.SetOffset(Vector2.zero);
+            }
+
+            _endCrouchCoroutine = StartCoroutine(DelayedEndCrouch());
+        }
+
+        private IEnumerator DelayedEndCrouch() {
+            yield return new WaitForSeconds(0.3f);
+
+            EndCrouch();
+            _endCrouchCoroutine = null;
+        }
+
+        private void CancelDelayedEndCrouch() {
+            if (_endCrouchCoroutine != null) {
+                StopCoroutine(_endCrouchCoroutine);
+                _endCrouchCoroutine = null;
             }
         }
 
@@ -154,7 +186,6 @@ namespace Mechanics.Movement {
             _playerController.ResetSpeed();
 
             animator.SetBool(IsCrouching, false);
-
             CameraManager.Instance.SetOffset(Vector2.zero);
 
             ledgeCheck.transform.position -= new Vector3(ledgeCheckOffsetOnCrouch.x, ledgeCheckOffsetOnCrouch.y, 0);
@@ -163,6 +194,7 @@ namespace Mechanics.Movement {
 
             _playerController.UnlockMovementState();
             _playerController.SetMovementState(PlayerMovementState.Idle);
+            _keepFalling = false;
         }
 
         private void StartSlide() {
