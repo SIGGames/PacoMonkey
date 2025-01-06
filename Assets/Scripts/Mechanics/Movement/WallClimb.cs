@@ -36,6 +36,7 @@ namespace Mechanics.Movement {
         private Collider2D _playerCollider;
         private Hold _hold;
         private static readonly int IsClimbing = Animator.StringToHash("isClimbing");
+        private static readonly int IsTowardsUp = Animator.StringToHash("isTowardsUp");
 
         private void Awake() {
             if (player == null) {
@@ -104,6 +105,12 @@ namespace Mechanics.Movement {
                 player.velocity.y = climbSpeed * verticalInput;
             } else {
                 player.velocity.y = 0f;
+            }
+
+            if (player.velocity.y <= 0f) {
+                _animator.SetFloat(IsTowardsUp, -1f);
+            } else {
+                _animator.SetFloat(IsTowardsUp, 1f);
             }
 
             // In case there is a ledge or the player wants to stop climbing
