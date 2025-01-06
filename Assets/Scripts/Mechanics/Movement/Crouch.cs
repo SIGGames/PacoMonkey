@@ -126,17 +126,11 @@ namespace Mechanics.Movement {
                 return;
             }
 
-            // First attempt to update player sprite in case collider can be reset
-            if (CanResizeCollider()) {
-                animator.SetBool(IsCrouching, false);
-                CameraManager.Instance.SetOffset(Vector2.zero);
-            }
-
             _endCrouchCoroutine = StartCoroutine(DelayedEndCrouch());
         }
 
         private IEnumerator DelayedEndCrouch() {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(Mathf.Abs(_playerController.velocity.x / 2));
 
             EndCrouch();
             _endCrouchCoroutine = null;
