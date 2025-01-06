@@ -253,7 +253,6 @@ namespace Controllers {
             if (GetJumpKeyUp()) {
                 _stopJump = true;
                 UnlockMovementState();
-                Schedule<PlayerStopJump>().player = this;
             }
         }
 
@@ -309,12 +308,13 @@ namespace Controllers {
                 velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
                 velocity.x *= (1 - _balanceFactor);
                 _jumpTimeCounter = 0;
-            } else if (_jump && _jumpTimeCounter < JumpTimeMax) {
+            }
+            else if (_jump && _jumpTimeCounter < JumpTimeMax && GetJumpKeyHeld()) {
                 velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
                 _jumpTimeCounter += Time.deltaTime;
             }
 
-            if (_stopJump || _jumpTimeCounter >= JumpTimeMax) {
+            if (_stopJump || _jumpTimeCounter >= JumpTimeMax || !GetJumpKeyHeld()) {
                 _stopJump = false;
                 if (velocity.y > 0) {
                     velocity.y *= jumpDeceleration;

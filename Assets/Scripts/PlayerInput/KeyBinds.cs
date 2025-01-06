@@ -16,6 +16,10 @@ namespace PlayerInput {
             return PlayerControls.Jump.phase == InputActionPhase.Canceled;
         }
 
+        public static bool GetJumpKeyHeld() {
+            return PlayerControls.Jump.IsPressed();
+        }
+
         public static Vector2 GetMoveAxis() {
             return PlayerControls.Move.ReadValue<Vector2>();
         }
