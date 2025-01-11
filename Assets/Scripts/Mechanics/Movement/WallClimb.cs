@@ -69,7 +69,7 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            if (ledgeCheck.isNearLedge) {
+            if (ledgeCheck.isNearLedge && _isClimbing) {
                 _hold.StartHold();
             }
 

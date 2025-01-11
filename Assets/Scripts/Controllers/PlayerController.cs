@@ -5,7 +5,6 @@ using Managers;
 using Mechanics;
 using Platformer.Gameplay;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
 using static PlayerInput.KeyBinds;
