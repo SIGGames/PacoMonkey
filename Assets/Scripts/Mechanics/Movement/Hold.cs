@@ -65,19 +65,22 @@ namespace Mechanics.Movement {
             player.UnlockMovementState();
             player.SetMovementState(PlayerMovementState.Climb, 2);
 
-            Vector3 ledgeCheckPosition = ledgeCheck.transform.position;
-            float xOffset = player.isFacingRight ? playerMoveOnClimb.x : -playerMoveOnClimb.x;
-            player.SetPosition(ledgeCheckPosition.x + xOffset, ledgeCheckPosition.y + playerMoveOnClimb.y);
+            _animator.SetBool(IsHolding, false);
 
-            EndHold();
+            // To ensure that map is not colliding with player during the ledge climb
+            player.boxCollider.isTrigger = true;
         }
 
         private void EndHold() {
+            // This is called once the last ledge climb animation is played
             isHolding = false;
-            player.SetMovementState(PlayerMovementState.Idle);
-            player.UnlockMovementState();
             player.FreezePosition(false);
-            _animator.SetBool(IsHolding, false);
+
+            float xOffset = player.isFacingRight ? playerMoveOnClimb.x : -playerMoveOnClimb.x;
+            player.AddPosition(xOffset, playerMoveOnClimb.y);
+
+            player.boxCollider.isTrigger = false;
+            player.UnlockMovementState();
         }
     }
 }

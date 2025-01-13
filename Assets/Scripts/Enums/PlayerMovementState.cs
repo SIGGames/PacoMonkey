@@ -26,11 +26,13 @@
         }
 
         public static bool IsPlayerAbleToCrouch(PlayerMovementState state) {
-            return state == PlayerMovementState.Idle || state == PlayerMovementState.Walk || state == PlayerMovementState.Run;
+            return state == PlayerMovementState.Idle || state == PlayerMovementState.Walk ||
+                   state == PlayerMovementState.Run;
         }
 
         public static bool IsPlayerAbleToJump(PlayerMovementState state) {
-            return state == PlayerMovementState.Idle || state == PlayerMovementState.Walk || state == PlayerMovementState.Run;
+            return state == PlayerMovementState.Idle || state == PlayerMovementState.Walk ||
+                   state == PlayerMovementState.Run;
         }
     }
 }

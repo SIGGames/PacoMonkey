@@ -344,6 +344,7 @@ namespace Controllers {
             }
 
             if (movementState != state || priority > _currentPriority) {
+                Debug.Log("New state: " + state);
                 _currentPriority = priority;
                 movementState = state;
                 animator.SetTrigger(state.ToString().ToLower());
