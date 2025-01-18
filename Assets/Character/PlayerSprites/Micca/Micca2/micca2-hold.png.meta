@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e41582dfaed43be4dbd63dacc95144a2
+guid: 6ab9fba3453988c4d8cadb07fbc82293
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,19 +126,19 @@ TextureImporter:
       name: micca2-hold_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 4
-        width: 32
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 128
+        height: 144
+      alignment: 9
+      pivot: {x: 0.6, y: 0.52}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 779625d8d5411a44cad1f02affcf23c7
-      internalID: 391030069
+      spriteID: 9dea0ad23004fd24b981473c29a20ffd
+      internalID: -1289384381
       vertices: []
       indices: 
       edges: []
@@ -147,19 +147,19 @@ TextureImporter:
       name: micca2-hold_1
       rect:
         serializedVersion: 2
-        x: 77
-        y: 2
-        width: 33
-        height: 58
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 128
+        y: 0
+        width: 128
+        height: 144
+      alignment: 9
+      pivot: {x: 0.6, y: 0.52}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73ba8f3ff9a81c84b9b2d85958c9f41d
-      internalID: -1404667690
+      spriteID: e0b9d93606a9bd74287b57676937a713
+      internalID: -885317830
       vertices: []
       indices: 
       edges: []
@@ -168,19 +168,19 @@ TextureImporter:
       name: micca2-hold_2
       rect:
         serializedVersion: 2
-        x: 144
-        y: 3
-        width: 31
-        height: 68
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 256
+        y: 0
+        width: 128
+        height: 144
+      alignment: 9
+      pivot: {x: 0.6, y: 0.52}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d89c3ebe15fc90943b9694c43208e7b9
-      internalID: 1821104012
+      spriteID: 60cf4a97c8f4c8a49822d2a5b801ad14
+      internalID: -437273540
       vertices: []
       indices: 
       edges: []
@@ -189,19 +189,19 @@ TextureImporter:
       name: micca2-hold_3
       rect:
         serializedVersion: 2
-        x: 210
+        x: 384
         y: 0
-        width: 27
-        height: 70
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 128
+        height: 144
+      alignment: 9
+      pivot: {x: 0.6, y: 0.52}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2df31bf27702edb4ab4b03447930bb3f
-      internalID: -1632127696
+      spriteID: bc410150ca3bbe4449c15f3246ebfa2e
+      internalID: 431709459
       vertices: []
       indices: 
       edges: []
@@ -210,40 +210,19 @@ TextureImporter:
       name: micca2-hold_4
       rect:
         serializedVersion: 2
-        x: 272
-        y: 18
-        width: 35
-        height: 52
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 512
+        y: 0
+        width: 128
+        height: 144
+      alignment: 9
+      pivot: {x: 0.6, y: 0.52}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8f7646f0d8478b428999a57c9c598e9
-      internalID: 1576366554
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: micca2-hold_5
-      rect:
-        serializedVersion: 2
-        x: 340
-        y: 17
-        width: 38
-        height: 53
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 262b04ce2bdc3d44ca564ea9d8496ab7
-      internalID: 170698937
+      spriteID: fa53a76ffb1630d43bc7f8a2892988b3
+      internalID: 1270566411
       vertices: []
       indices: 
       edges: []
@@ -259,12 +238,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      micca2-hold_0: 391030069
-      micca2-hold_1: -1404667690
-      micca2-hold_2: 1821104012
-      micca2-hold_3: -1632127696
-      micca2-hold_4: 1576366554
-      micca2-hold_5: 170698937
+      micca2-hold_0: -1289384381
+      micca2-hold_1: -885317830
+      micca2-hold_2: -437273540
+      micca2-hold_3: 431709459
+      micca2-hold_4: 1270566411
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
