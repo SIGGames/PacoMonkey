@@ -68,6 +68,10 @@ namespace Controllers {
         [Range(0f, 100f)]
         public float jumpComponentBalance = 55f;
 
+        [Tooltip("Time to wait before decelerating the jump")]
+        [Range(0f, 1f)]
+        public float jumpDecelerationDelay = 0.2f;
+
         private float _balanceFactor;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
@@ -116,6 +120,8 @@ namespace Controllers {
         private static readonly int VelocityY = Animator.StringToHash("velocityY");
         private static readonly int VelocityX = Animator.StringToHash("velocityX");
         private static readonly int Grounded = Animator.StringToHash("grounded");
+
+        private float _jumpDecelerationTimer;
 
         void Awake() {
             InitializeComponents();
@@ -296,9 +302,10 @@ namespace Controllers {
             if ((IsGrounded || _coyoteTimeCounter > 0f) && _jumpBufferCounter > 0) {
                 jumpState = JumpState.Jumping;
                 _jump = true;
-                SetMovementState(PlayerMovementState.Jump, 2);
                 _stopJump = false;
                 _jumpBufferCounter = 0;
+                _jumpDecelerationTimer = jumpDecelerationDelay;
+                SetMovementState(PlayerMovementState.Jump, 2);
             }
         }
 
@@ -307,15 +314,20 @@ namespace Controllers {
                 velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
                 velocity.x *= (1 - _balanceFactor);
                 _jumpTimeCounter = 0;
-            }
-            else if (_jump && _jumpTimeCounter < JumpTimeMax && GetJumpKeyHeld()) {
+            } else if (_jump && _jumpTimeCounter < JumpTimeMax && GetJumpKeyHeld()) {
                 velocity.y = jumpTakeOffSpeed * jumpModifier * _balanceFactor;
                 _jumpTimeCounter += Time.deltaTime;
             }
 
+            if (jumpState == JumpState.Jumping || jumpState == JumpState.InFlight) {
+                if (_jumpDecelerationTimer > 0) {
+                    _jumpDecelerationTimer -= Time.deltaTime;
+                }
+            }
+
             if (_stopJump || _jumpTimeCounter >= JumpTimeMax || !GetJumpKeyHeld()) {
                 _stopJump = false;
-                if (velocity.y > 0) {
+                if (velocity.y > 0 && _jumpDecelerationTimer <= 0) {
                     velocity.y *= jumpDeceleration;
                 }
             }
