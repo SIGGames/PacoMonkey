@@ -127,7 +127,7 @@ namespace Controllers {
             InitializeComponents();
             PCInstance = this;
             boxCollider = GetComponent<BoxCollider2D>();
-            flipManager = new FlipManager(_spriteRenderer, boxCollider, flipOffsetChange, isFacingRight);
+            flipManager = new FlipManager(_spriteRenderer, boxCollider, animator, flipOffsetChange, isFacingRight);
             _colliderManager = new ColliderManager(collider2d);
             _colliderManager.UpdateCollider(false, boxCollider.size);
         }
@@ -333,6 +333,10 @@ namespace Controllers {
             }
         }
 
+        public void DisableFlipAnimation() {
+            flipManager.AnimateFlip(false);
+        }
+
         private void HandleFlipLogic() {
             bool isCurrentlyMovingRight = move.x > 0;
             bool isCurrentlyMovingLeft = move.x < 0;
@@ -356,7 +360,6 @@ namespace Controllers {
             }
 
             if (movementState != state || priority > _currentPriority) {
-                Debug.Log("New state: " + state);
                 _currentPriority = priority;
                 movementState = state;
                 animator.SetTrigger(state.ToString().ToLower());
