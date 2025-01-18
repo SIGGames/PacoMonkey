@@ -122,6 +122,7 @@ namespace Controllers {
         private static readonly int Grounded = Animator.StringToHash("grounded");
 
         private float _jumpDecelerationTimer;
+        private static readonly int IsJumping = Animator.StringToHash("isJumping");
 
         void Awake() {
             InitializeComponents();
@@ -293,6 +294,7 @@ namespace Controllers {
 
                     break;
                 case JumpState.Landed:
+                    animator.SetBool(IsJumping, false);
                     jumpState = JumpState.Grounded;
                     break;
             }
@@ -305,6 +307,7 @@ namespace Controllers {
                 _stopJump = false;
                 _jumpBufferCounter = 0;
                 _jumpDecelerationTimer = jumpDecelerationDelay;
+                animator.SetBool(IsJumping, true);
                 SetMovementState(PlayerMovementState.Jump, 2);
             }
         }
