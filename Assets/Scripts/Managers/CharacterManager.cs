@@ -9,6 +9,7 @@ namespace Managers {
         [SerializeField] private Character initialCharacter;
 
         [SerializeField] private Character currentCharacter;
+        private static readonly int IsMicca1 = Animator.StringToHash("isMicca1");
 
         [Serializable]
         public class CharacterConfiguration {
@@ -69,10 +70,7 @@ namespace Managers {
             selectedConfig.characterGameObject.transform.position = previousPosition;
             selectedConfig.characterGameObject.SetActive(true);
 
-            var animator = selectedConfig.characterGameObject.GetComponent<Animator>();
-            if (animator != null && selectedConfig.animatorOverrideController != null) {
-                animator.runtimeAnimatorController = selectedConfig.animatorOverrideController;
-            }
+            UpdateAnimator(selectedConfig);
 
             currentCharacter = character;
 
@@ -80,6 +78,22 @@ namespace Managers {
             if (cinemachineCamera != null) {
                 cinemachineCamera.Follow = selectedConfig.characterGameObject.transform;
                 cinemachineCamera.LookAt = selectedConfig.characterGameObject.transform;
+            }
+        }
+
+        private void UpdateAnimator(CharacterConfiguration characterConfig) {
+            Animator animator = characterConfig.characterGameObject.GetComponent<Animator>();
+
+            if (animator == null) {
+                Debug.LogError($"Character {characterConfig.characterType} is missing its Animator component");
+                return;
+            }
+            animator.runtimeAnimatorController = characterConfig.animatorOverrideController;
+
+            if (characterConfig.characterGameObject.name.Contains("Micca1")) {
+                animator.SetBool(IsMicca1, true);
+            } else {
+                animator.SetBool(IsMicca1, false);
             }
         }
 
