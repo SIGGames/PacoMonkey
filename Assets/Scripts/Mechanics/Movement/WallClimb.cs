@@ -34,7 +34,6 @@ namespace Mechanics.Movement {
         private float _gravityModifier;
 
         private Animator _animator;
-        private Collider2D _playerCollider;
         private Hold _hold;
 
         private void Awake() {
@@ -51,7 +50,6 @@ namespace Mechanics.Movement {
             }
 
             _animator = GetComponent<Animator>();
-            _playerCollider = player.collider2d;
 
             if (climbableTilemap == null) {
                 climbableTilemap = FindObjectOfType<TilemapCollider2D>();
@@ -59,10 +57,9 @@ namespace Mechanics.Movement {
 
             _gravityModifier = player.gravityModifier;
 
-            if (player == null || ledgeCheck == null || _playerCollider == null || climbableTilemap == null ||
-                _hold == null) {
+            if (player == null || ledgeCheck == null || climbableTilemap == null || _hold == null) {
                 Debugger.Log(("Player", player), ("LedgeCheck", ledgeCheck),
-                    ("PlayerCollider", _playerCollider), ("ClimbableTilemap", climbableTilemap), ("Hold", _hold));
+                    ("ClimbableTilemap", climbableTilemap), ("Hold", _hold));
                 enabled = false;
             }
         }
@@ -137,7 +134,7 @@ namespace Mechanics.Movement {
             } else {
                 if (player.movementState != PlayerMovementState.Hold) {
                     _isClimbing = false;
-                    _canAttach = false;
+                    _canAttach = true;
                     player.FreezeHorizontalPosition(false);
                     SetClimbingState(false);
                     player.UnlockMovementState();
@@ -160,8 +157,6 @@ namespace Mechanics.Movement {
 
 
         private void SetClimbingState(bool isClimbing) {
-            Physics2D.IgnoreLayerCollision(player.gameObject.layer, LayerMask.NameToLayer("Ground"), isClimbing);
-
             if (isClimbing) {
                 SetColliderEnabledStatus(false);
                 SetGravity(slideEffect);
