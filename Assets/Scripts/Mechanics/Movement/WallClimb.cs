@@ -130,17 +130,13 @@ namespace Mechanics.Movement {
         }
 
         private void StopClimbing() {
-            if (ledgeCheck.isNearLedge && !player.IsGrounded && _isClimbing) {
-                _hold.StartHold();
-            } else {
-                if (player.movementState != PlayerMovementState.Hold) {
-                    _isClimbing = false;
-                    _canAttach = true;
-                    player.FreezeHorizontalPosition(false);
-                    SetClimbingState(false);
-                    player.UnlockMovementState();
-                    _animator.SetBool(IsClimbing, false);
-                }
+            if (player.movementState != PlayerMovementState.Hold) {
+                _isClimbing = false;
+                _canAttach = true;
+                player.FreezeHorizontalPosition(false);
+                SetClimbingState(false);
+                player.UnlockMovementState();
+                _animator.SetBool(IsClimbing, false);
             }
         }
 

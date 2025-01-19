@@ -37,8 +37,7 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            if (ledgeCheck.isNearLedge && !isHolding &&
-                PlayerMovementStateMethods.IsPlayerOnAir(player.movementState)) {
+            if (ledgeCheck.isNearLedge && !isHolding && PlayerMovementStateMethods.IsPlayerAbleToHold(player.movementState)) {
                 StartHold();
             }
 
@@ -47,7 +46,7 @@ namespace Mechanics.Movement {
             }
         }
 
-        public void StartHold() {
+        private void StartHold() {
             _animator.SetBool(IsHolding, true);
             isHolding = true;
 

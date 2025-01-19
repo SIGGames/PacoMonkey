@@ -34,5 +34,9 @@
             return state == PlayerMovementState.Idle || state == PlayerMovementState.Walk ||
                    state == PlayerMovementState.Run;
         }
+
+        public static bool IsPlayerAbleToHold(PlayerMovementState state) {
+            return IsPlayerOnAir(state) || state == PlayerMovementState.WallClimb;
+        }
     }
 }
