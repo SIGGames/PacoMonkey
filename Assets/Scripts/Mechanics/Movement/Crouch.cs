@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Utils;
 using static PlayerInput.KeyBinds;
+using static Utils.AnimatorUtils;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
@@ -53,7 +54,6 @@ namespace Mechanics.Movement {
 
         private PlayerController _playerController;
         private TilemapCollider2D _tilemapCollider;
-        private static readonly int IsCrouching = Animator.StringToHash("isCrouching");
         private const float DelayTimeAfterCrouch = 0.5f;
 
         private Coroutine _endCrouchCoroutine;

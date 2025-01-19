@@ -2,6 +2,7 @@
 using Cinemachine;
 using Enums;
 using UnityEngine;
+using static Utils.AnimatorUtils;
 
 namespace Managers {
     public class CharacterManager : MonoBehaviour {
@@ -9,7 +10,6 @@ namespace Managers {
         [SerializeField] private Character initialCharacter;
 
         [SerializeField] private Character currentCharacter;
-        private static readonly int IsMicca1 = Animator.StringToHash("isMicca1");
 
         [Serializable]
         public class CharacterConfiguration {

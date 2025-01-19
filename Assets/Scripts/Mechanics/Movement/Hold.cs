@@ -3,6 +3,7 @@ using Enums;
 using Gameplay;
 using UnityEngine;
 using static PlayerInput.KeyBinds;
+using static Utils.AnimatorUtils;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
@@ -16,7 +17,6 @@ namespace Mechanics.Movement {
         [SerializeField] private bool isHolding;
 
         private Animator _animator;
-        private static readonly int IsHolding = Animator.StringToHash("isHolding");
 
         private void Awake() {
             if (player == null) {

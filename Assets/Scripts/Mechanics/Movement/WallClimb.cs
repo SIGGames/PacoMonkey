@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Utils;
+using static Utils.AnimatorUtils;
 using static PlayerInput.KeyBinds;
 
 namespace Mechanics.Movement {
@@ -35,8 +36,6 @@ namespace Mechanics.Movement {
         private Animator _animator;
         private Collider2D _playerCollider;
         private Hold _hold;
-        private static readonly int IsClimbing = Animator.StringToHash("isClimbing");
-        private static readonly int IsTowardsUp = Animator.StringToHash("isTowardsUp");
 
         private void Awake() {
             if (player == null) {
@@ -110,7 +109,7 @@ namespace Mechanics.Movement {
             if (GetJumpKeyDown() && isPressingOppositeDirection) {
                 StopClimbing();
                 player.velocity = new Vector2((player.isFacingRight ? -1f : 1f) * climbSpeed, player.jumpTakeOffSpeed);
-                _animator.SetBool("isJumping", true);
+                _animator.SetBool(IsJumping, true);
                 player.StartJump();
                 player.flipManager.Flip(!player.isFacingRight);
                 return;

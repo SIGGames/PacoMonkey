@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using static Utils.AnimatorUtils;
 
 namespace Managers {
     public class FlipManager {
@@ -7,7 +8,6 @@ namespace Managers {
         private readonly Animator _animator;
         private float _offsetChange;
         private bool _isFacingRight;
-        private static readonly int IsFlipping = Animator.StringToHash("isFlipping");
 
         public FlipManager(SpriteRenderer spriteRenderer,
             BoxCollider2D boxCollider,

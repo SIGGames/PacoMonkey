@@ -7,6 +7,7 @@ using Platformer.Gameplay;
 using UnityEngine;
 using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
+using static Utils.AnimatorUtils;
 using static PlayerInput.KeyBinds;
 
 namespace Controllers {
@@ -117,12 +118,7 @@ namespace Controllers {
         public Rigidbody2D rb;
 
         private float _speedMultiplier = 1f;
-        private static readonly int VelocityY = Animator.StringToHash("velocityY");
-        private static readonly int VelocityX = Animator.StringToHash("velocityX");
-        private static readonly int Grounded = Animator.StringToHash("grounded");
-
         private float _jumpDecelerationTimer;
-        private static readonly int IsJumping = Animator.StringToHash("isJumping");
 
         void Awake() {
             InitializeComponents();
