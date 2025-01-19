@@ -74,6 +74,7 @@ namespace Mechanics.Movement {
 
         private void StartClimbing() {
             _isClimbing = true;
+            player.IsGrounded = false;
 
             player.FreezeHorizontalPosition();
             SetClimbingState(true);
@@ -86,7 +87,7 @@ namespace Mechanics.Movement {
         }
 
         private void HandleClimbing() {
-            if (player.movementState != PlayerMovementState.WallClimb) {
+            if (player.movementState != PlayerMovementState.WallClimb || player.IsGrounded) {
                 StopClimbing();
                 return;
             }

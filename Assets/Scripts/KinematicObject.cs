@@ -9,7 +9,7 @@ namespace Mechanics {
         [Range(0, 2)]
         public float gravityModifier;
         public Vector2 velocity;
-        public bool IsGrounded { get; private set; }
+        public bool IsGrounded { get; set; }
 
         public Vector2 targetVelocity;
         protected Vector2 groundNormal;
