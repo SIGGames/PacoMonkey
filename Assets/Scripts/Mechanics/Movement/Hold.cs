@@ -42,10 +42,8 @@ namespace Mechanics.Movement {
                 StartHold();
             }
 
-            if (isHolding && GetJumpKeyDown() && player.movementState == PlayerMovementState.Hold) {
+            if (isHolding && GetJumpKeyDown()) {
                 ClimbLedge();
-            } else if (isHolding && GetJumpKeyDown()) {
-                EndHold();
             }
         }
 
@@ -69,6 +67,8 @@ namespace Mechanics.Movement {
 
             // To ensure that map is not colliding with player during the ledge climb
             player.boxCollider.isTrigger = true;
+
+            player.UnlockMovementState();
         }
 
         private void EndHold() {

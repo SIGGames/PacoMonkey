@@ -300,7 +300,7 @@ namespace Controllers {
             }
         }
 
-        private void StartJump() {
+        public void StartJump() {
             if ((IsGrounded || _coyoteTimeCounter > 0f) && _jumpBufferCounter > 0) {
                 jumpState = JumpState.Jumping;
                 _jump = true;

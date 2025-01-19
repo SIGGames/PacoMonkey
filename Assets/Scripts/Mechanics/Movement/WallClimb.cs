@@ -69,10 +69,6 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            if (ledgeCheck.isNearLedge && _isClimbing) {
-                _hold.StartHold();
-            }
-
             if (!_isClimbing && _canAttach && ledgeCheck.isNearWall && GetUpKey()) {
                 StartClimbing();
             } else if (_isClimbing) {
@@ -84,10 +80,6 @@ namespace Mechanics.Movement {
             _isClimbing = true;
 
             player.FreezeHorizontalPosition();
-
-            // TODO: Flip the player when player prepares to jump
-            //player.flipManager.Flip(!player.isFacingRight);
-
             SetClimbingState(true);
 
             float offsetX = player.isFacingRight ? attachOffset.x : -attachOffset.x;
@@ -113,8 +105,19 @@ namespace Mechanics.Movement {
                 _animator.SetFloat(IsTowardsUp, 1f);
             }
 
+            bool isPressingOppositeDirection = (player.isFacingRight && GetHorizontalAxis() < 0f) ||
+                                               (!player.isFacingRight && GetHorizontalAxis() > 0f);
+            if (GetJumpKeyDown() && isPressingOppositeDirection) {
+                StopClimbing();
+                player.velocity = new Vector2((player.isFacingRight ? -1f : 1f) * climbSpeed, player.jumpTakeOffSpeed);
+                player.StartJump();
+                player.flipManager.Flip(!player.isFacingRight);
+                return;
+            }
+
             // In case there is a ledge or the player wants to stop climbing
-            if (AnyStopClimbKeyIsPressed() || !ledgeCheck.isNearWall || ledgeCheck.isNearLedge) {
+            if ((AnyStopClimbKeyIsPressed() || !ledgeCheck.isNearWall || ledgeCheck.isNearLedge) &&
+                player.movementState != PlayerMovementState.Hold) {
                 StopClimbing();
             }
         }
@@ -124,14 +127,16 @@ namespace Mechanics.Movement {
         }
 
         private void StopClimbing() {
-            _isClimbing = false;
-            _canAttach = false;
-
-            player.FreezeHorizontalPosition(false);
-            SetClimbingState(false);
-            player.UnlockMovementState();
-
-            _animator.SetBool(IsClimbing, false);
+            if (ledgeCheck.isNearLedge && !player.IsGrounded && _isClimbing) {
+                _hold.StartHold();
+            } else {
+                _isClimbing = false;
+                _canAttach = false;
+                player.FreezeHorizontalPosition(false);
+                SetClimbingState(false);
+                player.UnlockMovementState();
+                _animator.SetBool(IsClimbing, false);
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
