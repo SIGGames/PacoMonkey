@@ -89,6 +89,11 @@ namespace Mechanics.Movement {
         }
 
         private void HandleClimbing() {
+            if (player.movementState != PlayerMovementState.WallClimb) {
+                StopClimbing();
+                return;
+            }
+
             float verticalInput = GetVerticalAxis();
 
             if (verticalInput != 0) {
@@ -130,12 +135,14 @@ namespace Mechanics.Movement {
             if (ledgeCheck.isNearLedge && !player.IsGrounded && _isClimbing) {
                 _hold.StartHold();
             } else {
-                _isClimbing = false;
-                _canAttach = false;
-                player.FreezeHorizontalPosition(false);
-                SetClimbingState(false);
-                player.UnlockMovementState();
-                _animator.SetBool(IsClimbing, false);
+                if (player.movementState != PlayerMovementState.Hold) {
+                    _isClimbing = false;
+                    _canAttach = false;
+                    player.FreezeHorizontalPosition(false);
+                    SetClimbingState(false);
+                    player.UnlockMovementState();
+                    _animator.SetBool(IsClimbing, false);
+                }
             }
         }
 
