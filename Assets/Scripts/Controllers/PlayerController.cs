@@ -383,7 +383,7 @@ namespace Controllers {
                 rb.bodyType = RigidbodyType2D.Static;
             } else {
                 controlEnabled = true;
-                rb.bodyType = RigidbodyType2D.Kinematic;
+                rb.bodyType = RigidbodyType2D.Dynamic;
             }
         }
 
