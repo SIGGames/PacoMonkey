@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Controllers;
+using Enums;
 using UnityEngine;
 using static PlayerInput.KeyBinds;
 using static Utils.AnimatorUtils;
@@ -7,11 +8,23 @@ using static Utils.AnimatorUtils;
 namespace Mechanics.Fight {
     [RequireComponent(typeof(PlayerController))]
     public class PlayerFight : MonoBehaviour {
+        [SerializeField] private FightState fightState = FightState.Idle;
         [SerializeField] private PlayerController playerController;
         [SerializeField] private LayerMask enemyLayer;
+
+        [Header("Melee Attack Settings")]
+        [SerializeField] private bool isMeleeActive = true;
+
         [SerializeField] private float meleeRange = 1f;
         [SerializeField] private int meleeDamage = 200;
         [SerializeField] private float cooldownTime = 0.5f;
+
+        [Header("Range Attack Settings")]
+        [SerializeField] private bool isRangedActive = true;
+
+        [SerializeField] private float rangedRange = 10f;
+        [SerializeField] private int rangedDamage = 200;
+
         private Animator _animator;
         private bool _canAttack = true;
 
@@ -24,13 +37,13 @@ namespace Mechanics.Fight {
         }
 
         private void Update() {
-            if (GetMeleeKey() && _canAttack) {
+            if (isMeleeActive && GetMeleeKey() && _canAttack) {
                 TryMeleeAttack();
             }
         }
 
         private void TryMeleeAttack() {
-            Debug.Log("Attacking");
+            fightState = FightState.Melee;
             Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, meleeRange, enemyLayer);
 
             if (enemiesInRange.Length > 0) {
@@ -54,8 +67,20 @@ namespace Mechanics.Fight {
         }
 
         private void OnDrawGizmosSelected() {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, meleeRange);
+            if (fightState == FightState.Melee) {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(transform.position, meleeRange);
+            }
+
+            if (fightState == FightState.Ranged) {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireSphere(transform.position, rangedRange);
+            }
+        }
+
+        public void SetIdleFightState() {
+            // This method is called by the animator when the attack animation ends
+            fightState = FightState.Idle;
         }
     }
 }

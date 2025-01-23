@@ -1,5 +1,6 @@
 ﻿using System;
 using Cinemachine;
+using Controllers;
 using Enums;
 using UnityEngine;
 using static Utils.AnimatorUtils;
@@ -69,6 +70,8 @@ namespace Managers {
 
             selectedConfig.characterGameObject.transform.position = previousPosition;
             selectedConfig.characterGameObject.SetActive(true);
+
+            selectedConfig.characterGameObject.GetComponent<PlayerController>().FreezePosition(false);
 
             UpdateAnimator(selectedConfig);
 
