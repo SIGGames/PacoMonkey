@@ -88,5 +88,13 @@ namespace PlayerInput {
         public static bool GetCameraRightKey() {
             return GetCameraHorizontalAxis() > 0;
         }
+
+        public static bool GetMeleeKey() {
+            return PlayerControls.Melee.triggered;
+        }
+
+        public static bool GetRangeKey() {
+            return PlayerControls.Range.triggered;
+        }
     }
 }

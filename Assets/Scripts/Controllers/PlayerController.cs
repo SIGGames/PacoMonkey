@@ -2,7 +2,6 @@
 using Gameplay;
 using Health;
 using Managers;
-using Mechanics;
 using Platformer.Gameplay;
 using UnityEngine;
 using static Platformer.Core.Simulation;
@@ -318,7 +317,7 @@ namespace Controllers {
                 _jumpTimeCounter += Time.deltaTime;
             }
 
-            if (jumpState == JumpState.Jumping || jumpState == JumpState.InFlight) {
+            if (jumpState is JumpState.Jumping or JumpState.InFlight) {
                 if (_jumpDecelerationTimer > 0) {
                     _jumpDecelerationTimer -= Time.deltaTime;
                 }
