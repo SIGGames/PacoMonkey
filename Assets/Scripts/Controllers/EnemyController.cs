@@ -1,16 +1,14 @@
 ﻿using Gameplay;
 using Health.UI;
 using Mechanics;
-using Mechanics.Movement;
 using Platformer.Gameplay;
-using Platformer.Mechanics;
 using UnityEngine;
 using static Platformer.Core.Simulation;
 
 namespace Controllers {
     [RequireComponent(typeof(AnimationController), typeof(Collider2D)), RequireComponent(typeof(AudioSource)), RequireComponent(typeof(SpriteRenderer)), RequireComponent(typeof(Health.Health))]
     public class EnemyController : MonoBehaviour {
-        public global::Mechanics.PatrolPath path;
+        public PatrolPath path;
         public AudioClip ouch;
 
         internal PatrolPath.Mover mover;
