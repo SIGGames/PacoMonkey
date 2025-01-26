@@ -57,6 +57,7 @@ namespace Mechanics.Movement {
         private const float DelayTimeAfterCrouch = 0.5f;
 
         private Coroutine _endCrouchCoroutine;
+        private Coroutine _updateColliderCoroutine;
 
         private void Awake() {
             _slideTimer = slideDuration;
@@ -110,13 +111,14 @@ namespace Mechanics.Movement {
             }
 
             if (!crouchKeyHeld && _isCrouching) {
+                EndCrouch();
                 StartDelayedEndCrouch();
                 return;
             }
 
             if (crouchKeyHeld && !_isCrouching &&
                 PlayerMovementStateMethods.IsPlayerAbleToCrouch(_playerController.movementState)) {
-                CancelDelayedEndCrouch();
+                CancelCoroutines();
                 StartCrouch(isRunning);
             }
         }
@@ -130,22 +132,44 @@ namespace Mechanics.Movement {
         }
 
         private IEnumerator DelayedEndCrouch() {
-            yield return new WaitForSeconds(Mathf.Abs(_playerController.velocity.x / 5));
+            yield return new WaitForSeconds(DelayTimeAfterCrouch);
 
-            EndCrouch();
+            if (!CanResizeCollider()) {
+                StartCoroutine(DelayedEndCrouch());
+                yield break;
+            }
+
+            _playerController.SetBodyType(RigidbodyType2D.Kinematic);
             _endCrouchCoroutine = null;
         }
 
-        private void CancelDelayedEndCrouch() {
+        private void UpdateDelayedCollider(bool isCrouching, Vector2 crouchSize, float delay) {
+            IEnumerator DelayedUpdateCollider() {
+                yield return new WaitForSeconds(delay);
+                _colliderManager.UpdateCollider(isCrouching, crouchSize);
+            }
+
+            if (_updateColliderCoroutine != null) {
+                return;
+            }
+            _updateColliderCoroutine = StartCoroutine(DelayedUpdateCollider());
+        }
+
+        private void CancelCoroutines() {
             if (_endCrouchCoroutine != null) {
                 StopCoroutine(_endCrouchCoroutine);
                 _endCrouchCoroutine = null;
+            }
+            if (_updateColliderCoroutine != null) {
+                StopCoroutine(_updateColliderCoroutine);
+                _updateColliderCoroutine = null;
             }
         }
 
         private void StartCrouch(bool isRunning) {
             _isCrouching = true;
             _playerController.SetSpeed(crouchSpeed);
+            _playerController.SetBodyType(RigidbodyType2D.Dynamic);
 
             animator.SetBool(IsCrouching, true);
             CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);
@@ -184,7 +208,7 @@ namespace Mechanics.Movement {
 
             ledgeCheck.transform.position -= new Vector3(ledgeCheckOffsetOnCrouch.x, ledgeCheckOffsetOnCrouch.y, 0);
 
-            _colliderManager.UpdateCollider(false, standingColliderSize);
+            UpdateDelayedCollider(false, standingColliderSize, DelayTimeAfterCrouch - 0.2f);
 
             _playerController.UnlockMovementState();
             _playerController.SetMovementState(PlayerMovementState.Idle);

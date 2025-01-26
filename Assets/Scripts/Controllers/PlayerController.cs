@@ -380,10 +380,10 @@ namespace Controllers {
                 controlEnabled = false;
                 rb.velocity = Vector2.zero;
                 velocity = Vector2.zero;
-                rb.bodyType = RigidbodyType2D.Static;
+                SetBodyType(RigidbodyType2D.Static);
             } else {
                 controlEnabled = true;
-                rb.bodyType = RigidbodyType2D.Dynamic;
+                SetBodyType(RigidbodyType2D.Kinematic);
             }
         }
 
@@ -411,6 +411,10 @@ namespace Controllers {
 
         public void SetPosition(Vector3 position) {
             transform.position = position;
+        }
+
+        public void SetBodyType(RigidbodyType2D bodyType) {
+            rb.bodyType = bodyType;
         }
     }
 }
