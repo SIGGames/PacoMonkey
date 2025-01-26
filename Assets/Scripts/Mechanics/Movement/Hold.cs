@@ -50,6 +50,9 @@ namespace Mechanics.Movement {
             _animator.SetBool(IsHolding, true);
             isHolding = true;
 
+            // To ensure that map is not colliding with player during the hold and ledge climb
+            player.boxCollider.isTrigger = true;
+
             float xOffset = player.isFacingRight ? holdPositionOffset.x : -holdPositionOffset.x;
             player.AddPosition(xOffset, holdPositionOffset.y);
 
@@ -63,9 +66,6 @@ namespace Mechanics.Movement {
             player.SetMovementState(PlayerMovementState.Climb, 2);
 
             _animator.SetBool(IsHolding, false);
-
-            // To ensure that map is not colliding with player during the ledge climb
-            player.boxCollider.isTrigger = true;
 
             player.UnlockMovementState();
         }
