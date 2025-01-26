@@ -45,9 +45,9 @@ namespace Mechanics.Fight {
         private void TryMeleeAttack() {
             fightState = FightState.Melee;
             Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, meleeRange, enemyLayer);
+           _animator.SetTrigger(MeleeAttack);
 
             if (enemiesInRange.Length > 0) {
-                _animator.SetTrigger(MeleeAttack);
                 foreach (Collider enemy in enemiesInRange) {
                     // TODO: Do a map of enemies to avoid GetComponent in every iteration
                     Enemy enemyController = enemy.GetComponent<Enemy>();
