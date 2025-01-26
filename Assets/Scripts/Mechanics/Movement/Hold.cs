@@ -37,7 +37,7 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            if (ledgeCheck.isNearLedge && !isHolding && PlayerMovementStateMethods.IsPlayerAbleToHold(player.movementState)) {
+            if (ledgeCheck.isNearLedge && !isHolding && !player.IsGrounded) {
                 StartHold();
             }
 
@@ -50,8 +50,6 @@ namespace Mechanics.Movement {
             _animator.SetBool(IsHolding, true);
             isHolding = true;
 
-            // To ensure that map is not colliding with player during the hold and ledge climb
-            player.boxCollider.isTrigger = true;
 
             float xOffset = player.isFacingRight ? holdPositionOffset.x : -holdPositionOffset.x;
             player.AddPosition(xOffset, holdPositionOffset.y);
@@ -65,6 +63,11 @@ namespace Mechanics.Movement {
             player.UnlockMovementState();
             player.SetMovementState(PlayerMovementState.Climb, 2);
 
+            // To ensure that map is not colliding with player during the ledge climb
+            player.boxCollider.isTrigger = true;
+
+            // Set player grounded since it will be grounded after the ledge climb, this is to prevent the player falling animation
+            player.IsGrounded = true;
             _animator.SetBool(IsHolding, false);
 
             player.UnlockMovementState();

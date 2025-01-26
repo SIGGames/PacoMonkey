@@ -131,6 +131,8 @@ namespace Mechanics.Movement {
 
         private void StopClimbing() {
             if (player.movementState != PlayerMovementState.Hold) {
+                // Rise a bit the player vertical position to help ledge detection
+                player.AddPosition(0, 0.05f);
                 _isClimbing = false;
                 _canAttach = true;
                 player.FreezeHorizontalPosition(false);
