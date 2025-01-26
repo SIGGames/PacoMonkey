@@ -377,8 +377,7 @@ namespace Controllers {
 
             if (isPositionFreezed) {
                 controlEnabled = false;
-                rb.velocity = Vector2.zero;
-                velocity = Vector2.zero;
+                SetVelocity(Vector2.zero);
                 SetBodyType(RigidbodyType2D.Static);
             } else {
                 controlEnabled = true;
@@ -414,6 +413,13 @@ namespace Controllers {
 
         public void SetBodyType(RigidbodyType2D bodyType) {
             rb.bodyType = bodyType;
+        }
+
+        public void SetVelocity(Vector2 newVelocity) {
+            velocity = newVelocity;
+            rb.velocity = newVelocity;
+            animator.SetFloat(VelocityX, Mathf.Abs(velocity.x) / maxRunSpeed);
+            animator.SetFloat(VelocityY, Mathf.Abs(velocity.y));
         }
     }
 }

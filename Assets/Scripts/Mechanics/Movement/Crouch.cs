@@ -90,6 +90,11 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
+            if (!_playerController.IsGrounded && _playerController.rb.bodyType == RigidbodyType2D.Dynamic) {
+                // Reset body type to Kinematic when player is not grounded so it doesn't fall through the floor
+                _playerController.SetBodyType(RigidbodyType2D.Kinematic);
+            }
+
             PerformCrouch();
 
             if (_slideCooldownTimer > 0) {
@@ -152,6 +157,7 @@ namespace Mechanics.Movement {
             if (_updateColliderCoroutine != null) {
                 return;
             }
+
             _updateColliderCoroutine = StartCoroutine(DelayedUpdateCollider());
         }
 
@@ -160,6 +166,7 @@ namespace Mechanics.Movement {
                 StopCoroutine(_endCrouchCoroutine);
                 _endCrouchCoroutine = null;
             }
+
             if (_updateColliderCoroutine != null) {
                 StopCoroutine(_updateColliderCoroutine);
                 _updateColliderCoroutine = null;
@@ -168,8 +175,10 @@ namespace Mechanics.Movement {
 
         private void StartCrouch(bool isRunning) {
             _isCrouching = true;
-            _playerController.SetSpeed(crouchSpeed);
+
+            _playerController.SetVelocity(Vector2.zero);
             _playerController.SetBodyType(RigidbodyType2D.Dynamic);
+            _playerController.SetSpeed(crouchSpeed);
 
             animator.SetBool(IsCrouching, true);
             CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);

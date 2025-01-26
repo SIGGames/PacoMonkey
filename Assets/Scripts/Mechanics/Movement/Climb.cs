@@ -125,8 +125,7 @@ namespace Mechanics.Movement {
                 isClimbing = false;
                 _rb.gravityScale = _previousGravityScale;
                 _playerController.gravityModifier = _previousGravityScale;
-                _rb.velocity = Vector2.zero;
-                _playerController.velocity = Vector2.zero;
+                _playerController.SetVelocity(Vector2.zero);
 
                 if (_playerController.movementState is PlayerMovementState.Run or PlayerMovementState.Walk) {
                     _playerController.jumpState = JumpState.InFlight;
