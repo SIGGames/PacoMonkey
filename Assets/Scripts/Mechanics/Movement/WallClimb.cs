@@ -3,7 +3,6 @@ using Enums;
 using Gameplay;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using Utils;
 using static Utils.AnimatorUtils;
 using static PlayerInput.KeyBinds;
@@ -24,8 +23,6 @@ namespace Mechanics.Movement {
 
         [Header("References")]
         [SerializeField] private LedgeDetection ledgeCheck;
-
-        [SerializeField] private TilemapCollider2D climbableTilemap;
 
         [SerializeField] private PlayerController player;
 
@@ -51,15 +48,10 @@ namespace Mechanics.Movement {
 
             _animator = GetComponent<Animator>();
 
-            if (climbableTilemap == null) {
-                climbableTilemap = FindObjectOfType<TilemapCollider2D>();
-            }
-
             _gravityModifier = player.gravityModifier;
 
-            if (player == null || ledgeCheck == null || climbableTilemap == null || _hold == null) {
-                Debugger.Log(("Player", player), ("LedgeCheck", ledgeCheck),
-                    ("ClimbableTilemap", climbableTilemap), ("Hold", _hold));
+            if (player == null || ledgeCheck == null || _hold == null) {
+                Debugger.Log(("Player", player), ("LedgeCheck", ledgeCheck), ("Hold", _hold));
                 enabled = false;
             }
         }
@@ -156,16 +148,10 @@ namespace Mechanics.Movement {
 
         private void SetClimbingState(bool isClimbing) {
             if (isClimbing) {
-                SetColliderEnabledStatus(false);
                 SetGravity(slideEffect);
             } else {
-                SetColliderEnabledStatus(true);
                 SetGravity(_gravityModifier * 100);
             }
-        }
-
-        private void SetColliderEnabledStatus(bool value) {
-            climbableTilemap.isTrigger = !value;
         }
 
         private void SetGravity(float value) {
