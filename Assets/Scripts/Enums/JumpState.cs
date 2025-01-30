@@ -4,6 +4,7 @@
         PrepareToJump,
         Jumping,
         InFlight,
-        Landed
+        Landed,
+        PrepareToJumpClimb
     }
 }
