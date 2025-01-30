@@ -290,6 +290,7 @@ namespace Controllers {
                     break;
                 case JumpState.Landed:
                     animator.SetBool(IsJumping, false);
+                    Schedule<PlayerLanded>().player = this;
                     jumpState = JumpState.Grounded;
                     break;
             }
