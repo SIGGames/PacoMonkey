@@ -5,6 +5,5 @@
         Jumping,
         InFlight,
         Landed,
-        PrepareToJumpClimb
     }
 }

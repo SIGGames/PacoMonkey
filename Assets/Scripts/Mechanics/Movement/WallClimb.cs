@@ -101,8 +101,19 @@ namespace Mechanics.Movement {
 
             bool isPressingOppositeDirection = (player.isFacingRight && GetHorizontalAxis() < 0f) ||
                                                (!player.isFacingRight && GetHorizontalAxis() > 0f);
+
+            if (isPressingOppositeDirection && GetVerticalAxis() == 0) {
+                _animator.SetFloat(IsTowardsUp, 0f);
+                _animator.SetBool(IsHoldingJumpOnClimb, true);
+                player.flipManager.Flip(!player.isFacingRight);
+            } else {
+                _animator.SetBool(IsHoldingJumpOnClimb, false);
+                player.flipManager.Flip(player.isFacingRight);
+            }
+
             if (GetJumpKeyDown() && isPressingOppositeDirection) {
                 StopClimbing();
+                _animator.SetBool(IsHoldingJumpOnClimb, false);
                 player.velocity = new Vector2((player.isFacingRight ? -1f : 1f) * climbSpeed, player.jumpTakeOffSpeed);
                 player.StartJump();
                 player.flipManager.Flip(!player.isFacingRight);
@@ -130,6 +141,7 @@ namespace Mechanics.Movement {
                 SetClimbingState(false);
                 player.UnlockMovementState();
                 _animator.SetBool(IsClimbing, false);
+                _animator.SetBool(IsHoldingJumpOnClimb, false);
             }
         }
 
