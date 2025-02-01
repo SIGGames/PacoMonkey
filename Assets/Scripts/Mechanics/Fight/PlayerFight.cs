@@ -77,6 +77,7 @@ namespace Mechanics.Fight {
 
         private void FinishAttack() {
             fightState = FightState.Idle;
+            playerController.FreezeHorizontalPosition(false);
         }
 
         private IEnumerator MeleeAttackCooldown() {
