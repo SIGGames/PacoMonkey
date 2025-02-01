@@ -69,6 +69,10 @@ namespace Mechanics.Fight {
                     if (enemyController != null) {
                         enemyController.TakeDamage(meleeDamage);
                     }
+                    EnemyController enemyController2 = enemy.GetComponent<EnemyController>();
+                    if (enemyController2 != null) {
+                        enemyController2.TakeDamage(meleeDamage);
+                    }
                 }
             }
 
