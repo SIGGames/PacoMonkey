@@ -126,9 +126,9 @@ TextureImporter:
       name: micca2-idle_0
       rect:
         serializedVersion: 2
-        x: 14
+        x: 0
         y: 0
-        width: 48
+        width: 64
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -137,7 +137,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 54c3546fbefff154a91f82d1009541b9
+      spriteID: ba1ff62baeba03049ac33555e526d038
       internalID: 2053560344
       vertices: []
       indices: 
@@ -147,9 +147,9 @@ TextureImporter:
       name: micca2-idle_1
       rect:
         serializedVersion: 2
-        x: 78
+        x: 64
         y: 0
-        width: 48
+        width: 64
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -158,7 +158,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f2ed6725248aaf4f850074c0659bd12
+      spriteID: 2b492124bbf168e4990d62b9a87f830f
       internalID: -1956784164
       vertices: []
       indices: 
@@ -168,9 +168,9 @@ TextureImporter:
       name: micca2-idle_2
       rect:
         serializedVersion: 2
-        x: 142
+        x: 128
         y: 0
-        width: 48
+        width: 64
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -179,7 +179,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 17d6bb51deb850e429331d106fbda971
+      spriteID: 137cf53254b639d42ada50f0db49e6a0
       internalID: -1814642964
       vertices: []
       indices: 
@@ -189,9 +189,9 @@ TextureImporter:
       name: micca2-idle_3
       rect:
         serializedVersion: 2
-        x: 206
+        x: 192
         y: 0
-        width: 48
+        width: 64
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -200,7 +200,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63ef3ce500c551f4882de7a8261fef75
+      spriteID: 80f80832a3a4bab4dbe3cf5cfa274004
       internalID: 391981364
       vertices: []
       indices: 
@@ -210,9 +210,9 @@ TextureImporter:
       name: micca2-idle_4
       rect:
         serializedVersion: 2
-        x: 270
+        x: 256
         y: 0
-        width: 48
+        width: 64
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -221,7 +221,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1661dc0e1a487b489a63a10f6883086
+      spriteID: 6f0ad093a271e934ab573efb625431bf
       internalID: -1864929253
       vertices: []
       indices: 
