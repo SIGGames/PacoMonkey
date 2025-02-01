@@ -114,6 +114,7 @@ namespace Mechanics.Movement {
             if (GetJumpKeyDown() && isPressingOppositeDirection) {
                 StopClimbing();
                 _animator.SetBool(IsHoldingJumpOnClimb, false);
+                _animator.SetBool(IsJumping, true);
                 player.velocity = new Vector2((player.isFacingRight ? -1f : 1f) * climbSpeed, player.jumpTakeOffSpeed);
                 player.StartJump();
                 player.flipManager.Flip(!player.isFacingRight);
