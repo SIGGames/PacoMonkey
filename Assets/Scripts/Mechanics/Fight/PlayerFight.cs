@@ -47,14 +47,18 @@ namespace Mechanics.Fight {
 
         private void Update() {
             if (isMeleeActive && GetMeleeKey() && _canAttack) {
-                TryMeleeAttack();
+                StartAttackAnimation();
             }
         }
 
-        private void TryMeleeAttack() {
+        private void StartAttackAnimation() {
+            playerController.FreezeHorizontalPosition();
             fightState = FightState.Melee;
             _animator.SetTrigger(MeleeAttack);
+        }
 
+        private void StartAttack() {
+            // Triggered on frame 3 of animator
             Vector3 attackPosition = (Vector2)transform.position + GetDirectionOffset();
             Collider2D[] enemiesInRange = Physics2D.OverlapBoxAll(attackPosition, meleeBoxSize, 0f, enemyLayer);
 
@@ -69,6 +73,10 @@ namespace Mechanics.Fight {
             }
 
             StartCoroutine(MeleeAttackCooldown());
+        }
+
+        private void FinishAttack() {
+            fightState = FightState.Idle;
         }
 
         private IEnumerator MeleeAttackCooldown() {
@@ -94,11 +102,6 @@ namespace Mechanics.Fight {
             return playerController.isFacingRight
                 ? meleeOffset
                 : new Vector2(-meleeOffset.x, meleeOffset.y);
-        }
-
-        public void SetIdleFightState() {
-            // This method is called by the animator when the attack animation ends
-            fightState = FightState.Idle;
         }
     }
 }
