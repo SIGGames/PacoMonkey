@@ -29,6 +29,7 @@ namespace Mechanics.Fight {
         [SerializeField] private GameObject rangedProjectilePrefab;
         [SerializeField, Range(-1, 1)] private float rangedVerticalOffset = 0.1f;
         [SerializeField, Range(0, 10)] private float rangedProjectileSpeed = 5f;
+        [SerializeField, Range(0, 10)] private float rangedProjectileDuration = 2f;
         [SerializeField, Range(0, 500)] private int rangedDamage = 200;
         [SerializeField, Range(0, 5)] private float rangedCooldownTime = 0.5f;
 
@@ -103,7 +104,7 @@ namespace Mechanics.Fight {
             Projectile projectileScript = projectile.GetComponent<Projectile>();
             if (projectileScript != null) {
                 projectileScript.Initialize(playerController.isFacingRight ? Vector2.right : Vector2.left,
-                    rangedProjectileSpeed, rangedDamage);
+                    rangedProjectileSpeed, rangedDamage, rangedProjectileDuration);
             }
             StartCoroutine(RangedAttackCooldown());
         }

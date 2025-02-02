@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 302a412e89f5767498bea1ee5f89ca3a
+guid: 43398c2211393704b8e1cc232df39151
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,7 +128,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 80
+        width: 128
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -137,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 91b7b89a7db05aa4a98ec66750bcd811
-      internalID: 2125461941
+      spriteID: c07775a74b66ed44ca1e253dc4c257af
+      internalID: -319044072
       vertices: []
       indices: 
       edges: []
@@ -147,9 +147,9 @@ TextureImporter:
       name: micca2-ranged-attack_1
       rect:
         serializedVersion: 2
-        x: 80
+        x: 128
         y: 0
-        width: 80
+        width: 128
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -158,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3ddb0ce9085f8d48b53d31dc9765a3f
-      internalID: 1908638777
+      spriteID: 8f35cc27d4f787a49af30beedfee2a67
+      internalID: -1267234971
       vertices: []
       indices: 
       edges: []
@@ -168,9 +168,9 @@ TextureImporter:
       name: micca2-ranged-attack_2
       rect:
         serializedVersion: 2
-        x: 160
+        x: 256
         y: 0
-        width: 80
+        width: 128
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -179,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 64cc5042f39a23b4d9c239fc775cac70
-      internalID: -759310569
+      spriteID: 04ffdf55118ecb848af12fb1c51476c3
+      internalID: 723689325
       vertices: []
       indices: 
       edges: []
@@ -189,9 +189,9 @@ TextureImporter:
       name: micca2-ranged-attack_3
       rect:
         serializedVersion: 2
-        x: 240
+        x: 384
         y: 0
-        width: 80
+        width: 128
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -200,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f815fff13e0ba149aa7534faf9d5397
-      internalID: -767174427
+      spriteID: 87c7eb603cd62ea4ca1a169f5221dc86
+      internalID: -2062007246
       vertices: []
       indices: 
       edges: []
@@ -210,9 +210,9 @@ TextureImporter:
       name: micca2-ranged-attack_4
       rect:
         serializedVersion: 2
-        x: 320
+        x: 512
         y: 0
-        width: 80
+        width: 128
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -221,8 +221,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6e3fa94abf368642b9928ba51998ef0
-      internalID: 812243747
+      spriteID: 6bb84b8c582320849a1f1deb89ae7c71
+      internalID: 792340678
       vertices: []
       indices: 
       edges: []
@@ -231,9 +231,9 @@ TextureImporter:
       name: micca2-ranged-attack_5
       rect:
         serializedVersion: 2
-        x: 400
+        x: 640
         y: 0
-        width: 80
+        width: 128
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -242,8 +242,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aab1ecfd554ae014ebaf41e287e8fe97
-      internalID: -685518391
+      spriteID: 1af23bd1cfffa0d4780fbbd07dc24623
+      internalID: 1651761285
       vertices: []
       indices: 
       edges: []
@@ -252,9 +252,9 @@ TextureImporter:
       name: micca2-ranged-attack_6
       rect:
         serializedVersion: 2
-        x: 480
+        x: 768
         y: 0
-        width: 80
+        width: 128
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -263,8 +263,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3eb7f4b6adeac743ae78df2f8048f72
-      internalID: -1816410110
+      spriteID: 199fb612fddd7d44c842b7e0a55b8dff
+      internalID: 692457156
       vertices: []
       indices: 
       edges: []
@@ -273,9 +273,9 @@ TextureImporter:
       name: micca2-ranged-attack_7
       rect:
         serializedVersion: 2
-        x: 560
+        x: 896
         y: 0
-        width: 80
+        width: 128
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -284,8 +284,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8037b10022429814f9385bfd4fbb97ab
-      internalID: 1458896333
+      spriteID: 497eebc9cee58ba4abf7f1b90ca14c0d
+      internalID: -908487286
       vertices: []
       indices: 
       edges: []
@@ -294,9 +294,9 @@ TextureImporter:
       name: micca2-ranged-attack_8
       rect:
         serializedVersion: 2
-        x: 640
+        x: 1024
         y: 0
-        width: 80
+        width: 128
         height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -305,8 +305,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd771979ab1184041baabe1a5b1275ed
-      internalID: -715806122
+      spriteID: 38f2233d0d74224438fd45a8301e9610
+      internalID: -905903893
       vertices: []
       indices: 
       edges: []
@@ -322,15 +322,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      micca2-ranged-attack_0: 2125461941
-      micca2-ranged-attack_1: 1908638777
-      micca2-ranged-attack_2: -759310569
-      micca2-ranged-attack_3: -767174427
-      micca2-ranged-attack_4: 812243747
-      micca2-ranged-attack_5: -685518391
-      micca2-ranged-attack_6: -1816410110
-      micca2-ranged-attack_7: 1458896333
-      micca2-ranged-attack_8: -715806122
+      micca2-ranged-attack_0: -319044072
+      micca2-ranged-attack_1: -1267234971
+      micca2-ranged-attack_2: 723689325
+      micca2-ranged-attack_3: -2062007246
+      micca2-ranged-attack_4: 792340678
+      micca2-ranged-attack_5: 1651761285
+      micca2-ranged-attack_6: 692457156
+      micca2-ranged-attack_7: -908487286
+      micca2-ranged-attack_8: -905903893
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
