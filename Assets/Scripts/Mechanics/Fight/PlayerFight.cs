@@ -44,6 +44,7 @@ namespace Mechanics.Fight {
             }
 
             _animator = playerController.animator;
+            fightState = FightState.Idle;
         }
 
         private void Update() {
@@ -109,11 +110,11 @@ namespace Mechanics.Fight {
         private Vector2 GetDirectionOffset() {
             return fightState switch {
                 FightState.Melee => playerController.isFacingRight
-                    ? meleeOffset
-                    : new Vector2(-meleeOffset.x, meleeOffset.y),
+                    ? new Vector2(meleeBoxSize.x / 2, meleeOffset.y)
+                    : new Vector2(-meleeBoxSize.x / 2, meleeOffset.y),
                 FightState.Ranged => playerController.isFacingRight
-                    ? rangedOffset
-                    : new Vector2(-rangedOffset.x, rangedOffset.y),
+                    ? new Vector2(rangedBoxSize.x / 2, rangedOffset.y)
+                    : new Vector2(-rangedBoxSize.x / 2, rangedOffset.y),
                 _ => Vector2.zero
             };
         }
