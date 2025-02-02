@@ -17,16 +17,18 @@ namespace Mechanics.Fight {
         [Header("Melee Attack Settings")]
         [SerializeField] private bool isMeleeActive = true;
 
+        [SerializeField] private bool alwaysDrawMeleeBox;
         [SerializeField] private Vector2 meleeBoxSize = new(1f, 1f);
-        [SerializeField] private Vector2 meleeOffset = new(0.5f, 0.5f);
+        [SerializeField] [Range(-1, 1)] private float meleeVerticalOffset = 0.1f;
         [SerializeField] [Range(0, 500)] private int meleeDamage = 200;
         [SerializeField] [Range(0, 5)] private float cooldownTime = 0.5f;
 
         [Header("Range Attack Settings")]
         [SerializeField] private bool isRangedActive = true;
 
+        [SerializeField] private bool alwaysDrawRangedBox;
         [SerializeField] private Vector2 rangedBoxSize = new(1f, 1f);
-        [SerializeField] private Vector2 rangedOffset = new(0.5f, 0.5f);
+        [SerializeField] [Range(-1, 1)] private float rangedVerticalOffset = 0.1f;
         [SerializeField] [Range(0, 500)] private int rangedDamage = 200;
 
         private Animator _animator;
@@ -94,28 +96,32 @@ namespace Mechanics.Fight {
         }
 
         private void OnDrawGizmosSelected() {
-            if (fightState == FightState.Melee) {
+            if (fightState == FightState.Melee || alwaysDrawMeleeBox) {
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireCube(GizmoPosition(), meleeBoxSize);
+                Gizmos.DrawWireCube(GetGizmoPosition(meleeBoxSize, meleeVerticalOffset), meleeBoxSize);
             }
 
-            if (fightState == FightState.Ranged) {
+            if (fightState == FightState.Ranged || alwaysDrawRangedBox) {
                 Gizmos.color = Color.blue;
-                Gizmos.DrawWireCube(GizmoPosition(), rangedBoxSize);
+                Gizmos.DrawWireCube(GetGizmoPosition(rangedBoxSize, rangedVerticalOffset), rangedBoxSize);
             }
         }
 
-        private Vector3 GizmoPosition() => (Vector2)transform.position + GetDirectionOffset();
+        private Vector3 GetGizmoPosition(Vector2 boxSize, float verticalOffset) {
+            return (Vector2)transform.position + CalculateOffset(boxSize, verticalOffset);
+        }
+
+        private Vector2 CalculateOffset(Vector2 boxSize, float verticalOffset) {
+            return playerController.isFacingRight
+                ? new Vector2(boxSize.x / 2, verticalOffset)
+                : new Vector2(-boxSize.x / 2, verticalOffset);
+        }
 
         private Vector2 GetDirectionOffset() {
             return fightState switch {
-                FightState.Melee => playerController.isFacingRight
-                    ? new Vector2(meleeBoxSize.x / 2, meleeOffset.y)
-                    : new Vector2(-meleeBoxSize.x / 2, meleeOffset.y),
-                FightState.Ranged => playerController.isFacingRight
-                    ? new Vector2(rangedBoxSize.x / 2, rangedOffset.y)
-                    : new Vector2(-rangedBoxSize.x / 2, rangedOffset.y),
-                _ => Vector2.zero
+                FightState.Melee => CalculateOffset(meleeBoxSize, meleeVerticalOffset),
+                FightState.Ranged => CalculateOffset(rangedBoxSize, rangedVerticalOffset),
+                _ => CalculateOffset(meleeBoxSize, 0)
             };
         }
     }
