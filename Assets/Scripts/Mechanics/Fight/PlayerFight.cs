@@ -51,14 +51,24 @@ namespace Mechanics.Fight {
 
         private void Update() {
             if (isMeleeActive && GetMeleeKey() && _canAttack) {
-                StartAttackAnimation();
+                StartMeleeAttackAnimation();
+            }
+
+            if (isRangedActive && GetRangeKey() && _canAttack) {
+                StartRangedAttackAnimation();
             }
         }
 
-        private void StartAttackAnimation() {
+        private void StartMeleeAttackAnimation() {
             playerController.FreezeHorizontalPosition();
             fightState = FightState.Melee;
             _animator.SetTrigger(MeleeAttack);
+        }
+
+        private void StartRangedAttackAnimation() {
+            playerController.FreezeHorizontalPosition();
+            fightState = FightState.Ranged;
+            _animator.SetTrigger(RangedAttack);
         }
 
         private void StartMeleeAttack() {
@@ -82,6 +92,10 @@ namespace Mechanics.Fight {
             }
 
             StartCoroutine(MeleeAttackCooldown());
+        }
+
+        private void StartRangedAttack() {
+            // TODO: Attack
         }
 
         private void FinishAttack() {
