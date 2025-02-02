@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Controllers;
 using Enums;
+using Gameplay;
 using UnityEngine;
 using static PlayerInput.KeyBinds;
 using static Utils.AnimatorUtils;
@@ -22,6 +23,8 @@ namespace Mechanics.Fight {
         [SerializeField, Range(-1, 1)] private float meleeVerticalOffset = 0.1f;
         [SerializeField, Range(0, 500)] private int meleeDamage = 200;
         [SerializeField, Range(0, 5)] private float cooldownTime = 0.5f;
+        [SerializeField] private Vector2 meleeBounceForce = new(5f, 0f);
+        private LedgeDetection ledgeCheck;
 
         [Header("Range Attack Settings")]
         [SerializeField] private bool isRangedActive = true;
@@ -46,6 +49,8 @@ namespace Mechanics.Fight {
                 enabled = false;
                 return;
             }
+
+            ledgeCheck = GetComponentInChildren<LedgeDetection>();
 
             _animator = playerController.animator;
             fightState = FightState.Idle;
@@ -108,6 +113,13 @@ namespace Mechanics.Fight {
             }
 
             StartCoroutine(RangedAttackCooldown());
+        }
+
+        private void CheckWallOnMelee() {
+            if (ledgeCheck != null && ledgeCheck.isNearWall) {
+                FinishAttack();
+                playerController.Bounce(meleeBounceForce);
+            }
         }
 
         private void FinishAttack() {
