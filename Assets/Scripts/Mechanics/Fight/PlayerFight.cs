@@ -19,14 +19,15 @@ namespace Mechanics.Fight {
 
         [SerializeField] private Vector2 meleeBoxSize = new(1f, 1f);
         [SerializeField] private Vector2 meleeOffset = new(0.5f, 0.5f);
-        [SerializeField] private int meleeDamage = 200;
-        [SerializeField] private float cooldownTime = 0.5f;
+        [SerializeField] [Range(0, 500)] private int meleeDamage = 200;
+        [SerializeField] [Range(0, 5)] private float cooldownTime = 0.5f;
 
         [Header("Range Attack Settings")]
         [SerializeField] private bool isRangedActive = true;
 
-        [SerializeField] private float rangedRange = 10f;
-        [SerializeField] private int rangedDamage = 200;
+        [SerializeField] private Vector2 rangedBoxSize = new(1f, 1f);
+        [SerializeField] private Vector2 rangedOffset = new(0.5f, 0.5f);
+        [SerializeField] [Range(0, 500)] private int rangedDamage = 200;
 
         private Animator _animator;
         private bool _canAttack = true;
@@ -69,6 +70,7 @@ namespace Mechanics.Fight {
                     if (enemyController != null) {
                         enemyController.TakeDamage(meleeDamage);
                     }
+
                     EnemyController enemyController2 = enemy.GetComponent<EnemyController>();
                     if (enemyController2 != null) {
                         enemyController2.TakeDamage(meleeDamage);
@@ -93,20 +95,27 @@ namespace Mechanics.Fight {
         private void OnDrawGizmosSelected() {
             if (fightState == FightState.Melee) {
                 Gizmos.color = Color.red;
-                Vector3 gizmoPosition = (Vector2)transform.position + GetDirectionOffset();
-                Gizmos.DrawWireCube(gizmoPosition, meleeBoxSize);
+                Gizmos.DrawWireCube(GizmoPosition(), meleeBoxSize);
             }
 
             if (fightState == FightState.Ranged) {
                 Gizmos.color = Color.blue;
-                Gizmos.DrawWireSphere(transform.position, rangedRange);
+                Gizmos.DrawWireCube(GizmoPosition(), rangedBoxSize);
             }
         }
 
+        private Vector3 GizmoPosition() => (Vector2)transform.position + GetDirectionOffset();
+
         private Vector2 GetDirectionOffset() {
-            return playerController.isFacingRight
-                ? meleeOffset
-                : new Vector2(-meleeOffset.x, meleeOffset.y);
+            return fightState switch {
+                FightState.Melee => playerController.isFacingRight
+                    ? meleeOffset
+                    : new Vector2(-meleeOffset.x, meleeOffset.y),
+                FightState.Ranged => playerController.isFacingRight
+                    ? rangedOffset
+                    : new Vector2(-rangedOffset.x, rangedOffset.y),
+                _ => Vector2.zero
+            };
         }
     }
 }
