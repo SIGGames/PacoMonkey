@@ -26,13 +26,11 @@ namespace Mechanics.Fight {
         [Header("Range Attack Settings")]
         [SerializeField] private bool isRangedActive = true;
 
-        [SerializeField] private bool alwaysDrawRangedBox;
-        [SerializeField] private Vector2 rangedBoxSize = new(1f, 1f);
-        [SerializeField, Range(-1, 1)] private float rangedVerticalOffset = 0.1f;
-        [SerializeField, Range(0, 500)] private int rangedDamage = 200;
         [SerializeField] private GameObject rangedProjectilePrefab;
-        [SerializeField] private float rangedProjectileSpeed = 10f;
-        [SerializeField] private float rangedCooldownTime = 0.5f;
+        [SerializeField, Range(-1, 1)] private float rangedVerticalOffset = 0.1f;
+        [SerializeField, Range(0, 10)] private float rangedProjectileSpeed = 5f;
+        [SerializeField, Range(0, 500)] private int rangedDamage = 200;
+        [SerializeField, Range(0, 5)] private float rangedCooldownTime = 0.5f;
 
         private Animator _animator;
         private bool _canAttack = true;
@@ -132,11 +130,6 @@ namespace Mechanics.Fight {
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireCube(GetGizmoPosition(meleeBoxSize, meleeVerticalOffset), meleeBoxSize);
             }
-
-            if (fightState == FightState.Ranged || alwaysDrawRangedBox) {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawWireCube(GetGizmoPosition(rangedBoxSize, rangedVerticalOffset), rangedBoxSize);
-            }
         }
 
         private Vector3 GetGizmoPosition(Vector2 boxSize, float verticalOffset) {
@@ -149,16 +142,9 @@ namespace Mechanics.Fight {
                 : new Vector2(-boxSize.x / 2, verticalOffset);
         }
 
-        private Vector2 CalculateSpawnOffset(Vector2 boxSize, float verticalOffset) {
-            return playerController.isFacingRight
-                ? new Vector2(boxSize.x, verticalOffset)
-                : new Vector2(-boxSize.x, verticalOffset);
-        }
-
         private Vector2 GetDirectionOffset() {
             return fightState switch {
                 FightState.Melee => CalculateOffset(meleeBoxSize, meleeVerticalOffset),
-                FightState.Ranged => CalculateOffset(rangedBoxSize, rangedVerticalOffset),
                 _ => CalculateOffset(meleeBoxSize, 0)
             };
         }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Controllers;
+using UnityEngine;
 using static Utils.AnimatorUtils;
 
 namespace Mechanics.Fight {
@@ -32,8 +33,26 @@ namespace Mechanics.Fight {
             transform.Translate(_direction * (_speed * Time.deltaTime));
         }
 
-        private void DestroyGameObject() {
+        private void DestroyProjectile() {
             Destroy(gameObject);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision) {
+            Enemy enemy = collision.GetComponent<Enemy>();
+            if (enemy != null) {
+                enemy.TakeDamage(_damage);
+                Destroy(gameObject);
+                return;
+            }
+
+            EnemyController enemyController = collision.GetComponent<EnemyController>();
+            if (enemyController != null) {
+                enemyController.TakeDamage(_damage);
+                Destroy(gameObject);
+                return;
+            }
+
+            DestroyProjectile();
         }
     }
 }
