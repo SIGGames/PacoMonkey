@@ -61,7 +61,7 @@ namespace Mechanics.Fight {
             _animator.SetTrigger(MeleeAttack);
         }
 
-        private void StartAttack() {
+        private void StartMeleeAttack() {
             // Triggered on frame 3 of animator
             Vector3 attackPosition = (Vector2)transform.position + GetDirectionOffset();
             Collider2D[] enemiesInRange = Physics2D.OverlapBoxAll(attackPosition, meleeBoxSize, 0f, enemyLayer);
