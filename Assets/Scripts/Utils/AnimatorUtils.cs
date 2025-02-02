@@ -13,6 +13,7 @@ namespace Utils {
         public static readonly int IsTowardsUp = Animator.StringToHash("isTowardsUp");
         public static readonly int MeleeAttack = Animator.StringToHash("meleeAttack");
         public static readonly int RangedAttack = Animator.StringToHash("rangedAttack");
+        public static readonly int StartProjectile = Animator.StringToHash("startProjectile");
         public static readonly int VelocityX = Animator.StringToHash("velocityX");
         public static readonly int VelocityY = Animator.StringToHash("velocityY");
     }

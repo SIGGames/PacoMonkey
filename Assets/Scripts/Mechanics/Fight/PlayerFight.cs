@@ -19,17 +19,20 @@ namespace Mechanics.Fight {
 
         [SerializeField] private bool alwaysDrawMeleeBox;
         [SerializeField] private Vector2 meleeBoxSize = new(1f, 1f);
-        [SerializeField] [Range(-1, 1)] private float meleeVerticalOffset = 0.1f;
-        [SerializeField] [Range(0, 500)] private int meleeDamage = 200;
-        [SerializeField] [Range(0, 5)] private float cooldownTime = 0.5f;
+        [SerializeField, Range(-1, 1)] private float meleeVerticalOffset = 0.1f;
+        [SerializeField, Range(0, 500)] private int meleeDamage = 200;
+        [SerializeField, Range(0, 5)] private float cooldownTime = 0.5f;
 
         [Header("Range Attack Settings")]
         [SerializeField] private bool isRangedActive = true;
 
         [SerializeField] private bool alwaysDrawRangedBox;
         [SerializeField] private Vector2 rangedBoxSize = new(1f, 1f);
-        [SerializeField] [Range(-1, 1)] private float rangedVerticalOffset = 0.1f;
-        [SerializeField] [Range(0, 500)] private int rangedDamage = 200;
+        [SerializeField, Range(-1, 1)] private float rangedVerticalOffset = 0.1f;
+        [SerializeField, Range(0, 500)] private int rangedDamage = 200;
+        [SerializeField] private GameObject rangedProjectilePrefab;
+        [SerializeField] private float rangedProjectileSpeed = 10f;
+        [SerializeField] private float rangedCooldownTime = 0.5f;
 
         private Animator _animator;
         private bool _canAttack = true;
@@ -94,8 +97,17 @@ namespace Mechanics.Fight {
             StartCoroutine(MeleeAttackCooldown());
         }
 
+        // This method is called by the animator
         private void StartRangedAttack() {
-            // TODO: Attack
+            Vector2 playerPosition = transform.position;
+            Vector2 spawnPos = new Vector2(playerPosition.x, playerPosition.y + rangedVerticalOffset);
+            GameObject projectile = Instantiate(rangedProjectilePrefab, spawnPos, Quaternion.identity);
+            Projectile projectileScript = projectile.GetComponent<Projectile>();
+            if (projectileScript != null) {
+                projectileScript.Initialize(playerController.isFacingRight ? Vector2.right : Vector2.left,
+                    rangedProjectileSpeed, rangedDamage);
+            }
+            StartCoroutine(RangedAttackCooldown());
         }
 
         private void FinishAttack() {
@@ -106,6 +118,12 @@ namespace Mechanics.Fight {
         private IEnumerator MeleeAttackCooldown() {
             _canAttack = false;
             yield return new WaitForSeconds(cooldownTime);
+            _canAttack = true;
+        }
+
+        private IEnumerator RangedAttackCooldown() {
+            _canAttack = false;
+            yield return new WaitForSeconds(rangedCooldownTime);
             _canAttack = true;
         }
 
@@ -129,6 +147,12 @@ namespace Mechanics.Fight {
             return playerController.isFacingRight
                 ? new Vector2(boxSize.x / 2, verticalOffset)
                 : new Vector2(-boxSize.x / 2, verticalOffset);
+        }
+
+        private Vector2 CalculateSpawnOffset(Vector2 boxSize, float verticalOffset) {
+            return playerController.isFacingRight
+                ? new Vector2(boxSize.x, verticalOffset)
+                : new Vector2(-boxSize.x, verticalOffset);
         }
 
         private Vector2 GetDirectionOffset() {
