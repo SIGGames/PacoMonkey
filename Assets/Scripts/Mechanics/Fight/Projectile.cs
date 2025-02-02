@@ -8,17 +8,23 @@ namespace Mechanics.Fight {
         private int _damage;
 
         [SerializeField] private Animator projectileAnimator;
+        [SerializeField] private SpriteRenderer spriteRenderer;
 
         public void Initialize(Vector2 dir, float spd, int dmg) {
             _direction = dir;
             _speed = spd;
             _damage = dmg;
             projectileAnimator.SetTrigger(StartProjectile);
+            spriteRenderer.flipX = dir.x < 0;
         }
 
         private void Awake() {
             if (projectileAnimator == null) {
                 projectileAnimator = GetComponent<Animator>();
+            }
+
+            if (spriteRenderer == null) {
+                spriteRenderer = GetComponent<SpriteRenderer>();
             }
         }
 

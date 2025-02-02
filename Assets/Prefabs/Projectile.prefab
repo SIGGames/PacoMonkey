@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileAnimator: {fileID: 2361677773135802664}
+  spriteRenderer: {fileID: 3523231188123169847}
 --- !u!95 &2361677773135802664
 Animator:
   serializedVersion: 5
