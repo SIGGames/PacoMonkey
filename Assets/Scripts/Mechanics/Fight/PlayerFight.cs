@@ -27,7 +27,7 @@ namespace Mechanics.Fight {
         [SerializeField] private bool isRangedActive = true;
 
         [SerializeField] private GameObject rangedProjectilePrefab;
-        [SerializeField, Range(-1, 1)] private float rangedVerticalOffset = 0.1f;
+        [SerializeField] private Vector2 rangedOffset = new(0.1f, 0.1f);
         [SerializeField, Range(0, 10)] private float rangedProjectileSpeed = 5f;
         [SerializeField, Range(0, 10)] private float rangedProjectileDuration = 2f;
         [SerializeField, Range(0, 500)] private int rangedDamage = 200;
@@ -99,13 +99,14 @@ namespace Mechanics.Fight {
         // This method is called by the animator
         private void StartRangedAttack() {
             Vector2 playerPosition = transform.position;
-            Vector2 spawnPos = new Vector2(playerPosition.x, playerPosition.y + rangedVerticalOffset);
+            Vector2 spawnPos = new Vector2(playerPosition.x + GetRangedOffset(), playerPosition.y + rangedOffset.y);
             GameObject projectile = Instantiate(rangedProjectilePrefab, spawnPos, Quaternion.identity);
             Projectile projectileScript = projectile.GetComponent<Projectile>();
             if (projectileScript != null) {
                 projectileScript.Initialize(playerController.isFacingRight ? Vector2.right : Vector2.left,
                     rangedProjectileSpeed, rangedDamage, rangedProjectileDuration);
             }
+
             StartCoroutine(RangedAttackCooldown());
         }
 
@@ -141,6 +142,10 @@ namespace Mechanics.Fight {
             return playerController.isFacingRight
                 ? new Vector2(boxSize.x / 2, verticalOffset)
                 : new Vector2(-boxSize.x / 2, verticalOffset);
+        }
+
+        private float GetRangedOffset() {
+            return playerController.isFacingRight ? rangedOffset.x : -rangedOffset.x;
         }
 
         private Vector2 GetDirectionOffset() {
