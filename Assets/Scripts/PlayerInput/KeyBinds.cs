@@ -96,5 +96,9 @@ namespace PlayerInput {
         public static bool GetRangeKey() {
             return PlayerControls.Range.triggered;
         }
+
+        public static bool GetParryKey() {
+            return PlayerControls.Parry.triggered;
+        }
     }
 }

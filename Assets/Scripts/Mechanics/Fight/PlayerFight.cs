@@ -36,8 +36,15 @@ namespace Mechanics.Fight {
         [SerializeField, Range(0, 500)] private int rangedDamage = 200;
         [SerializeField, Range(0, 5)] private float rangedCooldownTime = 0.5f;
 
+        [Header("Parry Settings")]
+        [SerializeField] private bool isParryActive = true;
+
+        [SerializeField, Range(0, 5)] private float parryCooldownTime = 1f;
+
+
         private Animator _animator;
         private bool _canAttack = true;
+        private bool _canParry = true;
 
         private void Awake() {
             if (playerController == null) {
@@ -63,6 +70,10 @@ namespace Mechanics.Fight {
 
             if (isRangedActive && GetRangeKey() && _canAttack) {
                 StartRangedAttackAnimation();
+            }
+
+            if (isParryActive && GetParryKey() && _canParry) {
+                StartParry();
             }
         }
 
@@ -134,6 +145,12 @@ namespace Mechanics.Fight {
             }
         }
 
+        private void StartParry() {
+            fightState = FightState.Parry;
+            _animator.SetTrigger(Parry);
+            StartCoroutine(ParryCooldown());
+        }
+
         private void FinishAttack() {
             fightState = FightState.Idle;
             playerController.FreezeHorizontalPosition(false);
@@ -149,6 +166,12 @@ namespace Mechanics.Fight {
             _canAttack = false;
             yield return new WaitForSeconds(rangedCooldownTime);
             _canAttack = true;
+        }
+
+        private IEnumerator ParryCooldown() {
+            _canParry = false;
+            yield return new WaitForSeconds(parryCooldownTime);
+            _canParry = true;
         }
 
         private void OnDrawGizmosSelected() {

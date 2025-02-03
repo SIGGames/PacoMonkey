@@ -4,7 +4,7 @@
         Melee,
         Ranged,
         FollowThrough,
-        Block
+        Parry
     }
 
     public static class FightStateMethods {
