@@ -6,7 +6,8 @@ using UnityEngine;
 using static Platformer.Core.Simulation;
 
 namespace Controllers {
-    [RequireComponent(typeof(AnimationController), typeof(Collider2D)), RequireComponent(typeof(AudioSource)), RequireComponent(typeof(SpriteRenderer)), RequireComponent(typeof(Health.Health))]
+    [RequireComponent(typeof(AnimationController), typeof(Collider2D)),
+     RequireComponent(typeof(AudioSource)), RequireComponent(typeof(SpriteRenderer)), RequireComponent(typeof(Health.Health))]
     public class EnemyController : MonoBehaviour {
         public PatrolPath path;
         public AudioClip ouch;
@@ -19,6 +20,8 @@ namespace Controllers {
         public Health.Health health;
         [SerializeField] FloatingHealthBar healthBar;
 
+        private bool HasHealthBar => healthBar != null;
+
         public Bounds Bounds => _collider.bounds;
 
         void Awake() {
@@ -26,12 +29,14 @@ namespace Controllers {
             _collider = GetComponent<Collider2D>();
             _audio = GetComponent<AudioSource>();
             spriteRenderer = GetComponent<SpriteRenderer>();
-            healthBar = GetComponentInChildren<FloatingHealthBar>();
+            if (healthBar == null) {
+                healthBar = GetComponentInChildren<FloatingHealthBar>();
+            }
             health = GetComponent<Health.Health>();
         }
 
         private void Start() {
-            if (healthBar != null) {
+            if (HasHealthBar) {
                 healthBar.UpdateHealthBar(health.CurrentHealth, health.maxHealth);
             }
         }
@@ -57,20 +62,14 @@ namespace Controllers {
         void HandleLives() {
             if (health.IsAlive) {
                 spriteRenderer.color = Color.red;
-            }
-            else {
+            } else {
                 spriteRenderer.color = Color.black;
-            }
-
-            // TODO: Remove this
-            if (Input.GetKeyDown(KeyCode.U)) {
-                TakeDamage(10);
             }
         }
 
         public void TakeDamage(float damage) {
-            health.CurrentHealth -= damage;
-            if (healthBar != null) {
+            health.DecrementHealth(damage);
+            if (HasHealthBar) {
                 healthBar.UpdateHealthBar(health.CurrentHealth, health.maxHealth);
                 healthBar.ShowFloatingHealthBar();
             }
