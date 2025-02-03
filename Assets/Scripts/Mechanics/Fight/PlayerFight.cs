@@ -96,7 +96,6 @@ namespace Mechanics.Fight {
 
             if (enemiesInRange.Length > 0) {
                 foreach (Collider2D enemy in enemiesInRange) {
-                    // TODO: Do a map of enemies to avoid GetComponent in every iteration
                     Enemy enemyController = enemy.GetComponent<Enemy>();
                     if (enemyController != null) {
                         enemyController.TakeDamage(meleeDamage);
