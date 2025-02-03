@@ -26,7 +26,7 @@ namespace Mechanics.Fight {
         [SerializeField] private Vector2 meleeBounceForce = new(5f, 0f);
         private LedgeDetection ledgeCheck;
 
-        [Header("Range Attack Settings")]
+        [Header("Ranged Attack Settings")]
         [SerializeField] private bool isRangedActive = true;
 
         [SerializeField] private GameObject rangedProjectilePrefab;

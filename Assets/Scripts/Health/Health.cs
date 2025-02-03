@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 namespace Health {
     public class Health : MonoBehaviour {
         // Constants
-        private const float MaxInspectorHealth = 100;
+        private const float MaxInspectorHealth = 500;
 
         [SerializeField, HalfStepSlider(0, MaxInspectorHealth)]
         private float startingHealth = 50;
