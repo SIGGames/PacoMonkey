@@ -118,7 +118,19 @@ namespace Mechanics.Fight {
         private void CheckWallOnMelee() {
             if (ledgeCheck != null && ledgeCheck.isNearWall) {
                 FinishAttack();
+                // Sometimes the player is not bounced, so we need to call it again until the player is bounced
+                StartCoroutine(BouncePlayerCoroutine());
+            }
+        }
+
+        private IEnumerator BouncePlayerCoroutine() {
+            while (true) {
+                Vector3 previousPosition = transform.position;
                 playerController.Bounce(meleeBounceForce);
+                yield return new WaitForSeconds(0.1f);
+                if (Vector3.Distance(transform.position, previousPosition) > 0.01f) {
+                    break;
+                }
             }
         }
 
