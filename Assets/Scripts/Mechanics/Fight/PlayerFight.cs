@@ -137,7 +137,7 @@ namespace Mechanics.Fight {
             while (true) {
                 Vector3 previousPosition = transform.position;
                 playerController.Bounce(meleeBounceForce);
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.05f);
                 if (Vector3.Distance(transform.position, previousPosition) > 0.01f) {
                     break;
                 }
