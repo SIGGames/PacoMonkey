@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 
 namespace UnityEditor.WelcomeDialog {
     public class TutorialCallbacks : ScriptableObject {
@@ -30,3 +31,4 @@ namespace UnityEditor.WelcomeDialog {
         }
     }
 }
+#endif
