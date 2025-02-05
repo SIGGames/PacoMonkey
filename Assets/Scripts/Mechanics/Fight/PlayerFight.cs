@@ -60,6 +60,11 @@ namespace Mechanics.Fight {
             ledgeCheck = GetComponentInChildren<LedgeDetection>();
 
             _animator = playerController.animator;
+
+            if (_animator == null) {
+                _animator = playerController.GetComponent<Animator>();
+            }
+
             fightState = FightState.Idle;
         }
 
