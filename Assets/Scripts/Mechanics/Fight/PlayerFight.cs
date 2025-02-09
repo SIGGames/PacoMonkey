@@ -83,13 +83,18 @@ namespace Mechanics.Fight {
         }
 
         private void StartMeleeAttackAnimation() {
-            playerController.FreezeHorizontalPosition();
+            if (playerController.IsGrounded) {
+                playerController.FreezeHorizontalPosition();
+            }
+
             fightState = FightState.Melee;
             _animator.SetTrigger(MeleeAttack);
         }
 
         private void StartRangedAttackAnimation() {
-            playerController.FreezeHorizontalPosition();
+            if (playerController.IsGrounded) {
+                playerController.FreezeHorizontalPosition();
+            }
             fightState = FightState.Ranged;
             _animator.SetTrigger(RangedAttack);
         }
