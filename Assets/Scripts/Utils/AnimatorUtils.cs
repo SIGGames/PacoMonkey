@@ -2,7 +2,10 @@
 
 namespace Utils {
     public static class AnimatorUtils {
+        public static readonly int Dead = Animator.StringToHash("dead");
+        public static readonly int Death = Animator.StringToHash("death");
         public static readonly int Grounded = Animator.StringToHash("grounded");
+        public static readonly int Hurt = Animator.StringToHash("hurt");
         public static readonly int IsClimbing = Animator.StringToHash("isClimbing");
         public static readonly int IsCrouching = Animator.StringToHash("isCrouching");
         public static readonly int IsFlipping = Animator.StringToHash("isFlipping");

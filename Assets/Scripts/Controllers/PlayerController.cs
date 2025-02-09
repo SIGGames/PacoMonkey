@@ -2,7 +2,6 @@
 using Gameplay;
 using Health;
 using Managers;
-using Platformer.Gameplay;
 using UnityEngine;
 using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
@@ -118,6 +117,8 @@ namespace Controllers {
 
         private float _speedMultiplier = 1f;
         private float _jumpDecelerationTimer;
+        private bool _isDying;
+        [HideInInspector] public Vector3 respawnPosition;
 
         void Awake() {
             InitializeComponents();
@@ -126,6 +127,7 @@ namespace Controllers {
             flipManager = new FlipManager(_spriteRenderer, boxCollider, animator, flipOffsetChange, isFacingRight);
             _colliderManager = new ColliderManager(collider2d);
             _colliderManager.UpdateCollider(false, boxCollider.size);
+            respawnPosition = transform.position;
         }
 
         protected override void Update() {
@@ -144,11 +146,6 @@ namespace Controllers {
             if (!_isColliderInitialized) {
                 InitializeCollider();
                 _isColliderInitialized = true;
-            }
-
-            if (Input.GetKeyDown(KeyCode.F6)) {
-                // TODO: This bind is just for testing purposes, this will be removed
-                Schedule<PlayerSpawn>();
             }
         }
 
@@ -175,11 +172,29 @@ namespace Controllers {
         }
 
         private void HandleLives() {
-            if (lives.IsAlive) {
+            if (Input.GetKeyDown(KeyCode.F8)) {
+                // TODO: This keybind is temporal
+                lives.Die();
+            }
+
+            if (lives.IsAlive || _isDying || !enabled) {
                 return;
             }
 
-            Schedule<PlayerDeath>();
+            CharacterManager characterManager = FindObjectOfType<CharacterManager>();
+            if (characterManager != null) {
+                animator.SetBool(Dead, true);
+                animator.SetTrigger(Death);
+                _isDying = true;
+                characterManager.RespawnCharacter();
+            }
+        }
+
+        public void ResetState() {
+            animator.SetBool(Dead, false);
+            Teleport(respawnPosition);
+            lives.ResetLives();
+            _isDying = false;
         }
 
         private void HandleHorizontalMovement() {
@@ -193,8 +208,7 @@ namespace Controllers {
             }
 
             float speedDifference = targetSpeed - velocity.x;
-            float accelerationRate =
-                (Mathf.Abs(targetSpeed) > MovementThreshold) ? runAcceleration : runDeceleration;
+            float accelerationRate = (Mathf.Abs(targetSpeed) > MovementThreshold) ? runAcceleration : runDeceleration;
             float movement = Mathf.Clamp(speedDifference, -accelerationRate * Time.deltaTime,
                 accelerationRate * Time.deltaTime);
 

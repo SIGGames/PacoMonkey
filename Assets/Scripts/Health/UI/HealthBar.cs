@@ -5,7 +5,7 @@ namespace Health.UI {
     public class HealthBar : MonoBehaviour {
         public GameObject heartPrefab;
         public Lives playerLives;
-        private readonly List<HealthHeart> _hearts = new List<HealthHeart>();
+        private readonly List<HealthHeart> _hearts = new();
 
         void Start() {
             playerLives.OnLivesChanged += UpdateUI;
@@ -39,11 +39,9 @@ namespace Health.UI {
             for (int i = 0; i < _hearts.Count; i++) {
                 if (currentLives >= i + 1) {
                     _hearts[i].SetHeartImage(HeartState.Full);
-                }
-                else if (currentLives > i && currentLives < i + 1) {
+                } else if (currentLives > i && currentLives < i + 1) {
                     _hearts[i].SetHeartImage(HeartState.Half);
-                }
-                else {
+                } else {
                     _hearts[i].SetHeartImage(HeartState.Empty);
                 }
             }
@@ -56,8 +54,7 @@ namespace Health.UI {
                     newHeart.transform.SetParent(transform);
                     _hearts.Add(newHeart.GetComponent<HealthHeart>());
                 }
-            }
-            else if (_hearts.Count > maxLives) {
+            } else if (_hearts.Count > maxLives) {
                 for (int i = _hearts.Count - 1; i >= maxLives; i--) {
                     Destroy(_hearts[i].gameObject);
                     _hearts.RemoveAt(i);
@@ -71,6 +68,12 @@ namespace Health.UI {
             }
 
             _hearts.Clear();
+        }
+
+        public void SetPlayerLives(Lives lives) {
+            playerLives = lives;
+            playerLives.OnLivesChanged += UpdateUI;
+            UpdateUI();
         }
     }
 }

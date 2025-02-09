@@ -1,11 +1,9 @@
 using System;
+using System.Collections;
 using System.ComponentModel;
 using Configuration;
-using Gameplay;
-using Platformer.Gameplay;
 using UnityEditor;
 using UnityEngine;
-using static Platformer.Core.Simulation;
 
 namespace Health {
     public class Lives : MonoBehaviour {
@@ -74,7 +72,7 @@ namespace Health {
             }
         }
 
-        private System.Collections.IEnumerator IncrementLivesSlowRoutine(float timeBetweenIncrements, float healthIncrement = 0.5f) {
+        private IEnumerator IncrementLivesSlowRoutine(float timeBetweenIncrements, float healthIncrement = 0.5f) {
             while (CurrentLives < MaxLives) {
                 CurrentLives = Mathf.Clamp(CurrentLives + healthIncrement, 0, MaxLives);
                 yield return new WaitForSeconds(timeBetweenIncrements);
@@ -83,9 +81,10 @@ namespace Health {
 
         public void DecrementLive() {
             CurrentLives -= 1;
-            if (!IsAlive) {
-                Die();
-            }
+        }
+
+        public void DecrementLives(float lives) {
+            CurrentLives -= lives;
         }
 
         public void Die() {
@@ -93,7 +92,7 @@ namespace Health {
                 return;
             }
 
-            Schedule<PlayerDeath>();
+            DecrementLives(CurrentLives);
         }
 
         public void ResetLives() {

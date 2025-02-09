@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections;
 using Cinemachine;
 using Controllers;
 using Enums;
+using Health;
+using Health.UI;
 using UnityEngine;
+using Utils;
 using static Utils.AnimatorUtils;
 
 namespace Managers {
@@ -17,6 +21,9 @@ namespace Managers {
             public Character characterType;
             public GameObject characterGameObject;
             public AnimatorOverrideController animatorOverrideController;
+
+            [Range(0, 10)]
+            public float respawnTime = 2f;
         }
 
         [Header("Character Configurations")]
@@ -25,7 +32,25 @@ namespace Managers {
         [Header("Cinemachine")]
         [SerializeField] private CinemachineVirtualCamera cinemachineCamera;
 
+        [Header("UI")]
+        [SerializeField] private HealthBar healthBar;
+
         private int _currentCharacterIndex;
+
+        private void Awake() {
+            if (cinemachineCamera == null) {
+                cinemachineCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            }
+
+            if (healthBar == null) {
+                healthBar = FindObjectOfType<HealthBar>();
+            }
+
+            if (cinemachineCamera == null || healthBar == null) {
+                Debugger.Log(("CinemachineCamera", cinemachineCamera), ("HealthBar", healthBar));
+                enabled = false;
+            }
+        }
 
         private void Start() {
             foreach (var config in characters) {
@@ -47,9 +72,13 @@ namespace Managers {
         private void Update() {
             // TODO: This bind is just for testing purposes, this will be removed
             if (Input.GetKeyDown(KeyCode.F5)) {
-                _currentCharacterIndex = (_currentCharacterIndex + 1) % characters.Length;
-                SetCharacter(characters[_currentCharacterIndex].characterType);
+                NextCharacter();
             }
+        }
+
+        private void NextCharacter() {
+            _currentCharacterIndex = (_currentCharacterIndex + 1) % characters.Length;
+            SetCharacter(characters[_currentCharacterIndex].characterType);
         }
 
         public void SetCharacter(Character character) {
@@ -70,27 +99,46 @@ namespace Managers {
 
             selectedConfig.characterGameObject.transform.position = previousPosition;
             selectedConfig.characterGameObject.SetActive(true);
-
-            selectedConfig.characterGameObject.GetComponent<PlayerController>().FreezePosition(false);
-
+            PlayerController currentCharacterPC = selectedConfig.characterGameObject.GetComponent<PlayerController>();
+            currentCharacterPC.FreezePosition(false);
             UpdateAnimator(selectedConfig);
 
             currentCharacter = character;
 
             // Update the Cinemachine camera to follow the new character
-            if (cinemachineCamera != null) {
-                cinemachineCamera.Follow = selectedConfig.characterGameObject.transform;
-                cinemachineCamera.LookAt = selectedConfig.characterGameObject.transform;
+            cinemachineCamera.Follow = selectedConfig.characterGameObject.transform;
+            cinemachineCamera.LookAt = selectedConfig.characterGameObject.transform;
+
+            Lives playerLives = currentCharacterPC.lives;
+            if (playerLives != null) {
+                healthBar.SetPlayerLives(playerLives);
             }
+        }
+
+        public void RespawnCharacter() {
+            var selectedConfig = Array.Find(characters, c => c.characterType == currentCharacter);
+            StartCoroutine(RespawnRoutine(selectedConfig));
+        }
+
+        private IEnumerator RespawnRoutine(CharacterConfiguration characterConfig) {
+            PlayerController player = characterConfig.characterGameObject.GetComponent<PlayerController>();
+            player.FreezePosition();
+            player.SetVelocity(Vector2.zero);
+            yield return new WaitForSeconds(characterConfig.respawnTime);
+            player.FreezePosition(false);
+            player.ResetState();
+
+            cinemachineCamera.Follow = characterConfig.characterGameObject.transform;
+            cinemachineCamera.LookAt = characterConfig.characterGameObject.transform;
         }
 
         private void UpdateAnimator(CharacterConfiguration characterConfig) {
             Animator animator = characterConfig.characterGameObject.GetComponent<Animator>();
-
             if (animator == null) {
                 Debug.LogError($"Character {characterConfig.characterType} is missing its Animator component");
                 return;
             }
+
             animator.runtimeAnimatorController = characterConfig.animatorOverrideController;
 
             if (characterConfig.characterGameObject.name.Contains("Micca1")) {
