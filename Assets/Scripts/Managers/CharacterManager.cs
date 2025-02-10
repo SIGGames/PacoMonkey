@@ -151,5 +151,10 @@ namespace Managers {
         public Character GetCurrentCharacter() {
             return currentCharacter;
         }
+
+        public PlayerController GetCurrentCharacterController() {
+            var selectedConfig = Array.Find(characters, c => c.characterType == currentCharacter);
+            return selectedConfig.characterGameObject.GetComponent<PlayerController>();
+        }
     }
 }
