@@ -11,7 +11,7 @@ Pacomonkey defeats all the monkeys that stand in his way while he grows and lear
 This project is the result of a collaboration among passionate and creative developers inspired by [UdL](https://www.udl.cat/ca/en/) called [Special Interest Group](https://github.com/orgs/SIGGgames/teams/siggames-team).
 
 > [!IMPORTANT]
-> Fore more info visit our webpage: [SIG Games](https://siggames.cat). For PacoMonkey docs follow this link [PacoMonkey · SIG Games](https://siggames.cat/games/pacomonkey)
+> Fore more info visit our webpage: [SIG Games](https://siggames.cat). For PacoMonkey docs follow this link [PacoMonkey · SIG Games](https://siggames.cat/game/pacomonkey)
 
 ## Technology Stack
 
