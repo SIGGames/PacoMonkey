@@ -11,10 +11,13 @@ using static Utils.AnimatorUtils;
 
 namespace Managers {
     public class CharacterManager : MonoBehaviour {
+        public static CharacterManager Instance { get; private set; }
+
         [Header("Character")]
         [SerializeField] private Character initialCharacter;
 
         [SerializeField] private Character currentCharacter;
+        private PlayerController _currentPlayerController;
 
         [Serializable]
         public class CharacterConfiguration {
@@ -50,6 +53,12 @@ namespace Managers {
                 Debugger.Log(("CinemachineCamera", cinemachineCamera), ("HealthBar", healthBar));
                 enabled = false;
             }
+
+            if (Instance == null) {
+                Instance = this;
+            } else {
+                Destroy(gameObject);
+            }
         }
 
         private void Start() {
@@ -82,6 +91,7 @@ namespace Managers {
         }
 
         public void SetCharacter(Character character) {
+            _currentPlayerController = GetCurrentCharacterController();
             Vector3 previousPosition = Vector3.zero;
 
             foreach (var config in characters) {
@@ -99,8 +109,7 @@ namespace Managers {
 
             selectedConfig.characterGameObject.transform.position = previousPosition;
             selectedConfig.characterGameObject.SetActive(true);
-            PlayerController currentCharacterPC = selectedConfig.characterGameObject.GetComponent<PlayerController>();
-            currentCharacterPC.FreezePosition(false);
+            _currentPlayerController.FreezePosition(false);
             UpdateAnimator(selectedConfig);
 
             currentCharacter = character;
@@ -109,7 +118,7 @@ namespace Managers {
             cinemachineCamera.Follow = selectedConfig.characterGameObject.transform;
             cinemachineCamera.LookAt = selectedConfig.characterGameObject.transform;
 
-            Lives playerLives = currentCharacterPC.lives;
+            Lives playerLives = _currentPlayerController.lives;
             if (playerLives != null) {
                 healthBar.SetPlayerLives(playerLives);
             }
@@ -121,7 +130,7 @@ namespace Managers {
         }
 
         private IEnumerator RespawnRoutine(CharacterConfiguration characterConfig) {
-            PlayerController player = characterConfig.characterGameObject.GetComponent<PlayerController>();
+            PlayerController player = GetCurrentCharacterController();
             player.FreezePosition();
             player.SetVelocity(Vector2.zero);
             yield return new WaitForSeconds(characterConfig.respawnTime);

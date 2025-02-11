@@ -2,6 +2,7 @@
 
 namespace Utils {
     public static class AnimatorUtils {
+        public static readonly int Attack = Animator.StringToHash("attack");
         public static readonly int Dead = Animator.StringToHash("dead");
         public static readonly int Death = Animator.StringToHash("death");
         public static readonly int Grounded = Animator.StringToHash("grounded");

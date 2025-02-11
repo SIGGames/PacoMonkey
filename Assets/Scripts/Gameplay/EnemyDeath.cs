@@ -11,10 +11,9 @@ namespace Platformer.Gameplay {
         public EnemyController enemy;
 
         public override void Execute() {
-            enemy._collider.enabled = false;
-            enemy.control.enabled = false;
-            if (enemy._audio && enemy.ouch)
-                enemy._audio.PlayOneShot(enemy.ouch);
+            enemy.col.enabled = false;
+            if (enemy.audioSource && enemy.ouch)
+                enemy.audioSource.PlayOneShot(enemy.ouch);
         }
     }
 }

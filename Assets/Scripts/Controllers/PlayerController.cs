@@ -92,8 +92,6 @@ namespace Controllers {
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
 
-        public static PlayerController PCInstance { get; private set; }
-
         private bool _jump;
         private float _jumpTimeCounter;
         private const float JumpTimeMax = 1.0f;
@@ -115,14 +113,13 @@ namespace Controllers {
         private bool _isColliderInitialized;
         public Rigidbody2D rb;
 
-        private float _speedMultiplier = 1f;
+        private const float SpeedMultiplier = 1f;
         private float _jumpDecelerationTimer;
         private bool _isDying;
         [HideInInspector] public Vector3 respawnPosition;
 
         void Awake() {
             InitializeComponents();
-            PCInstance = this;
             boxCollider = GetComponent<BoxCollider2D>();
             flipManager = new FlipManager(_spriteRenderer, boxCollider, animator, flipOffsetChange, isFacingRight);
             _colliderManager = new ColliderManager(collider2d);
@@ -181,7 +178,7 @@ namespace Controllers {
                 return;
             }
 
-            CharacterManager characterManager = FindObjectOfType<CharacterManager>();
+            CharacterManager characterManager = CharacterManager.Instance;
             if (characterManager != null) {
                 animator.SetBool(Dead, true);
                 animator.SetTrigger(Death);
@@ -198,7 +195,7 @@ namespace Controllers {
         }
 
         private void HandleHorizontalMovement() {
-            float targetSpeed = move.x * maxRunSpeed * _speedMultiplier;
+            float targetSpeed = move.x * maxRunSpeed * SpeedMultiplier;
 
             if (canWalk && !canRun) {
                 targetSpeed *= walkSpeedMultiplier;
