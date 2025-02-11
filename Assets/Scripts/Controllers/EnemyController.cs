@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Configuration;
 using Enums;
 using Gameplay;
 using Health.UI;
@@ -34,8 +35,9 @@ namespace Controllers {
         public NavMeshAgent navAgent;
 
         public LayerMask groundLayer, playerLayer;
-        public float sightRange = 1.5f;
-        public float attackRange = 1f;
+        [SerializeField, Range(0, 10)] public float sightRange = 1.5f;
+        [SerializeField, Range(0, 5)] public float attackRange = 1f;
+        [SerializeField, Range(0, 2)] private float groundOffset = 0.5f;
 
         [Header("Attack Settings")]
         [SerializeField, HalfStepSlider(0, 10)]
@@ -132,14 +134,13 @@ namespace Controllers {
             }
 
             HandleLives();
-            ApplyGravity();
             HandleFlip();
         }
 
         private void UpdateVelocity() {
             _velocity = navAgent.velocity;
-            animator.SetFloat(VelocityX, _velocity.x);
-            animator.SetFloat(VelocityY, _velocity.y);
+            animator.SetFloat(VelocityX, Mathf.Abs(_velocity.x));
+            animator.SetFloat(VelocityY, Mathf.Abs(_velocity.y));
         }
 
         private void HandleFlip() {
@@ -154,18 +155,12 @@ namespace Controllers {
             }
         }
 
-        private void ApplyGravity() {
-            /*float gravityScale = GlobalConfiguration.GravityScale * Time.deltaTime;
-            if (_velocity.y < 0) {
-                gravityScale *= fallSpeedMultiplier;
-            }
-            _velocity += Physics2D.gravity * gravityScale;*/
-        }
-
         private void ChasePlayer() {
-            navAgent.SetDestination(_currentPlayer.transform.position);
-            animator.SetFloat(VelocityX, 0.6f);
-            navAgent.isStopped = false;
+            Vector2 playerPos = _currentPlayer.transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(playerPos, Vector2.down, 100f, groundLayer);
+            float targetY = hit.collider != null ? hit.point.y + groundOffset : transform.position.y;
+            Vector2 newDestination = new Vector2(playerPos.x, targetY);
+            navAgent.SetDestination(newDestination);
         }
 
         void HandleLives() {
