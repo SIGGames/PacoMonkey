@@ -11,7 +11,7 @@ Pacomonkey defeats all the monkeys that stand in his way while he grows and lear
 This project is the result of a collaboration among passionate and creative developers inspired by [UdL](https://www.udl.cat/ca/en/) called [Special Interest Group](https://github.com/orgs/SIGGgames/teams/siggames-team).
 
 > [!IMPORTANT]
-> Fore more info visit our webpage: [SIG Games](https://siggames-official.vercel.app).
+> Fore more info visit our webpage: [SIG Games](https://siggames.cat). For PacoMonkey docs follow this link [PacoMonkey · SIG Games](https://siggames.cat/games/pacomonkey)
 
 ## Technology Stack
 
@@ -20,6 +20,9 @@ This project is the result of a collaboration among passionate and creative deve
 ## How to play
 
 In a future this game will be able in the [Steam](https://store.steampowered.com/) platform. By now, this game can be played by downloading the game from the [Releases](https://github.com/SIGGames/PacoMonkey/releases) section.
+
+> [!TIP]
+> The game can be also tested online [here](https://pacomonkey.netlify.app/).
 
 ## License
 
