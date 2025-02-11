@@ -1,24 +1,22 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Configuration;
 using Enums;
 using Gameplay;
 using Health.UI;
 using Managers;
 using Mechanics;
 using Platformer.Gameplay;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using static Platformer.Core.Simulation;
 using static Utils.AnimatorUtils;
 
 namespace Controllers {
-    [RequireComponent(typeof(AnimationController), typeof(Collider2D)),
-     RequireComponent(typeof(AudioSource)), RequireComponent(typeof(SpriteRenderer)),
-     RequireComponent(typeof(Health.Health))]
+    [RequireComponent(typeof(Collider2D)), RequireComponent(typeof(AudioSource)),
+     RequireComponent(typeof(SpriteRenderer)), RequireComponent(typeof(Health.Health))]
     [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
     public class EnemyController : MonoBehaviour {
         public AudioClip ouch;
-
         internal PatrolPath.Mover mover;
         internal Collider2D col;
         internal AudioSource audioSource;
@@ -38,16 +36,29 @@ namespace Controllers {
         public LayerMask groundLayer, playerLayer;
         public float sightRange = 1.5f;
         public float attackRange = 1f;
-        [SerializeField] private float distanceAfterAttack = 0.5f;
 
+        [Header("Attack Settings")]
+        [SerializeField, HalfStepSlider(0, 10)]
+        private float attackDamage = 1f;
+
+        [SerializeField, Range(0, 5)] private float cooldownTime = 1.5f;
+
+        [SerializeField, Range(0, 3)] private float distanceAfterAttack = 1f;
+
+        [Header("Movement Settings")]
         [SerializeField] private float fallSpeedMultiplier = 2.5f;
+
+        [SerializeField] private bool isFacingRight = true;
+
         private Vector3 _walkPoint;
         [SerializeField] private bool playerInSightRange;
         [SerializeField] private bool playerInAttackRange;
 
         private bool HasHealthBar => healthBar != null;
         private Vector2 _velocity = Vector2.zero;
-        [SerializeField] private bool isFacingRight = true;
+
+        [Header("Debug")]
+        [SerializeField] private bool drawRangesInEditor = true;
 
         public Bounds Bounds => col.bounds;
 
@@ -101,9 +112,10 @@ namespace Controllers {
 
         void Update() {
             if (Input.GetKeyDown(KeyCode.F2)) {
-                // navAgent.isStopped = true;
                 animator.SetTrigger(Attack);
             }
+
+            UpdateVelocity();
 
             if (_currentCharacter != CharacterManager.GetCurrentCharacter()) {
                 _currentCharacter = CharacterManager.GetCurrentCharacter();
@@ -113,20 +125,21 @@ namespace Controllers {
             float distanceToPlayer = Vector3.Distance(transform.position, _currentPlayer.transform.position);
             playerInSightRange = distanceToPlayer <= sightRange;
             playerInAttackRange = distanceToPlayer <= attackRange;
-
             if (playerInSightRange && !playerInAttackRange) {
                 ChasePlayer();
             } else if (playerInAttackRange) {
                 // AttackPlayer();
-            } else {
-                // navAgent.ResetPath();
-                navAgent.isStopped = true;
-                animator.SetFloat(VelocityX, 0f);
             }
 
             HandleLives();
             ApplyGravity();
             HandleFlip();
+        }
+
+        private void UpdateVelocity() {
+            _velocity = navAgent.velocity;
+            animator.SetFloat(VelocityX, _velocity.x);
+            animator.SetFloat(VelocityY, _velocity.y);
         }
 
         private void HandleFlip() {
@@ -146,7 +159,6 @@ namespace Controllers {
             if (_velocity.y < 0) {
                 gravityScale *= fallSpeedMultiplier;
             }
-
             _velocity += Physics2D.gravity * gravityScale;*/
         }
 
@@ -157,11 +169,7 @@ namespace Controllers {
         }
 
         void HandleLives() {
-            if (_health.IsAlive) {
-                _spriteRenderer.color = Color.white;
-            } else {
-                _spriteRenderer.color = Color.black;
-            }
+            _spriteRenderer.color = _health.IsAlive ? Color.white : Color.black;
         }
 
         private void Flip() {
@@ -200,11 +208,13 @@ namespace Controllers {
         }
 
         private void OnDrawGizmosSelected() {
-            Gizmos.color = Color.red;
-            Vector3 position = transform.position;
-            Gizmos.DrawWireSphere(position, attackRange);
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(position, sightRange);
+            if (drawRangesInEditor) {
+                Gizmos.color = Color.red;
+                Vector3 position = transform.position;
+                Gizmos.DrawWireSphere(position, attackRange);
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(position, sightRange);
+            }
         }
     }
 }
