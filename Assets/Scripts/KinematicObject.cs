@@ -23,8 +23,12 @@ public class KinematicObject : MonoBehaviour {
         if (value == 0) {
             return;
         }
-        velocity.x = value;
-        body.velocity = new Vector2(value, body.velocity.y);
+        float validatedForce = ValidateBounceForce(value);
+        if (Mathf.Approximately(validatedForce, 0f)) {
+            return;
+        }
+        velocity.x = validatedForce;
+        body.velocity = new Vector2(validatedForce, body.velocity.y);
         StopCoroutine(DecelerateBounce());
         StartCoroutine(DecelerateBounce(Mathf.Abs(value) / 10));
     }
@@ -32,6 +36,16 @@ public class KinematicObject : MonoBehaviour {
     public void Bounce(Vector2 dir) {
         velocity.y = dir.y;
         velocity.x = dir.x;
+    }
+
+    private float ValidateBounceForce(float bounceForce) {
+        Vector2 direction = bounceForce < 0 ? Vector2.left : Vector2.right;
+        float checkDistance = Mathf.Abs(bounceForce);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, checkDistance, 1 << LayerMask.NameToLayer("Ground"));
+        if (hit.collider != null) {
+            return Mathf.Sign(bounceForce) * hit.distance;
+        }
+        return bounceForce;
     }
 
     private IEnumerator DecelerateBounce(float time = 0.2f) {
