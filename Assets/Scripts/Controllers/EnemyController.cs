@@ -40,6 +40,7 @@ namespace Controllers {
         private float attackDamage = 1f;
 
         [SerializeField, Range(0, 5)] private float cooldownTime = 1.5f;
+        [SerializeField, Range(0, 10)] private float bounceForce = 4f;
 
         [SerializeField, Range(0, 3)] private float distanceAfterAttack = 1f;
 
@@ -57,6 +58,7 @@ namespace Controllers {
 
         [Header("Enemy Controller Components")]
         [SerializeField] private Animator animator;
+
         [SerializeField] FloatingHealthBar enemyHealthBar;
         [SerializeField] private GameObject bloodPrefab;
 
@@ -107,29 +109,41 @@ namespace Controllers {
             }
         }
 
-        void OnCollisionEnter2D() {
-            _currentPlayer.lives.DecrementLive();
+        void OnCollisionEnter2D(Collision2D other) {
+            if (other.gameObject.GetComponent<PlayerController>() == null) {
+                return;
+            }
+
+            _currentPlayer.lives.DecrementLives(attackDamage);
+            BouncePlayer();
         }
 
         void Update() {
             _currentPlayer = CharacterManager.currentPlayerController;
             if (Input.GetKeyDown(KeyCode.F2)) {
-                animator.SetTrigger(Attack);
+                // TODO: This will be removed
+                AttackPlayer();
             }
 
             UpdateVelocity();
 
             float distanceToPlayer = Vector3.Distance(transform.position, _currentPlayer.transform.position);
             playerInSightRange = distanceToPlayer <= sightRange;
+
             playerInAttackRange = distanceToPlayer <= attackRange;
             if (playerInSightRange && !playerInAttackRange) {
                 ChasePlayer();
             } else if (playerInAttackRange) {
-                // AttackPlayer();
+                AttackPlayer();
+            }
+
+            if (!_currentPlayer.lives.IsAlive) {
+                navAgent.ResetPath();
             }
 
             HandleLives();
             HandleFlip();
+            IsGrounded();
         }
 
         private void UpdateVelocity() {
@@ -154,8 +168,17 @@ namespace Controllers {
             Vector2 playerPos = _currentPlayer.transform.position;
             RaycastHit2D hit = Physics2D.Raycast(playerPos, Vector2.down, 100f, groundLayer);
             float targetY = hit.collider != null ? hit.point.y + groundOffset : transform.position.y;
+            targetY = Mathf.Min(targetY, transform.position.y);
             Vector2 newDestination = new Vector2(playerPos.x, targetY);
             navAgent.SetDestination(newDestination);
+        }
+
+        private void IsGrounded() {
+            float rayLength = 0.1f;
+            RaycastHit2D hit = Physics2D.Raycast(col.bounds.center, Vector2.down, col.bounds.extents.y + rayLength,
+                groundLayer);
+            bool isGrounded = hit.collider != null;
+            animator.SetBool(Grounded, isGrounded);
         }
 
         void HandleLives() {
@@ -168,9 +191,7 @@ namespace Controllers {
         }
 
         private void AttackPlayer() {
-            var ev = Schedule<PlayerEnemyCollision>();
-            ev.player = _currentPlayer;
-            ev.enemy = this;
+            animator.SetTrigger(Attack);
         }
 
         public void TakeDamage(float damage) {
@@ -197,6 +218,7 @@ namespace Controllers {
             if (bloodPrefab != null) {
                 Instantiate(bloodPrefab, transform.position, Quaternion.identity);
             }
+
             yield return new WaitForSeconds(deathTime);
             Destroy(gameObject);
         }
@@ -211,6 +233,15 @@ namespace Controllers {
             Vector3 newPositionOffset = Vector3.zero;
             newPositionOffset.x = offsetOnFinishAttack;
             navAgent.Move(newPositionOffset);
+
+            if (playerInAttackRange) {
+                _currentPlayer.lives.DecrementLives(attackDamage);
+                BouncePlayer();
+            }
+        }
+
+        private void BouncePlayer() {
+            _currentPlayer.Bounce(isFacingRight ? bounceForce : -bounceForce);
         }
 
         private void OnDrawGizmosSelected() {

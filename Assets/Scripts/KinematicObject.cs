@@ -1,4 +1,5 @@
-﻿using Configuration;
+﻿using System.Collections;
+using Configuration;
 using UnityEngine;
 
 public class KinematicObject : MonoBehaviour {
@@ -19,12 +20,24 @@ public class KinematicObject : MonoBehaviour {
     protected const float ShellRadius = 0.01f;
 
     public void Bounce(float value) {
-        velocity.y = value;
+        if (value == 0) {
+            return;
+        }
+        velocity.x = value;
+        body.velocity = new Vector2(value, body.velocity.y);
+        StopCoroutine(DecelerateBounce());
+        StartCoroutine(DecelerateBounce(value / 10));
     }
 
     public void Bounce(Vector2 dir) {
         velocity.y = dir.y;
         velocity.x = dir.x;
+    }
+
+    private IEnumerator DecelerateBounce(float time = 0.2f) {
+        yield return new WaitForSeconds(time);
+        velocity.x = 0f;
+        body.velocity = Vector2.zero;
     }
 
     public void Teleport(Vector3 position) {
