@@ -17,7 +17,7 @@ namespace Managers {
         [SerializeField] private Character initialCharacter;
 
         [SerializeField] private Character currentCharacter;
-        private PlayerController _currentPlayerController;
+        public PlayerController currentPlayerController;
 
         [Serializable]
         public class CharacterConfiguration {
@@ -91,7 +91,6 @@ namespace Managers {
         }
 
         public void SetCharacter(Character character) {
-            _currentPlayerController = GetCurrentCharacterController();
             Vector3 previousPosition = Vector3.zero;
 
             foreach (var config in characters) {
@@ -107,18 +106,19 @@ namespace Managers {
                 return;
             }
 
+            currentCharacter = character;
+            currentPlayerController = GetCurrentPlayerController();
+
             selectedConfig.characterGameObject.transform.position = previousPosition;
             selectedConfig.characterGameObject.SetActive(true);
-            _currentPlayerController.FreezePosition(false);
+            currentPlayerController.FreezePosition(false);
             UpdateAnimator(selectedConfig);
-
-            currentCharacter = character;
 
             // Update the Cinemachine camera to follow the new character
             cinemachineCamera.Follow = selectedConfig.characterGameObject.transform;
             cinemachineCamera.LookAt = selectedConfig.characterGameObject.transform;
 
-            Lives playerLives = _currentPlayerController.lives;
+            Lives playerLives = currentPlayerController.lives;
             if (playerLives != null) {
                 healthBar.SetPlayerLives(playerLives);
             }
@@ -130,7 +130,7 @@ namespace Managers {
         }
 
         private IEnumerator RespawnRoutine(CharacterConfiguration characterConfig) {
-            PlayerController player = GetCurrentCharacterController();
+            PlayerController player = GetCurrentPlayerController();
             player.FreezePosition();
             player.SetVelocity(Vector2.zero);
             yield return new WaitForSeconds(characterConfig.respawnTime);
@@ -161,7 +161,7 @@ namespace Managers {
             return currentCharacter;
         }
 
-        public PlayerController GetCurrentCharacterController() {
+        private PlayerController GetCurrentPlayerController() {
             var selectedConfig = Array.Find(characters, c => c.characterType == currentCharacter);
             return selectedConfig.characterGameObject.GetComponent<PlayerController>();
         }

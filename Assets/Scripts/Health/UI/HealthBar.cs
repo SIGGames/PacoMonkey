@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 
 namespace Health.UI {
@@ -6,6 +7,7 @@ namespace Health.UI {
         public GameObject heartPrefab;
         public Lives playerLives;
         private readonly List<HealthHeart> _hearts = new();
+        private CharacterManager CharacterManager => CharacterManager.Instance;
 
         void Start() {
             playerLives.OnLivesChanged += UpdateUI;
@@ -15,6 +17,10 @@ namespace Health.UI {
 
         private void OnDestroy() {
             playerLives.OnLivesChanged -= UpdateUI;
+        }
+
+        private void Update() {
+            playerLives = CharacterManager.Instance.currentPlayerController.lives;
         }
 
         private void InitializeHearts() {

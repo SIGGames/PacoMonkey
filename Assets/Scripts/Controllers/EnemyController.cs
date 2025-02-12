@@ -1,11 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Configuration;
+﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using Enums;
 using Gameplay;
 using Health.UI;
 using Managers;
 using Mechanics;
-using Platformer.Gameplay;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,8 +25,8 @@ namespace Controllers {
         [SerializeField] private Animator animator;
         [SerializeField] FloatingHealthBar healthBar;
         private static CharacterManager CharacterManager => CharacterManager.Instance;
-        private Character _currentCharacter;
         private PlayerController _currentPlayer;
+        [SerializeField] private GameObject bloodPrefab;
 
         [SerializeField] private EnemyType enemyType = EnemyType.Melee;
 
@@ -55,6 +54,9 @@ namespace Controllers {
         private Vector3 _walkPoint;
         [SerializeField] private bool playerInSightRange;
         [SerializeField] private bool playerInAttackRange;
+
+        [Header("Enemy Settings")]
+        [SerializeField] private float deathTime = 0.3f;
 
         private bool HasHealthBar => healthBar != null;
         private Vector2 _velocity = Vector2.zero;
@@ -95,34 +97,24 @@ namespace Controllers {
         }
 
         private void Start() {
-            _currentCharacter = CharacterManager.GetCurrentCharacter();
-            _currentPlayer = CharacterManager.GetCurrentCharacterController();
+            _currentPlayer = CharacterManager.currentPlayerController;
 
             if (HasHealthBar) {
                 healthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
             }
         }
 
-        void OnCollisionEnter2D(Collision2D collision) {
-            var player = collision.gameObject.GetComponent<PlayerController>();
-            if (player != null) {
-                var ev = Schedule<PlayerEnemyCollision>();
-                ev.player = player;
-                ev.enemy = this;
-            }
+        void OnCollisionEnter2D() {
+            _currentPlayer.lives.DecrementLive();
         }
 
         void Update() {
+            _currentPlayer = CharacterManager.currentPlayerController;
             if (Input.GetKeyDown(KeyCode.F2)) {
                 animator.SetTrigger(Attack);
             }
 
             UpdateVelocity();
-
-            if (_currentCharacter != CharacterManager.GetCurrentCharacter()) {
-                _currentCharacter = CharacterManager.GetCurrentCharacter();
-                _currentPlayer = CharacterManager.GetCurrentCharacterController();
-            }
 
             float distanceToPlayer = Vector3.Distance(transform.position, _currentPlayer.transform.position);
             playerInSightRange = distanceToPlayer <= sightRange;
@@ -187,7 +179,23 @@ namespace Controllers {
 
             if (!_health.IsAlive) {
                 Schedule<EnemyDeath>().enemy = this;
+                animator.SetTrigger(Death);
+                _velocity = Vector2.zero;
+                navAgent.ResetPath();
+                DestroyEnemy();
             }
+        }
+
+        private void DestroyEnemy() {
+            StartCoroutine(DestroyEnemyCoroutine());
+        }
+
+        private IEnumerator DestroyEnemyCoroutine() {
+            if (bloodPrefab != null) {
+                Instantiate(bloodPrefab, transform.position, Quaternion.identity);
+            }
+            yield return new WaitForSeconds(deathTime);
+            Destroy(gameObject);
         }
 
         public void SetPositionAfterAttack() {

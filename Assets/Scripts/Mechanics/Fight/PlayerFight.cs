@@ -106,14 +106,9 @@ namespace Mechanics.Fight {
 
             if (enemiesInRange.Length > 0) {
                 foreach (Collider2D enemy in enemiesInRange) {
-                    Enemy enemyController = enemy.GetComponent<Enemy>();
+                    EnemyController enemyController = enemy.GetComponent<EnemyController>();
                     if (enemyController != null) {
                         enemyController.TakeDamage(meleeDamage);
-                    }
-
-                    EnemyController enemyController2 = enemy.GetComponent<EnemyController>();
-                    if (enemyController2 != null) {
-                        enemyController2.TakeDamage(meleeDamage);
                     }
                 }
             }

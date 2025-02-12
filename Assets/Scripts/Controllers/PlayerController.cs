@@ -380,10 +380,6 @@ namespace Controllers {
             _currentPriority = 0;
         }
 
-        public bool IsFacingRight() {
-            return isFacingRight;
-        }
-
         public void FreezePosition(bool value = true) {
             isPositionFreezed = value;
 

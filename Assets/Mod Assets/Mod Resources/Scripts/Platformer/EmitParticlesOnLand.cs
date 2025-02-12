@@ -25,9 +25,9 @@ public class EmitParticlesOnLand : MonoBehaviour {
         }
 
         if (emitOnEnemyDeath) {
-            Platformer.Gameplay.EnemyDeath.OnExecute += EnemyDeath_OnExecute;
+            EnemyDeath.OnExecute += EnemyDeath_OnExecute;
 
-            void EnemyDeath_OnExecute(Platformer.Gameplay.EnemyDeath obj) {
+            void EnemyDeath_OnExecute(EnemyDeath obj) {
                 p.Play();
             }
         }
