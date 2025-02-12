@@ -50,8 +50,9 @@ namespace Controllers {
         [SerializeField] private bool isFacingRight = true;
 
         private Vector3 _walkPoint;
-        [SerializeField] private bool playerInSightRange;
-        [SerializeField] private bool playerInAttackRange;
+        private float DistanceToPlayer => Vector3.Distance(transform.position, _currentPlayer.transform.position);
+        private bool PlayerInSightRange => DistanceToPlayer <= sightRange;
+        private bool PlayerInAttackRange => DistanceToPlayer <= attackRange;
 
         [Header("Enemy Settings")]
         [SerializeField] private float deathTime = 0.3f;
@@ -126,17 +127,13 @@ namespace Controllers {
 
             UpdateVelocity();
 
-            float distanceToPlayer = Vector3.Distance(transform.position, _currentPlayer.transform.position);
-            playerInSightRange = distanceToPlayer <= sightRange;
-            playerInAttackRange = distanceToPlayer <= attackRange;
-
             if (_attackCooldownTimer > 0f) {
                 _attackCooldownTimer -= Time.deltaTime;
             }
 
-            if (playerInSightRange && !playerInAttackRange) {
+            if (PlayerInSightRange && !PlayerInAttackRange) {
                 ChasePlayer();
-            } else if (playerInAttackRange && _attackCooldownTimer <= 0f) {
+            } else if (PlayerInAttackRange && _attackCooldownTimer <= 0f) {
                 AttackPlayer();
             }
 
@@ -243,13 +240,13 @@ namespace Controllers {
             newPositionOffset.x = offsetOnFinishAttack;
             navAgent.Move(newPositionOffset);
 
-            if (playerInAttackRange) {
+            if (PlayerInAttackRange) {
                 _currentPlayer.lives.DecrementLives(attackDamage);
             }
         }
 
         private void BouncePlayer() {
-            if (playerInAttackRange) {
+            if (PlayerInAttackRange) {
                 _currentPlayer.Bounce(isFacingRight ? bounceForce : -bounceForce);
             }
         }
