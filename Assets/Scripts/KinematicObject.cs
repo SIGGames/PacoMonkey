@@ -26,7 +26,7 @@ public class KinematicObject : MonoBehaviour {
         velocity.x = value;
         body.velocity = new Vector2(value, body.velocity.y);
         StopCoroutine(DecelerateBounce());
-        StartCoroutine(DecelerateBounce(value / 10));
+        StartCoroutine(DecelerateBounce(Mathf.Abs(value) / 10));
     }
 
     public void Bounce(Vector2 dir) {

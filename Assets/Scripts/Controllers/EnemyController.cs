@@ -62,14 +62,13 @@ namespace Controllers {
         [SerializeField] FloatingHealthBar enemyHealthBar;
         [SerializeField] private GameObject bloodPrefab;
 
-
-        private bool HasHealthBar => enemyHealthBar != null;
-        private Vector2 _velocity = Vector2.zero;
-
         [Header("Debug")]
         [SerializeField] private bool drawRangesInEditor = true;
 
         public Bounds Bounds => col.bounds;
+        private bool HasHealthBar => enemyHealthBar != null;
+        private Vector2 _velocity = Vector2.zero;
+        private float _attackCooldownTimer;
 
         void Awake() {
             col = GetComponent<Collider2D>();
@@ -129,11 +128,15 @@ namespace Controllers {
 
             float distanceToPlayer = Vector3.Distance(transform.position, _currentPlayer.transform.position);
             playerInSightRange = distanceToPlayer <= sightRange;
-
             playerInAttackRange = distanceToPlayer <= attackRange;
+
+            if (_attackCooldownTimer > 0f) {
+                _attackCooldownTimer -= Time.deltaTime;
+            }
+
             if (playerInSightRange && !playerInAttackRange) {
                 ChasePlayer();
-            } else if (playerInAttackRange) {
+            } else if (playerInAttackRange && _attackCooldownTimer <= 0f) {
                 AttackPlayer();
             }
 
@@ -191,7 +194,13 @@ namespace Controllers {
         }
 
         private void AttackPlayer() {
+            if (_attackCooldownTimer > 0f) {
+                return;
+            }
+
             animator.SetTrigger(Attack);
+            navAgent.ResetPath();
+            _attackCooldownTimer = cooldownTime;
         }
 
         public void TakeDamage(float damage) {
@@ -236,12 +245,13 @@ namespace Controllers {
 
             if (playerInAttackRange) {
                 _currentPlayer.lives.DecrementLives(attackDamage);
-                BouncePlayer();
             }
         }
 
         private void BouncePlayer() {
-            _currentPlayer.Bounce(isFacingRight ? bounceForce : -bounceForce);
+            if (playerInAttackRange) {
+                _currentPlayer.Bounce(isFacingRight ? bounceForce : -bounceForce);
+            }
         }
 
         private void OnDrawGizmosSelected() {

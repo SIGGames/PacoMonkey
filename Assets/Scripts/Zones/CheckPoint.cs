@@ -18,7 +18,6 @@ namespace Zones {
             }
 
             _playerController = CharacterManager.currentPlayerController;
-
             _playerController.respawnPosition = transform.position;
         }
     }
