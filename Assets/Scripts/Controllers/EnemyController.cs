@@ -232,7 +232,7 @@ namespace Controllers {
             Destroy(gameObject);
         }
 
-        public void SetPositionAfterAttack() {
+        public void OnFinishEnemyAttackAnimation() {
             Vector3 enemyPosition = transform.position;
             float offsetOnFinishAttack = isFacingRight ? distanceAfterAttack : -distanceAfterAttack;
             Vector3 newPosition = new Vector3(enemyPosition.x + offsetOnFinishAttack, enemyPosition.y, enemyPosition.z);
