@@ -20,13 +20,10 @@ namespace Controllers {
         internal PatrolPath.Mover mover;
         internal Collider2D col;
         internal AudioSource audioSource;
-        SpriteRenderer _spriteRenderer;
+        private SpriteRenderer _spriteRenderer;
         private Health.Health _health;
-        [SerializeField] private Animator animator;
-        [SerializeField] FloatingHealthBar healthBar;
         private static CharacterManager CharacterManager => CharacterManager.Instance;
         private PlayerController _currentPlayer;
-        [SerializeField] private GameObject bloodPrefab;
 
         [SerializeField] private EnemyType enemyType = EnemyType.Melee;
 
@@ -58,7 +55,13 @@ namespace Controllers {
         [Header("Enemy Settings")]
         [SerializeField] private float deathTime = 0.3f;
 
-        private bool HasHealthBar => healthBar != null;
+        [Header("Enemy Controller Components")]
+        [SerializeField] private Animator animator;
+        [SerializeField] FloatingHealthBar enemyHealthBar;
+        [SerializeField] private GameObject bloodPrefab;
+
+
+        private bool HasHealthBar => enemyHealthBar != null;
         private Vector2 _velocity = Vector2.zero;
 
         [Header("Debug")]
@@ -70,8 +73,8 @@ namespace Controllers {
             col = GetComponent<Collider2D>();
             audioSource = GetComponent<AudioSource>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            if (healthBar == null) {
-                healthBar = GetComponentInChildren<FloatingHealthBar>();
+            if (enemyHealthBar == null) {
+                enemyHealthBar = GetComponentInChildren<FloatingHealthBar>();
             }
 
             if (_health == null) {
@@ -100,7 +103,7 @@ namespace Controllers {
             _currentPlayer = CharacterManager.currentPlayerController;
 
             if (HasHealthBar) {
-                healthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
+                enemyHealthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
             }
         }
 
@@ -173,8 +176,8 @@ namespace Controllers {
         public void TakeDamage(float damage) {
             _health.DecrementHealth(damage);
             if (HasHealthBar) {
-                healthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
-                healthBar.ShowFloatingHealthBar();
+                enemyHealthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
+                enemyHealthBar.ShowFloatingHealthBar();
             }
 
             if (!_health.IsAlive) {
