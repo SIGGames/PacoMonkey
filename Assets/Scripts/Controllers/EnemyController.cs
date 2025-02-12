@@ -30,7 +30,7 @@ namespace Controllers {
         [Header("AI Settings")]
         public NavMeshAgent navAgent;
 
-        public LayerMask groundLayer, playerLayer;
+        public LayerMask groundLayer;
         [SerializeField, Range(0, 10)] public float sightRange = 1.5f;
         [SerializeField, Range(0, 5)] public float attackRange = 1f;
         [SerializeField, Range(0, 2)] private float groundOffset = 0.5f;
@@ -45,8 +45,6 @@ namespace Controllers {
         [SerializeField, Range(0, 3)] private float distanceAfterAttack = 1f;
 
         [Header("Movement Settings")]
-        [SerializeField] private float fallSpeedMultiplier = 2.5f;
-
         [SerializeField] private bool isFacingRight = true;
 
         private Vector3 _walkPoint;
