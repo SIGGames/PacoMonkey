@@ -129,6 +129,8 @@ namespace Controllers {
                 _attackCooldownTimer -= Time.deltaTime;
             }
 
+            CheckIfIsAscending();
+
             if (PlayerInSightRange && !PlayerInAttackRange) {
                 ChasePlayer();
             } else if (PlayerInAttackRange && _attackCooldownTimer <= 0f) {
@@ -162,21 +164,40 @@ namespace Controllers {
             }
         }
 
+        private void CheckIfIsAscending() {
+            if (_velocity.y > 0) {
+                navAgent.ResetPath();
+                navAgent.isStopped = true;
+            } else {
+                navAgent.isStopped = false;
+            }
+        }
+
         private void ChasePlayer() {
             Vector2 playerPos = _currentPlayer.transform.position;
-            RaycastHit2D hit = Physics2D.Raycast(playerPos, Vector2.down, 100f, groundLayer);
-            float targetY = hit.collider != null ? hit.point.y + groundOffset : transform.position.y;
-            targetY = Mathf.Min(targetY, transform.position.y);
-            Vector2 newDestination = new Vector2(playerPos.x, targetY);
+            float targetX = playerPos.x;
+            float targetY;
+            if (!IsGrounded()) {
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 100f, groundLayer);
+                targetY = hit.collider != null ? hit.point.y + groundOffset : transform.position.y;
+            } else {
+                RaycastHit2D hit = Physics2D.Raycast(playerPos, Vector2.down, 100f, groundLayer);
+                targetY = hit.collider != null ? hit.point.y + groundOffset : transform.position.y;
+                targetY = Mathf.Min(targetY, transform.position.y);
+            }
+
+            Vector2 newDestination = new Vector2(targetX, targetY);
             navAgent.SetDestination(newDestination);
         }
 
-        private void IsGrounded() {
+
+        private bool IsGrounded() {
             float rayLength = 0.1f;
             RaycastHit2D hit = Physics2D.Raycast(col.bounds.center, Vector2.down, col.bounds.extents.y + rayLength,
                 groundLayer);
             bool isGrounded = hit.collider != null;
             animator.SetBool(Grounded, isGrounded);
+            return isGrounded;
         }
 
         void HandleLives() {
