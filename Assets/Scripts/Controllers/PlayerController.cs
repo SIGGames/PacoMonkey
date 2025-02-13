@@ -82,6 +82,7 @@ namespace Controllers {
 
         [Header("Player Components")]
         public Collider2D collider2d;
+        [SerializeField] private LayerMask groundLayer;
 
         public Lives lives;
 
@@ -139,6 +140,7 @@ namespace Controllers {
             base.Update();
 
             HandleLives();
+            HandlePlayerInsideWall();
 
             if (!_isColliderInitialized) {
                 InitializeCollider();
@@ -429,5 +431,25 @@ namespace Controllers {
             animator.SetFloat(VelocityX, Mathf.Abs(velocity.x) / maxRunSpeed);
             animator.SetFloat(VelocityY, Mathf.Abs(velocity.y));
         }
+
+        private void HandlePlayerInsideWall() {
+            const float checkDistance = 0.1f;
+            const float bounceForce = 2f;
+            if (IsGrounded) {
+                return;
+            }
+            if (isFacingRight) {
+                RaycastHit2D hit = Physics2D.Raycast(collider2d.bounds.center, Vector2.right, checkDistance, groundLayer);
+                if (hit.collider != null) {
+                    Bounce(-bounceForce);
+                }
+            } else {
+                RaycastHit2D hit = Physics2D.Raycast(collider2d.bounds.center, Vector2.left, checkDistance, groundLayer);
+                if (hit.collider != null) {
+                    Bounce(bounceForce);
+                }
+            }
+        }
+
     }
 }
