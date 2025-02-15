@@ -5,6 +5,7 @@ using Gameplay;
 using Health.UI;
 using Managers;
 using Mechanics;
+using Mechanics.Fight;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
@@ -34,9 +35,12 @@ namespace Controllers {
         public LayerMask groundLayer;
 
         [Header("Sight Settings")]
+        [ShowIf("enemyType", EnemyType.Melee)]
         [SerializeField] private Vector2 sightBoxSize = new(2f, 1f);
 
+        [ShowIf("enemyType", EnemyType.Melee)]
         [SerializeField, Range(0, 5)] private float sightBoxHorizontalOffset = 1f;
+
         [SerializeField, Range(0, 5)] public float attackRange = 1f;
         [SerializeField, Range(0, 2)] private float groundOffset = 0.5f;
 
@@ -45,6 +49,15 @@ namespace Controllers {
         private float attackDamage = 1f;
 
         [SerializeField, Range(0, 5)] private float cooldownTime = 1.5f;
+
+        [ShowIf("enemyType", EnemyType.Ranged)]
+        [SerializeField] private GameObject projectilePrefab;
+
+        [ShowIf("enemyType", EnemyType.Ranged)]
+        [SerializeField] private float projectileSpeed = 5f;
+
+        [ShowIf("enemyType", EnemyType.Ranged)]
+        [SerializeField] private float projectileDuration = 2f;
 
         [ShowIf("enemyType", EnemyType.Melee)]
         [SerializeField, Range(0, 10)] private float bounceForce = 4f;
@@ -154,8 +167,16 @@ namespace Controllers {
 
             CheckIfIsAscending();
 
-            if (PlayerInSightRange && !PlayerInAttackRange) {
-                ChasePlayer();
+            if (enemyType == EnemyType.Melee) {
+                if (PlayerInSightRange && !PlayerInAttackRange) {
+                    ChasePlayer();
+                }
+            }
+
+            if (enemyType == EnemyType.Ranged) {
+                if (PlayerInAttackRange) {
+                    ChasePlayer();
+                }
             }
 
             if (PlayerInAttackRange && _attackCooldownTimer <= 0f) {
@@ -217,7 +238,7 @@ namespace Controllers {
 
 
         private bool IsGrounded() {
-            float rayLength = 0.1f;
+            const float rayLength = 0.1f;
             RaycastHit2D hit = Physics2D.Raycast(col.bounds.center, Vector2.down, col.bounds.extents.y + rayLength,
                 groundLayer);
             bool isGrounded = hit.collider != null;
@@ -225,7 +246,7 @@ namespace Controllers {
             return isGrounded;
         }
 
-        void HandleLives() {
+        private void HandleLives() {
             _spriteRenderer.color = _health.IsAlive ? Color.white : Color.black;
         }
 
@@ -242,6 +263,10 @@ namespace Controllers {
             animator.SetTrigger(Attack);
             navAgent.ResetPath();
             _attackCooldownTimer = cooldownTime;
+
+            if (enemyType == EnemyType.Ranged) {
+                RangedAttack();
+            }
         }
 
         public void TakeDamage(float damage) {
@@ -306,14 +331,27 @@ namespace Controllers {
             }
         }
 
+        private void RangedAttack() {
+            Vector2 playerPosition = _currentPlayer.transform.position;
+            Vector2 spawnPos = new Vector2(transform.position.x, transform.position.y);
+            GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+            EnemyProjectile projectileScript = projectile.GetComponent<EnemyProjectile>();
+            if (projectileScript != null) {
+                projectileScript.Initialize(isFacingRight ? Vector2.right : Vector2.left, projectileSpeed,
+                    attackDamage, projectileDuration);
+            }
+        }
+
         private void OnDrawGizmosSelected() {
             if (drawRangesInEditor) {
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(transform.position, attackRange);
-                Gizmos.color = Color.yellow;
-                Vector2 boxCenter = (Vector2)transform.position +
-                                    (isFacingRight ? Vector2.right : Vector2.left) * sightBoxHorizontalOffset;
-                Gizmos.DrawWireCube(boxCenter, sightBoxSize);
+                if (enemyType == EnemyType.Melee) {
+                    Gizmos.color = Color.yellow;
+                    Vector2 boxCenter = (Vector2)transform.position +
+                                        (isFacingRight ? Vector2.right : Vector2.left) * sightBoxHorizontalOffset;
+                    Gizmos.DrawWireCube(boxCenter, sightBoxSize);
+                }
             }
         }
     }
