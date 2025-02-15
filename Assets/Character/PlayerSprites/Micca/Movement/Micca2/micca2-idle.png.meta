@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 15bb8904ce3a1ac4494261d47d626876
+guid: 05a7d28ecd7ddea49b622cf27562c452
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -137,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ba1ff62baeba03049ac33555e526d038
-      internalID: 2053560344
+      spriteID: c19a23762ca833d4f82090d4665e9c3e
+      internalID: 1544951395
       vertices: []
       indices: 
       edges: []
@@ -158,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b492124bbf168e4990d62b9a87f830f
-      internalID: -1956784164
+      spriteID: 96eb9f8d64be9e84da782e67c9780df1
+      internalID: -712846578
       vertices: []
       indices: 
       edges: []
@@ -179,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 137cf53254b639d42ada50f0db49e6a0
-      internalID: -1814642964
+      spriteID: a3100e927717a584e9fbee94df6b8501
+      internalID: 982536494
       vertices: []
       indices: 
       edges: []
@@ -200,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 80f80832a3a4bab4dbe3cf5cfa274004
-      internalID: 391981364
+      spriteID: 30bda860189ea5744a1a2c724b980436
+      internalID: 341516918
       vertices: []
       indices: 
       edges: []
@@ -221,8 +221,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f0ad093a271e934ab573efb625431bf
-      internalID: -1864929253
+      spriteID: b853060c2c4b8a646a6b6f61398d061d
+      internalID: -840291696
       vertices: []
       indices: 
       edges: []
@@ -238,11 +238,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      micca2-idle_0: 2053560344
-      micca2-idle_1: -1956784164
-      micca2-idle_2: -1814642964
-      micca2-idle_3: 391981364
-      micca2-idle_4: -1864929253
+      micca2-idle_0: 1544951395
+      micca2-idle_1: -712846578
+      micca2-idle_2: 982536494
+      micca2-idle_3: 341516918
+      micca2-idle_4: -840291696
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
