@@ -114,7 +114,6 @@ namespace Controllers {
         private bool HasHealthBar => enemyHealthBar != null;
         private Vector2 _velocity = Vector2.zero;
         private float _attackCooldownTimer;
-        private float prevgroundY;
 
         private void Awake() {
             col = GetComponent<Collider2D>();
@@ -236,31 +235,20 @@ namespace Controllers {
 
         private void ChasePlayer() {
             Vector2 playerPos = _currentPlayer.transform.position;
-            float targetX = playerPos.x;
-            float targetY;
-            if (!IsGrounded()) {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 100f, groundLayer);
-                targetY = hit.collider != null ? hit.point.y + groundOffset : transform.position.y;
-            } else {
-                RaycastHit2D hit = Physics2D.Raycast(playerPos, Vector2.down, 100f, groundLayer);
-                targetY = hit.collider != null ? hit.point.y + groundOffset : transform.position.y;
-                targetY = Mathf.Min(targetY, transform.position.y);
-            }
 
-            Vector2 newDestination = new Vector2(targetX, targetY);
-            if (Physics2D.OverlapPoint(newDestination, groundLayer) == null) {
-                navAgent.SetDestination(newDestination);
-            }
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 100f, groundLayer);
+            float groundY = hit.collider != null ? hit.point.y + groundOffset : transform.position.y;
+
+            Vector2 newDestination = new Vector2(playerPos.x, groundY);
+            navAgent.SetDestination(newDestination);
         }
 
-
-        private bool IsGrounded() {
+        private void IsGrounded() {
             const float rayLength = 0.1f;
             RaycastHit2D hit = Physics2D.Raycast(col.bounds.center, Vector2.down, col.bounds.extents.y + rayLength,
                 groundLayer);
             bool isGrounded = hit.collider != null || _attacking;
             animator.SetBool(Grounded, isGrounded);
-            return isGrounded;
         }
 
         private void HandleLives() {
