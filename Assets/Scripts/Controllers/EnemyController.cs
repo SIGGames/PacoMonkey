@@ -5,6 +5,7 @@ using Gameplay;
 using Health.UI;
 using Managers;
 using Mechanics;
+using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -35,7 +36,7 @@ namespace Controllers {
         [Header("Sight Settings")]
         [SerializeField] private Vector2 sightBoxSize = new(2f, 1f);
 
-        [SerializeField] private float sightBoxHorizontalOffset = 1f;
+        [SerializeField, Range(0, 5)] private float sightBoxHorizontalOffset = 1f;
         [SerializeField, Range(0, 5)] public float attackRange = 1f;
         [SerializeField, Range(0, 2)] private float groundOffset = 0.5f;
 
@@ -44,8 +45,11 @@ namespace Controllers {
         private float attackDamage = 1f;
 
         [SerializeField, Range(0, 5)] private float cooldownTime = 1.5f;
+
+        [ShowIf("enemyType", EnemyType.Melee)]
         [SerializeField, Range(0, 10)] private float bounceForce = 4f;
 
+        [ShowIf("enemyType", EnemyType.Melee)]
         [SerializeField, Range(0, 3)] private float distanceAfterAttack = 1f;
 
         [Header("Movement Settings")]
@@ -153,6 +157,7 @@ namespace Controllers {
             if (PlayerInSightRange && !PlayerInAttackRange) {
                 ChasePlayer();
             }
+
             if (PlayerInAttackRange && _attackCooldownTimer <= 0f) {
                 AttackPlayer();
             }
