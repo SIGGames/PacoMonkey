@@ -31,7 +31,11 @@ namespace Controllers {
         public NavMeshAgent navAgent;
 
         public LayerMask groundLayer;
-        [SerializeField, Range(0, 10)] public float sightRange = 1.5f;
+
+        [Header("Sight Settings")]
+        [SerializeField] private Vector2 sightBoxSize = new(2f, 1f);
+
+        [SerializeField] private float sightBoxHorizontalOffset = 1f;
         [SerializeField, Range(0, 5)] public float attackRange = 1f;
         [SerializeField, Range(0, 2)] private float groundOffset = 0.5f;
 
@@ -49,8 +53,27 @@ namespace Controllers {
 
         private Vector3 _walkPoint;
         private float DistanceToPlayer => Vector3.Distance(transform.position, _currentPlayer.transform.position);
-        private bool PlayerInSightRange => DistanceToPlayer <= sightRange;
-        private bool PlayerInAttackRange => DistanceToPlayer <= attackRange;
+
+        private bool PlayerInSightRange {
+            get {
+                Vector2 boxCenter = (Vector2)transform.position +
+                                    (isFacingRight ? Vector2.right : Vector2.left) * sightBoxHorizontalOffset;
+                Rect sightRect = new Rect(
+                    boxCenter.x - sightBoxSize.x / 2,
+                    boxCenter.y - sightBoxSize.y / 2,
+                    sightBoxSize.x,
+                    sightBoxSize.y
+                );
+                return sightRect.Contains(_currentPlayer.transform.position);
+            }
+        }
+
+        private bool PlayerInAttackRange {
+            get {
+                float distanceToPlayer = DistanceToPlayer;
+                return distanceToPlayer <= attackRange;
+            }
+        }
 
         [Header("Enemy Settings")]
         [SerializeField] private float deathTime = 0.3f;
@@ -112,16 +135,12 @@ namespace Controllers {
                 return;
             }
 
-            _currentPlayer.lives.DecrementLives(attackDamage);
+            // _currentPlayer.lives.DecrementLives(attackDamage);
             BouncePlayer();
         }
 
         void Update() {
             _currentPlayer = CharacterManager.currentPlayerController;
-            if (Input.GetKeyDown(KeyCode.F2)) {
-                // TODO: This will be removed
-                AttackPlayer();
-            }
 
             UpdateVelocity();
 
@@ -133,7 +152,8 @@ namespace Controllers {
 
             if (PlayerInSightRange && !PlayerInAttackRange) {
                 ChasePlayer();
-            } else if (PlayerInAttackRange && _attackCooldownTimer <= 0f) {
+            }
+            if (PlayerInAttackRange && _attackCooldownTimer <= 0f) {
                 AttackPlayer();
             }
 
@@ -264,19 +284,34 @@ namespace Controllers {
             }
         }
 
-        private void BouncePlayer() {
+        private void BouncePlayer(bool bounceOnAllDirections = false) {
+            const float verticalPercentage = 0.7f;
+            if (bounceOnAllDirections) {
+                _currentPlayer.BounceX(isFacingRight ? bounceForce : -bounceForce);
+                _currentPlayer.BounceY(bounceForce * verticalPercentage);
+            } else {
+                _currentPlayer.BounceX(isFacingRight ? bounceForce : -bounceForce);
+
+                if (!_currentPlayer.IsGrounded) {
+                    _currentPlayer.BounceY(bounceForce * verticalPercentage);
+                }
+            }
+        }
+
+        private void BouncePlayerOnAnimation() {
             if (PlayerInAttackRange) {
-                _currentPlayer.Bounce(isFacingRight ? bounceForce : -bounceForce);
+                BouncePlayer();
             }
         }
 
         private void OnDrawGizmosSelected() {
             if (drawRangesInEditor) {
                 Gizmos.color = Color.red;
-                Vector3 position = transform.position;
-                Gizmos.DrawWireSphere(position, attackRange);
+                Gizmos.DrawWireSphere(transform.position, attackRange);
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(position, sightRange);
+                Vector2 boxCenter = (Vector2)transform.position +
+                                    (isFacingRight ? Vector2.right : Vector2.left) * sightBoxHorizontalOffset;
+                Gizmos.DrawWireCube(boxCenter, sightBoxSize);
             }
         }
     }

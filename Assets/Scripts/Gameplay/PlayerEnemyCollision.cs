@@ -31,11 +31,11 @@ namespace Gameplay {
             if (willHurtEnemy) {
                 if (_enemyHealth != null) {
                     enemy.TakeDamage(DamageToEnemy);
-                    player.Bounce(_enemyHealth.IsAlive ? BounceForceOnHit : BounceForceOnKill);
+                    player.BounceX(_enemyHealth.IsAlive ? BounceForceOnHit : BounceForceOnKill);
                 }
                 else {
                     Schedule<EnemyDeath>().enemy = enemy;
-                    player.Bounce(BounceForceOnKill);
+                    player.BounceX(BounceForceOnKill);
                 }
             }
             else {
