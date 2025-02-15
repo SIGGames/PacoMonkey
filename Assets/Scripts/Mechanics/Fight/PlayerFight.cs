@@ -24,7 +24,7 @@ namespace Mechanics.Fight {
         [SerializeField, Range(0, 500)] private int meleeDamage = 200;
         [SerializeField, Range(0, 5)] private float cooldownTime = 0.5f;
         [SerializeField] private Vector2 meleeBounceForce = new(5f, 0f);
-        private LedgeDetection ledgeCheck;
+        private LedgeDetection _ledgeCheck;
 
         [Header("Ranged Attack Settings")]
         [SerializeField] private bool isRangedActive = true;
@@ -57,7 +57,7 @@ namespace Mechanics.Fight {
                 return;
             }
 
-            ledgeCheck = GetComponentInChildren<LedgeDetection>();
+            _ledgeCheck = GetComponentInChildren<LedgeDetection>();
 
             _animator = playerController.animator;
 
@@ -131,7 +131,7 @@ namespace Mechanics.Fight {
         }
 
         private void CheckWallOnMelee() {
-            if (ledgeCheck != null && ledgeCheck.isNearWall) {
+            if (_ledgeCheck != null && _ledgeCheck.isNearWall) {
                 FinishAttack();
                 playerController.Bounce(meleeBounceForce);
             }
