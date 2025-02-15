@@ -374,7 +374,9 @@ namespace Controllers {
             if (movementState != state || priority > _currentPriority) {
                 _currentPriority = priority;
                 movementState = state;
-                animator.SetTrigger(state.ToString().ToLower());
+                if (state != PlayerMovementState.Idle && state != PlayerMovementState.Run) {
+                    animator.SetTrigger(state.ToString().ToLower());
+                }
             }
         }
 
@@ -441,12 +443,12 @@ namespace Controllers {
             if (isFacingRight) {
                 RaycastHit2D hit = Physics2D.Raycast(collider2d.bounds.center, Vector2.right, checkDistance, groundLayer);
                 if (hit.collider != null) {
-                    Bounce(-bounceForce);
+                    BounceX(-bounceForce);
                 }
             } else {
                 RaycastHit2D hit = Physics2D.Raycast(collider2d.bounds.center, Vector2.left, checkDistance, groundLayer);
                 if (hit.collider != null) {
-                    Bounce(bounceForce);
+                    BounceX(bounceForce);
                 }
             }
         }
