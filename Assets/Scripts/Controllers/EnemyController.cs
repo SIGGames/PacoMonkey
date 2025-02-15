@@ -171,8 +171,6 @@ namespace Controllers {
                 _attackCooldownTimer -= Time.deltaTime;
             }
 
-            CheckIfIsAscending();
-
             if (enemyType == EnemyType.Melee) {
                 if (PlayerInSightRange) {
                     ChasePlayer();
@@ -224,16 +222,11 @@ namespace Controllers {
             }
         }
 
-        private void CheckIfIsAscending() {
-            if (_velocity.y > 0) {
-                navAgent.ResetPath();
-                navAgent.isStopped = true;
-            } else {
-                navAgent.isStopped = false;
-            }
-        }
-
         private void ChasePlayer() {
+            if (ThereIsAWallBetweenEnemyAndPlayer()) {
+                return;
+            }
+
             Vector2 playerPos = _currentPlayer.transform.position;
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 100f, groundLayer);
@@ -241,6 +234,13 @@ namespace Controllers {
 
             Vector2 newDestination = new Vector2(playerPos.x, groundY);
             navAgent.SetDestination(newDestination);
+        }
+
+        private bool ThereIsAWallBetweenEnemyAndPlayer() {
+            Vector2 playerPos = _currentPlayer.transform.position;
+            Vector2 enemyPos = transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(enemyPos, playerPos - enemyPos, Vector2.Distance(playerPos, enemyPos), groundLayer);
+            return hit.collider != null;
         }
 
         private void IsGrounded() {
