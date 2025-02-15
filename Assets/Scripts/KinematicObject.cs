@@ -19,32 +19,61 @@ public class KinematicObject : MonoBehaviour {
     protected const float MinMoveDistance = 0.001f;
     protected const float ShellRadius = 0.01f;
 
-    public void Bounce(float value) {
+    public void Bounce(Vector2 force) {
+        BounceX(force.x);
+        BounceY(force.y);
+    }
+
+    public void BounceX(float value) {
         if (value == 0) {
             return;
         }
-        float validatedForce = ValidateBounceForce(value);
+
+        float validatedForce = ValidateBounceForceX(value);
         if (Mathf.Approximately(validatedForce, 0f)) {
             return;
         }
+
         velocity.x = validatedForce;
         body.velocity = new Vector2(validatedForce, body.velocity.y);
         StopCoroutine(DecelerateBounce());
         StartCoroutine(DecelerateBounce(Mathf.Abs(value) / 10));
     }
 
-    public void Bounce(Vector2 dir) {
-        velocity.y = dir.y;
-        velocity.x = dir.x;
+    public void BounceY(float value) {
+        if (value == 0) {
+            return;
+        }
+
+        float validatedForce = ValidateBounceForceY(value);
+        if (Mathf.Approximately(validatedForce, 0f)) {
+            return;
+        }
+
+        velocity.y = validatedForce;
+        body.velocity = new Vector2(body.velocity.x, validatedForce);
+        StopCoroutine(DecelerateBounce());
+        StartCoroutine(DecelerateBounce(Mathf.Abs(value) / 10));
     }
 
-    private float ValidateBounceForce(float bounceForce) {
+    private float ValidateBounceForceX(float bounceForce) {
         Vector2 direction = bounceForce < 0 ? Vector2.left : Vector2.right;
+        return ValidateBounceForce(bounceForce, direction);
+    }
+
+    private float ValidateBounceForceY(float bounceForce) {
+        Vector2 direction = bounceForce < 0 ? Vector2.down : Vector2.up;
+        return ValidateBounceForce(bounceForce, direction);
+    }
+
+    private float ValidateBounceForce(float bounceForce, Vector2 direction) {
         float checkDistance = Mathf.Abs(bounceForce);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, checkDistance, 1 << LayerMask.NameToLayer("Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, checkDistance,
+            1 << LayerMask.NameToLayer("Ground"));
         if (hit.collider != null) {
             return Mathf.Sign(bounceForce) * hit.distance;
         }
+
         return bounceForce;
     }
 
