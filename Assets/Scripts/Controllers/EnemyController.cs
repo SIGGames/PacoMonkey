@@ -135,7 +135,7 @@ namespace Controllers {
                 return;
             }
 
-            // _currentPlayer.lives.DecrementLives(attackDamage);
+            AttackPlayer();
             BouncePlayer();
         }
 
@@ -278,10 +278,6 @@ namespace Controllers {
             Vector3 newPositionOffset = Vector3.zero;
             newPositionOffset.x = offsetOnFinishAttack;
             navAgent.Move(newPositionOffset);
-
-            if (PlayerInAttackRange) {
-                _currentPlayer.lives.DecrementLives(attackDamage);
-            }
         }
 
         private void BouncePlayer(bool bounceOnAllDirections = false) {
@@ -301,6 +297,7 @@ namespace Controllers {
         private void BouncePlayerOnAnimation() {
             if (PlayerInAttackRange) {
                 BouncePlayer();
+                _currentPlayer.lives.DecrementLives(attackDamage);
             }
         }
 
