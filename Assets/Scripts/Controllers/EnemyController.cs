@@ -96,7 +96,7 @@ namespace Controllers {
         private Vector2 _velocity = Vector2.zero;
         private float _attackCooldownTimer;
 
-        void Awake() {
+        private void Awake() {
             col = GetComponent<Collider2D>();
             audioSource = GetComponent<AudioSource>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -134,7 +134,7 @@ namespace Controllers {
             }
         }
 
-        void OnCollisionEnter2D(Collision2D other) {
+        private void OnCollisionEnter2D(Collision2D other) {
             if (other.gameObject.GetComponent<PlayerController>() == null) {
                 return;
             }
@@ -143,7 +143,7 @@ namespace Controllers {
             BouncePlayer();
         }
 
-        void Update() {
+        private void Update() {
             _currentPlayer = CharacterManager.currentPlayerController;
 
             UpdateVelocity();
