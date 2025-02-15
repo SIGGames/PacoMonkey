@@ -39,7 +39,7 @@ namespace Controllers {
         [SerializeField] private Vector2 sightBoxSize = new(2f, 1f);
 
         [ShowIf("enemyType", EnemyType.Melee)]
-        [SerializeField, Range(0, 5)] private float sightBoxHorizontalOffset = 1f;
+        [SerializeField, MaxValue(5)] private Vector2 sightBoxOffset;
 
         [SerializeField, Range(0, 5)] public float attackRange = 1f;
         [SerializeField, Range(0, 2)] private float groundOffset = 0.5f;
@@ -68,13 +68,19 @@ namespace Controllers {
         [Header("Movement Settings")]
         [SerializeField] private bool isFacingRight = true;
 
+        private bool _attacking;
+
         private Vector3 _walkPoint;
         private float DistanceToPlayer => Vector3.Distance(transform.position, _currentPlayer.transform.position);
 
         private bool PlayerInSightRange {
             get {
-                Vector2 boxCenter = (Vector2)transform.position +
-                                    (isFacingRight ? Vector2.right : Vector2.left) * sightBoxHorizontalOffset;
+                Vector2 offset = sightBoxOffset;
+                if (!isFacingRight) {
+                    offset.x = -offset.x;
+                }
+
+                Vector2 boxCenter = (Vector2)transform.position + offset;
                 Rect sightRect = new Rect(
                     boxCenter.x - sightBoxSize.x / 2,
                     boxCenter.y - sightBoxSize.y / 2,
@@ -108,6 +114,7 @@ namespace Controllers {
         private bool HasHealthBar => enemyHealthBar != null;
         private Vector2 _velocity = Vector2.zero;
         private float _attackCooldownTimer;
+        private float prevgroundY;
 
         private void Awake() {
             col = GetComponent<Collider2D>();
@@ -168,7 +175,7 @@ namespace Controllers {
             CheckIfIsAscending();
 
             if (enemyType == EnemyType.Melee) {
-                if (PlayerInSightRange && !PlayerInAttackRange) {
+                if (PlayerInSightRange) {
                     ChasePlayer();
                 }
             }
@@ -203,10 +210,18 @@ namespace Controllers {
             agentPos.y += _velocity.y * Time.deltaTime;
             transform.position = agentPos;
             navAgent.nextPosition = transform.position;
-            if (_currentPlayer.transform.position.x > transform.position.x && !isFacingRight) {
-                Flip();
-            } else if (_currentPlayer.transform.position.x < transform.position.x && isFacingRight) {
-                Flip();
+            if (PlayerInSightRange) {
+                if (_currentPlayer.transform.position.x > transform.position.x && !isFacingRight) {
+                    Flip();
+                } else if (_currentPlayer.transform.position.x < transform.position.x && isFacingRight) {
+                    Flip();
+                }
+            } else {
+                if (_velocity.x > 0 && !isFacingRight) {
+                    Flip();
+                } else if (_velocity.x < 0 && isFacingRight) {
+                    Flip();
+                }
             }
         }
 
@@ -233,7 +248,9 @@ namespace Controllers {
             }
 
             Vector2 newDestination = new Vector2(targetX, targetY);
-            navAgent.SetDestination(newDestination);
+            if (Physics2D.OverlapPoint(newDestination, groundLayer) == null) {
+                navAgent.SetDestination(newDestination);
+            }
         }
 
 
@@ -241,7 +258,7 @@ namespace Controllers {
             const float rayLength = 0.1f;
             RaycastHit2D hit = Physics2D.Raycast(col.bounds.center, Vector2.down, col.bounds.extents.y + rayLength,
                 groundLayer);
-            bool isGrounded = hit.collider != null;
+            bool isGrounded = hit.collider != null || _attacking;
             animator.SetBool(Grounded, isGrounded);
             return isGrounded;
         }
@@ -260,6 +277,7 @@ namespace Controllers {
                 return;
             }
 
+            _attacking = true;
             animator.SetTrigger(Attack);
             navAgent.ResetPath();
             _attackCooldownTimer = cooldownTime;
@@ -308,6 +326,7 @@ namespace Controllers {
             Vector3 newPositionOffset = Vector3.zero;
             newPositionOffset.x = offsetOnFinishAttack;
             navAgent.Move(newPositionOffset);
+            _attacking = false;
         }
 
         private void BouncePlayer(bool bounceOnAllDirections = false) {
@@ -348,8 +367,12 @@ namespace Controllers {
                 Gizmos.DrawWireSphere(transform.position, attackRange);
                 if (enemyType == EnemyType.Melee) {
                     Gizmos.color = Color.yellow;
-                    Vector2 boxCenter = (Vector2)transform.position +
-                                        (isFacingRight ? Vector2.right : Vector2.left) * sightBoxHorizontalOffset;
+                    Vector2 offset = sightBoxOffset;
+                    if (!isFacingRight) {
+                        offset.x = -offset.x;
+                    }
+
+                    Vector2 boxCenter = (Vector2)transform.position + offset;
                     Gizmos.DrawWireCube(boxCenter, sightBoxSize);
                 }
             }
