@@ -130,6 +130,8 @@ namespace Controllers {
         }
 
         protected override void Update() {
+            HandleDebugInput();
+
             if (controlEnabled) {
                 HandleInput();
             } else {
@@ -172,23 +174,6 @@ namespace Controllers {
         }
 
         private void HandleLives() {
-            if (CharacterManager.Instance.currentPlayerController == this) {
-                if (Input.GetKeyDown(KeyCode.F8)) {
-                    // TODO: This keybind is temporal
-                    lives.Die();
-                }
-
-                if (Input.GetKeyDown(KeyCode.F7)) {
-                    // TODO: This keybind is temporal
-                    lives.DecrementLives();
-                }
-
-                if (Input.GetKeyDown(KeyCode.F6)) {
-                    // TODO: This keybind is temporal
-                    lives.IncrementLives();
-                }
-            }
-
             if (lives.IsAlive || _isDying || !enabled || !IsGrounded) {
                 return;
             }
@@ -469,6 +454,28 @@ namespace Controllers {
             Vector3 pos = transform.position;
             pos.x += isFacingRight ? -hurtOffset : hurtOffset;
             transform.position = pos;
+        }
+
+        private void HandleDebugInput() {
+            // TODO: This keybinds are for debugging purposes
+            if (Input.GetKeyDown(KeyCode.F4)) {
+                SetBodyType(RigidbodyType2D.Kinematic);
+                Teleport(respawnPosition);
+            }
+
+            if (CharacterManager.Instance.currentPlayerController == this) {
+                if (Input.GetKeyDown(KeyCode.F6)) {
+                    lives.IncrementLives();
+                }
+
+                if (Input.GetKeyDown(KeyCode.F7)) {
+                    lives.DecrementLives();
+                }
+
+                if (Input.GetKeyDown(KeyCode.F8)) {
+                    lives.Die();
+                }
+            }
         }
     }
 }
