@@ -1,6 +1,5 @@
 ﻿using Controllers;
-using Mechanics.Movement;
-using Platformer.Gameplay;
+using Gameplay;
 using UnityEngine;
 using static Platformer.Core.Simulation;
 
@@ -9,8 +8,7 @@ namespace Zones {
         void OnTriggerEnter2D(Collider2D collider) {
             var p = collider.gameObject.GetComponent<PlayerController>();
             if (p != null) {
-                var ev = Schedule<PlayerEnteredDeathZone>();
-                ev.deathzone = this;
+                Schedule<PlayerEnteredDeathZone>();
             }
         }
     }

@@ -164,7 +164,7 @@ namespace Controllers {
             }
 
             AttackPlayer();
-            BouncePlayer(false, 0.5f);
+            BouncePlayer(false, 0.7f);
         }
 
         private void Update() {

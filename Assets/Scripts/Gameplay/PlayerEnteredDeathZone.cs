@@ -1,20 +1,11 @@
-using Mechanics;
-using Model;
+using Managers;
 using Platformer.Core;
-using Zones;
 
-namespace Platformer.Gameplay {
-    /// <summary>
-    /// Fired when a player enters a trigger with a DeathZone component.
-    /// </summary>
-    /// <typeparam name="PlayerEnteredDeathZone"></typeparam>
+namespace Gameplay {
     public class PlayerEnteredDeathZone : Simulation.Event<PlayerEnteredDeathZone> {
-        public DeathZone deathzone;
-
-        PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
         public override void Execute() {
-            model.player.lives.Die();
+            CharacterManager.Instance.currentPlayerController.lives.Die();
         }
     }
 }
