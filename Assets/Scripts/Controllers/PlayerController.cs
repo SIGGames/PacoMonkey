@@ -172,9 +172,21 @@ namespace Controllers {
         }
 
         private void HandleLives() {
-            if (Input.GetKeyDown(KeyCode.F8)) {
-                // TODO: This keybind is temporal
-                lives.Die();
+            if (CharacterManager.Instance.currentPlayerController == this) {
+                if (Input.GetKeyDown(KeyCode.F8)) {
+                    // TODO: This keybind is temporal
+                    lives.Die();
+                }
+
+                if (Input.GetKeyDown(KeyCode.F7)) {
+                    // TODO: This keybind is temporal
+                    lives.DecrementLives();
+                }
+
+                if (Input.GetKeyDown(KeyCode.F6)) {
+                    // TODO: This keybind is temporal
+                    lives.IncrementLives();
+                }
             }
 
             if (lives.IsAlive || _isDying || !enabled || !IsGrounded) {
@@ -452,6 +464,13 @@ namespace Controllers {
                     Teleport(new Vector3(wallCenter.x + distanceTp, position.y, position.z));
                 }
             }
+        }
+
+        private void OnFinishHurtAnimation() {
+            const float hurtOffset = 0.4f;
+            Vector3 pos = transform.position;
+            pos.x += isFacingRight ? -hurtOffset : hurtOffset;
+            transform.position = pos;
         }
     }
 }

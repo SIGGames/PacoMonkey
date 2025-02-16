@@ -39,7 +39,7 @@ namespace Gameplay {
                 }
             }
             else {
-                _playerLives?.DecrementLive();
+                _playerLives?.DecrementLives();
             }
         }
     }

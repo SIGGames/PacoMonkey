@@ -15,7 +15,7 @@ namespace Mechanics.Environment {
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag(damageTagTile) && other.gameObject.layer == LayerMask.NameToLayer("Ground")) {
-                _player.lives.DecrementLive();
+                _player.lives.DecrementLives();
             }
         }
     }

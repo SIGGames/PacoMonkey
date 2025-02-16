@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e91f5f92736e82c42b3107db3b9cec53
+guid: cede74ba1cd3a364fbda0b700360fd86
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -51,7 +51,7 @@ TextureImporter:
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
-  alphaUsage: 0
+  alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
@@ -123,484 +123,484 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: micca-death-fall_0
+      name: m_death-fall_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a37371ba17fe0a49ba35707a4a7d5bb
-      internalID: 2050496713
+      spriteID: de6ad3cb3e6e94a459d150b598dfd429
+      internalID: 524638338
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_1
+      name: m_death-fall_1
       rect:
         serializedVersion: 2
-        x: 112
+        x: 144
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: beef71af1b3fa294d8471432ef766304
-      internalID: -660074447
+      spriteID: ec1eed73578c8c64381702f85054d8ce
+      internalID: 1045416401
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_2
+      name: m_death-fall_2
       rect:
         serializedVersion: 2
-        x: 224
+        x: 288
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: afff5bac9849c1442bfa8d3261b09191
-      internalID: -815471361
+      spriteID: d64e63569a2807a4bb439f51330e72b4
+      internalID: -556342420
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_3
+      name: m_death-fall_3
       rect:
         serializedVersion: 2
-        x: 336
+        x: 432
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 40d2e19e1e2734a4c826b23630a7df6d
-      internalID: -845243974
+      spriteID: 3c47b40e329bfc345afe0c8ba5d01815
+      internalID: -1016020409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_4
+      name: m_death-fall_4
       rect:
         serializedVersion: 2
-        x: 448
+        x: 576
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aac1ece2f74026e43b0adf06f67e258b
-      internalID: 1514814445
+      spriteID: 0373d3436145dcd4f9c49ec34f5ba185
+      internalID: -411453303
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_5
+      name: m_death-fall_5
       rect:
         serializedVersion: 2
-        x: 560
+        x: 720
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2288723b94085e44e8e9466ab636fd32
-      internalID: 432889710
+      spriteID: 5d2f7d17247717240be9b129ef07dcaa
+      internalID: 1844696677
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_6
+      name: m_death-fall_6
       rect:
         serializedVersion: 2
-        x: 672
+        x: 864
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbf818d9c087a924fa843668b8d86fe8
-      internalID: 1824306605
+      spriteID: a91eae3bb05f1b84ba2c035334ed1581
+      internalID: -406813419
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_7
-      rect:
-        serializedVersion: 2
-        x: 784
-        y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 01bf7ab02fd8a5342bfab7883dd3b315
-      internalID: -246981445
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: micca-death-fall_8
-      rect:
-        serializedVersion: 2
-        x: 896
-        y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e27938f1866ec5d44843e65fb3c4b163
-      internalID: -336017663
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: micca-death-fall_9
+      name: m_death-fall_7
       rect:
         serializedVersion: 2
         x: 1008
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2789c979ca5532042a0cc004ef16dd10
-      internalID: -936081950
+      spriteID: 2aea84c73abd6de4080d478195b2ef77
+      internalID: -1406971944
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_10
+      name: m_death-fall_8
       rect:
         serializedVersion: 2
-        x: 1120
+        x: 1152
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6195623d1a9edb14f9688d24271c1187
-      internalID: 1308263374
+      spriteID: ffd0bb8bfa27ee4458669c04bfe6ecb8
+      internalID: -1591367186
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_11
+      name: m_death-fall_9
       rect:
         serializedVersion: 2
-        x: 1232
+        x: 1296
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8530dd68f5f3a134994e3ac202a64a4b
-      internalID: -444904358
+      spriteID: 4682fe678c0097c42af45abdfd404cb8
+      internalID: -281241623
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_12
+      name: m_death-fall_10
       rect:
         serializedVersion: 2
-        x: 1344
+        x: 1440
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bdb2cc1fdfdc804468ebf34ce6f1ecfd
-      internalID: 1350077218
+      spriteID: dfb9e59e3d19fcb48ab3f465f38531d8
+      internalID: -354356579
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_13
+      name: m_death-fall_11
       rect:
         serializedVersion: 2
-        x: 1456
+        x: 1584
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 22c2cf5137ed36e42ab0b69e392c9bf2
-      internalID: -2087996616
+      spriteID: adabdf50b12970242b630a511d3d3f7f
+      internalID: -897223478
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_14
+      name: m_death-fall_12
       rect:
         serializedVersion: 2
-        x: 1568
+        x: 1728
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4af8d7ead70e4b8428e08048d1f90b5f
-      internalID: -470646090
+      spriteID: 1d510d148ec8b8b458276b5f6c81473a
+      internalID: 405988642
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_15
+      name: m_death-fall_13
       rect:
         serializedVersion: 2
-        x: 1680
+        x: 1872
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d54d5bbca7def614bb21f214d32dbd49
-      internalID: 679380625
+      spriteID: 69212c5c0e788ca4ba258ed8bedc054e
+      internalID: 1641973250
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_16
-      rect:
-        serializedVersion: 2
-        x: 1792
-        y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 62dcc653f425b0c44862c1c3f342fa09
-      internalID: 347679658
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: micca-death-fall_17
-      rect:
-        serializedVersion: 2
-        x: 1904
-        y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bddb5b0e932272e4abb13b3790296072
-      internalID: -1563961651
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: micca-death-fall_18
+      name: m_death-fall_14
       rect:
         serializedVersion: 2
         x: 2016
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 955782cc2ee7b794fa884518739b62a3
-      internalID: 2040033715
+      spriteID: ab192f49a83149b4281f89a45ac686e8
+      internalID: -1957654537
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_19
+      name: m_death-fall_15
       rect:
         serializedVersion: 2
-        x: 2128
+        x: 2160
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fe74c0c1d26871b4189da7b9e76863d7
-      internalID: 840901557
+      spriteID: 34b171e9901b8ee4e900ff235e79cc2d
+      internalID: 681806093
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_20
+      name: m_death-fall_16
       rect:
         serializedVersion: 2
-        x: 2240
+        x: 2304
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddca2f47263c5d04cbda80cc199fee6e
-      internalID: -427551018
+      spriteID: 60e032fb9a6c1854b833521d2e7541eb
+      internalID: 1696251666
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_21
+      name: m_death-fall_17
       rect:
         serializedVersion: 2
-        x: 2352
+        x: 2448
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d210fc28de0614644a26b5cac620f5b1
-      internalID: -1250691364
+      spriteID: ef2614a9d67d0e94faccc2cd27f3af8c
+      internalID: 1843176402
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: micca-death-fall_22
+      name: m_death-fall_18
       rect:
         serializedVersion: 2
-        x: 2464
+        x: 2592
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c89894ba4038f3b47bef8e8875bf0679
-      internalID: 2091972244
+      spriteID: 2b32ae7b67c0f974bb6bc77dd2313a68
+      internalID: -681546970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: m_death-fall_19
+      rect:
+        serializedVersion: 2
+        x: 2736
+        y: 0
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b90377347a2db724b8f86552eda387b4
+      internalID: 1477960873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: m_death-fall_20
+      rect:
+        serializedVersion: 2
+        x: 2880
+        y: 0
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9315ee4dc291a3478cc051c84423b62
+      internalID: -429665076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: m_death-fall_21
+      rect:
+        serializedVersion: 2
+        x: 3024
+        y: 0
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc7878f243c79164fa0a6313c3ef3384
+      internalID: -892265950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: m_death-fall_22
+      rect:
+        serializedVersion: 2
+        x: 3168
+        y: 0
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 897f91bfa883a3e41aaa21b558ffbb76
+      internalID: 1372973098
       vertices: []
       indices: 
       edges: []
@@ -616,29 +616,29 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      micca-death-fall_0: 2050496713
-      micca-death-fall_1: -660074447
-      micca-death-fall_10: 1308263374
-      micca-death-fall_11: -444904358
-      micca-death-fall_12: 1350077218
-      micca-death-fall_13: -2087996616
-      micca-death-fall_14: -470646090
-      micca-death-fall_15: 679380625
-      micca-death-fall_16: 347679658
-      micca-death-fall_17: -1563961651
-      micca-death-fall_18: 2040033715
-      micca-death-fall_19: 840901557
-      micca-death-fall_2: -815471361
-      micca-death-fall_20: -427551018
-      micca-death-fall_21: -1250691364
-      micca-death-fall_22: 2091972244
-      micca-death-fall_3: -845243974
-      micca-death-fall_4: 1514814445
-      micca-death-fall_5: 432889710
-      micca-death-fall_6: 1824306605
-      micca-death-fall_7: -246981445
-      micca-death-fall_8: -336017663
-      micca-death-fall_9: -936081950
+      m_death-fall_0: 524638338
+      m_death-fall_1: 1045416401
+      m_death-fall_10: -354356579
+      m_death-fall_11: -897223478
+      m_death-fall_12: 405988642
+      m_death-fall_13: 1641973250
+      m_death-fall_14: -1957654537
+      m_death-fall_15: 681806093
+      m_death-fall_16: 1696251666
+      m_death-fall_17: 1843176402
+      m_death-fall_18: -681546970
+      m_death-fall_19: 1477960873
+      m_death-fall_2: -556342420
+      m_death-fall_20: -429665076
+      m_death-fall_21: -892265950
+      m_death-fall_22: 1372973098
+      m_death-fall_3: -1016020409
+      m_death-fall_4: -411453303
+      m_death-fall_5: 1844696677
+      m_death-fall_6: -406813419
+      m_death-fall_7: -1406971944
+      m_death-fall_8: -1591367186
+      m_death-fall_9: -281241623
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
