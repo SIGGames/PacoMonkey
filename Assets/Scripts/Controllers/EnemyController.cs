@@ -114,6 +114,7 @@ namespace Controllers {
         private bool HasHealthBar => enemyHealthBar != null;
         private Vector2 _velocity = Vector2.zero;
         private float _attackCooldownTimer;
+        private bool IsEnemyGrounded => animator.GetBool(Grounded);
 
         private void Awake() {
             col = GetComponent<Collider2D>();
@@ -183,7 +184,7 @@ namespace Controllers {
                 }
             }
 
-            if (PlayerInAttackRange && _attackCooldownTimer <= 0f) {
+            if (PlayerInAttackRange && _attackCooldownTimer <= 0f && IsEnemyGrounded) {
                 AttackPlayer();
             }
 
@@ -239,7 +240,8 @@ namespace Controllers {
         private bool ThereIsAWallBetweenEnemyAndPlayer() {
             Vector2 playerPos = _currentPlayer.transform.position;
             Vector2 enemyPos = transform.position;
-            RaycastHit2D hit = Physics2D.Raycast(enemyPos, playerPos - enemyPos, Vector2.Distance(playerPos, enemyPos), groundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(enemyPos, playerPos - enemyPos, Vector2.Distance(playerPos, enemyPos),
+                groundLayer);
             return hit.collider != null;
         }
 
@@ -247,7 +249,7 @@ namespace Controllers {
             const float rayLength = 0.1f;
             RaycastHit2D hit = Physics2D.Raycast(col.bounds.center, Vector2.down, col.bounds.extents.y + rayLength,
                 groundLayer);
-            bool isGrounded = hit.collider != null || _attacking;
+            bool isGrounded = hit.collider != null;
             animator.SetBool(Grounded, isGrounded);
         }
 
@@ -265,14 +267,18 @@ namespace Controllers {
                 return;
             }
 
+            if (enemyType == EnemyType.Ranged) {
+                RangedAttack();
+            } else {
+                ExecuteAttack();
+            }
+        }
+
+        private void ExecuteAttack() {
             _attacking = true;
             animator.SetTrigger(Attack);
             navAgent.ResetPath();
             _attackCooldownTimer = cooldownTime;
-
-            if (enemyType == EnemyType.Ranged) {
-                RangedAttack();
-            }
         }
 
         public void TakeDamage(float damage) {
@@ -339,13 +345,21 @@ namespace Controllers {
         }
 
         private void RangedAttack() {
-            Vector2 playerPosition = _currentPlayer.transform.position;
-            Vector2 spawnPos = new Vector2(transform.position.x, transform.position.y);
-            GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+            Vector2 enemyPos = transform.position;
+            Vector2 playerPos = _currentPlayer.transform.position;
+            Vector2 direction = (playerPos - enemyPos).normalized;
+
+            // Check if there are obstacles between the enemy and the player
+            RaycastHit2D hit = Physics2D.Raycast(enemyPos, direction, Vector2.Distance(enemyPos, playerPos), groundLayer);
+            if (hit.collider != null && hit.collider.gameObject != _currentPlayer.gameObject) {
+                return;
+            }
+            ExecuteAttack();
+
+            GameObject projectile = Instantiate(projectilePrefab, enemyPos, Quaternion.identity);
             EnemyProjectile projectileScript = projectile.GetComponent<EnemyProjectile>();
             if (projectileScript != null) {
-                projectileScript.Initialize(isFacingRight ? Vector2.right : Vector2.left, projectileSpeed,
-                    attackDamage, projectileDuration);
+                projectileScript.Initialize(direction, projectileSpeed, attackDamage, projectileDuration);
             }
         }
 
