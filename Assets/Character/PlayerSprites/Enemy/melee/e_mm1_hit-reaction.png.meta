@@ -137,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7831828fe9f79704cbac2ef710d49484
-      internalID: 589353368
+      spriteID: 8bfca4c14518c684e94f17db6aca89a5
+      internalID: 796720828
       vertices: []
       indices: 
       edges: []
@@ -158,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8820257acfa51a74cb4044d9ad3dea23
-      internalID: -168038014
+      spriteID: 86fcab41ca152e744b5cc5a9ce9d7510
+      internalID: 1966048588
       vertices: []
       indices: 
       edges: []
@@ -179,8 +179,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e1c67d566722ed41856d75c5b9bf1dc
-      internalID: -817257429
+      spriteID: a50dab7e00666da4d82deb1caec01113
+      internalID: 364787665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: e_mm1_hit-reaction_3
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 112
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02f4dbe2d4731044bbcc4b4f87e3b233
+      internalID: -150019598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: e_mm1_hit-reaction_4
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 112
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 617dd981851c1524481d08e4154efc3e
+      internalID: 1238741203
       vertices: []
       indices: 
       edges: []
@@ -196,9 +238,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      e_mm1_hit-reaction_0: 589353368
-      e_mm1_hit-reaction_1: -168038014
-      e_mm1_hit-reaction_2: -817257429
+      e_mm1_hit-reaction_0: 796720828
+      e_mm1_hit-reaction_1: 1966048588
+      e_mm1_hit-reaction_2: 364787665
+      e_mm1_hit-reaction_3: -150019598
+      e_mm1_hit-reaction_4: 1238741203
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
