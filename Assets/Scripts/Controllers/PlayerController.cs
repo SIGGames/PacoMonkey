@@ -427,13 +427,8 @@ namespace Controllers {
         }
 
         private void HandlePlayerInsideWall() {
-            if (IsGrounded) {
+            if (IsGrounded || isPositionFreezed) {
                 return;
-            }
-
-            if (isPositionFreezed) {
-                SetBodyType(RigidbodyType2D.Kinematic);
-                Teleport(respawnPosition);
             }
 
             Collider2D wallCollider = Physics2D.OverlapPoint(transform.position, groundLayer);
