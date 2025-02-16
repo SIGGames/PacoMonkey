@@ -289,6 +289,8 @@ namespace Controllers {
                 _velocity = Vector2.zero;
                 navAgent.ResetPath();
                 DestroyEnemy();
+            } else {
+                animator.SetTrigger(Hurt);
             }
         }
 
