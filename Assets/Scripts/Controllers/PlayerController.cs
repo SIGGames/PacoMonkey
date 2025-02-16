@@ -400,7 +400,6 @@ namespace Controllers {
             if (isPositionFreezed) {
                 controlEnabled = false;
                 SetVelocity(Vector2.zero);
-                SetBodyType(RigidbodyType2D.Static);
             } else {
                 controlEnabled = true;
                 SetBodyType(RigidbodyType2D.Kinematic);
