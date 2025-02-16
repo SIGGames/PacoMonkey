@@ -82,6 +82,7 @@ namespace Controllers {
 
         [Header("Player Components")]
         public Collider2D collider2d;
+
         [SerializeField] private LayerMask groundLayer;
 
         public Lives lives;
@@ -435,23 +436,22 @@ namespace Controllers {
         }
 
         private void HandlePlayerInsideWall() {
-            const float checkDistance = 0.1f;
-            const float bounceForce = 2f;
             if (IsGrounded) {
                 return;
             }
-            if (isFacingRight) {
-                RaycastHit2D hit = Physics2D.Raycast(collider2d.bounds.center, Vector2.right, checkDistance, groundLayer);
-                if (hit.collider != null) {
-                    BounceX(-bounceForce);
-                }
-            } else {
-                RaycastHit2D hit = Physics2D.Raycast(collider2d.bounds.center, Vector2.left, checkDistance, groundLayer);
-                if (hit.collider != null) {
-                    BounceX(bounceForce);
+
+            Collider2D wallCollider = Physics2D.OverlapPoint(transform.position, groundLayer);
+            if (wallCollider != null) {
+                Vector2 wallCenter = wallCollider.bounds.center;
+                Vector3 position = transform.position;
+                const float distanceTp = 1.5f;
+
+                if (transform.position.x < wallCenter.x) {
+                    Teleport(new Vector3(wallCenter.x - distanceTp, position.y, position.z));
+                } else {
+                    Teleport(new Vector3(wallCenter.x + distanceTp, position.y, position.z));
                 }
             }
         }
-
     }
 }
