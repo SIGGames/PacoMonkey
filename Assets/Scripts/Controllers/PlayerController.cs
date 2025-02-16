@@ -177,7 +177,7 @@ namespace Controllers {
                 lives.Die();
             }
 
-            if (lives.IsAlive || _isDying || !enabled) {
+            if (lives.IsAlive || _isDying || !enabled || !IsGrounded) {
                 return;
             }
 
