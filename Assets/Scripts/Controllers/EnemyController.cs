@@ -271,14 +271,6 @@ namespace Controllers {
                 return;
             }
 
-            if (enemyType == EnemyType.Ranged) {
-                RangedAttack();
-            } else {
-                ExecuteAttack();
-            }
-        }
-
-        private void ExecuteAttack() {
             animator.SetTrigger(Attack);
             navAgent.ResetPath();
             _attackCooldownTimer = cooldownTime;
@@ -366,7 +358,6 @@ namespace Controllers {
             if (hit.collider != null && hit.collider.gameObject != _currentPlayer.gameObject) {
                 return;
             }
-            ExecuteAttack();
 
             GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
             EnemyProjectile projectileScript = projectile.GetComponent<EnemyProjectile>();
