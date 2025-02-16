@@ -177,7 +177,6 @@ namespace Controllers {
             }
 
             AttackPlayer();
-            BouncePlayer(false, 0.7f);
         }
 
         private void Update() {
@@ -356,9 +355,10 @@ namespace Controllers {
             if (PlayerInSightRange) {
                 BouncePlayer();
                 // If enemy is on the left of the player the player needs to be flipped to receive the hit
-                if (transform.position.x < _currentPlayer.transform.position.x) {
+                if (transform.position.x < _currentPlayer.transform.position.x && _currentPlayer.isFacingRight) {
                     _currentPlayer.flipManager.Flip(false);
-                } else {
+                } else if (transform.position.x > _currentPlayer.transform.position.x
+                           && !_currentPlayer.isFacingRight) {
                     _currentPlayer.flipManager.Flip(true);
                 }
 

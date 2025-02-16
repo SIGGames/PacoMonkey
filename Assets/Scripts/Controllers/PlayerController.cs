@@ -178,13 +178,10 @@ namespace Controllers {
                 return;
             }
 
-            CharacterManager characterManager = CharacterManager.Instance;
-            if (characterManager != null) {
-                animator.SetBool(Dead, true);
-                animator.SetTrigger(Death);
-                _isDying = true;
-                characterManager.RespawnCharacter();
-            }
+            animator.SetBool(Dead, true);
+            animator.SetTrigger(Death);
+            _isDying = true;
+            CharacterManager.Instance.RespawnCharacter();
         }
 
         public void ResetState() {
@@ -430,8 +427,13 @@ namespace Controllers {
         }
 
         private void HandlePlayerInsideWall() {
-            if (IsGrounded || isPositionFreezed) {
+            if (IsGrounded) {
                 return;
+            }
+
+            if (isPositionFreezed) {
+                SetBodyType(RigidbodyType2D.Kinematic);
+                Teleport(respawnPosition);
             }
 
             Collider2D wallCollider = Physics2D.OverlapPoint(transform.position, groundLayer);
