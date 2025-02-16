@@ -59,6 +59,9 @@ namespace Controllers {
         [ShowIf("enemyType", EnemyType.Ranged)]
         [SerializeField] private float projectileDuration = 2f;
 
+        [ShowIf("enemyType", EnemyType.Ranged)]
+        [SerializeField] private Vector2 projectileOffset = new(0.1f, 0.1f);
+
         [ShowIf("enemyType", EnemyType.Melee)]
         [SerializeField, Range(0, 10)] private float bounceForce = 4f;
 
@@ -67,8 +70,6 @@ namespace Controllers {
 
         [Header("Movement Settings")]
         [SerializeField] private bool isFacingRight = true;
-
-        private bool _attacking;
 
         private Vector3 _walkPoint;
         private float DistanceToPlayer => Vector3.Distance(transform.position, _currentPlayer.transform.position);
@@ -275,7 +276,6 @@ namespace Controllers {
         }
 
         private void ExecuteAttack() {
-            _attacking = true;
             animator.SetTrigger(Attack);
             navAgent.ResetPath();
             _attackCooldownTimer = cooldownTime;
@@ -320,7 +320,6 @@ namespace Controllers {
             Vector3 newPositionOffset = Vector3.zero;
             newPositionOffset.x = offsetOnFinishAttack;
             navAgent.Move(newPositionOffset);
-            _attacking = false;
         }
 
         private void BouncePlayer(bool bounceOnAllDirections = false) {
@@ -346,11 +345,12 @@ namespace Controllers {
 
         private void RangedAttack() {
             Vector2 enemyPos = transform.position;
+            Vector2 spawnPos = new Vector2(enemyPos.x + GetProjectileOffset(), enemyPos.y + projectileOffset.y);
             Vector2 playerPos = _currentPlayer.transform.position;
             Vector2 direction = (playerPos - enemyPos).normalized;
 
             // Check if there are obstacles between the enemy and the player
-            RaycastHit2D hit = Physics2D.Raycast(enemyPos, direction, Vector2.Distance(enemyPos, playerPos), groundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(spawnPos, direction, Vector2.Distance(enemyPos, playerPos), groundLayer);
             if (hit.collider != null && hit.collider.gameObject != _currentPlayer.gameObject) {
                 return;
             }
@@ -361,6 +361,10 @@ namespace Controllers {
             if (projectileScript != null) {
                 projectileScript.Initialize(direction, projectileSpeed, attackDamage, projectileDuration);
             }
+        }
+
+        private float GetProjectileOffset() {
+            return isFacingRight ? projectileOffset.x : -projectileOffset.x;
         }
 
         private void OnDrawGizmosSelected() {

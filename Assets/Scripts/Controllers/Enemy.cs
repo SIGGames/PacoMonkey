@@ -19,7 +19,6 @@ namespace Controllers {
         private Vector3 _walkPoint;
         private bool _walkPointSet;
         private bool _alreadyAttacked;
-        private bool _takeDamage;
 
         private void Awake() {
             if (player == null || navAgent == null || animator == null) {
@@ -132,9 +131,7 @@ namespace Controllers {
         }
 
         private IEnumerator TakeDamageCoroutine() {
-            _takeDamage = true;
             yield return new WaitForSeconds(2f);
-            _takeDamage = false;
         }
 
         private void DestroyEnemy() {

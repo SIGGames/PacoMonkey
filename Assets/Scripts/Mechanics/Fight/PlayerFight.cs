@@ -95,6 +95,7 @@ namespace Mechanics.Fight {
             if (playerController.IsGrounded) {
                 playerController.FreezeHorizontalPosition();
             }
+
             fightState = FightState.Ranged;
             _animator.SetTrigger(RangedAttack);
         }

@@ -387,9 +387,6 @@ namespace Controllers {
             if (movementState != state || priority > _currentPriority) {
                 _currentPriority = priority;
                 movementState = state;
-                if (state != PlayerMovementState.Idle && state != PlayerMovementState.Run) {
-                    animator.SetTrigger(state.ToString().ToLower());
-                }
             }
         }
 
@@ -457,6 +454,7 @@ namespace Controllers {
                 Vector2 wallCenter = wallCollider.bounds.center;
                 Vector3 position = transform.position;
                 const float distanceTp = 1.5f;
+                SetBodyType(RigidbodyType2D.Kinematic);
 
                 if (transform.position.x < wallCenter.x) {
                     Teleport(new Vector3(wallCenter.x - distanceTp, position.y, position.z));
