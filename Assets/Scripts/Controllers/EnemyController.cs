@@ -111,6 +111,9 @@ namespace Controllers {
         [Header("Debug")]
         [SerializeField] private bool drawRangesInEditor = true;
 
+        [ShowIf("enemyType", EnemyType.Ranged)]
+        [SerializeField] private bool drawProjectileInEditor = true;
+
         public Bounds Bounds => col.bounds;
         private bool HasHealthBar => enemyHealthBar != null;
         private Vector2 _velocity = Vector2.zero;
@@ -358,13 +361,14 @@ namespace Controllers {
             Vector2 direction = (playerPos - enemyPos).normalized;
 
             // Check if there are obstacles between the enemy and the player
-            RaycastHit2D hit = Physics2D.Raycast(spawnPos, direction, Vector2.Distance(enemyPos, playerPos), groundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(spawnPos, direction, Vector2.Distance(enemyPos, playerPos),
+                groundLayer);
             if (hit.collider != null && hit.collider.gameObject != _currentPlayer.gameObject) {
                 return;
             }
             ExecuteAttack();
 
-            GameObject projectile = Instantiate(projectilePrefab, enemyPos, Quaternion.identity);
+            GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
             EnemyProjectile projectileScript = projectile.GetComponent<EnemyProjectile>();
             if (projectileScript != null) {
                 projectileScript.Initialize(direction, projectileSpeed, attackDamage, projectileDuration);
@@ -389,6 +393,13 @@ namespace Controllers {
                     Vector2 boxCenter = (Vector2)transform.position + offset;
                     Gizmos.DrawWireCube(boxCenter, sightBoxSize);
                 }
+            }
+
+            if (enemyType == EnemyType.Ranged && drawProjectileInEditor) {
+                Vector2 enemyPos = transform.position;
+                Vector2 spawnPos = new Vector2(enemyPos.x + GetProjectileOffset(), enemyPos.y + projectileOffset.y);
+                Gizmos.color = new Color(0.6f, 0.3f, 0.0f, 1f);
+                Gizmos.DrawSphere(spawnPos, 0.05f);
             }
         }
     }
