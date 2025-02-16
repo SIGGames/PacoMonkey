@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4a5c8f6302edd4f4b99baa9aa3e59795
+guid: 9eab433bfae709b459ce5fcd3d2e60bd
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -128,17 +128,17 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4fa6675db3dea1c4e8cb129440af83ab
-      internalID: -1859295043
+      spriteID: ffdd9869b57a6fb4f803ffb5e7cfee19
+      internalID: -994525659
       vertices: []
       indices: 
       edges: []
@@ -147,19 +147,19 @@ TextureImporter:
       name: micca-death-loop_1
       rect:
         serializedVersion: 2
-        x: 112
+        x: 144
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f90f42d2b36c71148b2ab25ca78c2d8d
-      internalID: -1694855158
+      spriteID: 74067c8b738b35b4ab078f81a933e4ff
+      internalID: -72422828
       vertices: []
       indices: 
       edges: []
@@ -168,19 +168,19 @@ TextureImporter:
       name: micca-death-loop_2
       rect:
         serializedVersion: 2
-        x: 224
+        x: 288
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3525e8b4ff96f7c4694b81068276f772
-      internalID: -1784726258
+      spriteID: f496b7b39b704bd4f850cf89a2e2578b
+      internalID: 728095731
       vertices: []
       indices: 
       edges: []
@@ -189,19 +189,19 @@ TextureImporter:
       name: micca-death-loop_3
       rect:
         serializedVersion: 2
-        x: 336
+        x: 432
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51021a73b4c1b6e4395b77af2cc99139
-      internalID: 1341262799
+      spriteID: 29fcf7d657e5a2240af5c7c531d4ddbe
+      internalID: 380602500
       vertices: []
       indices: 
       edges: []
@@ -210,19 +210,19 @@ TextureImporter:
       name: micca-death-loop_4
       rect:
         serializedVersion: 2
-        x: 448
+        x: 576
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e5b0aeb8df38a8449851cbd94e210aa7
-      internalID: -1351066982
+      spriteID: 391db921c7bfe46439848ed101c4dd29
+      internalID: -842220164
       vertices: []
       indices: 
       edges: []
@@ -231,19 +231,19 @@ TextureImporter:
       name: micca-death-loop_5
       rect:
         serializedVersion: 2
-        x: 560
+        x: 720
         y: 0
-        width: 112
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.67}
+        width: 144
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc3d1c7b24b04be4fa4a996988fe95fc
-      internalID: 681017030
+      spriteID: 5155ae6df7ec0734cb89423e3efc3119
+      internalID: -2119738303
       vertices: []
       indices: 
       edges: []
@@ -259,12 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      micca-death-loop_0: -1859295043
-      micca-death-loop_1: -1694855158
-      micca-death-loop_2: -1784726258
-      micca-death-loop_3: 1341262799
-      micca-death-loop_4: -1351066982
-      micca-death-loop_5: 681017030
+      micca-death-loop_0: -994525659
+      micca-death-loop_1: -72422828
+      micca-death-loop_2: 728095731
+      micca-death-loop_3: 380602500
+      micca-death-loop_4: -842220164
+      micca-death-loop_5: -2119738303
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
