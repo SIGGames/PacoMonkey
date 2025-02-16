@@ -224,7 +224,7 @@ namespace Controllers {
             agentPos.y += _velocity.y * Time.deltaTime;
             transform.position = agentPos;
             navAgent.nextPosition = transform.position;
-            if (PlayerInSightRange) {
+            if (PlayerInSightRange || PlayerInAttackRange) {
                 if (_currentPlayer.transform.position.x > transform.position.x && !isFacingRight) {
                     Flip();
                 } else if (_currentPlayer.transform.position.x < transform.position.x && isFacingRight) {
