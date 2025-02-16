@@ -116,11 +116,14 @@ namespace Controllers {
         [ShowIf("enemyType", EnemyType.Ranged)]
         [SerializeField] private bool drawProjectileInEditor = true;
 
+        [SerializeField] private bool applyGravityOnEnemy = true;
+
         public Bounds Bounds => col.bounds;
         private bool HasHealthBar => enemyHealthBar != null;
         private Vector2 _velocity = Vector2.zero;
         private float _attackCooldownTimer;
         private bool IsEnemyGrounded => animator.GetBool(Grounded);
+
 
         private void Awake() {
             col = GetComponent<Collider2D>();
@@ -208,6 +211,7 @@ namespace Controllers {
                 navAgent.ResetPath();
             }
 
+            EnsureEnemyGroundedMovement();
             HandleLives();
             HandleFlip();
             IsGrounded();
@@ -235,6 +239,17 @@ namespace Controllers {
                     Flip();
                 } else if (_velocity.x < 0 && isFacingRight) {
                     Flip();
+                }
+            }
+        }
+
+        private void EnsureEnemyGroundedMovement() {
+            if (!IsEnemyGrounded && applyGravityOnEnemy) {
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 100f, groundLayer);
+                if (hit.collider != null) {
+                    float groundY = hit.point.y + groundOffset + 0.5f;
+                    Vector2 newDestination = new Vector2(transform.position.x, groundY);
+                    navAgent.Warp(newDestination);
                 }
             }
         }
@@ -288,9 +303,24 @@ namespace Controllers {
                 return;
             }
 
+            if (enemyType == EnemyType.Melee && !CanAttackWallCheck()) {
+                return;
+            }
+
             animator.SetTrigger(Attack);
             navAgent.ResetPath();
             _attackCooldownTimer = cooldownTime;
+        }
+
+        private bool CanAttackWallCheck() {
+            Vector3 enemyPosition = transform.position;
+            const float extraOffset = 0.5f;
+
+            Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
+            RaycastHit2D hit = Physics2D.Raycast(enemyPosition, direction,
+                distanceAfterAttack + extraOffset, groundLayer);
+            Debug.DrawRay(enemyPosition, direction * (distanceAfterAttack + extraOffset), Color.red);
+            return hit.collider == null;
         }
 
         public void TakeDamage(float damage) {

@@ -138,6 +138,7 @@ namespace Managers {
             yield return new WaitForSeconds(characterConfig.respawnTime);
             player.FreezePosition(false);
             player.ResetState();
+            player.flipManager.Flip(true);
             InstanceEnemies();
 
             cinemachineCamera.Follow = characterConfig.characterGameObject.transform;

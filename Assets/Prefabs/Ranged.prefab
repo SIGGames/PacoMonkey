@@ -69,7 +69,7 @@ Transform:
   m_GameObject: {fileID: 1661912868639658944}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.95, y: -3.23, z: 1}
+  m_LocalPosition: {x: -1.08, y: -3.21, z: 1}
   m_LocalScale: {x: 1.63, y: 1.63, z: 1.63}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -157,7 +157,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661912868639658944}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
@@ -230,7 +230,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   sightBoxSize: {x: 6.2, y: 1}
-  sightBoxOffset: {x: 0, y: 0}
+  sightBoxOffset: {x: 1.07, y: 0}
   attackRange: 4
   groundOffset: 0.6
   attackDamage: 0.5
@@ -239,7 +239,7 @@ MonoBehaviour:
     type: 3}
   projectileSpeed: 5
   projectileDuration: 2
-  projectileOffset: {x: 1.12, y: 0.1}
+  projectileOffset: {x: 0.21, y: 0.09}
   bounceForce: 6
   distanceAfterAttack: 0.95
   isFacingRight: 1
@@ -247,7 +247,10 @@ MonoBehaviour:
   animator: {fileID: 1605217082131907960}
   enemyHealthBar: {fileID: 3232707233187215396}
   bloodPrefab: {fileID: 0}
+  enemyPrefabAsset: {fileID: 1661912868639658944}
   drawRangesInEditor: 1
+  drawProjectileInEditor: 1
+  applyGravityOnEnemy: 1
 --- !u!82 &5843668731025413174
 AudioSource:
   m_ObjectHideFlags: 0
@@ -368,18 +371,18 @@ NavMeshAgent:
   m_GameObject: {fileID: 1661912868639658944}
   m_Enabled: 1
   m_AgentTypeID: -334000983
-  m_Radius: 0.98
+  m_Radius: 0.25
   m_Speed: 1.9
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 1
-  m_AutoTraverseOffMeshLink: 1
+  m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 1.4
-  m_BaseOffset: 1
-  m_WalkableMask: 5
+  m_Height: 0.44
+  m_BaseOffset: 0.42
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 3
 --- !u!1 &1847524800196717016
 GameObject:
