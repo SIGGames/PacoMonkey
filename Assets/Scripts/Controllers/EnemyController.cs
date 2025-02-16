@@ -161,7 +161,7 @@ namespace Controllers {
             }
 
             AttackPlayer();
-            BouncePlayer();
+            BouncePlayer(false, 0.5f);
         }
 
         private void Update() {
@@ -322,23 +322,31 @@ namespace Controllers {
             navAgent.Move(newPositionOffset);
         }
 
-        private void BouncePlayer(bool bounceOnAllDirections = false) {
+        private void BouncePlayer(bool bounceOnAllDirections = false, float bounceForceDecrease = 1f) {
+            float decreasedBounceForce = bounceForce * bounceForceDecrease;
             const float verticalPercentage = 0.7f;
             if (bounceOnAllDirections) {
-                _currentPlayer.BounceX(isFacingRight ? bounceForce : -bounceForce);
-                _currentPlayer.BounceY(bounceForce * verticalPercentage);
+                _currentPlayer.BounceX(isFacingRight ? decreasedBounceForce : -decreasedBounceForce);
+                _currentPlayer.BounceY(decreasedBounceForce * verticalPercentage);
             } else {
-                _currentPlayer.BounceX(isFacingRight ? bounceForce : -bounceForce);
+                _currentPlayer.BounceX(isFacingRight ? decreasedBounceForce : -decreasedBounceForce);
 
                 if (!_currentPlayer.IsGrounded) {
-                    _currentPlayer.BounceY(bounceForce * verticalPercentage);
+                    _currentPlayer.BounceY(decreasedBounceForce * verticalPercentage);
                 }
             }
         }
 
         private void BouncePlayerOnAnimation() {
-            if (PlayerInAttackRange) {
+            if (PlayerInSightRange) {
                 BouncePlayer();
+                // If enemy is on the left of the player the player needs to be flipped to receive the hit
+                if (transform.position.x < _currentPlayer.transform.position.x) {
+                    _currentPlayer.flipManager.Flip(false);
+                } else {
+                    _currentPlayer.flipManager.Flip(true);
+                }
+
                 _currentPlayer.lives.DecrementLives(attackDamage);
             }
         }
