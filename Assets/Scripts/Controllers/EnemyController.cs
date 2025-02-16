@@ -236,8 +236,13 @@ namespace Controllers {
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 100f, groundLayer);
             float groundY = hit.collider != null ? hit.point.y + groundOffset : transform.position.y;
+            float targetX = playerPos.x;
 
-            Vector2 newDestination = new Vector2(playerPos.x, groundY);
+            if (!IsEnemyGrounded) {
+                targetX = transform.position.x;
+            }
+
+            Vector2 newDestination = new Vector2(targetX, groundY);
             navAgent.SetDestination(newDestination);
         }
 
@@ -267,7 +272,7 @@ namespace Controllers {
         }
 
         private void AttackPlayer() {
-            if (_attackCooldownTimer > 0f) {
+            if (_attackCooldownTimer > 0f || !_currentPlayer.lives.IsAlive) {
                 return;
             }
 
