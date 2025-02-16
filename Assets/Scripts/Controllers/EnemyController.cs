@@ -109,6 +109,8 @@ namespace Controllers {
         [SerializeField] private GameObject bloodPrefab;
 
         [Header("Debug")]
+        [SerializeField] private GameObject enemyPrefabAsset;
+
         [SerializeField] private bool drawRangesInEditor = true;
 
         [ShowIf("enemyType", EnemyType.Ranged)]
@@ -147,6 +149,17 @@ namespace Controllers {
             if (navAgent == null || col == null || audioSource == null || _spriteRenderer == null ||
                 _health == null || animator == null) {
                 enabled = false;
+            }
+
+            if (!EnemySpawnManager.EnemySpawnList.Exists(data => data.spawnPosition == transform.position
+                                                                 && data.enemyType == enemyType)) {
+                EnemySpawnData data = new EnemySpawnData {
+                    enemyPrefab = enemyPrefabAsset,
+                    spawnPosition = transform.position,
+                    spawnRotation = transform.rotation,
+                    enemyType = enemyType
+                };
+                EnemySpawnManager.EnemySpawnList.Add(data);
             }
         }
 

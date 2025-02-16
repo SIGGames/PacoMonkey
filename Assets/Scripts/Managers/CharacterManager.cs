@@ -3,9 +3,11 @@ using System.Collections;
 using Cinemachine;
 using Controllers;
 using Enums;
+using Gameplay;
 using Health;
 using Health.UI;
 using UnityEngine;
+using UnityEngine.AI;
 using Utils;
 using static Utils.AnimatorUtils;
 
@@ -136,6 +138,7 @@ namespace Managers {
             yield return new WaitForSeconds(characterConfig.respawnTime);
             player.FreezePosition(false);
             player.ResetState();
+            InstanceEnemies();
 
             cinemachineCamera.Follow = characterConfig.characterGameObject.transform;
             cinemachineCamera.LookAt = characterConfig.characterGameObject.transform;
@@ -164,6 +167,49 @@ namespace Managers {
         private PlayerController GetCurrentPlayerController() {
             var selectedConfig = Array.Find(characters, c => c.characterType == currentCharacter);
             return selectedConfig.characterGameObject.GetComponent<PlayerController>();
+        }
+
+        private static void InstanceEnemies() {
+            EnemyController[] existingEnemies = FindObjectsOfType<EnemyController>();
+            foreach (EnemyController enemy in existingEnemies) {
+                Destroy(enemy.gameObject);
+            }
+
+            foreach (EnemySpawnData spawnData in EnemySpawnManager.EnemySpawnList) {
+                GameObject newEnemy = Instantiate(spawnData.enemyPrefab, spawnData.spawnPosition,
+                    spawnData.spawnRotation);
+                newEnemy.SetActive(true);
+
+                EnemyController enemyController = newEnemy.GetComponent<EnemyController>();
+                if (enemyController != null) {
+                    enemyController.enabled = true;
+                }
+
+                Collider2D col = newEnemy.GetComponent<Collider2D>();
+                if (col != null) {
+                    col.enabled = true;
+                }
+
+                Animator animator = newEnemy.GetComponent<Animator>();
+                if (animator != null) {
+                    animator.enabled = true;
+                }
+
+                AudioSource audioSource = newEnemy.GetComponent<AudioSource>();
+                if (audioSource != null) {
+                    audioSource.enabled = true;
+                }
+
+                NavMeshAgent navMeshAgent = newEnemy.GetComponent<NavMeshAgent>();
+                if (navMeshAgent != null) {
+                    navMeshAgent.enabled = true;
+                }
+
+                Health.Health health = newEnemy.GetComponent<Health.Health>();
+                if (health != null) {
+                    health.enabled = true;
+                }
+            }
         }
     }
 }

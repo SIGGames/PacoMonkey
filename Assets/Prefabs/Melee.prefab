@@ -247,6 +247,7 @@ MonoBehaviour:
   enemyHealthBar: {fileID: 0}
   bloodPrefab: {fileID: 0}
   drawRangesInEditor: 1
+  drawProjectileInEditor: 1
 --- !u!82 &5843668731025413174
 AudioSource:
   m_ObjectHideFlags: 0
