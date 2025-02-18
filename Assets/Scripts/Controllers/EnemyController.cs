@@ -391,7 +391,7 @@ namespace Controllers {
         }
 
         private void BouncePlayerOnAnimation() {
-            if (PlayerInSightRange) {
+            if (PlayerInAttackRange) {
                 BouncePlayer();
                 _currentPlayer.lives.DecrementLives(attackDamage);
             }
