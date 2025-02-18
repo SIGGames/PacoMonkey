@@ -332,6 +332,7 @@ namespace Controllers {
         }
 
         public void TakeDamage(float damage) {
+            ChasePlayer();
             _health.DecrementHealth(damage);
             if (HasHealthBar) {
                 enemyHealthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
