@@ -185,6 +185,10 @@ namespace Controllers {
         private void Update() {
             _currentPlayer = CharacterManager.currentPlayerController;
 
+            if (!IsEnemyAbleToPlay()) {
+                return;
+            }
+
             UpdateVelocity();
 
             if (_attackCooldownTimer > 0f) {
@@ -215,6 +219,10 @@ namespace Controllers {
             HandleLives();
             HandleFlip();
             IsGrounded();
+        }
+
+        private bool IsEnemyAbleToPlay() {
+            return _currentPlayer.lives.IsAlive;
         }
 
         private void UpdateVelocity() {
@@ -299,11 +307,11 @@ namespace Controllers {
         }
 
         private void AttackPlayer() {
-            if (_attackCooldownTimer > 0f || !_currentPlayer.lives.IsAlive) {
+            if (_attackCooldownTimer > 0f) {
                 return;
             }
 
-            if (enemyType == EnemyType.Melee && !CanAttackWallCheck()) {
+            if (!CanAttackWallCheck()) {
                 return;
             }
 
@@ -364,6 +372,7 @@ namespace Controllers {
             Vector3 newPositionOffset = Vector3.zero;
             newPositionOffset.x = offsetOnFinishAttack;
             navAgent.Move(newPositionOffset);
+            navAgent.velocity = Vector3.zero;
         }
 
         private void BouncePlayer(bool bounceOnAllDirections = false, float bounceForceDecrease = 1f) {
