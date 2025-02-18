@@ -393,14 +393,6 @@ namespace Controllers {
         private void BouncePlayerOnAnimation() {
             if (PlayerInSightRange) {
                 BouncePlayer();
-                // If enemy is on the left of the player the player needs to be flipped to receive the hit
-                if (transform.position.x < _currentPlayer.transform.position.x && _currentPlayer.isFacingRight) {
-                    _currentPlayer.flipManager.Flip(false);
-                } else if (transform.position.x > _currentPlayer.transform.position.x
-                           && !_currentPlayer.isFacingRight) {
-                    _currentPlayer.flipManager.Flip(true);
-                }
-
                 _currentPlayer.lives.DecrementLives(attackDamage);
             }
         }
