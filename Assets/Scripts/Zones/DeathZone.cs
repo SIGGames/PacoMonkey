@@ -1,15 +1,19 @@
 ﻿using Controllers;
-using Gameplay;
+using Managers;
 using UnityEngine;
-using static Platformer.Core.Simulation;
 
 namespace Zones {
     public class DeathZone : MonoBehaviour {
-        void OnTriggerEnter2D(Collider2D collider) {
-            var p = collider.gameObject.GetComponent<PlayerController>();
-            if (p != null) {
-                Schedule<PlayerEnteredDeathZone>();
+        private void OnTriggerEnter2D(Collider2D col) {
+            if (col.gameObject.GetComponent<PlayerController>() == null) {
+                return;
             }
+
+            PlayerController pc = CharacterManager.Instance.currentPlayerController;
+            pc.lives.Die();
+
+            // We need to simulate the player is grounded in order to trigger the respawn animation
+            pc.IsGrounded = true;
         }
     }
 }
