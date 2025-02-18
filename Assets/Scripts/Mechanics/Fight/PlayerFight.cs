@@ -87,8 +87,9 @@ namespace Mechanics.Fight {
                 playerController.FreezeHorizontalPosition();
             }
 
-            fightState = FightState.Melee;
+            _canAttack = false;
             _animator.SetTrigger(MeleeAttack);
+            fightState = FightState.Melee;
         }
 
         private void StartRangedAttackAnimation() {
@@ -96,8 +97,9 @@ namespace Mechanics.Fight {
                 playerController.FreezeHorizontalPosition();
             }
 
-            fightState = FightState.Ranged;
+            _canAttack = false;
             _animator.SetTrigger(RangedAttack);
+            fightState = FightState.Ranged;
         }
 
         private void StartMeleeAttack() {
@@ -139,6 +141,7 @@ namespace Mechanics.Fight {
         }
 
         private void StartParry() {
+            _canParry = false;
             fightState = FightState.Parry;
             _animator.SetTrigger(Parry);
             StartCoroutine(ParryCooldown());
@@ -150,19 +153,16 @@ namespace Mechanics.Fight {
         }
 
         private IEnumerator MeleeAttackCooldown() {
-            _canAttack = false;
             yield return new WaitForSeconds(cooldownTime);
             _canAttack = true;
         }
 
         private IEnumerator RangedAttackCooldown() {
-            _canAttack = false;
             yield return new WaitForSeconds(rangedCooldownTime);
             _canAttack = true;
         }
 
         private IEnumerator ParryCooldown() {
-            _canParry = false;
             yield return new WaitForSeconds(parryCooldownTime);
             _canParry = true;
         }
