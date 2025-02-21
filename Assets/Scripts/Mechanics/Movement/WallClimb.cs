@@ -82,12 +82,17 @@ namespace Mechanics.Movement {
                 return;
             }
 
+            float verticalInput = GetVerticalAxis();
+
+            // Prevent player from climbing through the ceiling
+            if (IsCeiling() && verticalInput > 0) {
+                verticalInput = 0;
+            }
+
             if (!ledgeCheck.IsGroundAbove()) {
                 StopClimbing();
                 _hold.StartHold();
             }
-
-            float verticalInput = GetVerticalAxis();
 
             if (verticalInput != 0) {
                 player.AddPosition(0, climbSpeed * Time.deltaTime * verticalInput);
@@ -105,7 +110,7 @@ namespace Mechanics.Movement {
             bool isPressingOppositeDirection = (player.isFacingRight && GetHorizontalAxis() < 0f) ||
                                                (!player.isFacingRight && GetHorizontalAxis() > 0f);
 
-            if (isPressingOppositeDirection && GetVerticalAxis() == 0) {
+            if (isPressingOppositeDirection && verticalInput == 0) {
                 _animator.SetFloat(IsTowardsUp, 0f);
                 _animator.SetBool(IsHoldingJumpOnClimb, true);
                 player.flipManager.Flip(!player.isFacingRight);
@@ -156,6 +161,12 @@ namespace Mechanics.Movement {
             return player.IsGrounded = hit.collider != null;
         }
 
+        private bool IsCeiling() {
+            // This method is used to check if the player is close to a ceiling while climbing
+            const float rayLength = 0.5f;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, rayLength, Ground.value);
+            return hit.collider != null;
+        }
 
         private void SetClimbingState(bool isClimbing) {
             if (isClimbing) {
