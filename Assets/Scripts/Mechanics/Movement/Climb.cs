@@ -1,9 +1,10 @@
 ﻿using Configuration;
 using Controllers;
 using Enums;
-using UnityEditor;
 using UnityEngine;
 using static PlayerInput.KeyBinds;
+using static Utils.TagUtils;
+using static Utils.LayerUtils;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
@@ -22,14 +23,6 @@ namespace Mechanics.Movement {
                  "this value, will stop climbing")]
         [Range(0.01f, 1)]
         [SerializeField] private float horizontalMovementThreshold = 0.01f;
-
-        [Tooltip("The tag of the object that the player can climb")]
-        [TagSelector]
-        [SerializeField] private string climbTag = "Ladder";
-
-        [Tooltip("The layer that will stop the player from climbing")]
-        [LayerSelector]
-        [SerializeField] private int contactLayer;
 
         [Header("Climbing State")]
         [Tooltip("Tell if the player is currently climbing")]
@@ -76,14 +69,14 @@ namespace Mechanics.Movement {
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            if (collision.CompareTag(climbTag)) {
+            if (collision.CompareTag(Ladder)) {
                 _canClimb = true;
                 ShowClimbIndicator(true);
             }
         }
 
         private void OnTriggerExit2D(Collider2D collision) {
-            if (collision.CompareTag(climbTag)) {
+            if (collision.CompareTag(Ladder)) {
                 _canClimb = false;
                 StopClimbing();
                 ShowClimbIndicator(false);
@@ -99,13 +92,13 @@ namespace Mechanics.Movement {
         }
 
         private void OnCollisionEnter2D(Collision2D collision) {
-            if (collision.gameObject.layer == contactLayer) {
+            if (collision.gameObject.layer == Ground.value) {
                 StopClimbing();
             }
         }
 
         private void OnCollisionStay2D(Collision2D collision) {
-            if (collision.gameObject.layer == contactLayer) {
+            if (collision.gameObject.layer == Ground.value) {
                 StopClimbing();
             }
         }

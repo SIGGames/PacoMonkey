@@ -6,6 +6,7 @@ using Gameplay;
 using UnityEngine;
 using static PlayerInput.KeyBinds;
 using static Utils.AnimatorUtils;
+using static Utils.LayerUtils;
 
 namespace Mechanics.Fight {
     [RequireComponent(typeof(PlayerController))]
@@ -13,7 +14,6 @@ namespace Mechanics.Fight {
     public class PlayerFight : MonoBehaviour {
         [SerializeField] private FightState fightState = FightState.Idle;
         [SerializeField] private PlayerController playerController;
-        [SerializeField] private LayerMask enemyLayer;
 
         [Header("Melee Attack Settings")]
         [SerializeField] private bool isMeleeActive = true;
@@ -40,7 +40,6 @@ namespace Mechanics.Fight {
         [SerializeField] private bool isParryActive = true;
 
         [SerializeField, Range(0, 5)] private float parryCooldownTime = 1f;
-
 
         private Animator _animator;
         private bool _canAttack = true;
@@ -105,7 +104,7 @@ namespace Mechanics.Fight {
         private void StartMeleeAttack() {
             // Triggered on frame 3 of animator
             Vector3 attackPosition = (Vector2)transform.position + GetDirectionOffset();
-            Collider2D[] enemiesInRange = Physics2D.OverlapBoxAll(attackPosition, meleeBoxSize, 0f, enemyLayer);
+            Collider2D[] enemiesInRange = Physics2D.OverlapBoxAll(attackPosition, meleeBoxSize, 0f, Default.value);
 
             if (enemiesInRange.Length > 0) {
                 foreach (Collider2D enemy in enemiesInRange) {

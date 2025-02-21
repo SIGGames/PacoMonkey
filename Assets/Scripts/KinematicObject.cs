@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Configuration;
 using UnityEngine;
+using static Utils.LayerUtils;
 
 public class KinematicObject : MonoBehaviour {
     public float minGroundNormalY = .65f;
@@ -68,8 +69,7 @@ public class KinematicObject : MonoBehaviour {
 
     private float ValidateBounceForce(float bounceForce, Vector2 direction) {
         float checkDistance = Mathf.Abs(bounceForce);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, checkDistance,
-            1 << LayerMask.NameToLayer("Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, checkDistance, Ground);
         if (hit.collider != null) {
             return Mathf.Sign(bounceForce) * hit.distance;
         }

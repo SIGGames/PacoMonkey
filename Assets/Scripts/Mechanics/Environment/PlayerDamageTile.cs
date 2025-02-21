@@ -1,21 +1,18 @@
-﻿using Controllers;
+﻿using Managers;
 using UnityEditor;
 using UnityEngine;
+using static Utils.LayerUtils;
+using static Utils.TagUtils;
 
 namespace Mechanics.Environment {
+
     public class PlayerDamageTile : MonoBehaviour {
-        [TagSelector]
-        [SerializeField] private string damageTagTile;
+        [SerializeField, HalfStepSlider(0, 10)]
+        private float damage = 1f;
 
-        private PlayerController _player;
-
-        private void Awake() {
-            _player = GetComponent<PlayerController>();
-        }
-
-        private void OnTriggerEnter2D(Collider2D other) {
-            if (other.CompareTag(damageTagTile) && other.gameObject.layer == LayerMask.NameToLayer("Ground")) {
-                _player.lives.DecrementLives();
+        private void OnTriggerEnter2D(Collider2D col) {
+            if (col.CompareTag(DamageTile) && col.gameObject.layer == Ground) {
+                CharacterManager.Instance.currentPlayerController.lives.DecrementLives(damage);
             }
         }
     }

@@ -9,9 +9,9 @@ using Mechanics.Fight;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.AI;
 using static Platformer.Core.Simulation;
 using static Utils.AnimatorUtils;
+using static Utils.LayerUtils;
 
 namespace Controllers {
     [RequireComponent(typeof(Collider2D)), RequireComponent(typeof(AudioSource)),
@@ -20,19 +20,16 @@ namespace Controllers {
     public class EnemyController : MonoBehaviour {
         public AudioClip ouch;
         internal PatrolPath.Mover mover;
-        internal Collider2D col;
+        private Collider2D _col;
         internal AudioSource audioSource;
         private SpriteRenderer _spriteRenderer;
         private Health.Health _health;
-        private static CharacterManager CharacterManager => CharacterManager.Instance;
-        private PlayerController _currentPlayer;
+        private static PlayerController CurrentPlayer => CharacterManager.Instance.currentPlayerController;
 
         [SerializeField] private EnemyType enemyType = EnemyType.Melee;
 
         [Header("AI Settings")]
-        public NavMeshAgent navAgent;
-
-        public LayerMask groundLayer;
+        [SerializeField] private float moveSpeed = 2f;
 
         [Header("Sight Settings")]
         [ShowIf("enemyType", EnemyType.Melee)]
@@ -42,7 +39,7 @@ namespace Controllers {
         [SerializeField, MaxValue(5)] private Vector2 sightBoxOffset;
 
         [SerializeField, Range(0, 5)] public float attackRange = 1f;
-        [SerializeField, Range(0, 2)] private float groundOffset = 0.5f;
+        [SerializeField, Range(0, 2)] private float groundOffset = 0.5f; // TODO: Maybe remove
 
         [Header("Attack Settings")]
         [SerializeField, HalfStepSlider(0, 10)]
@@ -72,7 +69,7 @@ namespace Controllers {
         [SerializeField] private bool isFacingRight = true;
 
         private Vector3 _walkPoint;
-        private float DistanceToPlayer => Vector3.Distance(transform.position, _currentPlayer.transform.position);
+        private float DistanceToPlayer => Vector3.Distance(transform.position, CurrentPlayer.transform.position);
 
         private bool PlayerInSightRange {
             get {
@@ -88,16 +85,11 @@ namespace Controllers {
                     sightBoxSize.x,
                     sightBoxSize.y
                 );
-                return sightRect.Contains(_currentPlayer.transform.position);
+                return sightRect.Contains(CurrentPlayer.transform.position);
             }
         }
 
-        private bool PlayerInAttackRange {
-            get {
-                float distanceToPlayer = DistanceToPlayer;
-                return distanceToPlayer <= attackRange;
-            }
-        }
+        private bool PlayerInAttackRange => DistanceToPlayer <= attackRange;
 
         [Header("Enemy Settings")]
         [SerializeField] private float deathTime = 0.3f;
@@ -116,17 +108,24 @@ namespace Controllers {
         [ShowIf("enemyType", EnemyType.Ranged)]
         [SerializeField] private bool drawProjectileInEditor = true;
 
-        [SerializeField] private bool applyGravityOnEnemy = true;
-
-        public Bounds Bounds => col.bounds;
+        public Bounds Bounds => _col.bounds;
         private bool HasHealthBar => enemyHealthBar != null;
-        private Vector2 _velocity = Vector2.zero;
         private float _attackCooldownTimer;
-        private bool IsEnemyGrounded => animator.GetBool(Grounded);
 
+        private bool IsEnemyGrounded {
+            get {
+                const float rayLength = 0.1f;
+                RaycastHit2D hit = Physics2D.Raycast(_col.bounds.center, Vector2.down,
+                    _col.bounds.extents.y + rayLength, Ground);
+                return hit.collider != null;
+            }
+        }
+
+        private Vector3 _lastPosition;
+        private Vector3 _velocity;
 
         private void Awake() {
-            col = GetComponent<Collider2D>();
+            _col = GetComponent<Collider2D>();
             audioSource = GetComponent<AudioSource>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             if (enemyHealthBar == null) {
@@ -141,21 +140,12 @@ namespace Controllers {
                 animator = GetComponent<Animator>();
             }
 
-            if (navAgent == null) {
-                navAgent = GetComponent<NavMeshAgent>();
-            }
-
-            // Used to prevent the enemy from rotating (since it's a 2D game)
-            navAgent.updateRotation = false;
-            navAgent.updateUpAxis = false;
-            navAgent.updatePosition = false;
-            if (navAgent == null || col == null || audioSource == null || _spriteRenderer == null ||
-                _health == null || animator == null) {
+            if (_col == null || audioSource == null || _spriteRenderer == null || _health == null || animator == null) {
                 enabled = false;
             }
 
-            if (!EnemySpawnManager.EnemySpawnList.Exists(data => data.spawnPosition == transform.position
-                                                                 && data.enemyType == enemyType)) {
+            if (!EnemySpawnManager.EnemySpawnList.Exists(data =>
+                    data.spawnPosition == transform.position && data.enemyType == enemyType)) {
                 EnemySpawnData data = new EnemySpawnData {
                     enemyPrefab = enemyPrefabAsset,
                     spawnPosition = transform.position,
@@ -167,8 +157,7 @@ namespace Controllers {
         }
 
         private void Start() {
-            _currentPlayer = CharacterManager.currentPlayerController;
-
+            _lastPosition = transform.position;
             if (HasHealthBar) {
                 enemyHealthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
             }
@@ -183,9 +172,7 @@ namespace Controllers {
         }
 
         private void Update() {
-            _currentPlayer = CharacterManager.currentPlayerController;
-
-            if (!IsEnemyAbleToPlay()) {
+            if (!CurrentPlayer.lives.IsAlive) {
                 return;
             }
 
@@ -211,55 +198,8 @@ namespace Controllers {
                 AttackPlayer();
             }
 
-            if (!_currentPlayer.lives.IsAlive) {
-                navAgent.ResetPath();
-            }
-
-            EnsureEnemyGroundedMovement();
-            HandleLives();
             HandleFlip();
             IsGrounded();
-        }
-
-        private bool IsEnemyAbleToPlay() {
-            return _currentPlayer.lives.IsAlive;
-        }
-
-        private void UpdateVelocity() {
-            _velocity = navAgent.velocity;
-            animator.SetFloat(VelocityX, Mathf.Abs(_velocity.x));
-            animator.SetFloat(VelocityY, Mathf.Abs(_velocity.y));
-        }
-
-        private void HandleFlip() {
-            Vector3 agentPos = navAgent.nextPosition;
-            agentPos.y += _velocity.y * Time.deltaTime;
-            transform.position = agentPos;
-            navAgent.nextPosition = transform.position;
-            if (PlayerInSightRange || PlayerInAttackRange) {
-                if (_currentPlayer.transform.position.x > transform.position.x && !isFacingRight) {
-                    Flip();
-                } else if (_currentPlayer.transform.position.x < transform.position.x && isFacingRight) {
-                    Flip();
-                }
-            } else {
-                if (_velocity.x > 0 && !isFacingRight) {
-                    Flip();
-                } else if (_velocity.x < 0 && isFacingRight) {
-                    Flip();
-                }
-            }
-        }
-
-        private void EnsureEnemyGroundedMovement() {
-            if (!IsEnemyGrounded && applyGravityOnEnemy) {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 100f, groundLayer);
-                if (hit.collider != null) {
-                    float groundY = hit.point.y + groundOffset + 0.5f;
-                    Vector2 newDestination = new Vector2(transform.position.x, groundY);
-                    navAgent.Warp(newDestination);
-                }
-            }
         }
 
         private void ChasePlayer() {
@@ -267,38 +207,42 @@ namespace Controllers {
                 return;
             }
 
-            Vector2 playerPos = _currentPlayer.transform.position;
-
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 100f, groundLayer);
-            float groundY = hit.collider != null ? hit.point.y + groundOffset : transform.position.y;
-            float targetX = playerPos.x;
-
-            if (!IsEnemyGrounded) {
-                targetX = transform.position.x;
-            }
-
-            Vector2 newDestination = new Vector2(targetX, groundY);
-            navAgent.SetDestination(newDestination);
+            Vector3 pos = transform.position;
+            float step = moveSpeed * Time.deltaTime;
+            float targetX = CurrentPlayer.transform.position.x;
+            float newX = Mathf.MoveTowards(pos.x, targetX, step);
+            transform.position = new Vector3(newX, pos.y, pos.z);
         }
 
         private bool ThereIsAWallBetweenEnemyAndPlayer() {
-            Vector2 playerPos = _currentPlayer.transform.position;
+            Vector2 playerPos = CurrentPlayer.transform.position;
             Vector2 enemyPos = transform.position;
             RaycastHit2D hit = Physics2D.Raycast(enemyPos, playerPos - enemyPos, Vector2.Distance(playerPos, enemyPos),
-                groundLayer);
+                Ground);
             return hit.collider != null;
         }
 
         private void IsGrounded() {
             const float rayLength = 0.1f;
-            RaycastHit2D hit = Physics2D.Raycast(col.bounds.center, Vector2.down, col.bounds.extents.y + rayLength,
-                groundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(_col.bounds.center, Vector2.down, _col.bounds.extents.y + rayLength,
+                Ground);
             bool isGrounded = hit.collider != null;
             animator.SetBool(Grounded, isGrounded);
         }
 
-        private void HandleLives() {
-            _spriteRenderer.color = _health.IsAlive ? Color.white : Color.black;
+        private void HandleFlip() {
+            if (CurrentPlayer.transform.position.x > transform.position.x && !isFacingRight) {
+                Flip();
+            } else if (CurrentPlayer.transform.position.x < transform.position.x && isFacingRight) {
+                Flip();
+            }
+        }
+
+        private void UpdateVelocity() {
+            _velocity = (transform.position - _lastPosition) / Time.deltaTime;
+            _lastPosition = transform.position;
+            animator.SetFloat(VelocityX, Mathf.Abs(_velocity.x));
+            animator.SetFloat(VelocityY, Mathf.Abs(_velocity.y));
         }
 
         private void Flip() {
@@ -307,26 +251,24 @@ namespace Controllers {
         }
 
         private void AttackPlayer() {
-            if (_attackCooldownTimer > 0f) {
+            if (_attackCooldownTimer > 0f || ThereIsAWallBetweenEnemyAndPlayer()) {
                 return;
             }
 
-            if (!CanAttackWallCheck()) {
+            // If melee enemy after attack will be in wall, don't attack
+            if (enemyType == EnemyType.Melee && !CanAttackWallCheck()) {
                 return;
             }
 
             animator.SetTrigger(Attack);
-            navAgent.ResetPath();
             _attackCooldownTimer = cooldownTime;
         }
 
         private bool CanAttackWallCheck() {
             Vector3 enemyPosition = transform.position;
             const float extraOffset = 0.5f;
-
             Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
-            RaycastHit2D hit = Physics2D.Raycast(enemyPosition, direction,
-                distanceAfterAttack + extraOffset, groundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(enemyPosition, direction, distanceAfterAttack + extraOffset, Ground);
             Debug.DrawRay(enemyPosition, direction * (distanceAfterAttack + extraOffset), Color.red);
             return hit.collider == null;
         }
@@ -342,8 +284,7 @@ namespace Controllers {
             if (!_health.IsAlive) {
                 Schedule<EnemyDeath>().enemy = this;
                 animator.SetTrigger(Death);
-                _velocity = Vector2.zero;
-                navAgent.ResetPath();
+                _attackCooldownTimer = 0f;
                 DestroyEnemy();
             } else {
                 animator.SetTrigger(Hurt);
@@ -366,27 +307,19 @@ namespace Controllers {
         public void OnFinishEnemyAttackAnimation() {
             Vector3 enemyPosition = transform.position;
             float offsetOnFinishAttack = isFacingRight ? distanceAfterAttack : -distanceAfterAttack;
-            Vector3 newPosition = new Vector3(enemyPosition.x + offsetOnFinishAttack, enemyPosition.y, enemyPosition.z);
-            transform.position = newPosition;
-
-            // Setting the new position to the navAgent
-            Vector3 newPositionOffset = Vector3.zero;
-            newPositionOffset.x = offsetOnFinishAttack;
-            navAgent.Move(newPositionOffset);
-            navAgent.velocity = Vector3.zero;
+            transform.position = new Vector3(enemyPosition.x + offsetOnFinishAttack, enemyPosition.y, enemyPosition.z);
         }
 
         private void BouncePlayer(bool bounceOnAllDirections = false, float bounceForceDecrease = 1f) {
             float decreasedBounceForce = bounceForce * bounceForceDecrease;
             const float verticalPercentage = 0.7f;
             if (bounceOnAllDirections) {
-                _currentPlayer.BounceX(isFacingRight ? decreasedBounceForce : -decreasedBounceForce);
-                _currentPlayer.BounceY(decreasedBounceForce * verticalPercentage);
+                CurrentPlayer.BounceX(isFacingRight ? decreasedBounceForce : -decreasedBounceForce);
+                CurrentPlayer.BounceY(decreasedBounceForce * verticalPercentage);
             } else {
-                _currentPlayer.BounceX(isFacingRight ? decreasedBounceForce : -decreasedBounceForce);
-
-                if (!_currentPlayer.IsGrounded) {
-                    _currentPlayer.BounceY(decreasedBounceForce * verticalPercentage);
+                CurrentPlayer.BounceX(isFacingRight ? decreasedBounceForce : -decreasedBounceForce);
+                if (!CurrentPlayer.IsGrounded) {
+                    CurrentPlayer.BounceY(decreasedBounceForce * verticalPercentage);
                 }
             }
         }
@@ -394,20 +327,18 @@ namespace Controllers {
         private void BouncePlayerOnAnimation() {
             if (PlayerInAttackRange) {
                 BouncePlayer();
-                _currentPlayer.lives.DecrementLives(attackDamage);
+                CurrentPlayer.lives.DecrementLives(attackDamage);
             }
         }
 
         private void RangedAttack() {
             Vector2 enemyPos = transform.position;
             Vector2 spawnPos = new Vector2(enemyPos.x + GetProjectileOffset(), enemyPos.y + projectileOffset.y);
-            Vector2 playerPos = _currentPlayer.transform.position;
+            Vector2 playerPos = CurrentPlayer.transform.position;
             Vector2 direction = (playerPos - enemyPos).normalized;
-
-            // Check if there are obstacles between the enemy and the player
             RaycastHit2D hit = Physics2D.Raycast(spawnPos, direction, Vector2.Distance(enemyPos, playerPos),
-                groundLayer);
-            if (hit.collider != null && hit.collider.gameObject != _currentPlayer.gameObject) {
+                Ground);
+            if (hit.collider != null && hit.collider.gameObject != CurrentPlayer.gameObject) {
                 return;
             }
 

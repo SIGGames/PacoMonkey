@@ -1,4 +1,5 @@
-﻿using Enums;
+﻿using System.Diagnostics.CodeAnalysis;
+using Enums;
 using Gameplay;
 using Health;
 using Managers;
@@ -7,6 +8,7 @@ using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
 using static Utils.AnimatorUtils;
 using static PlayerInput.KeyBinds;
+using static Utils.LayerUtils;
 
 namespace Controllers {
     public class PlayerController : KinematicObject {
@@ -83,8 +85,6 @@ namespace Controllers {
         [Header("Player Components")]
         public Collider2D collider2d;
 
-        [SerializeField] private LayerMask groundLayer;
-
         public Lives lives;
 
         [Header("Player Audio")]
@@ -120,7 +120,7 @@ namespace Controllers {
         private bool _isDying;
         [HideInInspector] public Vector3 respawnPosition;
 
-        void Awake() {
+        private void Awake() {
             InitializeComponents();
             boxCollider = GetComponent<BoxCollider2D>();
             flipManager = new FlipManager(_spriteRenderer, boxCollider, animator, flipOffsetChange, isFacingRight);
@@ -406,11 +406,13 @@ namespace Controllers {
             SetPosition(position.x + x, position.y + y, position.z + z);
         }
 
+        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
         public void SetPosition(float? x = null, float? y = null, float? z = null) {
             Vector3 position = transform.position;
             SetPosition(new Vector3(x ?? position.x, y ?? position.y, z ?? position.z));
         }
 
+        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
         public void SetPosition(Vector3 position) {
             transform.position = position;
         }
@@ -431,7 +433,7 @@ namespace Controllers {
                 return;
             }
 
-            Collider2D wallCollider = Physics2D.OverlapPoint(transform.position, groundLayer);
+            Collider2D wallCollider = Physics2D.OverlapPoint(transform.position, Ground);
             if (wallCollider != null) {
                 Vector2 wallCenter = wallCollider.bounds.center;
                 Vector3 position = transform.position;
@@ -454,9 +456,8 @@ namespace Controllers {
         }
 
         private void HandleDebugInput() {
-            // TODO: This keybinds are for debugging purposes
+            // TODO: This key binds are for debugging purposes
             if (Input.GetKeyDown(KeyCode.F4)) {
-                SetBodyType(RigidbodyType2D.Kinematic);
                 Teleport(respawnPosition);
             }
 

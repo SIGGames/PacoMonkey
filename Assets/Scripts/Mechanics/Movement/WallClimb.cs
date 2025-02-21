@@ -1,19 +1,17 @@
 ﻿using Controllers;
 using Enums;
 using Gameplay;
-using UnityEditor;
 using UnityEngine;
 using Utils;
 using static Utils.AnimatorUtils;
 using static PlayerInput.KeyBinds;
+using static Utils.LayerUtils;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
     public class WallClimb : MonoBehaviour {
         [Header("Wall Climbing Settings")]
         [SerializeField] private float climbSpeed = 2f;
-
-        [TagSelector] [SerializeField] private string wallTag = "ClimbableWall";
 
         [Range(0, 5)]
         [SerializeField] private float slideEffect = 5f;
@@ -57,7 +55,7 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            if (!_isClimbing && _canAttach && ledgeCheck.isNearWall && GetUpKey()) {
+            if (!_isClimbing && ledgeCheck.isCloseToClimbableWall && ledgeCheck.isNearWall && GetUpKey()) {
                 StartClimbing();
             } else if (_isClimbing) {
                 HandleClimbing();
@@ -79,9 +77,14 @@ namespace Mechanics.Movement {
         }
 
         private void HandleClimbing() {
-            if (player.movementState != PlayerMovementState.WallClimb || player.IsGrounded) {
+            if (player.movementState != PlayerMovementState.WallClimb || player.IsGrounded || IsGrounded()) {
                 StopClimbing();
                 return;
+            }
+
+            if (!ledgeCheck.IsGroundAbove()) {
+                StopClimbing();
+                _hold.StartHold();
             }
 
             float verticalInput = GetVerticalAxis();
@@ -128,7 +131,7 @@ namespace Mechanics.Movement {
             }
         }
 
-        private bool AnyStopClimbKeyIsPressed() {
+        private static bool AnyStopClimbKeyIsPressed() {
             return GetJumpKeyDown();
         }
 
@@ -137,25 +140,20 @@ namespace Mechanics.Movement {
                 // Rise a bit the player vertical position to help ledge detection
                 player.AddPosition(0, 0.05f);
                 _isClimbing = false;
-                _canAttach = true;
                 player.FreezeHorizontalPosition(false);
                 SetClimbingState(false);
                 player.UnlockMovementState();
+                player.SetVelocity(Vector2.zero);
                 _animator.SetBool(IsClimbing, false);
                 _animator.SetBool(IsHoldingJumpOnClimb, false);
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision) {
-            if (collision.CompareTag(wallTag)) {
-                _canAttach = true;
-            }
-        }
-
-        private void OnTriggerExit2D(Collider2D collision) {
-            if (collision.CompareTag(wallTag)) {
-                _canAttach = false;
-            }
+        private bool IsGrounded() {
+            // This method is used to check if the player is close to the ground while climbing
+            const float rayLength = 0.5f;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, rayLength, Ground.value);
+            return player.IsGrounded = hit.collider != null;
         }
 
 

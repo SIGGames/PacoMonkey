@@ -46,7 +46,7 @@ namespace Mechanics.Movement {
             }
         }
 
-        private void StartHold() {
+        public void StartHold() {
             _animator.SetBool(IsHolding, true);
             isHolding = true;
 
