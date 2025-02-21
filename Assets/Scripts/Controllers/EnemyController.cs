@@ -241,6 +241,12 @@ namespace Controllers {
         private void UpdateVelocity() {
             _velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
+            if (Mathf.Approximately(_velocity.x, 0f)) {
+                _velocity.x = 0f;
+            }
+            if (Mathf.Approximately(_velocity.y, 0f)) {
+                _velocity.y = 0f;
+            }
             animator.SetFloat(VelocityX, Mathf.Abs(_velocity.x));
             animator.SetFloat(VelocityY, Mathf.Abs(_velocity.y));
         }
