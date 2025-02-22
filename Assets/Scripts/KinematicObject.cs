@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using Configuration;
 using UnityEngine;
-using static Utils.LayerUtils;
 
 public class KinematicObject : MonoBehaviour {
     public float minGroundNormalY = .65f;
 
     [Range(0, 2)]
     public float gravityModifier;
+
     public Vector2 velocity;
     public bool IsGrounded { get; set; }
 
@@ -21,66 +21,24 @@ public class KinematicObject : MonoBehaviour {
     protected const float ShellRadius = 0.01f;
 
     public void Bounce(Vector2 force) {
-        BounceX(force.x);
-        BounceY(force.y);
+        StartCoroutine(BounceDynamic(force));
     }
 
     public void BounceX(float value) {
-        if (value == 0) {
-            return;
-        }
-
-        float validatedForce = ValidateBounceForceX(value);
-        if (Mathf.Approximately(validatedForce, 0f)) {
-            return;
-        }
-
-        velocity.x = validatedForce;
-        body.velocity = new Vector2(validatedForce, body.velocity.y);
-        StopCoroutine(DecelerateBounce());
-        StartCoroutine(DecelerateBounce(Mathf.Abs(value) / 10));
+        Bounce(new Vector2(value, 0f));
     }
 
     public void BounceY(float value) {
-        if (value == 0) {
-            return;
-        }
-
-        float validatedForce = ValidateBounceForceY(value);
-        if (Mathf.Approximately(validatedForce, 0f)) {
-            return;
-        }
-
-        velocity.y = validatedForce;
-        body.velocity = new Vector2(body.velocity.x, validatedForce);
-        StopCoroutine(DecelerateBounce());
-        StartCoroutine(DecelerateBounce(Mathf.Abs(value) / 10));
+        Bounce(new Vector2(0f, value));
     }
 
-    private float ValidateBounceForceX(float bounceForce) {
-        Vector2 direction = bounceForce < 0 ? Vector2.left : Vector2.right;
-        return ValidateBounceForce(bounceForce, direction);
-    }
-
-    private float ValidateBounceForceY(float bounceForce) {
-        Vector2 direction = bounceForce < 0 ? Vector2.down : Vector2.up;
-        return ValidateBounceForce(bounceForce, direction);
-    }
-
-    private float ValidateBounceForce(float bounceForce, Vector2 direction) {
-        float checkDistance = Mathf.Abs(bounceForce);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, checkDistance, Ground);
-        if (hit.collider != null) {
-            return Mathf.Sign(bounceForce) * hit.distance;
-        }
-
-        return bounceForce;
-    }
-
-    private IEnumerator DecelerateBounce(float time = 0.2f) {
-        yield return new WaitForSeconds(time);
-        velocity.x = 0f;
+    private IEnumerator BounceDynamic(Vector2 force) {
+        float maxForce = Mathf.Max(Mathf.Abs(force.x), Mathf.Abs(force.y));
+        body.isKinematic = false;
+        body.AddForce(force, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(maxForce / 10);
         body.velocity = Vector2.zero;
+        body.isKinematic = true;
     }
 
     public void Teleport(Vector3 position) {
@@ -162,8 +120,7 @@ public class KinematicObject : MonoBehaviour {
                     if (projection < 0) {
                         velocity -= projection * currentNormal;
                     }
-                }
-                else {
+                } else {
                     // Object is on air, but hit something so vertical up and horizontal velocity is 0
                     velocity.x *= 0;
                     velocity.y = Mathf.Min(velocity.y, 0);

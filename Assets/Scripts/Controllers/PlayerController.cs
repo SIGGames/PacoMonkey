@@ -433,12 +433,11 @@ namespace Controllers {
                 return;
             }
 
-            Collider2D wallCollider = Physics2D.OverlapPoint(transform.position, Ground);
+            Collider2D wallCollider = Physics2D.OverlapPoint(transform.position, Ground.value);
             if (wallCollider != null) {
                 Vector2 wallCenter = wallCollider.bounds.center;
                 Vector3 position = transform.position;
                 const float distanceTp = 1.5f;
-                SetBodyType(RigidbodyType2D.Kinematic);
 
                 if (transform.position.x < wallCenter.x) {
                     Teleport(new Vector3(wallCenter.x - distanceTp, position.y, position.z));
