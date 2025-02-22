@@ -435,14 +435,14 @@ namespace Controllers {
 
             Collider2D wallCollider = Physics2D.OverlapPoint(transform.position, Ground.value);
             if (wallCollider != null) {
-                Vector2 wallCenter = wallCollider.bounds.center;
+                Bounds wallBounds = wallCollider.bounds;
                 Vector3 position = transform.position;
-                const float distanceTp = 1.5f;
+                const float margin = 0.1f;
 
-                if (transform.position.x < wallCenter.x) {
-                    Teleport(new Vector3(wallCenter.x - distanceTp, position.y, position.z));
+                if (transform.position.x < wallBounds.center.x) {
+                    Teleport(new Vector3(wallBounds.min.x - margin, position.y, position.z));
                 } else {
-                    Teleport(new Vector3(wallCenter.x + distanceTp, position.y, position.z));
+                    Teleport(new Vector3(wallBounds.max.x + margin, position.y, position.z));
                 }
             }
         }
