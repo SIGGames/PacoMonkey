@@ -31,6 +31,8 @@ namespace Controllers {
         [Header("AI Settings")]
         [SerializeField, Range(0, 5)] private float moveSpeed = 2f;
 
+        [SerializeField, Range(0, 10)] private float chaseStopRange = 1.5f;
+
         [Header("Sight Settings")]
         [ShowIf("enemyType", EnemyType.Melee)]
         [SerializeField] private Vector2 sightBoxSize = new(2f, 1f);
@@ -168,6 +170,7 @@ namespace Controllers {
             if (player == null) {
                 return;
             }
+
             player.IsGrounded = true;
             player.SetVelocity(Vector2.zero);
             player.SetBodyType(RigidbodyType2D.Dynamic);
@@ -211,6 +214,10 @@ namespace Controllers {
         }
 
         private void ChasePlayer() {
+            if (DistanceToPlayer <= chaseStopRange) {
+                return;
+            }
+
             if (ThereIsAWallBetweenEnemyAndPlayer()) {
                 return;
             }
@@ -371,20 +378,24 @@ namespace Controllers {
 
         private void OnDrawGizmosSelected() {
             if (drawRangesInEditor) {
+                // Attack range
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(transform.position, attackRange);
+
+                // Chase stop range
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(transform.position, chaseStopRange);
+
+                // Sight range
                 if (enemyType == EnemyType.Melee) {
                     Gizmos.color = Color.yellow;
-                    Vector2 offset = sightBoxOffset;
-                    if (!isFacingRight) {
-                        offset.x = -offset.x;
-                    }
-
-                    Vector2 boxCenter = (Vector2)transform.position + offset;
+                    Vector2 boxCenter = (Vector2)transform.position +
+                                        (isFacingRight ? sightBoxOffset : -sightBoxOffset);
                     Gizmos.DrawWireCube(boxCenter, sightBoxSize);
                 }
             }
 
+            // Projectile spawn position
             if (enemyType == EnemyType.Ranged && drawProjectileInEditor) {
                 Vector2 enemyPos = transform.position;
                 Vector2 spawnPos = new Vector2(enemyPos.x + GetProjectileOffset(), enemyPos.y + projectileOffset.y);
