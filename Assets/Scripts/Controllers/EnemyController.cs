@@ -8,6 +8,7 @@ using Mechanics;
 using Mechanics.Fight;
 using NaughtyAttributes;
 using UnityEditor;
+using UnityEditor.ColorRangeDrawers;
 using UnityEngine;
 using static Platformer.Core.Simulation;
 using static Utils.AnimatorUtils;
@@ -38,11 +39,14 @@ namespace Controllers {
         public ColorRangeValue attackRange = new(1f, Color.red);
 
         [Header("Sight Settings")]
-        [ShowIf("enemyType", EnemyType.Melee)]
-        [SerializeField] private Vector2 sightBoxSize = new(2f, 1f);
+        [ShowIf("enemyType", EnemyType.Melee), SerializeField]
+        private Vector2 sightBoxSize = new(2f, 1f);
 
-        [ShowIf("enemyType", EnemyType.Melee)]
-        [SerializeField, MaxValue(5)] private Vector2 sightBoxOffset;
+        [ShowIf("enemyType", EnemyType.Melee), SerializeField, MaxValue(5)]
+        private Vector2 sightBoxOffset = new(1f, 0f);
+
+        [ShowIf("enemyType", EnemyType.Melee), SerializeField]
+        private Color sightBoxColor = Color.yellow;
 
         [SerializeField, Range(0, 2)] private float groundOffset = 0.5f; // TODO: Maybe remove
 
@@ -391,7 +395,7 @@ namespace Controllers {
 
                 // Sight range
                 if (enemyType == EnemyType.Melee) {
-                    Gizmos.color = Color.yellow;
+                    Gizmos.color = sightBoxColor;
                     Vector2 boxCenter = (Vector2)transform.position +
                                         (isFacingRight ? sightBoxOffset : -sightBoxOffset);
                     Gizmos.DrawWireCube(boxCenter, sightBoxSize);
