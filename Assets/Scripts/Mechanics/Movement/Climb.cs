@@ -92,13 +92,13 @@ namespace Mechanics.Movement {
         }
 
         private void OnCollisionEnter2D(Collision2D collision) {
-            if (collision.gameObject.layer == Ground.value) {
+            if (GetBitMask(collision.gameObject.layer) == Ground.value) {
                 StopClimbing();
             }
         }
 
         private void OnCollisionStay2D(Collision2D collision) {
-            if (collision.gameObject.layer == Ground.value) {
+            if (GetBitMask(collision.gameObject.layer) == Ground.value) {
                 StopClimbing();
             }
         }

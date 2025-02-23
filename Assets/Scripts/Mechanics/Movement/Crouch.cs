@@ -8,6 +8,7 @@ using UnityEngine.Tilemaps;
 using Utils;
 using static PlayerInput.KeyBinds;
 using static Utils.AnimatorUtils;
+using static Utils.LayerUtils;
 
 namespace Mechanics.Movement {
     [RequireComponent(typeof(PlayerController))]
@@ -282,7 +283,7 @@ namespace Mechanics.Movement {
 
             foreach (var collision in collisions) {
                 // Ground layer
-                if (collision != null && collision.gameObject.layer == 7) {
+                if (collision != null && GetBitMask(collision.gameObject.layer) == Ground.value) {
                     return false;
                 }
             }
