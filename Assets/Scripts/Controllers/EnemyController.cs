@@ -29,7 +29,7 @@ namespace Controllers {
         [SerializeField] private EnemyType enemyType = EnemyType.Melee;
 
         [Header("AI Settings")]
-        [SerializeField] private float moveSpeed = 2f;
+        [SerializeField, Range(0, 5)] private float moveSpeed = 2f;
 
         [Header("Sight Settings")]
         [ShowIf("enemyType", EnemyType.Melee)]
@@ -51,10 +51,10 @@ namespace Controllers {
         [SerializeField] private GameObject projectilePrefab;
 
         [ShowIf("enemyType", EnemyType.Ranged)]
-        [SerializeField] private float projectileSpeed = 5f;
+        [SerializeField, Range(0, 10)] private float projectileSpeed = 5f;
 
         [ShowIf("enemyType", EnemyType.Ranged)]
-        [SerializeField] private float projectileDuration = 2f;
+        [SerializeField, Range(0, 5)] private float projectileDuration = 2f;
 
         [ShowIf("enemyType", EnemyType.Ranged)]
         [SerializeField] private Vector2 projectileOffset = new(0.1f, 0.1f);
@@ -92,7 +92,7 @@ namespace Controllers {
         private bool PlayerInAttackRange => DistanceToPlayer <= attackRange;
 
         [Header("Enemy Settings")]
-        [SerializeField] private float deathTime = 0.3f;
+        [SerializeField, Range(0, 3)] private float deathTime = 0.3f;
 
         [Header("Enemy Controller Components")]
         [SerializeField] private Animator animator;

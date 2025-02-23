@@ -225,10 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ouch: {fileID: 8300000, guid: b7f741588644cd64bbee6387cb54a96d, type: 3}
   enemyType: 1
-  navAgent: {fileID: 1751055644578752143}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 128
+  moveSpeed: 2
   sightBoxSize: {x: 6.2, y: 1}
   sightBoxOffset: {x: 1.07, y: 0}
   attackRange: 4
@@ -247,10 +244,9 @@ MonoBehaviour:
   animator: {fileID: 1605217082131907960}
   enemyHealthBar: {fileID: 3232707233187215396}
   bloodPrefab: {fileID: 0}
-  enemyPrefabAsset: {fileID: 1661912868639658944}
+  enemyPrefabAsset: {fileID: 0}
   drawRangesInEditor: 1
   drawProjectileInEditor: 1
-  applyGravityOnEnemy: 1
 --- !u!82 &5843668731025413174
 AudioSource:
   m_ObjectHideFlags: 0
@@ -369,7 +365,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661912868639658944}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: -334000983
   m_Radius: 0.25
   m_Speed: 1.9
@@ -420,8 +416,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 67.75, y: -5.25}
-  m_SizeDelta: {x: 192.2613, y: 57.8491}
+  m_AnchoredPosition: {x: 0, y: 0.3}
+  m_SizeDelta: {x: 0.6613, y: 0.1825}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3046212509691777882
 Canvas:
@@ -597,7 +593,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -67.712006, y: 5.515}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 116.7529, y: 16.1449}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5537061757134813738
