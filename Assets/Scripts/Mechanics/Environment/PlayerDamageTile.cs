@@ -10,7 +10,7 @@ namespace Mechanics.Environment {
 
         private void OnTriggerEnter2D(Collider2D col) {
             if (col.CompareTag(DamageTile) || col.CompareTag(Player)) {
-                CharacterManager.Instance.currentPlayerController.lives.DecrementLives(damage);
+                CharacterManager.Instance.currentPlayerController.TakeDamage(damage);
             }
         }
     }

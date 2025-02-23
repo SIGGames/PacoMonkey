@@ -2,10 +2,8 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using Configuration;
-using Managers;
 using UnityEditor;
 using UnityEngine;
-using static Utils.AnimatorUtils;
 
 namespace Health {
     public class Lives : MonoBehaviour {
@@ -83,10 +81,6 @@ namespace Health {
 
         public void DecrementLives(float lives = 1) {
             CurrentLives -= lives;
-
-            if (IsAlive) {
-                CharacterManager.Instance.currentPlayerController.animator.SetTrigger(Hurt);
-            }
         }
 
         public void Die() {

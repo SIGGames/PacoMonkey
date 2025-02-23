@@ -12,7 +12,7 @@ namespace Mechanics.Fight {
     [RequireComponent(typeof(PlayerController))]
     [SuppressMessage("ReSharper", "Unity.PreferNonAllocApi")]
     public class PlayerFight : MonoBehaviour {
-        [SerializeField] private FightState fightState = FightState.Idle;
+        [SerializeField] public FightState fightState = FightState.Idle;
         [SerializeField] private PlayerController playerController;
 
         [Header("Melee Attack Settings")]
@@ -42,8 +42,8 @@ namespace Mechanics.Fight {
         [SerializeField, Range(0, 5)] private float parryCooldownTime = 1f;
 
         private Animator _animator;
-        private bool _canAttack = true;
-        private bool _canParry = true;
+        public bool canAttack = true;
+        public bool canParry = true;
 
         private void Awake() {
             if (playerController == null) {
@@ -68,15 +68,15 @@ namespace Mechanics.Fight {
         }
 
         private void Update() {
-            if (isMeleeActive && GetMeleeKey() && _canAttack) {
+            if (isMeleeActive && GetMeleeKey() && canAttack) {
                 StartMeleeAttackAnimation();
             }
 
-            if (isRangedActive && GetRangeKey() && _canAttack) {
+            if (isRangedActive && GetRangeKey() && canAttack) {
                 StartRangedAttackAnimation();
             }
 
-            if (isParryActive && GetParryKey() && _canParry) {
+            if (isParryActive && GetParryKey() && canParry) {
                 StartParry();
             }
         }
@@ -86,7 +86,7 @@ namespace Mechanics.Fight {
                 playerController.FreezeHorizontalPosition();
             }
 
-            _canAttack = false;
+            canAttack = false;
             _animator.SetTrigger(MeleeAttack);
             fightState = FightState.Melee;
         }
@@ -96,7 +96,7 @@ namespace Mechanics.Fight {
                 playerController.FreezeHorizontalPosition();
             }
 
-            _canAttack = false;
+            canAttack = false;
             _animator.SetTrigger(RangedAttack);
             fightState = FightState.Ranged;
         }
@@ -140,7 +140,7 @@ namespace Mechanics.Fight {
         }
 
         private void StartParry() {
-            _canParry = false;
+            canParry = false;
             fightState = FightState.Parry;
             _animator.SetTrigger(Parry);
             StartCoroutine(ParryCooldown());
@@ -153,17 +153,17 @@ namespace Mechanics.Fight {
 
         private IEnumerator MeleeAttackCooldown() {
             yield return new WaitForSeconds(cooldownTime);
-            _canAttack = true;
+            canAttack = true;
         }
 
         private IEnumerator RangedAttackCooldown() {
             yield return new WaitForSeconds(rangedCooldownTime);
-            _canAttack = true;
+            canAttack = true;
         }
 
         private IEnumerator ParryCooldown() {
             yield return new WaitForSeconds(parryCooldownTime);
-            _canParry = true;
+            canParry = true;
         }
 
         private void OnDrawGizmosSelected() {

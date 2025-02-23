@@ -357,7 +357,7 @@ namespace Controllers {
         private void BouncePlayerOnAnimation() {
             if (PlayerInAttackRange) {
                 BouncePlayer();
-                CurrentPlayer.lives.DecrementLives(attackDamage);
+                CurrentPlayer.TakeDamage(attackDamage);
             }
         }
 

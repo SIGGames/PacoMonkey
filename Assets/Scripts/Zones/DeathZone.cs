@@ -10,7 +10,7 @@ namespace Zones {
             }
 
             PlayerController pc = CharacterManager.Instance.currentPlayerController;
-            pc.lives.Die();
+            pc.KillPlayer();
 
             // We need to simulate the player is grounded in order to trigger the respawn animation
             pc.IsGrounded = true;

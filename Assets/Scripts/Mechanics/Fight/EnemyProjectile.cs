@@ -52,7 +52,7 @@ namespace Mechanics.Fight {
             // Check if the projectile collides with the player
             PlayerController playerController = collision.GetComponent<PlayerController>();
             if (playerController != null && collision.CompareTag(Player)) {
-                playerController.lives.DecrementLives(_damage);
+                playerController.TakeDamage(_damage);
                 DestroyProjectile();
             }
         }

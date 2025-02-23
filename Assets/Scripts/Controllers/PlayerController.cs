@@ -3,6 +3,7 @@ using Enums;
 using Gameplay;
 using Health;
 using Managers;
+using Mechanics.Fight;
 using UnityEngine;
 using static Platformer.Core.Simulation;
 using static Configuration.GlobalConfiguration;
@@ -430,6 +431,28 @@ namespace Controllers {
             animator.SetFloat(VelocityY, Mathf.Abs(velocity.y));
         }
 
+        public void KillPlayer() {
+            lives.Die();
+        }
+
+        public void TakeDamage(float damage = 1) {
+            lives.DecrementLives(damage);
+
+            if (lives.IsAlive) {
+                PlayerController player = CharacterManager.Instance.currentPlayerController;
+                player.animator.SetTrigger(Hurt);
+
+                // Reset the player's fight state
+                PlayerFight playerFight = player.GetComponent<PlayerFight>();
+                if (playerFight != null && playerFight.fightState != FightState.Idle) {
+                    playerFight.fightState = FightState.Idle;
+                    player.FreezeHorizontalPosition(false);
+                    playerFight.canAttack = true;
+                    playerFight.canParry = true;
+                }
+            }
+        }
+
         private void HandlePlayerInsideWall() {
             if (IsGrounded || isPositionFreezed) {
                 return;
@@ -468,11 +491,11 @@ namespace Controllers {
                 }
 
                 if (Input.GetKeyDown(KeyCode.F7)) {
-                    lives.DecrementLives();
+                    TakeDamage();
                 }
 
                 if (Input.GetKeyDown(KeyCode.F8)) {
-                    lives.Die();
+                    KillPlayer();
                 }
             }
         }
