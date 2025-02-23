@@ -69,7 +69,7 @@ Transform:
   m_GameObject: {fileID: 1661912868639658944}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.01, y: -3.38, z: 1}
+  m_LocalPosition: {x: 19.07, y: -3.38, z: 1}
   m_LocalScale: {x: 1.63, y: 1.63, z: 1.63}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -209,7 +209,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.06}
-  m_Size: {x: 0.45, y: 0.54}
+  m_Size: {x: 0.29, y: 0.54}
   m_Direction: 0
 --- !u!114 &772289407653213039
 MonoBehaviour:
@@ -233,7 +233,7 @@ MonoBehaviour:
     value: 1.78
     color: {r: 1, g: 0, b: 0, a: 1}
   sightBoxSize: {x: 4, y: 1}
-  sightBoxOffset: {x: 1.07, y: 0}
+  sightBoxOffset: {x: 1, y: 0}
   sightBoxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   groundOffset: 0.5
   attackDamage: 1
@@ -249,8 +249,7 @@ MonoBehaviour:
   animator: {fileID: 1605217082131907960}
   enemyHealthBar: {fileID: 3232707233187215396}
   bloodPrefab: {fileID: 0}
-  enemyPrefabAsset: {fileID: 1661912868639658944, guid: fba6db08369ea1e4d940c62967b4ae42,
-    type: 3}
+  enemyPrefabAsset: {fileID: 1661912868639658944}
   drawRangesInEditor: 1
   drawProjectileInEditor: 1
 --- !u!82 &5843668731025413174

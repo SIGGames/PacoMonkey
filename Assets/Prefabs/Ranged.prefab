@@ -228,9 +228,9 @@ MonoBehaviour:
   moveSpeed: 2
   chaseStopRange:
     value: 1.5
-    color: {r: 0, g: 1, b: 0, a: 1}
+    color: {r: 0.24116516, g: 1, b: 0, a: 1}
   attackRange:
-    value: 1
+    value: 4
     color: {r: 1, g: 0, b: 0, a: 1}
   sightBoxSize: {x: 6.2, y: 1}
   sightBoxOffset: {x: 1.07, y: 0}
@@ -250,7 +250,7 @@ MonoBehaviour:
   animator: {fileID: 1605217082131907960}
   enemyHealthBar: {fileID: 3232707233187215396}
   bloodPrefab: {fileID: 0}
-  enemyPrefabAsset: {fileID: 0}
+  enemyPrefabAsset: {fileID: 1661912868639658944}
   drawRangesInEditor: 1
   drawProjectileInEditor: 1
 --- !u!82 &5843668731025413174
