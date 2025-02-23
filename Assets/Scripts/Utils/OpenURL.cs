@@ -2,12 +2,6 @@
 
 namespace Utils {
     public class OpenURL : MonoBehaviour {
-        public string websiteAddress;
-
-        public void OpenURLOnClick() {
-            Application.OpenURL(websiteAddress);
-        }
-
         public static void OpenProvidedUrl(string url) {
             Application.OpenURL(url);
         }
@@ -17,22 +11,19 @@ namespace Utils {
         }
 
         public static void OpenWebsiteUrl() {
-            Application.OpenURL("https://siggames-official.vercel.app/");
+            Application.OpenURL("https://siggames.cat/");
         }
 
         public static void OpenDiscordUrl() {
-            // TODO: Add Discord URL
-            Application.OpenURL("");
+            Application.OpenURL("https://discord.gg/XAQUEgqP7x");
         }
 
         public static void OpenInstagramUrl() {
-            // TODO: Add Instagram URL
-            Application.OpenURL("");
+            Application.OpenURL("https://www.instagram.com/siggames.official/");
         }
 
         public static void OpenLinkedinUrl() {
-            // TODO: Add LinkedIn URL
-            Application.OpenURL("");
+            Application.OpenURL("https://www.linkedin.com/company/siggames/");
         }
 
         public static void OpenTikTokUrl() {
