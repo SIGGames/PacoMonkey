@@ -31,7 +31,11 @@ namespace Controllers {
         [Header("AI Settings")]
         [SerializeField, Range(0, 5)] private float moveSpeed = 2f;
 
-        [SerializeField, Range(0, 10)] private float chaseStopRange = 1.5f;
+        [SerializeField, ColorRange(0, 10, 0, 255)]
+        private float chaseStopRange = 1.5f;
+
+        [SerializeField, ColorRange(0, 5, 255)]
+        public float attackRange = 1f;
 
         [Header("Sight Settings")]
         [ShowIf("enemyType", EnemyType.Melee)]
@@ -40,7 +44,6 @@ namespace Controllers {
         [ShowIf("enemyType", EnemyType.Melee)]
         [SerializeField, MaxValue(5)] private Vector2 sightBoxOffset;
 
-        [SerializeField, Range(0, 5)] public float attackRange = 1f;
         [SerializeField, Range(0, 2)] private float groundOffset = 0.5f; // TODO: Maybe remove
 
         [Header("Attack Settings")]
