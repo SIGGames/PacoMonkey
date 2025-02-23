@@ -143,7 +143,8 @@ namespace Controllers {
             base.Update();
 
             HandleLives();
-            HandlePlayerInsideWall();
+            // TODO: Comment by now
+            // HandlePlayerInsideWall();
 
             if (!_isColliderInitialized) {
                 InitializeCollider();

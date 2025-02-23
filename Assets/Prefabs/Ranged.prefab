@@ -226,9 +226,15 @@ MonoBehaviour:
   ouch: {fileID: 8300000, guid: b7f741588644cd64bbee6387cb54a96d, type: 3}
   enemyType: 1
   moveSpeed: 2
+  chaseStopRange:
+    value: 1.5
+    color: {r: 0, g: 1, b: 0, a: 1}
+  attackRange:
+    value: 1
+    color: {r: 1, g: 0, b: 0, a: 1}
   sightBoxSize: {x: 6.2, y: 1}
   sightBoxOffset: {x: 1.07, y: 0}
-  attackRange: 4
+  sightBoxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   groundOffset: 0.6
   attackDamage: 0.5
   cooldownTime: 3
@@ -356,7 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 200
-  maxHealth: 500
+  maxHealth: 200
   currentHealth: 0
 --- !u!195 &1751055644578752143
 NavMeshAgent:
