@@ -31,11 +31,11 @@ namespace Controllers {
         [Header("AI Settings")]
         [SerializeField, Range(0, 5)] private float moveSpeed = 2f;
 
-        [SerializeField, ColorRange(0, 10, 0, 255)]
-        private float chaseStopRange = 1.5f;
+        [SerializeField, ColorRange(0, 10)]
+        private ColorRangeValue chaseStopRange = new(1.5f, Color.green);
 
-        [SerializeField, ColorRange(0, 5, 255)]
-        public float attackRange = 1f;
+        [SerializeField, ColorRange(0, 5)]
+        public ColorRangeValue attackRange = new(1f, Color.red);
 
         [Header("Sight Settings")]
         [ShowIf("enemyType", EnemyType.Melee)]
@@ -94,7 +94,7 @@ namespace Controllers {
             }
         }
 
-        private bool PlayerInAttackRange => DistanceToPlayer <= attackRange;
+        private bool PlayerInAttackRange => DistanceToPlayer <= attackRange.value;
 
         [Header("Enemy Settings")]
         [SerializeField, Range(0, 3)] private float deathTime = 0.3f;
@@ -217,7 +217,7 @@ namespace Controllers {
         }
 
         private void ChasePlayer() {
-            if (DistanceToPlayer <= chaseStopRange) {
+            if (DistanceToPlayer <= chaseStopRange.value) {
                 return;
             }
 
@@ -382,12 +382,12 @@ namespace Controllers {
         private void OnDrawGizmosSelected() {
             if (drawRangesInEditor) {
                 // Attack range
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, attackRange);
+                Gizmos.color = attackRange.color;
+                Gizmos.DrawWireSphere(transform.position, attackRange.value);
 
                 // Chase stop range
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(transform.position, chaseStopRange);
+                Gizmos.color = chaseStopRange.color;
+                Gizmos.DrawWireSphere(transform.position, chaseStopRange.value);
 
                 // Sight range
                 if (enemyType == EnemyType.Melee) {

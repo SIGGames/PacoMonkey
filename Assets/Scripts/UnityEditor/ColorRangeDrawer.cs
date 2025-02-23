@@ -3,24 +3,27 @@ using UnityEngine;
 
 namespace UnityEditor {
     [CustomPropertyDrawer(typeof(ColorRangeAttribute))]
-    public class ColorRangeDrawer : PropertyDrawer {
+    [CustomPropertyDrawer(typeof(ColorRangeValue))]
+    public class ColorRangeValueDrawer : PropertyDrawer {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-            ColorRangeAttribute range = (ColorRangeAttribute)attribute;
+            ColorRangeAttribute rangeAttr = attribute as ColorRangeAttribute;
 
-            if (property.propertyType == SerializedPropertyType.Float) {
-                EditorGUI.BeginProperty(position, label, property);
+            SerializedProperty valueProp = property.FindPropertyRelative("value");
+            SerializedProperty colorProp = property.FindPropertyRelative("color");
 
-                Rect sliderRect = new Rect(position.x, position.y, position.width - 60, position.height);
-                Rect colorRect = new Rect(position.x + position.width - 55, position.y, 55, position.height);
+            float sliderWidth = position.width * 0.85f;
+            float colorWidth = position.width - sliderWidth - 5f;
+            Rect sliderRect = new Rect(position.x, position.y, sliderWidth, position.height);
+            Rect colorRect = new Rect(position.x + sliderWidth + 5f, position.y, colorWidth, position.height);
 
-                EditorGUI.Slider(sliderRect, property, range.min, range.max, label);
+            float min = rangeAttr?.min ?? 0f;
+            float max = rangeAttr?.max ?? 1f;
+            valueProp.floatValue = EditorGUI.Slider(sliderRect, label, valueProp.floatValue, min, max);
 
-                EditorGUI.DrawRect(colorRect, range.color);
-
-                EditorGUI.EndProperty();
-            } else {
-                EditorGUI.LabelField(position, label.text, "Use ColoredRange with float.");
+            if (colorProp != null && colorProp.colorValue.Equals(new Color(0, 0, 0, 0))) {
+                colorProp.colorValue = Color.white;
             }
+            colorProp.colorValue = EditorGUI.ColorField(colorRect, colorProp.colorValue);
         }
     }
 }
