@@ -10,5 +10,9 @@ namespace Utils {
         public static readonly LayerMask UI = LayerMask.GetMask("UI"); // 5
         public static readonly LayerMask Zone = LayerMask.GetMask("Zone"); // 6
         public static readonly LayerMask Ground = LayerMask.GetMask("Ground"); // 7
+
+        public static int GetBitMask(int layer) {
+            return 1 << layer;
+        }
     }
 }

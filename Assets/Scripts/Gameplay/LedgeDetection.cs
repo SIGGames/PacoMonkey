@@ -50,7 +50,7 @@ namespace Gameplay {
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            if (((1 << collision.gameObject.layer) & Ground) != 0) {
+            if ((GetBitMask(collision.gameObject.layer) & Ground.value) != 0) {
                 if (IsValidLedge()) {
                     _detectedLedge = collision;
                     isNearLedge = true;
