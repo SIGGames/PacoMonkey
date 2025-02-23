@@ -91,11 +91,6 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
-            if (!_playerController.IsGrounded && _playerController.rb.bodyType == RigidbodyType2D.Dynamic) {
-                // Reset body type to Kinematic when player is not grounded so it doesn't fall through the floor
-                _playerController.SetBodyType(RigidbodyType2D.Kinematic);
-            }
-
             PerformCrouch();
 
             if (_slideCooldownTimer > 0) {

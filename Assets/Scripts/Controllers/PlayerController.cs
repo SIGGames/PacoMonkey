@@ -285,6 +285,7 @@ namespace Controllers {
                 case JumpState.Jumping:
                     if (!IsGrounded) {
                         Schedule<PlayerJumped>().player = this;
+                        SetBodyType(RigidbodyType2D.Kinematic);
                         jumpState = JumpState.InFlight;
                     }
 

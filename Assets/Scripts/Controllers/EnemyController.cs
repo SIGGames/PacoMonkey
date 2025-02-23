@@ -164,11 +164,19 @@ namespace Controllers {
         }
 
         private void OnCollisionEnter2D(Collision2D other) {
-            if (other.gameObject.GetComponent<PlayerController>() == null) {
+            PlayerController player = other.gameObject.GetComponent<PlayerController>();
+            if (player == null) {
                 return;
             }
+            player.IsGrounded = true;
+            player.SetVelocity(Vector2.zero);
+            player.SetBodyType(RigidbodyType2D.Dynamic);
 
             AttackPlayer();
+        }
+
+        private void OnTriggerExit2D(Collider2D other) {
+            CharacterManager.Instance.currentPlayerController.SetBodyType(RigidbodyType2D.Kinematic);
         }
 
         private void Update() {
@@ -244,9 +252,11 @@ namespace Controllers {
             if (Mathf.Approximately(_velocity.x, 0f)) {
                 _velocity.x = 0f;
             }
+
             if (Mathf.Approximately(_velocity.y, 0f)) {
                 _velocity.y = 0f;
             }
+
             animator.SetFloat(VelocityX, Mathf.Abs(_velocity.x));
             animator.SetFloat(VelocityY, Mathf.Abs(_velocity.y));
         }
