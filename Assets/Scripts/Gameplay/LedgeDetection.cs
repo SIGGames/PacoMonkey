@@ -9,6 +9,9 @@ namespace Gameplay {
         [SerializeField] private PlayerController player;
         [SerializeField] private GameObject ledgeCheck;
 
+        [Header("Debug")]
+        [SerializeField] private bool drawObjects;
+
         public bool isNearLedge;
         public bool isNearWall;
         public bool isCloseToClimbableWall;
@@ -104,7 +107,7 @@ namespace Gameplay {
         }
 
         private void OnDrawGizmosSelected() {
-            if (ledgeCheck == null) {
+            if (!drawObjects || ledgeCheck == null) {
                 return;
             }
 

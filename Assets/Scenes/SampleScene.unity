@@ -99317,6 +99317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 838423048}
   ledgeCheck: {fileID: 447503342}
+  drawObjects: 0
   isNearLedge: 0
   isNearWall: 0
   isCloseToClimbableWall: 0
@@ -99862,7 +99863,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 3.75
+  orthographic size: 2.8125
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -100548,6 +100549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 619641551}
   ledgeCheck: {fileID: 564901628}
+  drawObjects: 0
   isNearLedge: 0
   isNearWall: 0
   isCloseToClimbableWall: 0
