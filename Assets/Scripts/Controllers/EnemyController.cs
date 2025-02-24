@@ -132,6 +132,9 @@ namespace Controllers {
 
         private Vector3 _lastPosition;
         private Vector3 _velocity;
+        private bool _hasBeenAttacked;
+        private const float SightBoxMultiplierOnAttack = 10f;
+        private const float ChaseTimeAfterAttack = 8f;
 
         private void Awake() {
             _col = GetComponent<Collider2D>();
@@ -222,6 +225,10 @@ namespace Controllers {
 
         private void ChasePlayer() {
             if (DistanceToPlayer <= chaseStopRange.value) {
+                if (_hasBeenAttacked) {
+                    RevertSightBoxState();
+                }
+
                 return;
             }
 
@@ -304,6 +311,9 @@ namespace Controllers {
         }
 
         public void TakeDamage(float damage) {
+            _hasBeenAttacked = true;
+            UpdateSightBoxOnAttack();
+
             ChasePlayer();
             _health.DecrementHealth(damage);
             if (HasHealthBar) {
@@ -318,6 +328,7 @@ namespace Controllers {
                 DestroyEnemy();
             } else {
                 animator.SetTrigger(Hurt);
+                StartCoroutine(ResetHasBeenAttacked());
             }
         }
 
@@ -381,6 +392,27 @@ namespace Controllers {
 
         private float GetProjectileOffset() {
             return isFacingRight ? projectileOffset.x : -projectileOffset.x;
+        }
+
+        private IEnumerator ResetHasBeenAttacked() {
+            yield return new WaitForSeconds(ChaseTimeAfterAttack);
+            if (_hasBeenAttacked) {
+                RevertSightBoxState();
+            }
+        }
+
+        private void RevertSightBoxState() {
+            _hasBeenAttacked = false;
+            UpdateSightBoxOnAttack(true);
+        }
+
+        private void UpdateSightBoxOnAttack(bool revert = false) {
+            float sightBoxMultiplier = isFacingRight ? SightBoxMultiplierOnAttack : -SightBoxMultiplierOnAttack;
+            if (revert) {
+                sightBoxSize.x /= sightBoxMultiplier;
+            } else {
+                sightBoxSize.x *= sightBoxMultiplier;
+            }
         }
 
         private void OnDrawGizmosSelected() {
