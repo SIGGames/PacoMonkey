@@ -227,10 +227,10 @@ MonoBehaviour:
   enemyType: 1
   moveSpeed: 2
   chaseStopRange:
-    value: 1.5
+    value: 6.4
     color: {r: 0.24116516, g: 1, b: 0, a: 1}
   attackRange:
-    value: 4
+    value: 6.8
     color: {r: 1, g: 0, b: 0, a: 1}
   sightBoxSize: {x: 6.2, y: 1}
   sightBoxOffset: {x: 1.07, y: 0}

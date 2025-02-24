@@ -35,7 +35,7 @@ namespace Controllers {
         [SerializeField, ColorRange(0, 10)]
         private ColorRangeValue chaseStopRange = new(1.5f, Color.green);
 
-        [SerializeField, ColorRange(0, 5)]
+        [SerializeField, ColorRange(0, 10)]
         public ColorRangeValue attackRange = new(1f, Color.red);
 
         [Header("Sight Settings")]
