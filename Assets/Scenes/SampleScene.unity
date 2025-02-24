@@ -99987,10 +99987,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 292457042}
     m_Modifications:
+    - target: {fileID: 772289407653213039, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
+        type: 3}
+      propertyPath: chaseStopRange.value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1658460978237467174, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.25
+      value: 3.43
       objectReference: {fileID: 0}
     - target: {fileID: 1658460978237467174, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
         type: 3}
@@ -100041,6 +100046,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Melee
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724124757368974630, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.29000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724124757368974630, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.5026637
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724124757368974630, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.07866837
       objectReference: {fileID: 0}
     - target: {fileID: 4779608454281867617, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
         type: 3}
@@ -102703,7 +102723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a69ee7244cd4849a3cc781269043134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraMove: {x: 1.5, y: 1}
+  cameraMove: {x: 0, y: 0}
 --- !u!114 &619641539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102866,6 +102886,8 @@ MonoBehaviour:
   rangedCooldownTime: 0.5
   isParryActive: 1
   parryCooldownTime: 1
+  canAttack: 1
+  canParry: 1
 --- !u!50 &619641562 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 50915408107096866, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
@@ -107878,7 +107900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a69ee7244cd4849a3cc781269043134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraMove: {x: 1.5, y: 1}
+  cameraMove: {x: 0, y: 0}
 --- !u!114 &1213308560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141760,6 +141782,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 292457042}
     m_Modifications:
+    - target: {fileID: 772289407653213039, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
+        type: 3}
+      propertyPath: chaseStopRange.value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1658460978237467174, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -141814,6 +141841,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Melee (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724124757368974630, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.29000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724124757368974630, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.5026637
+      objectReference: {fileID: 0}
+    - target: {fileID: 1724124757368974630, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.07866837
       objectReference: {fileID: 0}
     - target: {fileID: 4779608454281867617, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
         type: 3}

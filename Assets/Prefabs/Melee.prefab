@@ -208,8 +208,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.06}
-  m_Size: {x: 0.29, y: 0.54}
+  m_Offset: {x: 0, y: -0.07866837}
+  m_Size: {x: 0.29000002, y: 0.5026637}
   m_Direction: 0
 --- !u!114 &772289407653213039
 MonoBehaviour:
@@ -227,7 +227,7 @@ MonoBehaviour:
   enemyType: 0
   moveSpeed: 2
   chaseStopRange:
-    value: 1.5
+    value: 1
     color: {r: 0, g: 1, b: 0, a: 1}
   attackRange:
     value: 1.78
