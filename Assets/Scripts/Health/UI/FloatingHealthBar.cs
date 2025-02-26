@@ -25,9 +25,9 @@ namespace Health.UI {
         }
 
         private readonly HealthBarState[] _states = {
-            new(0f, 0.24f, GetColor(248, 113, 104)), // Red [0, 24%]
-            new(0.25f, 0.74f, GetColor(248, 230, 160)), // Yellow [25, 74%]
-            new(0.75f, 1f, GetColor(75, 206, 151)) // Green [75, 100%]
+            new(0f, 0.25f, GetColor(248, 113, 104)), // Red [0, 25%]
+            new(0.26f, 0.74f, GetColor(248, 230, 160)), // Yellow (25%, 75%)
+            new(0.75f, 1f, GetColor(75, 206, 151)) // Green [75%, 100%]
         };
 
         private static Color GetColor(float r, float g, float b) {
