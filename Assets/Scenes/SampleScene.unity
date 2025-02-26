@@ -99989,7 +99989,17 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 772289407653213039, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
         type: 3}
+      propertyPath: drawRangesInEditor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 772289407653213039, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
+        type: 3}
       propertyPath: chaseStopRange.value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 772289407653213039, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
+        type: 3}
+      propertyPath: drawAttackAnimationInEditor
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1268651639450779145, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,

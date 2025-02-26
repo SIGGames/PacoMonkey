@@ -72,7 +72,10 @@ namespace Controllers {
         [SerializeField, Range(0, 10)] private float bounceForce = 4f;
 
         [ShowIf("enemyType", EnemyType.Melee)]
-        [SerializeField, Range(0, 3)] private float distanceAfterAttack = 1f;
+        [SerializeField, Range(0, 3)] private float distanceAfterAttack = 1f; // TODO: Remove this
+
+        // Melee Attack Animation Offset (this is variable depending on the frame of the enemy)
+        [SerializeField] private float attackAnimationOffset;
 
         [Header("Movement Settings")]
         [SerializeField] private bool isFacingRight = true;
@@ -116,6 +119,9 @@ namespace Controllers {
 
         [ShowIf("enemyType", EnemyType.Ranged)]
         [SerializeField] private bool drawProjectileInEditor = true;
+
+        [ShowIf("enemyType", EnemyType.Melee)]
+        [SerializeField] private bool drawAttackAnimationInEditor = true;
 
         public Bounds Bounds => _col.bounds;
         private bool HasHealthBar => enemyHealthBar != null;
@@ -219,6 +225,7 @@ namespace Controllers {
                 AttackPlayer();
             }
 
+            UpdateColliderAndHealthBar();
             HandleFlip();
             IsGrounded();
         }
@@ -347,7 +354,7 @@ namespace Controllers {
 
         public void OnFinishEnemyAttackAnimation() {
             Vector3 enemyPosition = transform.position;
-            float offsetOnFinishAttack = isFacingRight ? distanceAfterAttack : -distanceAfterAttack;
+            float offsetOnFinishAttack = isFacingRight ? attackAnimationOffset : -attackAnimationOffset;
             transform.position = new Vector3(enemyPosition.x + offsetOnFinishAttack, enemyPosition.y, enemyPosition.z);
         }
 
@@ -415,20 +422,27 @@ namespace Controllers {
             }
         }
 
+        private void UpdateColliderAndHealthBar() {
+            float offset = isFacingRight ? attackAnimationOffset : -attackAnimationOffset;
+            enemyHealthBar.transform.position = transform.position + new Vector3(offset, 0.5f, 0f);
+        }
+
         private void OnDrawGizmosSelected() {
+            Vector3 enemyPosition = transform.position;
+
             if (drawRangesInEditor) {
                 // Attack range
                 Gizmos.color = attackRange.color;
-                Gizmos.DrawWireSphere(transform.position, attackRange.value);
+                Gizmos.DrawWireSphere(enemyPosition, attackRange.value);
 
                 // Chase stop range
                 Gizmos.color = chaseStopRange.color;
-                Gizmos.DrawWireSphere(transform.position, chaseStopRange.value);
+                Gizmos.DrawWireSphere(enemyPosition, chaseStopRange.value);
 
                 // Sight range
                 if (enemyType == EnemyType.Melee) {
                     Gizmos.color = sightBoxColor;
-                    Vector2 boxCenter = (Vector2)transform.position +
+                    Vector2 boxCenter = (Vector2)enemyPosition +
                                         (isFacingRight ? sightBoxOffset : -sightBoxOffset);
                     Gizmos.DrawWireCube(boxCenter, sightBoxSize);
                 }
@@ -436,10 +450,18 @@ namespace Controllers {
 
             // Projectile spawn position
             if (enemyType == EnemyType.Ranged && drawProjectileInEditor) {
-                Vector2 enemyPos = transform.position;
-                Vector2 spawnPos = new Vector2(enemyPos.x + GetProjectileOffset(), enemyPos.y + projectileOffset.y);
+                Vector2 spawnPos = new Vector2(enemyPosition.x + GetProjectileOffset(),
+                    enemyPosition.y + projectileOffset.y);
                 Gizmos.color = new Color(0.6f, 0.3f, 0.0f, 1f);
                 Gizmos.DrawSphere(spawnPos, 0.05f);
+            }
+
+            // Melee Attack Animation Offset
+            if (enemyType == EnemyType.Melee && drawAttackAnimationInEditor) {
+                Vector3 sphereAnimationPosition = new Vector3(enemyPosition.x + attackAnimationOffset, enemyPosition.y,
+                    enemyPosition.z);
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawSphere(sphereAnimationPosition, 0.1f);
             }
         }
     }
