@@ -102733,7 +102733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a69ee7244cd4849a3cc781269043134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraMove: {x: 0.5, y: 0.5}
+  cameraMove: {x: 2, y: 2}
 --- !u!114 &619641539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107910,7 +107910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a69ee7244cd4849a3cc781269043134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraMove: {x: 0.5, y: 0.5}
+  cameraMove: {x: 2, y: 2}
 --- !u!114 &1213308560
 MonoBehaviour:
   m_ObjectHideFlags: 0

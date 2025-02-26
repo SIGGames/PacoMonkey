@@ -17,19 +17,19 @@ namespace Mechanics.Environment {
             bool isKeyPressed = false;
 
             if (GetCameraUpKey()) {
-                offset = new Vector2(0f, cameraMove.y);
+                offset.y += cameraMove.y;
                 isKeyPressed = true;
             }
-            else if (GetCameraDownKey()) {
-                offset = new Vector2(0f, -cameraMove.y);
+            if (GetCameraDownKey()) {
+                offset.y -= cameraMove.y;
                 isKeyPressed = true;
             }
-            else if (GetCameraLeftKey()) {
-                offset = new Vector2(-cameraMove.x, 0f);
+            if (GetCameraLeftKey()) {
+                offset.x -= cameraMove.x;
                 isKeyPressed = true;
             }
-            else if (GetCameraRightKey()) {
-                offset = new Vector2(cameraMove.x, 0f);
+            if (GetCameraRightKey()) {
+                offset.x += cameraMove.x;
                 isKeyPressed = true;
             }
 
