@@ -139,8 +139,6 @@ namespace Controllers {
         private Vector3 _lastPosition;
         private Vector3 _velocity;
         private bool _hasBeenAttacked;
-        private const float SightBoxMultiplierOnAttack = 10f;
-        private const float ChaseTimeAfterAttack = 8f;
         private Vector2 _initialColliderOffset;
 
         private void Awake() {
@@ -225,6 +223,9 @@ namespace Controllers {
 
             if (PlayerInAttackRange && _attackCooldownTimer <= 0f && IsEnemyGrounded) {
                 AttackPlayer();
+            } else if (_hasBeenAttacked) {
+                // Call chase player if enemy has been attacked
+                ChasePlayer();
             }
 
             UpdateColliderAndHealthBar();
@@ -234,10 +235,6 @@ namespace Controllers {
 
         private void ChasePlayer() {
             if (DistanceToPlayer <= chaseStopRange.value) {
-                if (_hasBeenAttacked) {
-                    RevertSightBoxState();
-                }
-
                 return;
             }
 
@@ -308,6 +305,9 @@ namespace Controllers {
 
             animator.SetTrigger(Attack);
             _attackCooldownTimer = cooldownTime;
+
+            // Reset chase player after attack
+            _hasBeenAttacked = false;
         }
 
         private bool CanAttackWallCheck() {
@@ -321,9 +321,7 @@ namespace Controllers {
 
         public void TakeDamage(float damage) {
             _hasBeenAttacked = true;
-            UpdateSightBoxOnAttack();
 
-            ChasePlayer();
             _health.DecrementHealth(damage);
             if (HasHealthBar) {
                 enemyHealthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
@@ -337,7 +335,6 @@ namespace Controllers {
                 DestroyEnemy();
             } else {
                 animator.SetTrigger(Hurt);
-                StartCoroutine(ResetHasBeenAttacked());
             }
         }
 
@@ -401,27 +398,6 @@ namespace Controllers {
 
         private float GetProjectileOffset() {
             return isFacingRight ? projectileOffset.x : -projectileOffset.x;
-        }
-
-        private IEnumerator ResetHasBeenAttacked() {
-            yield return new WaitForSeconds(ChaseTimeAfterAttack);
-            if (_hasBeenAttacked) {
-                RevertSightBoxState();
-            }
-        }
-
-        private void RevertSightBoxState() {
-            _hasBeenAttacked = false;
-            UpdateSightBoxOnAttack(true);
-        }
-
-        private void UpdateSightBoxOnAttack(bool revert = false) {
-            float sightBoxMultiplier = isFacingRight ? SightBoxMultiplierOnAttack : -SightBoxMultiplierOnAttack;
-            if (revert) {
-                sightBoxSize.x /= sightBoxMultiplier;
-            } else {
-                sightBoxSize.x *= sightBoxMultiplier;
-            }
         }
 
         private void UpdateColliderAndHealthBar() {
