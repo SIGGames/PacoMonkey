@@ -44,7 +44,7 @@ namespace Mechanics.Fight {
 
         private void OnTriggerEnter2D(Collider2D collision) {
             // Check if the projectile collides with the ground
-            if (GetBitMask(collision.gameObject.layer) == Ground.value) {
+            if (GetBitMask(collision.gameObject.layer) == Ground.value || collision.CompareTag(ProjectileTag)) {
                 DestroyProjectile();
                 return;
             }

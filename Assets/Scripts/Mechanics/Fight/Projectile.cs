@@ -1,6 +1,8 @@
 ﻿using Controllers;
 using UnityEngine;
 using static Utils.AnimatorUtils;
+using static Utils.TagUtils;
+using static Utils.LayerUtils;
 
 namespace Mechanics.Fight {
     public class Projectile : MonoBehaviour {
@@ -41,14 +43,18 @@ namespace Mechanics.Fight {
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            EnemyController enemyController = collision.GetComponent<EnemyController>();
-            if (enemyController != null) {
-                enemyController.TakeDamage(_damage);
-                Destroy(gameObject);
+            // Check if the projectile collides with the ground
+            if (GetBitMask(collision.gameObject.layer) == Ground.value || collision.CompareTag(ProjectileTag)) {
+                DestroyProjectile();
                 return;
             }
 
-            DestroyProjectile();
+            // Check if the projectile collides with an enemy
+            EnemyController enemyController = collision.GetComponent<EnemyController>();
+            if (enemyController != null) {
+                enemyController.TakeDamage(_damage);
+                DestroyProjectile();
+            }
         }
     }
 }
