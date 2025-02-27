@@ -117,12 +117,12 @@ SpriteRenderer:
   m_SortingLayerID: 1907945055
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: -1230091395, guid: 0fa167319d830f648899d7dd91654e07, type: 3}
+  m_Sprite: {fileID: 1013826773, guid: 0fa167319d830f648899d7dd91654e07, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.28, y: 1.26}
+  m_Size: {x: 1.12, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -208,8 +208,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.07866837}
-  m_Size: {x: 0.29000002, y: 0.5026637}
+  m_Offset: {x: 0, y: -0.06903461}
+  m_Size: {x: 0.29000002, y: 0.48339617}
   m_Direction: 0
 --- !u!114 &772289407653213039
 MonoBehaviour:
@@ -244,6 +244,7 @@ MonoBehaviour:
   projectileOffset: {x: 0.1, y: 0.1}
   bounceForce: 6
   distanceAfterAttack: 0.95
+  attackAnimationOffset: 0
   isFacingRight: 1
   deathTime: 0.3
   animator: {fileID: 1605217082131907960}
@@ -252,6 +253,7 @@ MonoBehaviour:
   enemyPrefabAsset: {fileID: 1661912868639658944}
   drawRangesInEditor: 1
   drawProjectileInEditor: 1
+  drawAttackAnimationInEditor: 1
 --- !u!82 &5843668731025413174
 AudioSource:
   m_ObjectHideFlags: 0

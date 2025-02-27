@@ -208,8 +208,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03, y: -0.2}
-  m_Size: {x: 0.45, y: 0.09}
+  m_Offset: {x: -0.018207027, y: -0.18909842}
+  m_Size: {x: 0.2208976, y: 0.4177632}
   m_Direction: 0
 --- !u!114 &772289407653213039
 MonoBehaviour:
@@ -245,6 +245,7 @@ MonoBehaviour:
   projectileOffset: {x: 0.21, y: 0.09}
   bounceForce: 6
   distanceAfterAttack: 0.95
+  attackAnimationOffset: 0
   isFacingRight: 1
   deathTime: 0.3
   animator: {fileID: 1605217082131907960}
@@ -253,6 +254,7 @@ MonoBehaviour:
   enemyPrefabAsset: {fileID: 1661912868639658944}
   drawRangesInEditor: 1
   drawProjectileInEditor: 1
+  drawAttackAnimationInEditor: 1
 --- !u!82 &5843668731025413174
 AudioSource:
   m_ObjectHideFlags: 0
