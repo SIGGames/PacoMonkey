@@ -75,7 +75,7 @@ namespace Controllers {
         [SerializeField, Range(0, 3)] private float distanceAfterAttack = 1f; // TODO: Remove this
 
         // Melee Attack Animation Offset (this is variable depending on the frame of the enemy)
-        [SerializeField] private float attackAnimationOffset;
+        [SerializeField, HideInInspector] private float attackAnimationOffset;
 
         [Header("Movement Settings")]
         [SerializeField] private bool isFacingRight = true;
@@ -140,6 +140,8 @@ namespace Controllers {
         private Vector3 _velocity;
         private bool _hasBeenAttacked;
         private Vector2 _initialColliderOffset;
+        // Enemy can't chase player after being attacked until the animation is finished, so this parameter is used on animation
+        [SerializeField, HideInInspector] private bool canChasePlayer = true;
 
         private void Awake() {
             _col = GetComponent<Collider2D>();
@@ -234,6 +236,10 @@ namespace Controllers {
         }
 
         private void ChasePlayer() {
+            if (!canChasePlayer) {
+                return;
+            }
+
             if (DistanceToPlayer <= chaseStopRange.value) {
                 return;
             }
