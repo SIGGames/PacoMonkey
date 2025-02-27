@@ -34,7 +34,7 @@ namespace Health.UI {
             return new Color(r / 255f, g / 255f, b / 255f);
         }
 
-        void Start() {
+        private void Start() {
             EnsureComponents();
             visible = showOnStart;
             SetVisibility(visible);

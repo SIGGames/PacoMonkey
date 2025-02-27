@@ -141,6 +141,7 @@ namespace Controllers {
         private bool _hasBeenAttacked;
         private const float SightBoxMultiplierOnAttack = 10f;
         private const float ChaseTimeAfterAttack = 8f;
+        private Vector2 _initialColliderOffset;
 
         private void Awake() {
             _col = GetComponent<Collider2D>();
@@ -176,6 +177,7 @@ namespace Controllers {
 
         private void Start() {
             _lastPosition = transform.position;
+            _initialColliderOffset = _col.offset;
             if (HasHealthBar) {
                 enemyHealthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
             }
@@ -423,8 +425,9 @@ namespace Controllers {
         }
 
         private void UpdateColliderAndHealthBar() {
-            float offset = isFacingRight ? attackAnimationOffset : -attackAnimationOffset;
-            enemyHealthBar.transform.position = transform.position + new Vector3(offset, 0.5f, 0f);
+            float xOffset = isFacingRight ? attackAnimationOffset : -attackAnimationOffset;
+            enemyHealthBar.transform.position = transform.position + new Vector3(xOffset, 0.5f, 0f);
+            _col.offset = new Vector2((_initialColliderOffset.x + xOffset) * 0.6f, _initialColliderOffset.y);
         }
 
         private void OnDrawGizmosSelected() {
