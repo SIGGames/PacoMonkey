@@ -132,12 +132,13 @@ namespace Managers {
         }
 
         private IEnumerator RespawnRoutine(CharacterConfiguration characterConfig) {
-            PlayerController player = GetCurrentPlayerController();
-            player.FreezePosition();
-            player.SetVelocity(Vector2.zero);
+            currentPlayerController.FreezePosition();
+            currentPlayerController.SetVelocity(Vector2.zero);
+            currentPlayerController.SetColliderOnDeath();
             yield return new WaitForSeconds(characterConfig.respawnTime);
-            player.FreezePosition(false);
-            player.ResetState();
+            currentPlayerController.FreezePosition(false);
+            currentPlayerController.ResetState();
+            currentPlayerController.SetColliderOnDeath();
             InstanceEnemies();
 
             cinemachineCamera.Follow = characterConfig.characterGameObject.transform;

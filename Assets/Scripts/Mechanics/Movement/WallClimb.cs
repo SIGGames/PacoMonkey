@@ -55,6 +55,10 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
+            if (!player.lives.IsAlive) {
+                return;
+            }
+
             if (!_isClimbing && ledgeCheck.isCloseToClimbableWall && ledgeCheck.isNearWall && GetUpKey()) {
                 StartClimbing();
             } else if (_isClimbing) {
@@ -89,7 +93,7 @@ namespace Mechanics.Movement {
                 verticalInput = 0;
             }
 
-            if (!ledgeCheck.IsGroundAbove()) {
+            if (!ledgeCheck.IsGroundAbove() && player.lives.IsAlive) {
                 StopClimbing();
                 _hold.StartHold();
             }

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Enums;
 using Gameplay;
 using Health;
@@ -83,6 +84,13 @@ namespace Controllers {
         // Threshold to determine if the player sprite should be flipped
         private const float MovementThreshold = 0.00001f;
 
+        [Header("Player Death")]
+        [SerializeField] private Vector2 boxColliderOnDeathSize;
+
+        [SerializeField] private Vector2 boxColliderOnDeathOffset;
+        private Vector2 _originalBoxColliderSize;
+        private Vector2 _originalBoxColliderOffset;
+
         [Header("Player Components")]
         public Collider2D collider2d;
 
@@ -130,8 +138,21 @@ namespace Controllers {
             respawnPosition = transform.position;
         }
 
+        protected override void Start() {
+            _originalBoxColliderSize = boxCollider.size;
+            _originalBoxColliderOffset = boxCollider.offset;
+            if (boxColliderOnDeathSize == Vector2.zero) {
+                boxColliderOnDeathSize = boxCollider.size;
+            }
+
+            if (boxColliderOnDeathOffset == Vector2.zero) {
+                boxColliderOnDeathOffset = boxCollider.offset;
+            }
+        }
+
         protected override void Update() {
             HandleDebugInput();
+            HandleGravityOnDeath();
 
             if (controlEnabled) {
                 HandleInput();
@@ -186,7 +207,36 @@ namespace Controllers {
             CharacterManager.Instance.RespawnCharacter();
         }
 
+        public void SetColliderOnDeath() {
+            // Update the collider size when the player dies
+            boxCollider.size = lives.IsAlive ? _originalBoxColliderSize : boxColliderOnDeathSize;
+            // Apply the offset to the collider when the player dies depending on the direction the player is facing
+            Vector2 boxColliderDeathOffset = new Vector2(
+                isFacingRight ? boxColliderOnDeathOffset.x : -boxColliderOnDeathOffset.x,
+                boxColliderOnDeathOffset.y);
+            boxCollider.offset = lives.IsAlive ? _originalBoxColliderOffset : boxColliderDeathOffset;
+
+            // Set body type to kinematic to enable gravity and collisions while the player has died
+            SetBodyType(RigidbodyType2D.Kinematic);
+        }
+
+        private void HandleGravityOnDeath() {
+            if (lives.IsAlive) {
+                return;
+            }
+
+            if (IsColliderOnWall()) {
+                SetBodyType(RigidbodyType2D.Static);
+            }
+        }
+
+        private bool IsColliderOnWall() {
+            return Physics2D.OverlapBox(Bounds.center, Bounds.size, 0f, Ground.value) != null;
+        }
+
         public void ResetState() {
+            animator.SetBool(IsClimbing, false);
+            animator.SetBool(IsHolding, false);
             animator.SetBool(Dead, false);
             Teleport(respawnPosition);
             lives.ResetLives();
