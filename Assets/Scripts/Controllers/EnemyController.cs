@@ -92,12 +92,7 @@ namespace Controllers {
 
         private bool PlayerInSightRange {
             get {
-                Vector2 offset = sightBoxOffset;
-                if (!isFacingRight) {
-                    offset.x = -offset.x;
-                }
-
-                Vector2 boxCenter = (Vector2)transform.position + offset;
+                Vector2 boxCenter = (Vector2)transform.position + GetOffset(sightBoxOffset);
                 Rect sightRect = new Rect(
                     boxCenter.x - sightBoxSize.x / 2,
                     boxCenter.y - sightBoxSize.y / 2,
@@ -114,12 +109,7 @@ namespace Controllers {
                     case EnemyType.Ranged:
                         return DistanceToPlayer <= attackRange.value;
                     case EnemyType.Melee: {
-                        Vector2 offset = attackBoxOffset;
-                        if (!isFacingRight) {
-                            offset.x = -offset.x;
-                        }
-
-                        Vector2 boxCenter = (Vector2)transform.position + offset;
+                        Vector2 boxCenter = (Vector2)transform.position + GetOffset(attackBoxOffset);
                         Rect attackRect = new Rect(
                             boxCenter.x - attackBoxSize.x / 2,
                             boxCenter.y - attackBoxSize.y / 2,
@@ -396,20 +386,22 @@ namespace Controllers {
 
         public void OnFinishEnemyAttackAnimation() {
             Vector3 enemyPosition = transform.position;
-            float offsetOnFinishAttack = isFacingRight ? attackAnimationOffset : -attackAnimationOffset;
-            transform.position = new Vector3(enemyPosition.x + offsetOnFinishAttack, enemyPosition.y, enemyPosition.z);
+            transform.position = new Vector3(enemyPosition.x + GetXOffset(attackAnimationOffset), enemyPosition.y,
+                enemyPosition.z);
         }
 
         private void BouncePlayer(bool bounceOnAllDirections = false, float bounceForceDecrease = 1f) {
             float decreasedBounceForce = bounceForce * bounceForceDecrease;
             const float verticalPercentage = 0.7f;
+            float decreasedBounceForceX = GetXOffset(decreasedBounceForce);
+            float decreasedBounceForceY = decreasedBounceForce * verticalPercentage;
             if (bounceOnAllDirections) {
-                CurrentPlayer.BounceX(isFacingRight ? decreasedBounceForce : -decreasedBounceForce);
-                CurrentPlayer.BounceY(decreasedBounceForce * verticalPercentage);
+                CurrentPlayer.BounceX(decreasedBounceForceX);
+                CurrentPlayer.BounceY(decreasedBounceForceY);
             } else {
-                CurrentPlayer.BounceX(isFacingRight ? decreasedBounceForce : -decreasedBounceForce);
+                CurrentPlayer.BounceX(decreasedBounceForceX);
                 if (!CurrentPlayer.IsGrounded) {
-                    CurrentPlayer.BounceY(decreasedBounceForce * verticalPercentage);
+                    CurrentPlayer.BounceY(decreasedBounceForceY);
                 }
             }
         }
@@ -423,7 +415,9 @@ namespace Controllers {
 
         private void RangedAttack() {
             Vector2 enemyPos = transform.position;
-            Vector2 spawnPos = new Vector2(enemyPos.x + GetProjectileOffset(), enemyPos.y + projectileOffset.y);
+            Vector2 spawnPos = new Vector2(
+                enemyPos.x + GetXOffset(projectileOffset.x),
+                enemyPos.y + projectileOffset.y);
             Vector2 playerPos = CurrentPlayer.transform.position;
             Vector2 direction = (playerPos - enemyPos).normalized;
             RaycastHit2D hit = Physics2D.Raycast(spawnPos, direction, Vector2.Distance(enemyPos, playerPos),
@@ -439,12 +433,8 @@ namespace Controllers {
             }
         }
 
-        private float GetProjectileOffset() {
-            return isFacingRight ? projectileOffset.x : -projectileOffset.x;
-        }
-
         private void UpdateColliderAndHealthBar() {
-            float xOffset = isFacingRight ? attackAnimationOffset : -attackAnimationOffset;
+            float xOffset = GetXOffset(attackAnimationOffset);
             enemyHealthBar.transform.position = transform.position + new Vector3(xOffset, 0.5f, 0f);
             _col.offset = new Vector2((_initialColliderOffset.x + xOffset) * 0.6f, _initialColliderOffset.y);
         }
@@ -462,10 +452,7 @@ namespace Controllers {
                 // Attack box
                 if (enemyType == EnemyType.Melee) {
                     Gizmos.color = attackBoxColor;
-                    Vector2 boxCenter = (Vector2)enemyPosition + new Vector2(
-                        isFacingRight ? attackBoxOffset.x : -attackBoxOffset.x,
-                        attackBoxOffset.y
-                    );
+                    Vector2 boxCenter = (Vector2)enemyPosition + GetOffset(attackBoxOffset);
                     Gizmos.DrawWireCube(boxCenter, attackBoxSize);
                 }
 
@@ -476,14 +463,14 @@ namespace Controllers {
                 // Sight range
                 if (enemyType == EnemyType.Melee) {
                     Gizmos.color = sightBoxColor;
-                    Vector2 boxCenter = (Vector2)enemyPosition + (isFacingRight ? sightBoxOffset : -sightBoxOffset);
+                    Vector2 boxCenter = (Vector2)enemyPosition + GetOffset(sightBoxOffset);
                     Gizmos.DrawWireCube(boxCenter, sightBoxSize);
                 }
             }
 
             // Projectile spawn position
             if (enemyType == EnemyType.Ranged && drawProjectileInEditor) {
-                Vector2 spawnPos = new Vector2(enemyPosition.x + GetProjectileOffset(),
+                Vector2 spawnPos = new Vector2(enemyPosition.x + GetXOffset(projectileOffset.x),
                     enemyPosition.y + projectileOffset.y);
                 Gizmos.color = new Color(0.6f, 0.3f, 0.0f, 1f);
                 Gizmos.DrawSphere(spawnPos, 0.05f);
@@ -496,6 +483,15 @@ namespace Controllers {
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawSphere(sphereAnimationPosition, 0.1f);
             }
+        }
+
+        private Vector2 GetOffset(Vector2 offset, bool invertX = false) {
+            return new Vector2(GetXOffset(offset.x, invertX), offset.y);
+        }
+
+        private float GetXOffset(float offset, bool invert = false) {
+            float adjustedOffset = isFacingRight ? offset : -offset;
+            return invert ? -adjustedOffset : adjustedOffset;
         }
     }
 }
