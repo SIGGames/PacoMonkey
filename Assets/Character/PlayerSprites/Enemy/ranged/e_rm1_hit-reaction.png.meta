@@ -137,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ead391c1caba1640b76552fc5ab5d18
-      internalID: -1496574753
+      spriteID: 76f9064fd65f2be40892f3597ee04e9f
+      internalID: 980589089
       vertices: []
       indices: 
       edges: []
@@ -158,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 19e7dbdefbeaf0045b8c61a4ec2afdd4
-      internalID: -4126899
+      spriteID: 1e06a4bcf1ed2a34f9c69d0ab70ae965
+      internalID: 394421034
       vertices: []
       indices: 
       edges: []
@@ -179,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10e551eb43736134aafef87a150042ed
-      internalID: 1220290514
+      spriteID: 4c5f9a4359aa96d4fb1324407602a254
+      internalID: -1294435635
       vertices: []
       indices: 
       edges: []
@@ -200,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bdf9610bd796e44499a68b75ae8a3e3c
-      internalID: -1814034451
+      spriteID: 7ee57e76671d7474db3f7e00b4c49b11
+      internalID: -567229553
       vertices: []
       indices: 
       edges: []
@@ -221,8 +221,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ac5bff15a3dd7d48b6ae6071078fbe7
-      internalID: 2113081691
+      spriteID: aecf1ff1239400349924fbdad9c8743d
+      internalID: -1332276120
       vertices: []
       indices: 
       edges: []
@@ -242,8 +242,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9710f2a00d14c1241a1eb46fcbdf5993
-      internalID: -1625789396
+      spriteID: 6c97f19d9b6fcad47b72ca3d7f72443f
+      internalID: -414631493
       vertices: []
       indices: 
       edges: []
@@ -259,12 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      e_rm1_hit-reaction_0: -1496574753
-      e_rm1_hit-reaction_1: -4126899
-      e_rm1_hit-reaction_2: 1220290514
-      e_rm1_hit-reaction_3: -1814034451
-      e_rm1_hit-reaction_4: 2113081691
-      e_rm1_hit-reaction_5: -1625789396
+      e_rm1_hit-reaction_0: 980589089
+      e_rm1_hit-reaction_1: 394421034
+      e_rm1_hit-reaction_2: -1294435635
+      e_rm1_hit-reaction_3: -567229553
+      e_rm1_hit-reaction_4: -1332276120
+      e_rm1_hit-reaction_5: -414631493
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

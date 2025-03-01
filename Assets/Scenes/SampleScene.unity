@@ -99855,15 +99855,15 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.041015625
-    y: 0.034722224
-    width: 0.25
-    height: 0.25
+    x: 0
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.1
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 2.8125
+  orthographic size: 3.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -100035,7 +100035,7 @@ PrefabInstance:
     - target: {fileID: 1577774018119691272, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
         type: 3}
       propertyPath: m_Size.x
-      value: 1.12
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 1577774018119691272, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
         type: 3}
@@ -108717,6 +108717,11 @@ PrefabInstance:
         type: 3}
       propertyPath: chaseStopRange.value
       value: 6.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1577774018119691272, guid: 19ca28d5d1369224980907cb4ed55917,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.12
       objectReference: {fileID: 0}
     - target: {fileID: 1658460978237467174, guid: 19ca28d5d1369224980907cb4ed55917,
         type: 3}
