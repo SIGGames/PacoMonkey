@@ -232,7 +232,6 @@ MonoBehaviour:
   sightBoxSize: {x: 4, y: 1}
   sightBoxOffset: {x: 1, y: 0}
   sightBoxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  groundOffset: 0.5
   attackDamage: 1
   attackRange:
     value: 1.78
@@ -366,8 +365,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b843bee9245888a46b4a31d933025307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 300
-  maxHealth: 300
+  startingHealth: 500
+  maxHealth: 500
   currentHealth: 0
 --- !u!195 &1751055644578752143
 NavMeshAgent:

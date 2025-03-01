@@ -229,14 +229,16 @@ MonoBehaviour:
   chaseStopRange:
     value: 6.4
     color: {r: 0.24116516, g: 1, b: 0, a: 1}
-  attackRange:
-    value: 6.8
-    color: {r: 1, g: 0, b: 0, a: 1}
   sightBoxSize: {x: 6.2, y: 1}
   sightBoxOffset: {x: 1.07, y: 0}
   sightBoxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  groundOffset: 0.6
   attackDamage: 0.5
+  attackRange:
+    value: 6.8
+    color: {r: 1, g: 0, b: 0, a: 1}
+  attackBoxSize: {x: 2, y: 1}
+  attackBoxOffset: {x: 1, y: 0}
+  attackBoxColor: {r: 1, g: 0, b: 0, a: 1}
   cooldownTime: 3
   projectilePrefab: {fileID: 1740425626303593056, guid: adb830a166958f8468afa8244d93a9b2,
     type: 3}
@@ -255,6 +257,7 @@ MonoBehaviour:
   drawRangesInEditor: 1
   drawProjectileInEditor: 1
   drawAttackAnimationInEditor: 1
+  canChasePlayer: 1
 --- !u!82 &5843668731025413174
 AudioSource:
   m_ObjectHideFlags: 0
@@ -363,8 +366,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b843bee9245888a46b4a31d933025307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 200
-  maxHealth: 200
+  startingHealth: 400
+  maxHealth: 400
   currentHealth: 0
 --- !u!195 &1751055644578752143
 NavMeshAgent:
