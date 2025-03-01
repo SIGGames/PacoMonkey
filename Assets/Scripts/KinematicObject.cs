@@ -25,10 +25,14 @@ public class KinematicObject : MonoBehaviour {
     }
 
     public void BounceX(float value) {
+        // Disable horizontal velocity and apply bounce
+        body.velocity = new Vector2(0f, body.velocity.y);
         Bounce(new Vector2(value, 0f));
     }
 
     public void BounceY(float value) {
+        // Disable vertical velocity and apply bounce
+        body.velocity = new Vector2(body.velocity.x, 0f);
         Bounce(new Vector2(0f, value));
     }
 
