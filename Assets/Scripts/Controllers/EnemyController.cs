@@ -35,9 +35,6 @@ namespace Controllers {
         [SerializeField, ColorRange(0, 10)]
         private ColorRangeValue chaseStopRange = new(1.5f, Color.green);
 
-        [SerializeField, ColorRange(0, 10)]
-        public ColorRangeValue attackRange = new(1f, Color.red);
-
         [Header("Sight Settings")]
         [ShowIf("enemyType", EnemyType.Melee), SerializeField]
         private Vector2 sightBoxSize = new(2f, 1f);
@@ -48,11 +45,21 @@ namespace Controllers {
         [ShowIf("enemyType", EnemyType.Melee), SerializeField]
         private Color sightBoxColor = Color.yellow;
 
-        [SerializeField, Range(0, 2)] private float groundOffset = 0.5f; // TODO: Maybe remove
-
         [Header("Attack Settings")]
         [SerializeField, HalfStepSlider(0, 10)]
         private float attackDamage = 1f;
+
+        [SerializeField, ColorRange(0, 10), ShowIf("enemyType", EnemyType.Ranged)]
+        public ColorRangeValue attackRange = new(1f, Color.red);
+
+        [ShowIf("enemyType", EnemyType.Melee), SerializeField]
+        private Vector2 attackBoxSize = new(2f, 1f);
+
+        [ShowIf("enemyType", EnemyType.Melee), SerializeField, MaxValue(5)]
+        private Vector2 attackBoxOffset = new(1f, 0f);
+
+        [ShowIf("enemyType", EnemyType.Melee), SerializeField]
+        private Color attackBoxColor = Color.red;
 
         [SerializeField, Range(0, 5)] private float cooldownTime = 1.5f;
 
@@ -101,7 +108,31 @@ namespace Controllers {
             }
         }
 
-        private bool PlayerInAttackRange => DistanceToPlayer <= attackRange.value;
+        private bool PlayerInAttackRange {
+            get {
+                switch (enemyType) {
+                    case EnemyType.Ranged:
+                        return DistanceToPlayer <= attackRange.value;
+                    case EnemyType.Melee: {
+                        Vector2 offset = attackBoxOffset;
+                        if (!isFacingRight) {
+                            offset.x = -offset.x;
+                        }
+
+                        Vector2 boxCenter = (Vector2)transform.position + offset;
+                        Rect attackRect = new Rect(
+                            boxCenter.x - attackBoxSize.x / 2,
+                            boxCenter.y - attackBoxSize.y / 2,
+                            attackBoxSize.x,
+                            attackBoxSize.y
+                        );
+                        return attackRect.Contains(CurrentPlayer.transform.position);
+                    }
+                    default:
+                        return false;
+                }
+            }
+        }
 
         [Header("Enemy Settings")]
         [SerializeField, Range(0, 3)] private float deathTime = 0.3f;
@@ -139,7 +170,9 @@ namespace Controllers {
         private Vector3 _lastPosition;
         private Vector3 _velocity;
         private bool _hasBeenAttacked;
+
         private Vector2 _initialColliderOffset;
+
         // Enemy can't chase player after being attacked until the animation is finished, so this parameter is used on animation
         [SerializeField, HideInInspector] private bool canChasePlayer = true;
 
@@ -304,6 +337,10 @@ namespace Controllers {
                 return;
             }
 
+            if (enemyType == EnemyType.Melee && !PlayerInAttackRange) {
+                return;
+            }
+
             // If melee enemy after attack will be in wall, don't attack
             if (enemyType == EnemyType.Melee && !CanAttackWallCheck()) {
                 return;
@@ -417,8 +454,20 @@ namespace Controllers {
 
             if (drawRangesInEditor) {
                 // Attack range
-                Gizmos.color = attackRange.color;
-                Gizmos.DrawWireSphere(enemyPosition, attackRange.value);
+                if (enemyType == EnemyType.Ranged) {
+                    Gizmos.color = attackRange.color;
+                    Gizmos.DrawWireSphere(enemyPosition, attackRange.value);
+                }
+
+                // Attack box
+                if (enemyType == EnemyType.Melee) {
+                    Gizmos.color = attackBoxColor;
+                    Vector2 boxCenter = (Vector2)enemyPosition + new Vector2(
+                        isFacingRight ? attackBoxOffset.x : -attackBoxOffset.x,
+                        attackBoxOffset.y
+                    );
+                    Gizmos.DrawWireCube(boxCenter, attackBoxSize);
+                }
 
                 // Chase stop range
                 Gizmos.color = chaseStopRange.color;
@@ -427,8 +476,7 @@ namespace Controllers {
                 // Sight range
                 if (enemyType == EnemyType.Melee) {
                     Gizmos.color = sightBoxColor;
-                    Vector2 boxCenter = (Vector2)enemyPosition +
-                                        (isFacingRight ? sightBoxOffset : -sightBoxOffset);
+                    Vector2 boxCenter = (Vector2)enemyPosition + (isFacingRight ? sightBoxOffset : -sightBoxOffset);
                     Gizmos.DrawWireCube(boxCenter, sightBoxSize);
                 }
             }

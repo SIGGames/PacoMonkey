@@ -229,14 +229,17 @@ MonoBehaviour:
   chaseStopRange:
     value: 1
     color: {r: 0, g: 1, b: 0, a: 1}
-  attackRange:
-    value: 1.78
-    color: {r: 1, g: 0, b: 0, a: 1}
   sightBoxSize: {x: 4, y: 1}
   sightBoxOffset: {x: 1, y: 0}
   sightBoxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   groundOffset: 0.5
   attackDamage: 1
+  attackRange:
+    value: 1.78
+    color: {r: 1, g: 0, b: 0, a: 1}
+  attackBoxSize: {x: 1.4, y: 1.3}
+  attackBoxOffset: {x: 0.5, y: 0.2}
+  attackBoxColor: {r: 1, g: 0, b: 0, a: 1}
   cooldownTime: 1.5
   projectilePrefab: {fileID: 0}
   projectileSpeed: 5
@@ -254,6 +257,7 @@ MonoBehaviour:
   drawRangesInEditor: 1
   drawProjectileInEditor: 1
   drawAttackAnimationInEditor: 1
+  canChasePlayer: 1
 --- !u!82 &5843668731025413174
 AudioSource:
   m_ObjectHideFlags: 0
