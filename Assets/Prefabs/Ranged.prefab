@@ -242,8 +242,8 @@ MonoBehaviour:
   cooldownTime: 3
   projectilePrefab: {fileID: 1740425626303593056, guid: adb830a166958f8468afa8244d93a9b2,
     type: 3}
-  projectileSpeed: 5
-  projectileDuration: 2
+  projectileSpeed: 7
+  projectileDuration: 1.5
   projectileOffset: {x: 0.21, y: 0.09}
   bounceForce: 6
   distanceAfterAttack: 0.95

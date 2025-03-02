@@ -102941,13 +102941,14 @@ MonoBehaviour:
   rangedProjectilePrefab: {fileID: 1785402545384094395, guid: 550e648c04808464ea4b9e27f0db62b1,
     type: 3}
   rangedOffset: {x: 0.78, y: 0.1}
-  rangedProjectileSpeed: 4
-  rangedProjectileDuration: 2
+  rangedProjectileSpeed: 5.7
+  rangedProjectileDuration: 1.2
   rangedDamage: 100
   rangedCooldownTime: 0.5
   isParryActive: 1
   parryCooldownTime: 1
-  canAttack: 1
+  canMeleeAttack: 1
+  canRangedAttack: 1
   canParry: 1
 --- !u!50 &619641562 stripped
 Rigidbody2D:
@@ -108702,6 +108703,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 292457042}
     m_Modifications:
+    - target: {fileID: 772289407653213039, guid: 19ca28d5d1369224980907cb4ed55917,
+        type: 3}
+      propertyPath: projectileSpeed
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 772289407653213039, guid: 19ca28d5d1369224980907cb4ed55917,
         type: 3}
       propertyPath: enemyPrefabAsset
