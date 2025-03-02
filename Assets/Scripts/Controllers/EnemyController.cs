@@ -331,11 +331,6 @@ namespace Controllers {
                 return;
             }
 
-            // If melee enemy after attack will be in wall, don't attack
-            if (enemyType == EnemyType.Melee && !CanAttackWallCheck()) {
-                return;
-            }
-
             animator.SetTrigger(Attack);
             _attackCooldownTimer = cooldownTime;
 
@@ -386,6 +381,11 @@ namespace Controllers {
         }
 
         public void OnFinishEnemyAttackAnimation() {
+            // If melee enemy after attack will be in wall, don't tp
+            if (enemyType == EnemyType.Melee && !CanAttackWallCheck()) {
+                return;
+            }
+
             Vector3 enemyPosition = transform.position;
             transform.position = new Vector3(enemyPosition.x + GetXOffset(attackAnimationOffset), enemyPosition.y,
                 enemyPosition.z);
