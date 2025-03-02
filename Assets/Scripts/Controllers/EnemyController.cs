@@ -346,9 +346,10 @@ namespace Controllers {
         private bool CanAttackWallCheck() {
             Vector3 enemyPosition = transform.position;
             const float extraOffset = 0.5f;
+            float distance = distanceAfterAttack + extraOffset;
             Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
-            RaycastHit2D hit = Physics2D.Raycast(enemyPosition, direction, distanceAfterAttack + extraOffset, Ground);
-            Debug.DrawRay(enemyPosition, direction * (distanceAfterAttack + extraOffset), Color.red);
+            RaycastHit2D hit = Physics2D.Raycast(enemyPosition, direction, distance, Ground.value);
+            Debug.DrawRay(enemyPosition, direction * distance, Color.red);
             return hit.collider == null;
         }
 
