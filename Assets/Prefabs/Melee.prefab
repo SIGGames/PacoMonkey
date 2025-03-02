@@ -244,7 +244,7 @@ MonoBehaviour:
   projectileSpeed: 5
   projectileDuration: 2
   projectileOffset: {x: 0.1, y: 0.1}
-  bounceForce: 6
+  bounceForce: 4
   distanceAfterAttack: 0.95
   attackAnimationOffset: 0
   isFacingRight: 1
