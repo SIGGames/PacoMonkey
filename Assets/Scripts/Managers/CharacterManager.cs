@@ -201,11 +201,6 @@ namespace Managers {
                     audioSource.enabled = true;
                 }
 
-                NavMeshAgent navMeshAgent = newEnemy.GetComponent<NavMeshAgent>();
-                if (navMeshAgent != null) {
-                    navMeshAgent.enabled = true;
-                }
-
                 Health.Health health = newEnemy.GetComponent<Health.Health>();
                 if (health != null) {
                     health.enabled = true;
