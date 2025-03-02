@@ -42,7 +42,8 @@ namespace Mechanics.Fight {
         [SerializeField, Range(0, 5)] private float parryCooldownTime = 1f;
 
         private Animator _animator;
-        public bool canAttack = true;
+        public bool canMeleeAttack = true;
+        public bool canRangedAttack = true;
         public bool canParry = true;
 
         private void Awake() {
@@ -68,11 +69,11 @@ namespace Mechanics.Fight {
         }
 
         private void Update() {
-            if (isMeleeActive && GetMeleeKey() && canAttack) {
+            if (isMeleeActive && GetMeleeKey() && canMeleeAttack) {
                 StartMeleeAttackAnimation();
             }
 
-            if (isRangedActive && GetRangeKey() && canAttack) {
+            if (isRangedActive && GetRangeKey() && canRangedAttack) {
                 StartRangedAttackAnimation();
             }
 
@@ -86,7 +87,7 @@ namespace Mechanics.Fight {
                 playerController.FreezeHorizontalPosition();
             }
 
-            canAttack = false;
+            canMeleeAttack = false;
             _animator.SetTrigger(MeleeAttack);
             fightState = FightState.Melee;
         }
@@ -96,7 +97,7 @@ namespace Mechanics.Fight {
                 playerController.FreezeHorizontalPosition();
             }
 
-            canAttack = false;
+            canRangedAttack = false;
             _animator.SetTrigger(RangedAttack);
             fightState = FightState.Ranged;
         }
@@ -146,6 +147,12 @@ namespace Mechanics.Fight {
             StartCoroutine(ParryCooldown());
         }
 
+        private void FinishMeleeAttack() {
+            StopCoroutine(MeleeAttackCooldown());
+            canMeleeAttack = true;
+            FinishAttack();
+        }
+
         private void FinishAttack() {
             fightState = FightState.Idle;
             playerController.FreezeHorizontalPosition(false);
@@ -153,12 +160,12 @@ namespace Mechanics.Fight {
 
         private IEnumerator MeleeAttackCooldown() {
             yield return new WaitForSeconds(cooldownTime);
-            canAttack = true;
+            canMeleeAttack = true;
         }
 
         private IEnumerator RangedAttackCooldown() {
             yield return new WaitForSeconds(rangedCooldownTime);
-            canAttack = true;
+            canRangedAttack = true;
         }
 
         private IEnumerator ParryCooldown() {

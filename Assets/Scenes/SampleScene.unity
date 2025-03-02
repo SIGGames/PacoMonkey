@@ -99855,15 +99855,15 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.041015625
-    y: 0.034722224
-    width: 0.25
-    height: 0.25
+    x: 0
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.1
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 2.8125
+  orthographic size: 3.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -102935,7 +102935,7 @@ MonoBehaviour:
   meleeBoxSize: {x: 1, y: 0.18}
   meleeVerticalOffset: 0.13
   meleeDamage: 200
-  cooldownTime: 0.5
+  cooldownTime: 0
   meleeBounceForce: {x: 2, y: 0}
   isRangedActive: 1
   rangedProjectilePrefab: {fileID: 1785402545384094395, guid: 550e648c04808464ea4b9e27f0db62b1,

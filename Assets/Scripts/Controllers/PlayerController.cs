@@ -496,7 +496,8 @@ namespace Controllers {
                 if (playerFight != null && playerFight.fightState != FightState.Idle) {
                     playerFight.fightState = FightState.Idle;
                     player.FreezeHorizontalPosition(false);
-                    playerFight.canAttack = true;
+                    playerFight.canMeleeAttack = true;
+                    playerFight.canRangedAttack = true;
                     playerFight.canParry = true;
                 }
             }

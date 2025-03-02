@@ -99,8 +99,8 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5
-    functionName: FinishAttack
+  - time: 0.33333334
+    functionName: FinishMeleeAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
