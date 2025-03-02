@@ -530,7 +530,7 @@ namespace Controllers {
             transform.position = pos;
         }
 
-        private void Respawn() {
+        public void Respawn() {
             Teleport(respawnPosition);
         }
 
