@@ -229,14 +229,14 @@ MonoBehaviour:
   chaseStopRange:
     value: 1
     color: {r: 0, g: 1, b: 0, a: 1}
-  sightBoxSize: {x: 5.5, y: 1}
-  sightBoxOffset: {x: 1.8, y: 0}
+  sightBoxSize: {x: 5.5, y: 2.3}
+  sightBoxOffset: {x: 1.8, y: 0.4}
   sightBoxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   attackDamage: 1
   attackRange:
     value: 1.78
     color: {r: 1, g: 0, b: 0, a: 1}
-  attackBoxSize: {x: 1.4, y: 0.95}
+  attackBoxSize: {x: 1.4, y: 1.27}
   attackBoxOffset: {x: 0.5, y: 0}
   attackBoxColor: {r: 1, g: 0, b: 0, a: 1}
   cooldownTime: 1.5

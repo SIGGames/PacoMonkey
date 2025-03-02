@@ -81,9 +81,6 @@ namespace Controllers {
         public JumpState jumpState = JumpState.Grounded;
         private bool _stopJump;
 
-        // Threshold to determine if the player sprite should be flipped
-        private const float MovementThreshold = 0.00001f;
-
         [Header("Player Death")]
         [SerializeField] private Vector2 boxColliderOnDeathSize;
 
@@ -122,7 +119,6 @@ namespace Controllers {
         private int _currentPriority;
         private ColliderManager _colliderManager;
         private bool _isColliderInitialized;
-        public Rigidbody2D rb;
 
         private const float SpeedMultiplier = 1f;
         private float _jumpDecelerationTimer;
@@ -253,7 +249,7 @@ namespace Controllers {
             }
 
             float speedDifference = targetSpeed - velocity.x;
-            float accelerationRate = (Mathf.Abs(targetSpeed) > MovementThreshold) ? runAcceleration : runDeceleration;
+            float accelerationRate = (Mathf.Abs(targetSpeed) > MinMoveDistance) ? runAcceleration : runDeceleration;
             float movement = Mathf.Clamp(speedDifference, -accelerationRate * Time.deltaTime,
                 accelerationRate * Time.deltaTime);
 
@@ -266,7 +262,7 @@ namespace Controllers {
             collider2d = GetComponent<Collider2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
-            rb = GetComponent<Rigidbody2D>();
+            body = GetComponent<Rigidbody2D>();
         }
 
         protected override void ApplyGravity() {
@@ -444,12 +440,12 @@ namespace Controllers {
         public void FreezeHorizontalPosition(bool value = true) {
             if (value) {
                 controlEnabled = false;
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                body.velocity = new Vector2(0, body.velocity.y);
                 velocity = new Vector2(0, velocity.y);
-                rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+                body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
             } else {
                 controlEnabled = true;
-                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                body.constraints = RigidbodyConstraints2D.FreezeRotation;
             }
         }
 
@@ -470,12 +466,12 @@ namespace Controllers {
         }
 
         public void SetBodyType(RigidbodyType2D bodyType) {
-            rb.bodyType = bodyType;
+            body.bodyType = bodyType;
         }
 
         public void SetVelocity(Vector2 newVelocity) {
             velocity = newVelocity;
-            rb.velocity = newVelocity;
+            body.velocity = newVelocity;
             animator.SetFloat(VelocityX, Mathf.Abs(velocity.x) / maxRunSpeed);
             animator.SetFloat(VelocityY, Mathf.Abs(velocity.y));
         }

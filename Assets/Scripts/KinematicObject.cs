@@ -13,12 +13,12 @@ public class KinematicObject : MonoBehaviour {
 
     public Vector2 targetVelocity;
     protected Vector2 groundNormal;
-    protected Rigidbody2D body;
+    public Rigidbody2D body;
     protected ContactFilter2D contactFilter;
     protected readonly RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
 
     protected const float MinMoveDistance = 0.001f;
-    protected const float ShellRadius = 0.01f;
+    private const float ShellRadius = 0.01f;
 
     public void Bounce(Vector2 force) {
         StartCoroutine(BounceDynamic(force));
@@ -45,7 +45,7 @@ public class KinematicObject : MonoBehaviour {
         body.isKinematic = true;
     }
 
-    public void Teleport(Vector3 position) {
+    protected void Teleport(Vector3 position) {
         body.position = position;
         velocity *= 0;
         body.velocity *= 0;
@@ -94,7 +94,7 @@ public class KinematicObject : MonoBehaviour {
             velocity += Physics2D.gravity * Time.deltaTime;
     }
 
-    protected void PerformMovement() {
+    private void PerformMovement() {
         var deltaPosition = velocity * Time.deltaTime;
         var moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
         var move = moveAlongGround * deltaPosition.x;
@@ -103,11 +103,11 @@ public class KinematicObject : MonoBehaviour {
         PerformMovement(move, true);
     }
 
-    void PerformMovement(Vector2 move, bool yMovement) {
-        var distance = move.magnitude;
+    private void PerformMovement(Vector2 move, bool yMovement) {
+        float distance = move.magnitude;
 
         if (distance > MinMoveDistance) {
-            var count = body.Cast(move, contactFilter, hitBuffer, distance + ShellRadius);
+            int count = body.Cast(move, contactFilter, hitBuffer, distance + ShellRadius);
             for (var i = 0; i < count; i++) {
                 var currentNormal = hitBuffer[i].normal;
 
@@ -120,7 +120,7 @@ public class KinematicObject : MonoBehaviour {
                 }
 
                 if (IsGrounded) {
-                    var projection = Vector2.Dot(velocity, currentNormal);
+                    float projection = Vector2.Dot(velocity, currentNormal);
                     if (projection < 0) {
                         velocity -= projection * currentNormal;
                     }
@@ -130,7 +130,7 @@ public class KinematicObject : MonoBehaviour {
                     velocity.y = Mathf.Min(velocity.y, 0);
                 }
 
-                var modifiedDistance = hitBuffer[i].distance - ShellRadius;
+                float modifiedDistance = hitBuffer[i].distance - ShellRadius;
                 distance = modifiedDistance < distance ? modifiedDistance : distance;
             }
         }

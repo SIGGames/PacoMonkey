@@ -187,7 +187,7 @@ namespace Mechanics.Movement {
                 player.gravityModifier = 0;
             }
 
-            player.rb.velocity = Vector2.zero;
+            player.body.velocity = Vector2.zero;
             player.velocity = Vector2.zero;
         }
     }
