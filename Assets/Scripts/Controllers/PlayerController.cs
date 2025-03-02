@@ -10,6 +10,7 @@ using static Configuration.GlobalConfiguration;
 using static Utils.AnimatorUtils;
 using static PlayerInput.KeyBinds;
 using static Utils.LayerUtils;
+using static Configuration.GameConfig;
 
 namespace Controllers {
     public class PlayerController : KinematicObject {
@@ -164,8 +165,7 @@ namespace Controllers {
             base.Update();
 
             HandleLives();
-            // TODO: Comment by now
-            // HandlePlayerInsideWall();
+            HandlePlayerInsideWall();
 
             if (!_isColliderInitialized) {
                 InitializeCollider();
@@ -237,7 +237,7 @@ namespace Controllers {
             animator.SetBool(IsClimbing, false);
             animator.SetBool(IsHolding, false);
             animator.SetBool(Dead, false);
-            Teleport(respawnPosition);
+            Respawn();
             lives.ResetLives();
             _isDying = false;
         }
@@ -512,13 +512,18 @@ namespace Controllers {
             if (wallCollider != null) {
                 Bounds wallBounds = wallCollider.bounds;
                 Vector3 position = transform.position;
-                const float margin = 0.1f;
+                const float margin = 0.2f;
 
                 if (transform.position.x < wallBounds.center.x) {
                     Teleport(new Vector3(wallBounds.min.x - margin, position.y, position.z));
                 } else {
                     Teleport(new Vector3(wallBounds.max.x + margin, position.y, position.z));
                 }
+            }
+
+            // If the player is out of map bounds tp
+            if (transform.position.y is <= MinMapY or >= MaxMapY) {
+                Respawn();
             }
         }
 
@@ -529,10 +534,14 @@ namespace Controllers {
             transform.position = pos;
         }
 
+        private void Respawn() {
+            Teleport(respawnPosition);
+        }
+
         private void HandleDebugInput() {
             // TODO: This key binds are for debugging purposes
             if (Input.GetKeyDown(KeyCode.F4)) {
-                Teleport(respawnPosition);
+                Respawn();
             }
 
             if (CharacterManager.Instance.currentPlayerController == this) {

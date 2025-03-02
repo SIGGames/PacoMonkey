@@ -229,8 +229,8 @@ MonoBehaviour:
   chaseStopRange:
     value: 1
     color: {r: 0, g: 1, b: 0, a: 1}
-  sightBoxSize: {x: 4, y: 1}
-  sightBoxOffset: {x: 1, y: 0}
+  sightBoxSize: {x: 5.5, y: 1}
+  sightBoxOffset: {x: 1.8, y: 0}
   sightBoxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   attackDamage: 1
   attackRange:

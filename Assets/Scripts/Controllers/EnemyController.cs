@@ -437,7 +437,7 @@ namespace Controllers {
         private void UpdateColliderAndHealthBar() {
             float xOffset = GetXOffset(attackAnimationOffset);
             enemyHealthBar.transform.position = transform.position + new Vector3(xOffset, 0.5f, 0f);
-            _col.offset = new Vector2((_initialColliderOffset.x + xOffset) * 0.6f, _initialColliderOffset.y);
+            _col.offset = new Vector2((_initialColliderOffset.x + xOffset) * 0.5f, _initialColliderOffset.y);
         }
 
         private void OnDrawGizmosSelected() {
