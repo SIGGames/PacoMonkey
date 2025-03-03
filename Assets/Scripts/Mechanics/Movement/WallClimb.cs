@@ -59,7 +59,9 @@ namespace Mechanics.Movement {
                 return;
             }
 
-            if (!_isClimbing && ledgeCheck.isCloseToClimbableWall && ledgeCheck.isNearWall && GetUpKey()) {
+            if (!_isClimbing && ledgeCheck.isCloseToClimbableWall && ledgeCheck.isNearWall && !player.IsGrounded) {
+                StartClimbing();
+            } else if (!_isClimbing && ledgeCheck.isCloseToClimbableWall && ledgeCheck.isNearWall && GetUpKey()) {
                 StartClimbing();
             } else if (_isClimbing) {
                 HandleClimbing();
