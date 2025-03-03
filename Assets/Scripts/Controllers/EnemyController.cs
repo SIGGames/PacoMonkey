@@ -160,6 +160,7 @@ namespace Controllers {
         private Vector3 _lastPosition;
         private Vector3 _velocity;
         private bool _hasBeenAttacked;
+        private bool _isAttacking;
 
         private Vector2 _initialColliderOffset;
 
@@ -318,6 +319,10 @@ namespace Controllers {
         }
 
         private void Flip() {
+            if (_isAttacking) {
+                return;
+            }
+
             isFacingRight = !isFacingRight;
             _spriteRenderer.flipX = !isFacingRight;
         }
@@ -331,6 +336,7 @@ namespace Controllers {
                 return;
             }
 
+            _isAttacking = true;
             animator.SetTrigger(Attack);
             _attackCooldownTimer = cooldownTime;
 
@@ -381,6 +387,8 @@ namespace Controllers {
         }
 
         public void OnFinishEnemyAttackAnimation() {
+            _isAttacking = false;
+
             // If melee enemy after attack will be in wall, don't tp
             if (enemyType == EnemyType.Melee && !CanAttackWallCheck()) {
                 return;
@@ -432,6 +440,7 @@ namespace Controllers {
             if (projectileScript != null) {
                 projectileScript.Initialize(direction, projectileSpeed, attackDamage, projectileDuration);
             }
+            _isAttacking = false;
         }
 
         private void UpdateColliderAndHealthBar() {
