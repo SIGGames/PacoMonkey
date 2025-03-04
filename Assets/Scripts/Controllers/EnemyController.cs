@@ -491,6 +491,11 @@ namespace Controllers {
         }
 
         private bool CanHitWithProjectile() {
+            // Special case: If player is wall climbing, enemy can hit with projectile even if there is a wall between them
+            if (CurrentPlayer.movementState == PlayerMovementState.WallClimb) {
+                return true;
+            }
+
             Vector2 enemyPos = transform.position;
             Vector2 spawnPos = new Vector2(
                 enemyPos.x + GetXOffset(projectileOffset.x),
