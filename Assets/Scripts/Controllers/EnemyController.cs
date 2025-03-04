@@ -279,14 +279,6 @@ namespace Controllers {
             transform.position = new Vector3(newX, pos.y, pos.z);
         }
 
-        private bool ThereIsAWallBetweenEnemyAndPlayer() {
-            Vector2 playerPos = CurrentPlayer.transform.position;
-            Vector2 enemyPos = transform.position;
-            RaycastHit2D hit = Physics2D.Raycast(enemyPos, playerPos - enemyPos, Vector2.Distance(playerPos, enemyPos),
-                Ground);
-            return hit.collider != null;
-        }
-
         private void IsGrounded() {
             const float rayLength = 0.1f;
             RaycastHit2D hit = Physics2D.Raycast(_col.bounds.center, Vector2.down, _col.bounds.extents.y + rayLength,
@@ -336,22 +328,17 @@ namespace Controllers {
                 return;
             }
 
+            if (enemyType == EnemyType.Ranged && !CanHitWithProjectile()) {
+                return;
+            }
+
+            _velocity = Vector3.zero;
             _isAttacking = true;
             animator.SetTrigger(Attack);
             _attackCooldownTimer = cooldownTime;
 
             // Reset chase player after attack
             _hasBeenAttacked = false;
-        }
-
-        private bool CanAttackWallCheck() {
-            Vector3 enemyPosition = transform.position;
-            const float extraOffset = 0.5f;
-            float distance = distanceAfterAttack + extraOffset;
-            Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
-            RaycastHit2D hit = Physics2D.Raycast(enemyPosition, direction, distance, Ground.value);
-            Debug.DrawRay(enemyPosition, direction * distance, Color.red);
-            return hit.collider == null;
         }
 
         public void TakeDamage(float damage) {
@@ -415,13 +402,6 @@ namespace Controllers {
             }
         }
 
-        private void BouncePlayerOnAnimation() {
-            if (PlayerInAttackRange) {
-                BouncePlayer();
-                CurrentPlayer.TakeDamage(attackDamage);
-            }
-        }
-
         private void RangedAttack() {
             Vector2 enemyPos = transform.position;
             Vector2 spawnPos = new Vector2(
@@ -429,18 +409,20 @@ namespace Controllers {
                 enemyPos.y + projectileOffset.y);
             Vector2 playerPos = CurrentPlayer.transform.position;
             Vector2 direction = (playerPos - enemyPos).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(spawnPos, direction, Vector2.Distance(enemyPos, playerPos),
-                Ground);
-            if (hit.collider != null && hit.collider.gameObject != CurrentPlayer.gameObject) {
-                return;
-            }
-
             GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
             EnemyProjectile projectileScript = projectile.GetComponent<EnemyProjectile>();
             if (projectileScript != null) {
                 projectileScript.Initialize(direction, projectileSpeed, attackDamage, projectileDuration);
             }
+
             _isAttacking = false;
+        }
+
+        private void BouncePlayerOnAnimation() {
+            if (PlayerInAttackRange) {
+                BouncePlayer();
+                CurrentPlayer.TakeDamage(attackDamage);
+            }
         }
 
         private void UpdateColliderAndHealthBar() {
@@ -502,6 +484,36 @@ namespace Controllers {
         private float GetXOffset(float offset, bool invert = false) {
             float adjustedOffset = isFacingRight ? offset : -offset;
             return invert ? -adjustedOffset : adjustedOffset;
+        }
+
+        private bool CanHitWithProjectile() {
+            Vector2 enemyPos = transform.position;
+            Vector2 spawnPos = new Vector2(
+                enemyPos.x + GetXOffset(projectileOffset.x),
+                enemyPos.y + projectileOffset.y);
+            Vector2 playerPos = CurrentPlayer.transform.position;
+            Vector2 direction = (playerPos - enemyPos).normalized;
+            RaycastHit2D hit = Physics2D.Raycast(spawnPos, direction, Vector2.Distance(enemyPos, playerPos),
+                Ground.value);
+            return hit.collider == null || hit.collider.gameObject == CurrentPlayer.gameObject;
+        }
+
+        private bool CanAttackWallCheck() {
+            Vector3 enemyPosition = transform.position;
+            const float extraOffset = 0.5f;
+            float distance = distanceAfterAttack + extraOffset;
+            Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
+            RaycastHit2D hit = Physics2D.Raycast(enemyPosition, direction, distance, Ground.value);
+            Debug.DrawRay(enemyPosition, direction * distance, Color.red);
+            return hit.collider == null;
+        }
+
+        private bool ThereIsAWallBetweenEnemyAndPlayer() {
+            Vector2 playerPos = CurrentPlayer.transform.position;
+            Vector2 enemyPos = transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(enemyPos, playerPos - enemyPos, Vector2.Distance(playerPos, enemyPos),
+                Ground);
+            return hit.collider != null;
         }
     }
 }
