@@ -272,6 +272,11 @@ namespace Controllers {
                 return;
             }
 
+            // When melee is attacking and player is in attack range, don't chase
+            if (enemyType == EnemyType.Melee && _isAttacking) {
+                return;
+            }
+
             Vector3 pos = transform.position;
             float step = moveSpeed * Time.deltaTime;
             float targetX = CurrentPlayer.transform.position.x;
