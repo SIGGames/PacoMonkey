@@ -88,18 +88,21 @@ namespace Controllers {
         [SerializeField] private bool isFacingRight = true;
 
         private Vector3 _walkPoint;
-        private float DistanceToPlayer => Vector3.Distance(transform.position, CurrentPlayer.transform.position);
+
+        private Vector2 EnemyPosition => transform.position;
+        private static Vector2 PlayerPosition => CurrentPlayer.transform.position;
+        private float DistanceToPlayer => Vector3.Distance(EnemyPosition, PlayerPosition);
 
         private bool PlayerInSightRange {
             get {
-                Vector2 boxCenter = (Vector2)transform.position + GetOffset(sightBoxOffset);
+                Vector2 boxCenter = EnemyPosition + GetOffset(sightBoxOffset);
                 Rect sightRect = new Rect(
                     boxCenter.x - sightBoxSize.x / 2,
                     boxCenter.y - sightBoxSize.y / 2,
                     sightBoxSize.x,
                     sightBoxSize.y
                 );
-                return sightRect.Contains(CurrentPlayer.transform.position);
+                return sightRect.Contains(PlayerPosition);
             }
         }
 
@@ -109,14 +112,14 @@ namespace Controllers {
                     case EnemyType.Ranged:
                         return DistanceToPlayer <= attackRange.value;
                     case EnemyType.Melee: {
-                        Vector2 boxCenter = (Vector2)transform.position + GetOffset(attackBoxOffset);
+                        Vector2 boxCenter = EnemyPosition + GetOffset(attackBoxOffset);
                         Rect attackRect = new Rect(
                             boxCenter.x - attackBoxSize.x / 2,
                             boxCenter.y - attackBoxSize.y / 2,
                             attackBoxSize.x,
                             attackBoxSize.y
                         );
-                        return attackRect.Contains(CurrentPlayer.transform.position);
+                        return attackRect.Contains(PlayerPosition);
                     }
                     default:
                         return false;
@@ -160,7 +163,6 @@ namespace Controllers {
         private Vector3 _velocity;
         private bool _hasBeenAttacked;
         private bool _isAttacking;
-
         private Vector2 _initialColliderOffset;
 
         // Enemy can't chase player after being attacked until the animation is finished, so this parameter is used on animation
@@ -187,10 +189,10 @@ namespace Controllers {
             }
 
             if (!EnemySpawnManager.EnemySpawnList.Exists(data =>
-                    data.spawnPosition == transform.position && data.enemyType == enemyType)) {
+                    data.spawnPosition == (Vector3)EnemyPosition && data.enemyType == enemyType)) {
                 EnemySpawnData data = new EnemySpawnData {
                     enemyPrefab = enemyPrefabAsset,
-                    spawnPosition = transform.position,
+                    spawnPosition = EnemyPosition,
                     spawnRotation = transform.rotation,
                     enemyType = enemyType
                 };
@@ -199,7 +201,7 @@ namespace Controllers {
         }
 
         private void Start() {
-            _lastPosition = transform.position;
+            _lastPosition = EnemyPosition;
             _initialColliderOffset = _col.offset;
             if (HasHealthBar) {
                 enemyHealthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
@@ -276,11 +278,9 @@ namespace Controllers {
                 return;
             }
 
-            Vector3 pos = transform.position;
             float step = moveSpeed * Time.deltaTime;
-            float targetX = CurrentPlayer.transform.position.x;
-            float newX = Mathf.MoveTowards(pos.x, targetX, step);
-            transform.position = new Vector3(newX, pos.y, pos.z);
+            float newX = Mathf.MoveTowards(EnemyPosition.x, PlayerPosition.x, step);
+            transform.position = new Vector2(newX, EnemyPosition.y);
         }
 
         private void AttackPlayer() {
@@ -332,12 +332,10 @@ namespace Controllers {
         }
 
         private void RangedAttack() {
-            Vector2 enemyPos = transform.position;
             Vector2 spawnPos = new Vector2(
-                enemyPos.x + GetXOffset(projectileOffset.x),
-                enemyPos.y + projectileOffset.y);
-            Vector2 playerPos = CurrentPlayer.transform.position;
-            Vector2 direction = (playerPos - enemyPos).normalized;
+                EnemyPosition.x + GetXOffset(projectileOffset.x),
+                EnemyPosition.y + projectileOffset.y);
+            Vector2 direction = (PlayerPosition - EnemyPosition).normalized;
             GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
             EnemyProjectile projectileScript = projectile.GetComponent<EnemyProjectile>();
             if (projectileScript != null) {
@@ -348,8 +346,8 @@ namespace Controllers {
         }
 
         private void UpdateVelocity() {
-            _velocity = (transform.position - _lastPosition) / Time.deltaTime;
-            _lastPosition = transform.position;
+            _velocity = ((Vector3)EnemyPosition - _lastPosition) / Time.deltaTime;
+            _lastPosition = EnemyPosition;
             if (Mathf.Approximately(_velocity.x, 0f)) {
                 _velocity.x = 0f;
             }
@@ -371,9 +369,9 @@ namespace Controllers {
         }
 
         private void HandleFlip() {
-            if (CurrentPlayer.transform.position.x > transform.position.x && !isFacingRight) {
+            if (PlayerPosition.x > EnemyPosition.x && !isFacingRight) {
                 Flip();
-            } else if (CurrentPlayer.transform.position.x < transform.position.x && isFacingRight) {
+            } else if (PlayerPosition.x < EnemyPosition.x && isFacingRight) {
                 Flip();
             }
         }
@@ -393,7 +391,7 @@ namespace Controllers {
 
         private IEnumerator DestroyEnemyCoroutine() {
             if (bloodPrefab != null) {
-                Instantiate(bloodPrefab, transform.position, Quaternion.identity);
+                Instantiate(bloodPrefab, EnemyPosition, Quaternion.identity);
             }
 
             yield return new WaitForSeconds(deathTime);
@@ -408,9 +406,7 @@ namespace Controllers {
                 return;
             }
 
-            Vector3 enemyPosition = transform.position;
-            transform.position = new Vector3(enemyPosition.x + GetXOffset(attackAnimationOffset), enemyPosition.y,
-                enemyPosition.z);
+            transform.position = new Vector2(EnemyPosition.x + GetXOffset(attackAnimationOffset), EnemyPosition.y);
         }
 
         private void BouncePlayer(bool bounceOnAllDirections = false, float bounceForceDecrease = 1f) {
@@ -431,51 +427,48 @@ namespace Controllers {
 
         private void UpdateColliderAndHealthBar() {
             float xOffset = GetXOffset(attackAnimationOffset);
-            enemyHealthBar.transform.position = transform.position + new Vector3(xOffset, 0.5f, 0f);
+            enemyHealthBar.transform.position = (Vector3)EnemyPosition + new Vector3(xOffset, 0.5f, 0f);
             _col.offset = new Vector2((_initialColliderOffset.x + xOffset) * 0.5f, _initialColliderOffset.y);
         }
 
         private void OnDrawGizmosSelected() {
-            Vector3 enemyPosition = transform.position;
-
             if (drawRangesInEditor) {
                 // Attack range
                 if (enemyType == EnemyType.Ranged) {
                     Gizmos.color = attackRange.color;
-                    Gizmos.DrawWireSphere(enemyPosition, attackRange.value);
+                    Gizmos.DrawWireSphere(EnemyPosition, attackRange.value);
                 }
 
                 // Attack box
                 if (enemyType == EnemyType.Melee) {
                     Gizmos.color = attackBoxColor;
-                    Vector2 boxCenter = (Vector2)enemyPosition + GetOffset(attackBoxOffset);
+                    Vector2 boxCenter = EnemyPosition + GetOffset(attackBoxOffset);
                     Gizmos.DrawWireCube(boxCenter, attackBoxSize);
                 }
 
                 // Chase stop range
                 Gizmos.color = chaseStopRange.color;
-                Gizmos.DrawWireSphere(enemyPosition, chaseStopRange.value);
+                Gizmos.DrawWireSphere(EnemyPosition, chaseStopRange.value);
 
                 // Sight range
                 if (enemyType == EnemyType.Melee) {
                     Gizmos.color = sightBoxColor;
-                    Vector2 boxCenter = (Vector2)enemyPosition + GetOffset(sightBoxOffset);
+                    Vector2 boxCenter = EnemyPosition + GetOffset(sightBoxOffset);
                     Gizmos.DrawWireCube(boxCenter, sightBoxSize);
                 }
             }
 
             // Projectile spawn position
             if (enemyType == EnemyType.Ranged && drawProjectileInEditor) {
-                Vector2 spawnPos = new Vector2(enemyPosition.x + GetXOffset(projectileOffset.x),
-                    enemyPosition.y + projectileOffset.y);
+                Vector2 spawnPos = new Vector2(EnemyPosition.x + GetXOffset(projectileOffset.x),
+                    EnemyPosition.y + projectileOffset.y);
                 Gizmos.color = new Color(0.6f, 0.3f, 0.0f, 1f);
                 Gizmos.DrawSphere(spawnPos, 0.05f);
             }
 
             // Melee Attack Animation Offset
             if (enemyType == EnemyType.Melee && drawAttackAnimationInEditor) {
-                Vector3 sphereAnimationPosition = new Vector3(enemyPosition.x + attackAnimationOffset, enemyPosition.y,
-                    enemyPosition.z);
+                Vector3 sphereAnimationPosition = new Vector2(EnemyPosition.x + attackAnimationOffset, EnemyPosition.y);
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawSphere(sphereAnimationPosition, 0.1f);
             }
@@ -496,32 +489,27 @@ namespace Controllers {
                 return true;
             }
 
-            Vector2 enemyPos = transform.position;
             Vector2 spawnPos = new Vector2(
-                enemyPos.x + GetXOffset(projectileOffset.x),
-                enemyPos.y + projectileOffset.y);
-            Vector2 playerPos = CurrentPlayer.transform.position;
-            Vector2 direction = (playerPos - enemyPos).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(spawnPos, direction, Vector2.Distance(enemyPos, playerPos),
+                EnemyPosition.x + GetXOffset(projectileOffset.x),
+                EnemyPosition.y + projectileOffset.y);
+            Vector2 direction = (PlayerPosition - EnemyPosition).normalized;
+            RaycastHit2D hit = Physics2D.Raycast(spawnPos, direction, Vector2.Distance(EnemyPosition, PlayerPosition),
                 Ground.value);
             return hit.collider == null || hit.collider.gameObject == CurrentPlayer.gameObject;
         }
 
         private bool CanPerformAttackSafely() {
-            Vector3 enemyPosition = transform.position;
             const float extraOffset = 0.5f;
             float distance = distanceAfterAttack + extraOffset;
             Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
-            RaycastHit2D hit = Physics2D.Raycast(enemyPosition, direction, distance, Ground.value);
-            Debug.DrawRay(enemyPosition, direction * distance, Color.red);
+            RaycastHit2D hit = Physics2D.Raycast(EnemyPosition, direction, distance, Ground.value);
+            Debug.DrawRay(EnemyPosition, direction * distance, Color.red);
             return hit.collider == null;
         }
 
         private bool HasWallBetweenEnemyAndPlayer() {
-            Vector2 playerPos = CurrentPlayer.transform.position;
-            Vector2 enemyPos = transform.position;
-            RaycastHit2D hit = Physics2D.Raycast(enemyPos, playerPos - enemyPos, Vector2.Distance(playerPos, enemyPos),
-                Ground);
+            RaycastHit2D hit = Physics2D.Raycast(EnemyPosition, PlayerPosition - EnemyPosition,
+                Vector2.Distance(PlayerPosition, EnemyPosition), Ground.value);
             return hit.collider != null;
         }
     }
