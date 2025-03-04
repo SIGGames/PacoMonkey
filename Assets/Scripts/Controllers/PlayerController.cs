@@ -6,7 +6,6 @@ using Managers;
 using Mechanics.Fight;
 using UnityEngine;
 using static Platformer.Core.Simulation;
-using static Configuration.GlobalConfiguration;
 using static Utils.AnimatorUtils;
 using static PlayerInput.KeyBinds;
 using static Utils.LayerUtils;
@@ -26,15 +25,15 @@ namespace Controllers {
         public bool canRun = true;
 
         [Range(0, 10)]
-        public float maxRunSpeed = PlayerConfig.MaxRunSpeed;
+        public float maxRunSpeed = 4.5f;
 
-        private float _maxRunSpeedOriginal = PlayerConfig.MaxRunSpeed;
-
-        [Range(0, 100)]
-        public float runAcceleration = PlayerConfig.RunAcceleration;
+        private float _maxRunSpeedOriginal = 4.5f;
 
         [Range(0, 100)]
-        public float runDeceleration = PlayerConfig.RunDeceleration;
+        public float runAcceleration = 70;
+
+        [Range(0, 100)]
+        public float runDeceleration = 60;
 
         [SerializeField] private float flipOffsetChange = 0.06f;
 

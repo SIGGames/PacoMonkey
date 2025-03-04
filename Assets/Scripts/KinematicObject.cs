@@ -1,12 +1,11 @@
 ﻿using System.Collections;
-using Configuration;
 using UnityEngine;
 
 public class KinematicObject : MonoBehaviour {
     public float minGroundNormalY = .65f;
 
     [Range(0, 2)]
-    public float gravityModifier;
+    public float gravityModifier = 1f;
 
     public Vector2 velocity;
     public bool IsGrounded { get; set; }
@@ -64,8 +63,6 @@ public class KinematicObject : MonoBehaviour {
         contactFilter.useTriggers = false;
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactFilter.useLayerMask = true;
-
-        gravityModifier = GlobalConfiguration.GravityScale;
     }
 
     protected virtual void Update() {

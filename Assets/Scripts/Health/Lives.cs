@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
-using Configuration;
 using UnityEditor;
 using UnityEngine;
+using static Configuration.GameConfig;
 
 namespace Health {
     public class Lives : MonoBehaviour {
@@ -21,16 +21,9 @@ namespace Health {
 
         public event Action OnLivesChanged;
         public bool IsAlive => currentLives > 0;
-        private GlobalConfiguration _config;
-        private bool _isConfigNotNull;
         private Coroutine _incrementCoroutine;
 
-        private void Start() {
-            _isConfigNotNull = _config != null;
-        }
-
         private void Awake() {
-            _config = GlobalConfiguration.Instance;
             CurrentLives = startingLives;
         }
 
@@ -84,7 +77,7 @@ namespace Health {
         }
 
         public void Die() {
-            if (_isConfigNotNull && _config.isGodMode) {
+            if (IsGodMode) {
                 return;
             }
 

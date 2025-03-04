@@ -1,5 +1,4 @@
-﻿using Configuration;
-using Controllers;
+﻿using Controllers;
 using Enums;
 using UnityEngine;
 using static PlayerInput.KeyBinds;
@@ -12,7 +11,7 @@ namespace Mechanics.Movement {
         [Header("Climbing Configuration")]
         [Tooltip("How fast the player will climb up or down")]
         [Range(0, 10)]
-        [SerializeField] private float climbingSpeed = GlobalConfiguration.PlayerConfig.ClimbingSpeed;
+        [SerializeField] private float climbingSpeed = 8f;
 
         [Tooltip("This value sets the player's gravity scale while climbing, so if the player's gravity scale " +
                  "changes while climbing, it will be set to this value")]

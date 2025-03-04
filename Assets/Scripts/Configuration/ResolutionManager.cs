@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
+using static Configuration.GameConfig;
 
 namespace Configuration {
     public class ResolutionManager : MonoBehaviour {
-        [SerializeField] private int screenWidth = GlobalConfiguration.DefaultScreenWidth;
-        [SerializeField] private int screenHeight = GlobalConfiguration.DefaultScreenHeight;
-        [SerializeField] private bool fullScreen = GlobalConfiguration.DefaultFullScreen;
-        [SerializeField] private int vSyncCount = GlobalConfiguration.VSyncCount;
-        [SerializeField] private int frameRate = GlobalConfiguration.FrameRate;
+        [SerializeField] private int screenWidth = DefaultScreenWidth;
+        [SerializeField] private int screenHeight = DefaultScreenHeight;
+        [SerializeField] private bool fullScreen = DefaultFullScreen;
+        [SerializeField] private int vSyncCount = VSyncCount;
+        [SerializeField] private int frameRate = FrameRate;
 
-        void Start() {
+        private void Start() {
             int width = PlayerPrefs.GetInt("ScreenWidth", screenWidth);
             int height = PlayerPrefs.GetInt("ScreenHeight", screenHeight);
             bool isFullscreen = PlayerPrefs.GetInt("FullScreen", fullScreen ? 1 : 0) == 1;
