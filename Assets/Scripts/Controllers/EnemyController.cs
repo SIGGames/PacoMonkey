@@ -79,7 +79,7 @@ namespace Controllers {
         [SerializeField, Range(0, 10)] private float bounceForce = 4f;
 
         [ShowIf("enemyType", EnemyType.Melee)]
-        [SerializeField, Range(0, 3)] private float distanceAfterAttack = 1f; // TODO: Remove this
+        [SerializeField, Range(0, 3)] private float distanceAfterAttack = 1f;
 
         // Melee Attack Animation Offset (this is variable depending on the frame of the enemy)
         [SerializeField, HideInInspector] private float attackAnimationOffset;
@@ -144,7 +144,6 @@ namespace Controllers {
         [ShowIf("enemyType", EnemyType.Melee)]
         [SerializeField] private bool drawAttackAnimationInEditor = true;
 
-        public Bounds Bounds => _col.bounds;
         private bool HasHealthBar => enemyHealthBar != null;
         private float _attackCooldownTimer;
 
@@ -207,23 +206,6 @@ namespace Controllers {
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D other) {
-            PlayerController player = other.gameObject.GetComponent<PlayerController>();
-            if (player == null) {
-                return;
-            }
-
-            player.IsGrounded = true;
-            player.SetVelocity(Vector2.zero);
-            player.SetBodyType(RigidbodyType2D.Dynamic);
-
-            AttackPlayer();
-        }
-
-        private void OnTriggerExit2D(Collider2D other) {
-            CharacterManager.Instance.currentPlayerController.SetBodyType(RigidbodyType2D.Kinematic);
-        }
-
         private void Update() {
             if (!CurrentPlayer.lives.IsAlive) {
                 return;
@@ -256,7 +238,24 @@ namespace Controllers {
 
             UpdateColliderAndHealthBar();
             HandleFlip();
-            IsGrounded();
+            CheckGrounded();
+        }
+
+        private void OnCollisionEnter2D(Collision2D other) {
+            PlayerController player = other.gameObject.GetComponent<PlayerController>();
+            if (player == null) {
+                return;
+            }
+
+            player.IsGrounded = true;
+            player.SetVelocity(Vector2.zero);
+            player.SetBodyType(RigidbodyType2D.Dynamic);
+
+            AttackPlayer();
+        }
+
+        private void OnTriggerExit2D(Collider2D other) {
+            CharacterManager.Instance.currentPlayerController.SetBodyType(RigidbodyType2D.Kinematic);
         }
 
         private void ChasePlayer() {
@@ -268,7 +267,7 @@ namespace Controllers {
                 return;
             }
 
-            if (ThereIsAWallBetweenEnemyAndPlayer()) {
+            if (HasWallBetweenEnemyAndPlayer()) {
                 return;
             }
 
@@ -284,48 +283,8 @@ namespace Controllers {
             transform.position = new Vector3(newX, pos.y, pos.z);
         }
 
-        private void IsGrounded() {
-            const float rayLength = 0.1f;
-            RaycastHit2D hit = Physics2D.Raycast(_col.bounds.center, Vector2.down, _col.bounds.extents.y + rayLength,
-                Ground);
-            bool isGrounded = hit.collider != null;
-            animator.SetBool(Grounded, isGrounded);
-        }
-
-        private void HandleFlip() {
-            if (CurrentPlayer.transform.position.x > transform.position.x && !isFacingRight) {
-                Flip();
-            } else if (CurrentPlayer.transform.position.x < transform.position.x && isFacingRight) {
-                Flip();
-            }
-        }
-
-        private void UpdateVelocity() {
-            _velocity = (transform.position - _lastPosition) / Time.deltaTime;
-            _lastPosition = transform.position;
-            if (Mathf.Approximately(_velocity.x, 0f)) {
-                _velocity.x = 0f;
-            }
-
-            if (Mathf.Approximately(_velocity.y, 0f)) {
-                _velocity.y = 0f;
-            }
-
-            animator.SetFloat(VelocityX, Mathf.Abs(_velocity.x));
-            animator.SetFloat(VelocityY, Mathf.Abs(_velocity.y));
-        }
-
-        private void Flip() {
-            if (_isAttacking) {
-                return;
-            }
-
-            isFacingRight = !isFacingRight;
-            _spriteRenderer.flipX = !isFacingRight;
-        }
-
         private void AttackPlayer() {
-            if (_attackCooldownTimer > 0f || ThereIsAWallBetweenEnemyAndPlayer()) {
+            if (_attackCooldownTimer > 0f || HasWallBetweenEnemyAndPlayer()) {
                 return;
             }
 
@@ -365,6 +324,69 @@ namespace Controllers {
             }
         }
 
+        private void MeleeAttack() {
+            if (PlayerInAttackRange) {
+                BouncePlayer();
+                CurrentPlayer.TakeDamage(attackDamage);
+            }
+        }
+
+        private void RangedAttack() {
+            Vector2 enemyPos = transform.position;
+            Vector2 spawnPos = new Vector2(
+                enemyPos.x + GetXOffset(projectileOffset.x),
+                enemyPos.y + projectileOffset.y);
+            Vector2 playerPos = CurrentPlayer.transform.position;
+            Vector2 direction = (playerPos - enemyPos).normalized;
+            GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+            EnemyProjectile projectileScript = projectile.GetComponent<EnemyProjectile>();
+            if (projectileScript != null) {
+                projectileScript.Initialize(direction, projectileSpeed, attackDamage, projectileDuration);
+            }
+
+            _isAttacking = false;
+        }
+
+        private void UpdateVelocity() {
+            _velocity = (transform.position - _lastPosition) / Time.deltaTime;
+            _lastPosition = transform.position;
+            if (Mathf.Approximately(_velocity.x, 0f)) {
+                _velocity.x = 0f;
+            }
+
+            if (Mathf.Approximately(_velocity.y, 0f)) {
+                _velocity.y = 0f;
+            }
+
+            animator.SetFloat(VelocityX, Mathf.Abs(_velocity.x));
+            animator.SetFloat(VelocityY, Mathf.Abs(_velocity.y));
+        }
+
+        private void CheckGrounded() {
+            const float rayLength = 0.1f;
+            RaycastHit2D hit = Physics2D.Raycast(_col.bounds.center, Vector2.down, _col.bounds.extents.y + rayLength,
+                Ground);
+            bool isGrounded = hit.collider != null;
+            animator.SetBool(Grounded, isGrounded);
+        }
+
+        private void HandleFlip() {
+            if (CurrentPlayer.transform.position.x > transform.position.x && !isFacingRight) {
+                Flip();
+            } else if (CurrentPlayer.transform.position.x < transform.position.x && isFacingRight) {
+                Flip();
+            }
+        }
+
+        private void Flip() {
+            if (_isAttacking) {
+                return;
+            }
+
+            isFacingRight = !isFacingRight;
+            _spriteRenderer.flipX = !isFacingRight;
+        }
+
         private void DestroyEnemy() {
             StartCoroutine(DestroyEnemyCoroutine());
         }
@@ -382,7 +404,7 @@ namespace Controllers {
             _isAttacking = false;
 
             // If melee enemy after attack will be in wall, don't tp
-            if (enemyType == EnemyType.Melee && !CanAttackWallCheck()) {
+            if (enemyType == EnemyType.Melee && !CanPerformAttackSafely()) {
                 return;
             }
 
@@ -404,29 +426,6 @@ namespace Controllers {
                 if (!CurrentPlayer.IsGrounded) {
                     CurrentPlayer.BounceY(decreasedBounceForceY);
                 }
-            }
-        }
-
-        private void RangedAttack() {
-            Vector2 enemyPos = transform.position;
-            Vector2 spawnPos = new Vector2(
-                enemyPos.x + GetXOffset(projectileOffset.x),
-                enemyPos.y + projectileOffset.y);
-            Vector2 playerPos = CurrentPlayer.transform.position;
-            Vector2 direction = (playerPos - enemyPos).normalized;
-            GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-            EnemyProjectile projectileScript = projectile.GetComponent<EnemyProjectile>();
-            if (projectileScript != null) {
-                projectileScript.Initialize(direction, projectileSpeed, attackDamage, projectileDuration);
-            }
-
-            _isAttacking = false;
-        }
-
-        private void BouncePlayerOnAnimation() {
-            if (PlayerInAttackRange) {
-                BouncePlayer();
-                CurrentPlayer.TakeDamage(attackDamage);
             }
         }
 
@@ -503,7 +502,7 @@ namespace Controllers {
             return hit.collider == null || hit.collider.gameObject == CurrentPlayer.gameObject;
         }
 
-        private bool CanAttackWallCheck() {
+        private bool CanPerformAttackSafely() {
             Vector3 enemyPosition = transform.position;
             const float extraOffset = 0.5f;
             float distance = distanceAfterAttack + extraOffset;
@@ -513,7 +512,7 @@ namespace Controllers {
             return hit.collider == null;
         }
 
-        private bool ThereIsAWallBetweenEnemyAndPlayer() {
+        private bool HasWallBetweenEnemyAndPlayer() {
             Vector2 playerPos = CurrentPlayer.transform.position;
             Vector2 enemyPos = transform.position;
             RaycastHit2D hit = Physics2D.Raycast(enemyPos, playerPos - enemyPos, Vector2.Distance(playerPos, enemyPos),
