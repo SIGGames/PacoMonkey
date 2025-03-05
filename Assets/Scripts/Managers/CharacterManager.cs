@@ -7,7 +7,6 @@ using Gameplay;
 using Health;
 using Health.UI;
 using UnityEngine;
-using UnityEngine.AI;
 using Utils;
 using static Utils.AnimatorUtils;
 
