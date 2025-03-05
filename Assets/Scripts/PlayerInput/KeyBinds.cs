@@ -53,6 +53,10 @@ namespace PlayerInput {
             return PlayerControls.Up.IsPressed();
         }
 
+        public static bool GetUpKeyDown() {
+            return PlayerControls.Up.triggered;
+        }
+
         public static bool GetMenuKey() {
             return PlayerControls.Menu.triggered;
         }

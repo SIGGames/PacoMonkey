@@ -46,7 +46,7 @@ namespace Mechanics.Movement {
                 StartHold();
             }
 
-            if (isHolding && GetJumpKeyDown()) {
+            if (isHolding && (GetJumpKeyDown() || GetUpKeyDown())) {
                 ClimbLedge();
             }
         }
