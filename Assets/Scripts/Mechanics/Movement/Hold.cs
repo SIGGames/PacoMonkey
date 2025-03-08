@@ -1,7 +1,6 @@
 ﻿using Controllers;
 using Enums;
 using Gameplay;
-using Managers;
 using UnityEngine;
 using static PlayerInput.KeyBinds;
 using static Utils.AnimatorUtils;

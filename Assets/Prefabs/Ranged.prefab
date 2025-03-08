@@ -52,7 +52,6 @@ GameObject:
   - component: {fileID: 772289407653213039}
   - component: {fileID: 5843668731025413174}
   - component: {fileID: 1268651639450779145}
-  - component: {fileID: 1751055644578752143}
   m_Layer: 0
   m_Name: Ranged
   m_TagString: Untagged
@@ -369,28 +368,6 @@ MonoBehaviour:
   startingHealth: 400
   maxHealth: 400
   currentHealth: 0
---- !u!195 &1751055644578752143
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1661912868639658944}
-  m_Enabled: 0
-  m_AgentTypeID: -334000983
-  m_Radius: 0.25
-  m_Speed: 1.9
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 1
-  m_AutoTraverseOffMeshLink: 0
-  m_AutoBraking: 0
-  m_AutoRepath: 1
-  m_Height: 0.44
-  m_BaseOffset: 0.42
-  m_WalkableMask: 1
-  m_ObstacleAvoidanceType: 3
 --- !u!1 &1847524800196717016
 GameObject:
   m_ObjectHideFlags: 0
