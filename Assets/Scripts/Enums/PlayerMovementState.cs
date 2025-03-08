@@ -34,5 +34,9 @@
             return state == PlayerMovementState.Idle || state == PlayerMovementState.Walk ||
                    state == PlayerMovementState.Run;
         }
+
+        public static bool PlayerCanDieNotGrounded(PlayerMovementState state) {
+            return state == PlayerMovementState.Climb || state == PlayerMovementState.WallClimb;
+        }
     }
 }

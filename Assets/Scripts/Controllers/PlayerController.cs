@@ -191,7 +191,7 @@ namespace Controllers {
         }
 
         private void HandleLives() {
-            if (lives.IsAlive || _isDying || !enabled || !IsGrounded) {
+            if (lives.IsAlive || _isDying || !enabled || (!IsGrounded && !PlayerMovementStateMethods.PlayerCanDieNotGrounded(movementState))) {
                 return;
             }
 

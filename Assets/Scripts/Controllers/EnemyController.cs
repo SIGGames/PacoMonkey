@@ -406,6 +406,7 @@ namespace Controllers {
 
             if (HasHealthBar) {
                 enemyHealthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
+                enemyHealthBar.HideFloatingHealthBar();
             }
 
             gameObject.SetActive(true);

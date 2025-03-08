@@ -100236,6 +100236,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4860464436711397090, guid: 0ec9fb3cdb327fb4d8e03af7b5223cc6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -145101,8 +145106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ab41d20af2498aac79b0d102ba78e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDebugMode: 1
-  isGodMode: 0
 --- !u!1 &1940093100
 GameObject:
   m_ObjectHideFlags: 0

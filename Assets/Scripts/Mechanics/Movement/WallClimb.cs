@@ -56,6 +56,10 @@ namespace Mechanics.Movement {
 
         private void Update() {
             if (!player.lives.IsAlive) {
+                if (_isClimbing) {
+                    StopClimbing();
+                    player.FreezeHorizontalPosition();
+                }
                 return;
             }
 
@@ -95,7 +99,7 @@ namespace Mechanics.Movement {
                 verticalInput = 0;
             }
 
-            if (!ledgeCheck.IsGroundAbove() && player.lives.IsAlive) {
+            if (!ledgeCheck.IsGroundAbove() && player.lives.IsAlive && _isClimbing) {
                 StopClimbing();
                 _hold.StartHold();
             }
