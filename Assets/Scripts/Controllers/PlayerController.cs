@@ -469,6 +469,10 @@ namespace Controllers {
         }
 
         public void SetVelocity(Vector2 newVelocity) {
+            if (body.bodyType == RigidbodyType2D.Static) {
+                return;
+            }
+
             velocity = newVelocity;
             body.velocity = newVelocity;
             animator.SetFloat(VelocityX, Mathf.Abs(velocity.x) / maxRunSpeed);
