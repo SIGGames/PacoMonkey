@@ -104,5 +104,9 @@ namespace PlayerInput {
         public static bool GetParryKey() {
             return PlayerControls.Parry.triggered;
         }
+
+        public static bool GetInteractKey() {
+            return PlayerControls.Interact.triggered;
+        }
     }
 }
