@@ -25,6 +25,9 @@ namespace UI {
         [SerializeField, ColorRange(0.5f, 5)]
         private ColorRangeValue playerDistance = new(2, Color.black);
 
+        [SerializeField]
+        private bool freezePlayer;
+
         private static Vector3 PlayerPosition => CharacterManager.Instance.currentPlayerController.transform.position;
         private bool PlayerIsClose => Vector3.Distance(transform.position, PlayerPosition) < playerDistance.value;
         private int _index;
@@ -41,7 +44,6 @@ namespace UI {
                 return;
             }
 
-
             if (!GetInteractKey()) {
                 return;
             }
@@ -55,6 +57,14 @@ namespace UI {
                 }
 
                 _typingCoroutine = StartCoroutine(Typing());
+            }
+
+            if (freezePlayer) {
+                if (dialoguePanel.activeInHierarchy) {
+                    CharacterManager.Instance.currentPlayerController.FreezePosition();
+                } else {
+                    CharacterManager.Instance.currentPlayerController.FreezePosition(false);
+                }
             }
         }
 
