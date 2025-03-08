@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Cinemachine;
 using Controllers;
 using Enums;
@@ -170,39 +171,18 @@ namespace Managers {
         }
 
         private static void InstanceEnemies() {
-            EnemyController[] existingEnemies = FindObjectsOfType<EnemyController>();
-            foreach (EnemyController enemy in existingEnemies) {
-                Destroy(enemy.gameObject);
-            }
+            List<EnemyController> currentEnemies = new(FindObjectsOfType<EnemyController>(true));
 
             foreach (EnemySpawnData spawnData in EnemySpawnManager.EnemySpawnList) {
-                GameObject newEnemy = Instantiate(spawnData.enemyPrefab, spawnData.spawnPosition,
-                    spawnData.spawnRotation);
-                newEnemy.SetActive(true);
+                EnemyController enemyController = currentEnemies.Find(e => e != null
+                                                                           && e.enemyType == spawnData.enemyType);
 
-                EnemyController enemyController = newEnemy.GetComponent<EnemyController>();
                 if (enemyController != null) {
-                    enemyController.enabled = true;
-                }
+                    currentEnemies.Remove(enemyController);
 
-                Collider2D col = newEnemy.GetComponent<Collider2D>();
-                if (col != null) {
-                    col.enabled = true;
-                }
-
-                Animator animator = newEnemy.GetComponent<Animator>();
-                if (animator != null) {
-                    animator.enabled = true;
-                }
-
-                AudioSource audioSource = newEnemy.GetComponent<AudioSource>();
-                if (audioSource != null) {
-                    audioSource.enabled = true;
-                }
-
-                Health.Health health = newEnemy.GetComponent<Health.Health>();
-                if (health != null) {
-                    health.enabled = true;
+                    enemyController.transform.position = spawnData.spawnPosition;
+                    enemyController.transform.rotation = spawnData.spawnRotation;
+                    enemyController.ResetEnemy();
                 }
             }
         }

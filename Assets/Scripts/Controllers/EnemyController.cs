@@ -27,7 +27,7 @@ namespace Controllers {
         private Health.Health _health;
         private static PlayerController CurrentPlayer => CharacterManager.Instance.currentPlayerController;
 
-        [SerializeField] private EnemyType enemyType = EnemyType.Melee;
+        [SerializeField] public EnemyType enemyType = EnemyType.Melee;
 
         [Header("AI Settings")]
         [SerializeField, Range(0, 5)] private float moveSpeed = 2f;
@@ -133,7 +133,7 @@ namespace Controllers {
         [Header("Enemy Controller Components")]
         [SerializeField] private Animator animator;
 
-        [SerializeField] FloatingHealthBar enemyHealthBar;
+        [SerializeField] private FloatingHealthBar enemyHealthBar;
         [SerializeField] private GameObject bloodPrefab;
 
         [Header("Debug")]
@@ -209,11 +209,11 @@ namespace Controllers {
         }
 
         private void Update() {
+            UpdateVelocity();
+
             if (!CurrentPlayer.lives.IsAlive) {
                 return;
             }
-
-            UpdateVelocity();
 
             if (_attackCooldownTimer > 0f) {
                 _attackCooldownTimer -= Time.deltaTime;
@@ -395,7 +395,20 @@ namespace Controllers {
             }
 
             yield return new WaitForSeconds(deathTime);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+        }
+
+        public void ResetEnemy() {
+            _attackCooldownTimer = 0f;
+            _isAttacking = false;
+            _hasBeenAttacked = false;
+            _health.ResetHealth();
+
+            if (HasHealthBar) {
+                enemyHealthBar.UpdateHealthBar(_health.CurrentHealth, _health.maxHealth);
+            }
+
+            gameObject.SetActive(true);
         }
 
         public void OnFinishEnemyAttackAnimation() {
