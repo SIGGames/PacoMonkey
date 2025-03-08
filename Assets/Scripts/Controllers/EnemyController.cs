@@ -13,6 +13,7 @@ using UnityEngine;
 using static Platformer.Core.Simulation;
 using static Utils.AnimatorUtils;
 using static Utils.LayerUtils;
+using static Utils.TagUtils;
 
 namespace Controllers {
     [RequireComponent(typeof(Collider2D)), RequireComponent(typeof(AudioSource)),
@@ -244,6 +245,9 @@ namespace Controllers {
         }
 
         private void OnCollisionEnter2D(Collision2D other) {
+            if (other.gameObject.CompareTag(Player)) {
+                return;
+            }
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
             if (player == null) {
                 return;

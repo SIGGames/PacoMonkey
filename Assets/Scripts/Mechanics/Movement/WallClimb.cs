@@ -73,6 +73,11 @@ namespace Mechanics.Movement {
         }
 
         private void StartClimbing() {
+            if (GetCrouchKey()) {
+                return;
+            }
+            player.SetBodyType(RigidbodyType2D.Kinematic);
+
             _isClimbing = true;
             player.IsGrounded = false;
 
