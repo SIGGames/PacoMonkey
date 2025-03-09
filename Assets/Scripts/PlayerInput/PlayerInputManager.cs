@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Enums;
@@ -6,6 +7,7 @@ using Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.UI;
 
 namespace PlayerInput {
     public class PlayerInputManager : MonoBehaviour {
@@ -73,15 +75,6 @@ namespace PlayerInput {
             UpdateKeyImages();
         }
 
-        private void UpdateKeyImages() {
-            // Update the next step image in the dialogue panel
-            DialogueManager.Instance.DialogueNextStepImage.sprite = currentInputDevice switch {
-                InputDeviceType.Controller => controllerInteractImage,
-                InputDeviceType.Keyboard => keyboardInteractImage,
-                _ => DialogueManager.Instance.DialogueNextStepImage.sprite
-            };
-        }
-
         private static InputDeviceType GetCurrentInputDevice() {
             // Check if there is input from the gamepad
             if (Gamepad.current != null) {
@@ -98,6 +91,27 @@ namespace PlayerInput {
             }
 
             return InputDeviceType.Unknown;
+        }
+
+        private void UpdateKeyImages() {
+            // Update the interact key image in the floating dialogue
+            IEnumerable<Image> keyImages = FindObjectsOfType<Image>(true)
+                .Where(img => img.gameObject.name == "FloatingDialogueNextStep");
+
+            foreach (var keyImage in keyImages) {
+                keyImage.sprite = currentInputDevice switch {
+                    InputDeviceType.Controller => controllerInteractImage,
+                    InputDeviceType.Keyboard => keyboardInteractImage,
+                    _ => keyImage.sprite
+                };
+            }
+
+            // Update the next step image in the fixed dialogue panel
+            DialogueManager.Instance.DialogueNextStepImage.sprite = currentInputDevice switch {
+                InputDeviceType.Controller => controllerInteractImage,
+                InputDeviceType.Keyboard => keyboardInteractImage,
+                _ => DialogueManager.Instance.DialogueNextStepImage.sprite
+            };
         }
     }
 }

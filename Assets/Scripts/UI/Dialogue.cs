@@ -11,8 +11,6 @@ using static PlayerInput.KeyBinds;
 
 namespace UI {
     public class Dialogue : MonoBehaviour {
-        public DialogueType dialogueType = DialogueType.Fixed;
-
         // Components
         private static GameObject DialoguePanel => DialogueManager.Instance.DialoguePanel;
         private static TextMeshProUGUI DialogueText => DialogueManager.Instance.DialogueText;
@@ -27,12 +25,12 @@ namespace UI {
         private Sprite dialogueSprite;
 
         [SerializeField, Range(0.01f, 0.3f)]
-        private float wordSpeed;
+        private float wordSpeed = 0.1f;
 
         [SerializeField, ColorRange(0.5f, 5)]
         private ColorRangeValue playerDistance = new(2, Color.black);
 
-        private bool FreezePlayer => dialogueType == DialogueType.Fixed;
+        private const bool FreezePlayer = true;
 
         [SerializeField]
         private bool ensureMultipleLanguagesDialoguesLength = true;
