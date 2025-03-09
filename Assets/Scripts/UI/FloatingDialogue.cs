@@ -6,7 +6,6 @@ using Managers;
 using TMPro;
 using UnityEditor.ColorRangeDrawers;
 using UnityEngine;
-using UnityEngine.UI;
 using Utils;
 using static PlayerInput.KeyBinds;
 
@@ -36,7 +35,6 @@ namespace UI {
 
         private int _index;
         private Coroutine _typingCoroutine;
-        private string _npcGuid; // TODO: Remove?
 
         private static PlayerController PlayerController => CharacterManager.Instance.currentPlayerController;
         private static Vector3 PlayerPosition => PlayerController.transform.position;
@@ -49,8 +47,6 @@ namespace UI {
         private const string DialogueTitleIdentifier = "FloatingDialogueTitle";
 
         private void Awake() {
-            _npcGuid = Guid.NewGuid().ToString();
-
             _dialoguePanel = transform.Find(DialoguePanelIdentifier)?.gameObject;
             if (_dialoguePanel == null) {
                 Debug.LogError("DialoguePanel not found as a child of " + gameObject.name);
