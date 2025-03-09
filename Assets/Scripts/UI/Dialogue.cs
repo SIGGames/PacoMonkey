@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using Controllers;
 using Enums;
@@ -46,6 +47,10 @@ namespace UI {
         private static Vector3 PlayerPosition => PlayerController.transform.position;
         private bool PlayerIsClose => Vector3.Distance(transform.position, PlayerPosition) < playerDistance.value;
         private int _index;
+
+        // Unique identifier for each NPC
+        private string _npcGuid;
+        private static string _currentNpcGuid = "";
         private Coroutine _typingCoroutine;
 
         // Components Titles
@@ -55,6 +60,7 @@ namespace UI {
         private const string DialogueImageTitle = "DialogueImage";
 
         private void Awake() {
+            _npcGuid = Guid.NewGuid().ToString();
             _dialoguePanel = FindObjectsOfType<GameObject>(true)
                 .FirstOrDefault(x => x.name == DialoguePanelTitle);
 
@@ -72,14 +78,20 @@ namespace UI {
         }
 
         private void Update() {
-            if (!PlayerIsClose) {
-                ResetText();
-                return;
-            }
-
             if (!GetInteractKey()) {
                 return;
             }
+
+            if (!PlayerIsClose) {
+                return;
+            }
+
+            // If the panel is open and comes from another NPC, reset the dialogue
+            if (_dialoguePanel.activeInHierarchy && _currentNpcGuid != _npcGuid) {
+                ResetText();
+            }
+
+            _currentNpcGuid = _npcGuid;
 
             if (_dialoguePanel.activeInHierarchy) {
                 NextLine();
