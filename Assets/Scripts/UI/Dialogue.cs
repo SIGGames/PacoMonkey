@@ -37,7 +37,7 @@ namespace UI {
 
         [Header("Dialogues")]
         [SerializeField] private string[] dialogueCa;
-        [SerializeField] private string[] dialogueES;
+        [SerializeField] private string[] dialogueEs;
         [SerializeField] private string[] dialogueEn;
         private string[] _dialogue;
 
@@ -169,7 +169,7 @@ namespace UI {
         private string[] GetCurrentDialogue() {
             string[] selectedDialogue = GameController.Instance.currentLanguage switch {
                 Languages.Catalan => dialogueCa,
-                Languages.Spanish => dialogueES,
+                Languages.Spanish => dialogueEs,
                 Languages.English => dialogueEn,
                 _ => throw new ArgumentOutOfRangeException()
             };
@@ -177,7 +177,7 @@ namespace UI {
             if (selectedDialogue == null || selectedDialogue.Length == 0) {
                 string[] defaultDialogue = { "No dialogue" };
                 dialogueCa = defaultDialogue;
-                dialogueES = defaultDialogue;
+                dialogueEs = defaultDialogue;
                 dialogueEn = defaultDialogue;
                 selectedDialogue = defaultDialogue;
             }
@@ -191,7 +191,7 @@ namespace UI {
             }
 
             int targetLength = _dialogue.Length;
-            if (dialogueCa.Length != targetLength || dialogueES.Length != targetLength ||
+            if (dialogueCa.Length != targetLength || dialogueEs.Length != targetLength ||
                 dialogueEn.Length != targetLength) {
                 throw new Exception("Dialogues length must be the same");
             }
