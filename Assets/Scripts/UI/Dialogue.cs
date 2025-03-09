@@ -4,17 +4,32 @@ using Managers;
 using TMPro;
 using UnityEditor.ColorRangeDrawers;
 using UnityEngine;
+using UnityEngine.UI;
 using static PlayerInput.KeyBinds;
 
 namespace UI {
     public class Dialogue : MonoBehaviour {
         public DialogueType dialogueType = DialogueType.Fixed;
 
+        [Header("Components")]
         [SerializeField]
         private GameObject dialoguePanel;
 
         [SerializeField]
         private TextMeshProUGUI dialogueText;
+
+        [SerializeField]
+        private TextMeshProUGUI dialogueTitle;
+
+        [SerializeField]
+        private Image dialogueImage;
+
+        [Header("Configuration")]
+        [SerializeField]
+        private string title;
+
+        [SerializeField]
+        private Sprite dialogueSprite;
 
         [SerializeField, Range(0.01f, 0.3f)]
         private float wordSpeed;
@@ -52,6 +67,8 @@ namespace UI {
                 NextLine();
             } else {
                 dialoguePanel.SetActive(true);
+                SetImage();
+                SetTitle();
                 if (_typingCoroutine != null) {
                     StopCoroutine(_typingCoroutine);
                 }
@@ -61,11 +78,19 @@ namespace UI {
 
             if (freezePlayer) {
                 if (dialoguePanel.activeInHierarchy) {
-                    CharacterManager.Instance.currentPlayerController.FreezePosition();
+                    CharacterManager.Instance.currentPlayerController.FreezePosition(true, true);
                 } else {
                     CharacterManager.Instance.currentPlayerController.FreezePosition(false);
                 }
             }
+        }
+
+        private void SetImage() {
+            dialogueImage.sprite = dialogueSprite;
+        }
+
+        private void SetTitle() {
+            dialogueTitle.text = string.IsNullOrEmpty(title) ? name : title;
         }
 
         private void NextLine() {

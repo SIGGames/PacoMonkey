@@ -191,7 +191,8 @@ namespace Controllers {
         }
 
         private void HandleLives() {
-            if (lives.IsAlive || _isDying || !enabled || (!IsGrounded && !PlayerMovementStateMethods.PlayerCanDieNotGrounded(movementState))) {
+            if (lives.IsAlive || _isDying || !enabled ||
+                (!IsGrounded && !PlayerMovementStateMethods.PlayerCanDieNotGrounded(movementState))) {
                 return;
             }
 
@@ -423,13 +424,15 @@ namespace Controllers {
             _currentPriority = 0;
         }
 
-        public void FreezePosition(bool value = true) {
+        public void FreezePosition(bool value = true, bool applyGravity = false) {
             isPositionFreezed = value;
 
             if (isPositionFreezed) {
                 controlEnabled = false;
-                SetVelocity(Vector2.zero);
-                SetBodyType(RigidbodyType2D.Static);
+                if (!applyGravity) {
+                    SetVelocity(Vector2.zero);
+                    SetBodyType(RigidbodyType2D.Static);
+                }
             } else {
                 controlEnabled = true;
                 SetBodyType(RigidbodyType2D.Kinematic);
