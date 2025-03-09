@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Enums;
+using Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -15,6 +16,14 @@ namespace PlayerInput {
 
         [SerializeField, Range(0.1f, 3)]
         private float inputDeviceCheckInterval = 0.5f;
+
+        [Header("Controller Input Images")]
+        [SerializeField]
+        private Sprite controllerInteractImage;
+
+        [Header("Keyboard Input Images")]
+        [SerializeField]
+        private Sprite keyboardInteractImage;
 
         private Coroutine _checkInputDeviceCoroutine;
 
@@ -60,8 +69,17 @@ namespace PlayerInput {
             }
         }
 
-        private static void OnInputTypeChange() {
-            // TODO: Update images and everything it needs to be updated
+        private void OnInputTypeChange() {
+            UpdateKeyImages();
+        }
+
+        private void UpdateKeyImages() {
+            // Update the next step image in the dialogue panel
+            DialogueManager.Instance.DialogueNextStepImage.sprite = currentInputDevice switch {
+                InputDeviceType.Controller => controllerInteractImage,
+                InputDeviceType.Keyboard => keyboardInteractImage,
+                _ => DialogueManager.Instance.DialogueNextStepImage.sprite
+            };
         }
 
         private static InputDeviceType GetCurrentInputDevice() {

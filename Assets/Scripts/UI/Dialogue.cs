@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 using Controllers;
 using Enums;
 using Managers;
@@ -8,19 +7,17 @@ using TMPro;
 using UnityEditor.ColorRangeDrawers;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
 using static PlayerInput.KeyBinds;
-using Debug = System.Diagnostics.Debug;
 
 namespace UI {
     public class Dialogue : MonoBehaviour {
         public DialogueType dialogueType = DialogueType.Fixed;
 
         // Components
-        private GameObject _dialoguePanel;
-        private TextMeshProUGUI _dialogueText;
-        private TextMeshProUGUI _dialogueTitle;
-        private Image _dialogueImage;
+        private static GameObject DialoguePanel => DialogueManager.Instance.DialoguePanel;
+        private static TextMeshProUGUI DialogueText => DialogueManager.Instance.DialogueText;
+        private static TextMeshProUGUI DialogueTitle => DialogueManager.Instance.DialogueTitle;
+        private static Image DialogueImage => DialogueManager.Instance.DialogueImage;
 
         [Header("Configuration")]
         [SerializeField]
@@ -57,28 +54,12 @@ namespace UI {
         private static string _currentNpcGuid = "";
         private Coroutine _typingCoroutine;
 
-        // Components Titles
-        private const string DialoguePanelIdentifier = "DialoguePanel";
-        private const string DialogueTextIdentifier = "DialogueText";
-        private const string DialogueTitleIdentifier = "DialogueTitle";
-        private const string DialogueImageIdentifier = "DialogueImage";
-        private const string DialogueNextStepImageIdentifier = "DialogueNextStepImage";
-
         private void Awake() {
             _npcGuid = Guid.NewGuid().ToString();
-            _dialoguePanel = FindObjectsOfType<GameObject>(true)
-                .FirstOrDefault(x => x.name == DialoguePanelIdentifier);
-
-            Debug.Assert(_dialoguePanel != null, nameof(_dialoguePanel) + " != null");
-            _dialogueText = _dialoguePanel.transform.Find(DialogueTextIdentifier)?.GetComponent<TextMeshProUGUI>();
-            _dialogueTitle = _dialoguePanel.transform.Find(DialogueTitleIdentifier)?.GetComponent<TextMeshProUGUI>();
-            _dialogueImage = _dialoguePanel.transform.Find(DialogueImageIdentifier)?.GetComponent<Image>();
-
-            Debugger.LogIfNull((nameof(_dialoguePanel), _dialoguePanel), (nameof(_dialogueTitle), _dialogueTitle));
         }
 
         private void Start() {
-            _dialoguePanel.SetActive(false);
+            DialoguePanel.SetActive(false);
             ResetText();
             _dialogue = GetCurrentDialogue();
             CheckDialoguesLength();
@@ -99,17 +80,17 @@ namespace UI {
             }
 
             // If the panel is open and comes from another NPC, reset the dialogue
-            if (_dialoguePanel.activeInHierarchy && _currentNpcGuid != _npcGuid) {
+            if (DialoguePanel.activeInHierarchy && _currentNpcGuid != _npcGuid) {
                 ResetText();
             }
 
             _currentNpcGuid = _npcGuid;
             _dialogue = GetCurrentDialogue();
 
-            if (_dialoguePanel.activeInHierarchy) {
+            if (DialoguePanel.activeInHierarchy) {
                 NextLine();
             } else {
-                _dialoguePanel.SetActive(true);
+                DialoguePanel.SetActive(true);
                 SetImage();
                 SetTitle();
                 if (_typingCoroutine != null) {
@@ -120,7 +101,7 @@ namespace UI {
             }
 
             if (FreezePlayer) {
-                if (_dialoguePanel.activeInHierarchy) {
+                if (DialoguePanel.activeInHierarchy) {
                     PlayerController.FreezePosition(true, true);
                 } else {
                     PlayerController.FreezePosition(false);
@@ -143,11 +124,11 @@ namespace UI {
         }
 
         private void SetImage() {
-            _dialogueImage.sprite = dialogueSprite;
+            DialogueImage.sprite = dialogueSprite;
         }
 
         private void SetTitle() {
-            _dialogueTitle.text = string.IsNullOrEmpty(title) ? name : title;
+            DialogueTitle.text = string.IsNullOrEmpty(title) ? name : title;
         }
 
         private void NextLine() {
@@ -157,7 +138,7 @@ namespace UI {
 
             if (_index < _dialogue.Length - 1) {
                 _index++;
-                _dialogueText.text = "";
+                DialogueText.text = "";
                 if (_typingCoroutine != null) {
                     StopCoroutine(_typingCoroutine);
                 }
@@ -173,14 +154,14 @@ namespace UI {
                 StopCoroutine(_typingCoroutine);
             }
 
-            _dialogueText.text = "";
+            DialogueText.text = "";
             _index = 0;
-            _dialoguePanel.SetActive(false);
+            DialoguePanel.SetActive(false);
         }
 
         private IEnumerator Typing() {
             foreach (char letter in _dialogue[_index]) {
-                _dialogueText.text += letter;
+                DialogueText.text += letter;
                 yield return new WaitForSeconds(wordSpeed);
             }
         }
