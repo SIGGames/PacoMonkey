@@ -429,8 +429,8 @@ namespace Controllers {
 
             if (isPositionFreezed) {
                 controlEnabled = false;
+                SetVelocity(Vector2.zero);
                 if (!applyGravity) {
-                    SetVelocity(Vector2.zero);
                     SetBodyType(RigidbodyType2D.Static);
                 }
             } else {

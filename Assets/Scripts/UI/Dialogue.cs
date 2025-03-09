@@ -1,28 +1,25 @@
 ﻿using System.Collections;
+using System.Linq;
+using Controllers;
 using Enums;
 using Managers;
 using TMPro;
 using UnityEditor.ColorRangeDrawers;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 using static PlayerInput.KeyBinds;
+using Debug = System.Diagnostics.Debug;
 
 namespace UI {
     public class Dialogue : MonoBehaviour {
         public DialogueType dialogueType = DialogueType.Fixed;
 
-        [Header("Components")]
-        [SerializeField]
-        private GameObject dialoguePanel;
-
-        [SerializeField]
-        private TextMeshProUGUI dialogueText;
-
-        [SerializeField]
-        private TextMeshProUGUI dialogueTitle;
-
-        [SerializeField]
-        private Image dialogueImage;
+        // Components
+        private GameObject _dialoguePanel;
+        private TextMeshProUGUI _dialogueText;
+        private TextMeshProUGUI _dialogueTitle;
+        private Image _dialogueImage;
 
         [Header("Configuration")]
         [SerializeField]
@@ -34,22 +31,43 @@ namespace UI {
         [SerializeField, Range(0.01f, 0.3f)]
         private float wordSpeed;
 
-        [SerializeField]
-        private string[] dialogue;
-
         [SerializeField, ColorRange(0.5f, 5)]
         private ColorRangeValue playerDistance = new(2, Color.black);
 
         [SerializeField]
         private bool freezePlayer;
 
-        private static Vector3 PlayerPosition => CharacterManager.Instance.currentPlayerController.transform.position;
+        // Dialogues
+        [SerializeField]
+        private string[] dialogue;
+
+        // Properties
+        private static PlayerController PlayerController => CharacterManager.Instance.currentPlayerController;
+        private static Vector3 PlayerPosition => PlayerController.transform.position;
         private bool PlayerIsClose => Vector3.Distance(transform.position, PlayerPosition) < playerDistance.value;
         private int _index;
         private Coroutine _typingCoroutine;
 
+        // Components Titles
+        private const string DialoguePanelTitle = "DialoguePanel";
+        private const string DialogueTextTitle = "DialogueText";
+        private const string DialogueTitleTitle = "DialogueTitle";
+        private const string DialogueImageTitle = "DialogueImage";
+
+        private void Awake() {
+            _dialoguePanel = FindObjectsOfType<GameObject>(true)
+                .FirstOrDefault(x => x.name == DialoguePanelTitle);
+
+            Debug.Assert(_dialoguePanel != null, nameof(_dialoguePanel) + " != null");
+            _dialogueText = _dialoguePanel.transform.Find(DialogueTextTitle)?.GetComponent<TextMeshProUGUI>();
+            _dialogueTitle = _dialoguePanel.transform.Find(DialogueTitleTitle)?.GetComponent<TextMeshProUGUI>();
+            _dialogueImage = _dialoguePanel.transform.Find(DialogueImageTitle)?.GetComponent<Image>();
+
+            Debugger.LogIfNull((nameof(_dialoguePanel), _dialoguePanel), (nameof(_dialogueTitle), _dialogueTitle));
+        }
+
         private void Start() {
-            dialoguePanel.SetActive(false);
+            _dialoguePanel.SetActive(false);
             ResetText();
         }
 
@@ -63,10 +81,10 @@ namespace UI {
                 return;
             }
 
-            if (dialoguePanel.activeInHierarchy) {
+            if (_dialoguePanel.activeInHierarchy) {
                 NextLine();
             } else {
-                dialoguePanel.SetActive(true);
+                _dialoguePanel.SetActive(true);
                 SetImage();
                 SetTitle();
                 if (_typingCoroutine != null) {
@@ -77,26 +95,26 @@ namespace UI {
             }
 
             if (freezePlayer) {
-                if (dialoguePanel.activeInHierarchy) {
-                    CharacterManager.Instance.currentPlayerController.FreezePosition(true, true);
+                if (_dialoguePanel.activeInHierarchy) {
+                    PlayerController.FreezePosition(true, true);
                 } else {
-                    CharacterManager.Instance.currentPlayerController.FreezePosition(false);
+                    PlayerController.FreezePosition(false);
                 }
             }
         }
 
         private void SetImage() {
-            dialogueImage.sprite = dialogueSprite;
+            _dialogueImage.sprite = dialogueSprite;
         }
 
         private void SetTitle() {
-            dialogueTitle.text = string.IsNullOrEmpty(title) ? name : title;
+            _dialogueTitle.text = string.IsNullOrEmpty(title) ? name : title;
         }
 
         private void NextLine() {
             if (_index < dialogue.Length - 1) {
                 _index++;
-                dialogueText.text = "";
+                _dialogueText.text = "";
                 if (_typingCoroutine != null) {
                     StopCoroutine(_typingCoroutine);
                 }
@@ -112,14 +130,14 @@ namespace UI {
                 StopCoroutine(_typingCoroutine);
             }
 
-            dialogueText.text = "";
+            _dialogueText.text = "";
             _index = 0;
-            dialoguePanel.SetActive(false);
+            _dialoguePanel.SetActive(false);
         }
 
         private IEnumerator Typing() {
             foreach (char letter in dialogue[_index]) {
-                dialogueText.text += letter;
+                _dialogueText.text += letter;
                 yield return new WaitForSeconds(wordSpeed);
             }
         }
