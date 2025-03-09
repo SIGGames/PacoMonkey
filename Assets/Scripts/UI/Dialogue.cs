@@ -78,11 +78,16 @@ namespace UI {
         }
 
         private void Update() {
+            if (!PlayerIsClose) {
+                return;
+            }
+
             if (!GetInteractKey()) {
                 return;
             }
 
-            if (!PlayerIsClose) {
+            // If there are multiple NPCs overlapping, only the closest one will interact
+            if (!IsClosestNpc()) {
                 return;
             }
 
@@ -113,6 +118,20 @@ namespace UI {
                     PlayerController.FreezePosition(false);
                 }
             }
+        }
+
+        private bool IsClosestNpc() {
+            Dialogue[] dialogues = FindObjectsOfType<Dialogue>();
+            float npcDistance = Vector3.Distance(transform.position, PlayerPosition);
+            foreach (Dialogue d in dialogues) {
+                if (d == this) continue;
+                float candidateDistance = Vector3.Distance(d.transform.position, PlayerPosition);
+                if (candidateDistance < npcDistance) {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void SetImage() {
