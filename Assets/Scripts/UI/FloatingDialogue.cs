@@ -81,6 +81,12 @@ namespace UI {
                 return;
             }
 
+            // If there are multiple NPCs overlapping, only the closest one will interact
+            if (!IsClosestNpc()) {
+                ResetText();
+                return;
+            }
+
             if (_dialoguePanel.activeSelf) {
                 NextLine();
             } else {
@@ -90,6 +96,22 @@ namespace UI {
                     StopCoroutine(_typingCoroutine);
                 _typingCoroutine = StartCoroutine(Typing());
             }
+        }
+
+        private bool IsClosestNpc() {
+            FloatingDialogue[] dialogues = FindObjectsOfType<FloatingDialogue>();
+            float npcDistance = Vector3.Distance(transform.position, PlayerPosition);
+            foreach (FloatingDialogue d in dialogues) {
+                if (d == this) {
+                    continue;
+                }
+                float candidateDistance = Vector3.Distance(d.transform.position, PlayerPosition);
+                if (candidateDistance < npcDistance) {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void SetTitle() {

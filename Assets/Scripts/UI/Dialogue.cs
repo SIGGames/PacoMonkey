@@ -111,7 +111,9 @@ namespace UI {
             Dialogue[] dialogues = FindObjectsOfType<Dialogue>();
             float npcDistance = Vector3.Distance(transform.position, PlayerPosition);
             foreach (Dialogue d in dialogues) {
-                if (d == this) continue;
+                if (d == this) {
+                    continue;
+                }
                 float candidateDistance = Vector3.Distance(d.transform.position, PlayerPosition);
                 if (candidateDistance < npcDistance) {
                     return false;
