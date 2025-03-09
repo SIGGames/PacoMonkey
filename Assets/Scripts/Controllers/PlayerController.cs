@@ -464,7 +464,7 @@ namespace Controllers {
 
         [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
         public void SetPosition(Vector3 position) {
-            transform.position = position;
+            Teleport(position);
         }
 
         public void SetBodyType(RigidbodyType2D bodyType) {
