@@ -37,11 +37,11 @@ namespace UI {
         [SerializeField]
         private bool ensureMultipleLanguagesDialoguesLength = true;
 
-        // Dialogues
-        private string[] _dialogue;
+        [Header("Dialogues")]
         [SerializeField] private string[] dialogueCa;
         [SerializeField] private string[] dialogueES;
         [SerializeField] private string[] dialogueEn;
+        private string[] _dialogue;
 
         // Properties
         private static PlayerController PlayerController => CharacterManager.Instance.currentPlayerController;
