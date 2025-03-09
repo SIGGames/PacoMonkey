@@ -35,8 +35,7 @@ namespace UI {
         [SerializeField, ColorRange(0.5f, 5)]
         private ColorRangeValue playerDistance = new(2, Color.black);
 
-        [SerializeField]
-        private bool freezePlayer;
+        private bool FreezePlayer => dialogueType == DialogueType.Fixed;
 
         [SerializeField]
         private bool ensureMultipleLanguagesDialoguesLength = true;
@@ -59,20 +58,21 @@ namespace UI {
         private Coroutine _typingCoroutine;
 
         // Components Titles
-        private const string DialoguePanelTitle = "DialoguePanel";
-        private const string DialogueTextTitle = "DialogueText";
-        private const string DialogueTitleTitle = "DialogueTitle";
-        private const string DialogueImageTitle = "DialogueImage";
+        private const string DialoguePanelIdentifier = "DialoguePanel";
+        private const string DialogueTextIdentifier = "DialogueText";
+        private const string DialogueTitleIdentifier = "DialogueTitle";
+        private const string DialogueImageIdentifier = "DialogueImage";
+        private const string DialogueNextStepImageIdentifier = "DialogueNextStepImage";
 
         private void Awake() {
             _npcGuid = Guid.NewGuid().ToString();
             _dialoguePanel = FindObjectsOfType<GameObject>(true)
-                .FirstOrDefault(x => x.name == DialoguePanelTitle);
+                .FirstOrDefault(x => x.name == DialoguePanelIdentifier);
 
             Debug.Assert(_dialoguePanel != null, nameof(_dialoguePanel) + " != null");
-            _dialogueText = _dialoguePanel.transform.Find(DialogueTextTitle)?.GetComponent<TextMeshProUGUI>();
-            _dialogueTitle = _dialoguePanel.transform.Find(DialogueTitleTitle)?.GetComponent<TextMeshProUGUI>();
-            _dialogueImage = _dialoguePanel.transform.Find(DialogueImageTitle)?.GetComponent<Image>();
+            _dialogueText = _dialoguePanel.transform.Find(DialogueTextIdentifier)?.GetComponent<TextMeshProUGUI>();
+            _dialogueTitle = _dialoguePanel.transform.Find(DialogueTitleIdentifier)?.GetComponent<TextMeshProUGUI>();
+            _dialogueImage = _dialoguePanel.transform.Find(DialogueImageIdentifier)?.GetComponent<Image>();
 
             Debugger.LogIfNull((nameof(_dialoguePanel), _dialoguePanel), (nameof(_dialogueTitle), _dialogueTitle));
         }
@@ -119,7 +119,7 @@ namespace UI {
                 _typingCoroutine = StartCoroutine(Typing());
             }
 
-            if (freezePlayer) {
+            if (FreezePlayer) {
                 if (_dialoguePanel.activeInHierarchy) {
                     PlayerController.FreezePosition(true, true);
                 } else {
