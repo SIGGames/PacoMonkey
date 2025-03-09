@@ -464,7 +464,9 @@ namespace Controllers {
 
         [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
         public void SetPosition(Vector3 position) {
-            Teleport(position);
+            // Do not try to use the Teleport method from the KinematicObject class because it will reset the velocity
+            // times witch I have fallen into this: 2
+            transform.position = position;
         }
 
         public void SetBodyType(RigidbodyType2D bodyType) {
