@@ -38,9 +38,14 @@ namespace UI {
         [SerializeField]
         private bool freezePlayer;
 
-        // Dialogues
         [SerializeField]
-        private string[] dialogue;
+        private bool ensureMultipleLanguagesDialoguesLength = true;
+
+        // Dialogues
+        private string[] _dialogue;
+        [SerializeField] private string[] dialogueCa;
+        [SerializeField] private string[] dialogueES;
+        [SerializeField] private string[] dialogueEn;
 
         // Properties
         private static PlayerController PlayerController => CharacterManager.Instance.currentPlayerController;
@@ -75,6 +80,8 @@ namespace UI {
         private void Start() {
             _dialoguePanel.SetActive(false);
             ResetText();
+            _dialogue = GetCurrentDialogue();
+            CheckDialoguesLength();
         }
 
         private void Update() {
@@ -97,6 +104,7 @@ namespace UI {
             }
 
             _currentNpcGuid = _npcGuid;
+            _dialogue = GetCurrentDialogue();
 
             if (_dialoguePanel.activeInHierarchy) {
                 NextLine();
@@ -143,7 +151,11 @@ namespace UI {
         }
 
         private void NextLine() {
-            if (_index < dialogue.Length - 1) {
+            if (_dialogue.Length == 0) {
+                return;
+            }
+
+            if (_index < _dialogue.Length - 1) {
                 _index++;
                 _dialogueText.text = "";
                 if (_typingCoroutine != null) {
@@ -167,9 +179,40 @@ namespace UI {
         }
 
         private IEnumerator Typing() {
-            foreach (char letter in dialogue[_index]) {
+            foreach (char letter in _dialogue[_index]) {
                 _dialogueText.text += letter;
                 yield return new WaitForSeconds(wordSpeed);
+            }
+        }
+
+        private string[] GetCurrentDialogue() {
+            string[] selectedDialogue = GameController.Instance.currentLanguage switch {
+                Languages.Catalan => dialogueCa,
+                Languages.Spanish => dialogueES,
+                Languages.English => dialogueEn,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            if (selectedDialogue == null || selectedDialogue.Length == 0) {
+                string[] defaultDialogue = { "No dialogue" };
+                dialogueCa = defaultDialogue;
+                dialogueES = defaultDialogue;
+                dialogueEn = defaultDialogue;
+                selectedDialogue = defaultDialogue;
+            }
+
+            return selectedDialogue;
+        }
+
+        private void CheckDialoguesLength() {
+            if (!ensureMultipleLanguagesDialoguesLength) {
+                return;
+            }
+
+            int targetLength = _dialogue.Length;
+            if (dialogueCa.Length != targetLength || dialogueES.Length != targetLength ||
+                dialogueEn.Length != targetLength) {
+                throw new Exception("Dialogues length must be the same");
             }
         }
 

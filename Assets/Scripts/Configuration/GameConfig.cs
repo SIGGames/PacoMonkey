@@ -1,5 +1,9 @@
-﻿namespace Configuration {
+﻿using Enums;
+
+namespace Configuration {
     public static class GameConfig {
+        public const Languages DefaultLanguage = Languages.Catalan;
+
         // Player Config
         public const bool IsGodMode = false;
 
