@@ -3,6 +3,7 @@ using System.Collections;
 using Controllers;
 using Enums;
 using Managers;
+using NaughtyAttributes;
 using TMPro;
 using UnityEditor.ColorRangeDrawers;
 using UnityEngine;
@@ -24,8 +25,11 @@ namespace UI {
         [SerializeField]
         private Sprite dialogueSprite;
 
-        [SerializeField, Range(0.01f, 0.3f)]
-        private float wordSpeed = 0.1f;
+        [SerializeField]
+        private bool progressiveTyping = true;
+
+        [SerializeField, ShowIf("progressiveTyping"), Range(0.01f, 0.3f)]
+        private float wordSpeed = 0.01f;
 
         [SerializeField, ColorRange(0.5f, 5)]
         private ColorRangeValue playerDistance = new(2, Color.black);
@@ -160,6 +164,11 @@ namespace UI {
         }
 
         private IEnumerator Typing() {
+            if (!progressiveTyping) {
+                DialogueText.text = _dialogue[_index];
+                yield break;
+            }
+
             foreach (char letter in _dialogue[_index]) {
                 DialogueText.text += letter;
                 yield return new WaitForSeconds(wordSpeed);
