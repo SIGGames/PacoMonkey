@@ -34,8 +34,6 @@ namespace UI {
         [SerializeField, ColorRange(0.5f, 5)]
         private ColorRangeValue playerDistance = new(2, Color.black);
 
-        private const bool FreezePlayer = true;
-
         [SerializeField]
         private bool ensureMultipleLanguagesDialoguesLength = true;
 
@@ -55,6 +53,7 @@ namespace UI {
         private string _npcGuid;
         private static string _currentNpcGuid = "";
         private Coroutine _typingCoroutine;
+        private const bool FreezePlayer = true;
 
         private void Awake() {
             _npcGuid = Guid.NewGuid().ToString();

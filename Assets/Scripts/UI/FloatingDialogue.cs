@@ -30,6 +30,9 @@ namespace UI {
         [SerializeField, ColorRange(0.5f, 5)]
         private ColorRangeValue playerDistance = new(2, Color.black);
 
+        [SerializeField]
+        private bool ensureMultipleLanguagesDialoguesLength = true;
+
         [Header("Dialogues")]
         [SerializeField] private string[] dialogueCa;
 
@@ -173,6 +176,10 @@ namespace UI {
         }
 
         private void CheckDialoguesLength() {
+            if (!ensureMultipleLanguagesDialoguesLength) {
+                return;
+            }
+
             int targetLength = _dialogue.Length;
             if (dialogueCa.Length != targetLength || dialogueEs.Length != targetLength || dialogueEn.Length != targetLength) {
                 throw new Exception("The dialogues must have the same length for all languages.");
