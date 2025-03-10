@@ -106,6 +106,7 @@ namespace UI {
             if (_dialoguePanel.activeSelf) {
                 NextLine();
             } else {
+                DeactivateAllActiveFloatingDialogues();
                 _dialoguePanel.SetActive(true);
                 SetTitle();
                 if (_typingCoroutine != null)
@@ -199,6 +200,15 @@ namespace UI {
             int targetLength = _dialogue.Length;
             if (dialogueCa.Length != targetLength || dialogueEs.Length != targetLength || dialogueEn.Length != targetLength) {
                 throw new Exception("The dialogues must have the same length for all languages.");
+            }
+        }
+
+        private void DeactivateAllActiveFloatingDialogues() {
+            FloatingDialogue[] dialogues = FindObjectsOfType<FloatingDialogue>();
+            foreach (FloatingDialogue dialogue in dialogues) {
+                if (dialogue != this && dialogue._dialoguePanel.activeSelf) {
+                    dialogue._dialoguePanel.SetActive(false);
+                }
             }
         }
 
