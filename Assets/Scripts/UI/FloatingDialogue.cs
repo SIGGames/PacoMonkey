@@ -30,18 +30,28 @@ namespace UI {
         [SerializeField, ColorRange(0.5f, 5)]
         private ColorRangeValue playerDistance = new(2, Color.black);
 
+        [Header("Interact Button Before Interact")]
+        [SerializeField]
+        private bool showInteractButtonBeforeInteract = true;
+
+        [SerializeField, ShowIf("showInteractButtonBeforeInteract")]
+        private Vector2 interactButtonOffset = new(0, 1f);
+
+        [SerializeField, ShowIf("showInteractButtonBeforeInteract")]
+        private GameObject interactButtonBeforeInteractPrefab;
+
+        [Header("Dialogues")]
         [SerializeField]
         private bool ensureMultipleLanguagesDialoguesLength = true;
 
-        [Header("Dialogues")]
         [SerializeField] private string[] dialogueCa;
-
         [SerializeField] private string[] dialogueEs;
         [SerializeField] private string[] dialogueEn;
         private string[] _dialogue;
 
         private int _index;
         private Coroutine _typingCoroutine;
+        private GameObject _interactButtonInstance;
 
         private static PlayerController PlayerController => CharacterManager.Instance.currentPlayerController;
         private static Vector3 PlayerPosition => PlayerController.transform.position;
@@ -51,6 +61,7 @@ namespace UI {
         private const string DialoguePanelIdentifier = "FloatingDialoguePanel";
         private const string DialogueTextIdentifier = "FloatingDialogueText";
         private const string DialogueTitleIdentifier = "FloatingDialogueTitle";
+        private const string InteractButtonIdentifier = "FloatingDialogueBeforeInteract";
 
         private void Awake() {
             _dialoguePanel = transform.Find(DialoguePanelIdentifier)?.gameObject;
@@ -74,6 +85,10 @@ namespace UI {
         }
 
         private void Update() {
+            if (showInteractButtonBeforeInteract) {
+                HandleInteractButtonBeforeInteract();
+            }
+
             if (!PlayerIsClose) {
                 return;
             }
@@ -106,6 +121,7 @@ namespace UI {
                 if (d == this) {
                     continue;
                 }
+
                 float candidateDistance = Vector3.Distance(d.transform.position, PlayerPosition);
                 if (candidateDistance < npcDistance) {
                     return false;
@@ -183,6 +199,30 @@ namespace UI {
             int targetLength = _dialogue.Length;
             if (dialogueCa.Length != targetLength || dialogueEs.Length != targetLength || dialogueEn.Length != targetLength) {
                 throw new Exception("The dialogues must have the same length for all languages.");
+            }
+        }
+
+        private void HandleInteractButtonBeforeInteract() {
+            if (PlayerIsClose && !_dialoguePanel.activeSelf) {
+                ShowInteractButton();
+            } else {
+                HideInteractButton();
+            }
+        }
+
+        private void ShowInteractButton() {
+            if (_interactButtonInstance == null) {
+                _interactButtonInstance = Instantiate(interactButtonBeforeInteractPrefab, transform);
+                _interactButtonInstance.name = InteractButtonIdentifier;
+            }
+
+            _interactButtonInstance.transform.position = transform.position + (Vector3)interactButtonOffset;
+            _interactButtonInstance.SetActive(true);
+        }
+
+        private void HideInteractButton() {
+            if (_interactButtonInstance != null) {
+                _interactButtonInstance.SetActive(false);
             }
         }
 

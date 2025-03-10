@@ -97,20 +97,27 @@ namespace PlayerInput {
             // Update the interact key image in the floating dialogue
             IEnumerable<Image> keyImages = FindObjectsOfType<Image>(true)
                 .Where(img => img.gameObject.name == "FloatingDialogueNextStep");
+            foreach (Image keyImage in keyImages) {
+                keyImage.sprite = GetInputSprite(keyImage);
+            }
 
-            foreach (var keyImage in keyImages) {
-                keyImage.sprite = currentInputDevice switch {
-                    InputDeviceType.Controller => controllerInteractImage,
-                    InputDeviceType.Keyboard => keyboardInteractImage,
-                    _ => keyImage.sprite
-                };
+            // Update the interact key image before interacting with the NPC
+            IEnumerable<Image> beforeInteractImages = FindObjectsOfType<Image>(true)
+                .Where(img => img.gameObject.name == "FloatingDialogueBeforeInteract");
+            foreach (Image image in beforeInteractImages) {
+                image.sprite = GetInputSprite(image);
             }
 
             // Update the next step image in the fixed dialogue panel
-            DialogueManager.Instance.DialogueNextStepImage.sprite = currentInputDevice switch {
+            DialogueManager.Instance.DialogueNextStepImage.sprite =
+                GetInputSprite(DialogueManager.Instance.DialogueNextStepImage);
+        }
+
+        private Sprite GetInputSprite(Image image) {
+            return currentInputDevice switch {
                 InputDeviceType.Controller => controllerInteractImage,
                 InputDeviceType.Keyboard => keyboardInteractImage,
-                _ => DialogueManager.Instance.DialogueNextStepImage.sprite
+                _ => image.sprite
             };
         }
     }

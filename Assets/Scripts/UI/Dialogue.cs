@@ -34,10 +34,21 @@ namespace UI {
         [SerializeField, ColorRange(0.5f, 5)]
         private ColorRangeValue playerDistance = new(2, Color.black);
 
+        [Header("Interact Button Before Interact")]
+        [SerializeField]
+        private bool showInteractButtonBeforeInteract = true;
+
+        [SerializeField, ShowIf("showInteractButtonBeforeInteract")]
+        private Vector2 interactButtonOffset = new(0, 1f);
+
+        [SerializeField, ShowIf("showInteractButtonBeforeInteract")]
+        private GameObject interactButtonBeforeInteractPrefab;
+
+
+        [Header("Dialogues")]
         [SerializeField]
         private bool ensureMultipleLanguagesDialoguesLength = true;
 
-        [Header("Dialogues")]
         [SerializeField] private string[] dialogueCa;
         [SerializeField] private string[] dialogueEs;
         [SerializeField] private string[] dialogueEn;
@@ -53,7 +64,9 @@ namespace UI {
         private string _npcGuid;
         private static string _currentNpcGuid = "";
         private Coroutine _typingCoroutine;
+        private GameObject _interactButtonInstance;
         private const bool FreezePlayer = true;
+        private const string InteractButtonIdentifier = "FloatingDialogueBeforeInteract";
 
         private void Awake() {
             _npcGuid = Guid.NewGuid().ToString();
@@ -67,6 +80,10 @@ namespace UI {
         }
 
         private void Update() {
+            if (showInteractButtonBeforeInteract) {
+                HandleInteractButtonBeforeInteract();
+            }
+
             if (!PlayerIsClose) {
                 return;
             }
@@ -117,6 +134,7 @@ namespace UI {
                 if (d == this) {
                     continue;
                 }
+
                 float candidateDistance = Vector3.Distance(d.transform.position, PlayerPosition);
                 if (candidateDistance < npcDistance) {
                     return false;
@@ -202,6 +220,30 @@ namespace UI {
             if (dialogueCa.Length != targetLength || dialogueEs.Length != targetLength ||
                 dialogueEn.Length != targetLength) {
                 throw new Exception("Dialogues length must be the same");
+            }
+        }
+
+        private void HandleInteractButtonBeforeInteract() {
+            if (PlayerIsClose && !DialoguePanel.activeSelf) {
+                ShowInteractButton();
+            } else {
+                HideInteractButton();
+            }
+        }
+
+        private void ShowInteractButton() {
+            if (_interactButtonInstance == null) {
+                _interactButtonInstance = Instantiate(interactButtonBeforeInteractPrefab, transform);
+                _interactButtonInstance.name = InteractButtonIdentifier;
+            }
+
+            _interactButtonInstance.transform.position = transform.position + (Vector3)interactButtonOffset;
+            _interactButtonInstance.SetActive(true);
+        }
+
+        private void HideInteractButton() {
+            if (_interactButtonInstance != null) {
+                _interactButtonInstance.SetActive(false);
             }
         }
 
