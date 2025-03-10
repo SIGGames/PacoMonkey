@@ -18,7 +18,7 @@ namespace Managers {
             _isFramingTransposerNotNull = _framingTransposer != null;
         }
 
-        void Awake() {
+        private void Awake() {
             InitializeSingleton();
             InitializeCameraComponents();
             SaveInitialCameraSettings();

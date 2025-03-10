@@ -85,6 +85,8 @@ namespace UI {
         }
 
         private void Update() {
+            DisableDialogueIfOutOfCameraBounds();
+
             if (showInteractButtonBeforeInteract) {
                 HandleInteractButtonBeforeInteract();
             }
@@ -112,6 +114,15 @@ namespace UI {
                 if (_typingCoroutine != null)
                     StopCoroutine(_typingCoroutine);
                 _typingCoroutine = StartCoroutine(Typing());
+            }
+        }
+
+        private void DisableDialogueIfOutOfCameraBounds() {
+            if (_dialoguePanel.activeSelf) {
+                Vector3 viewportPos = Camera.main!.WorldToViewportPoint(_dialoguePanel.transform.position);
+                if (viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1) {
+                    ResetText();
+                }
             }
         }
 
