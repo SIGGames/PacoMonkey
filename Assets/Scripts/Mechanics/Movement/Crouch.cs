@@ -91,6 +91,10 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
+            if (!_playerController.controlEnabled) {
+                return;
+            }
+
             PerformCrouch();
 
             if (_slideCooldownTimer > 0) {
