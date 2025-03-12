@@ -66,9 +66,9 @@ namespace UI {
         [SerializeField, ShowIf("hasAlternativeDialogue")]
         private bool resetAfterShowAlternativeDialogue;
 
-        [SerializeField, ShowIf("resetAfterShowAlternativeDialogue"), Range(0.1f, 5),
-         Tooltip("Time in minutes to reset the dialogue and use the default text")]
-        private float resetDelay = 1f;
+        [SerializeField, ShowIf("resetAfterShowAlternativeDialogue"), Range(0.1f, 240),
+         Tooltip("Time in seconds to reset the dialogue and use the default text")]
+        private float resetDelay = 10f;
 
         private int _index;
         private Coroutine _typingCoroutine;
@@ -244,8 +244,6 @@ namespace UI {
             }
 
             _typingCoroutine = StartCoroutine(Typing());
-
-
             _dialoguePanel.SetActive(true);
 
             if (resetAfterShowAlternativeDialogue) {
@@ -273,11 +271,12 @@ namespace UI {
             }
         }
 
-        private IEnumerator ResetAfterDelay() {
-            yield return new WaitForSeconds(resetDelay);
+        private IEnumerator ResetAfterDelay(float delay = -1) {
+            float effectiveDelay = delay < 0 ? resetDelay : delay;
+            yield return new WaitForSeconds(effectiveDelay);
             // If it's still active, wait until it's not
             if (_dialoguePanel.activeSelf) {
-                StartCoroutine(ResetAfterDelay());
+                StartCoroutine(ResetAfterDelay(0.1f));
                 yield break;
             }
 

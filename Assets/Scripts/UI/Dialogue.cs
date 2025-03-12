@@ -53,6 +53,27 @@ namespace UI {
         [SerializeField] private string[] dialogueEn;
         private string[] _dialogue;
 
+        [Header("Alternative Dialogue")]
+        [SerializeField,
+         Tooltip("This dialogue will be shown once the default dialogue has finished and the player interacts again")]
+        private bool hasAlternativeDialogue = true;
+
+        [SerializeField, ShowIf("hasAlternativeDialogue")]
+        private string[] alternativeDialogueCa;
+
+        [SerializeField, ShowIf("hasAlternativeDialogue")]
+        private string[] alternativeDialogueEs;
+
+        [SerializeField, ShowIf("hasAlternativeDialogue")]
+        private string[] alternativeDialogueEn;
+
+        [SerializeField, ShowIf("hasAlternativeDialogue")]
+        private bool resetAfterShowAlternativeDialogue;
+
+        [SerializeField, ShowIf("resetAfterShowAlternativeDialogue"), Range(0.1f, 240),
+         Tooltip("Time in seconds to reset the dialogue and use the default text")]
+        private float resetDelay = 10f;
+
         // Properties
         private static PlayerController PlayerController => CharacterManager.Instance.currentPlayerController;
         private static Vector3 PlayerPosition => PlayerController.transform.position;
@@ -65,6 +86,7 @@ namespace UI {
         private Coroutine _typingCoroutine;
         private GameObject _interactButtonInstance;
         private const bool FreezePlayer = true;
+        private bool _mustShowAlternativeDialogue;
         private const string InteractButtonIdentifier = "FloatingDialogueBeforeInteract";
 
         private void Awake() {
@@ -107,14 +129,20 @@ namespace UI {
             if (DialoguePanel.activeInHierarchy) {
                 NextLine();
             } else {
-                DialoguePanel.SetActive(true);
-                SetImage();
-                SetTitle();
-                if (_typingCoroutine != null) {
-                    StopCoroutine(_typingCoroutine);
-                }
+                if (_mustShowAlternativeDialogue) {
+                    ShowAlternativeDialogue();
+                } else {
 
-                _typingCoroutine = StartCoroutine(Typing());
+                    DialoguePanel.SetActive(true);
+                    SetImage();
+                    SetTitle();
+                    if (_typingCoroutine != null) {
+                        StopCoroutine(_typingCoroutine);
+                    }
+
+                    _typingCoroutine = StartCoroutine(Typing());
+                    _mustShowAlternativeDialogue = HasAlternativeDialogue();
+                }
             }
 
             if (FreezePlayer) {
@@ -210,6 +238,33 @@ namespace UI {
             return selectedDialogue;
         }
 
+        private string[] GetAlternativeDialogue() {
+            string[] alt = GameController.Instance.currentLanguage switch {
+                Languages.Catalan => alternativeDialogueCa,
+                Languages.Spanish => alternativeDialogueEs,
+                Languages.English => alternativeDialogueEn,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            if (alt == null || alt.Length == 0) {
+                string[] defaultDialogue = { "No alternative dialogue" };
+                alternativeDialogueCa = defaultDialogue;
+                alternativeDialogueEs = defaultDialogue;
+                alternativeDialogueEn = defaultDialogue;
+                alt = defaultDialogue;
+            }
+
+            return alt;
+        }
+
+        private bool HasAlternativeDialogue() {
+            if (!hasAlternativeDialogue) {
+                return false;
+            }
+
+            string[] alt = GetAlternativeDialogue();
+            return alt is { Length: > 0 };
+        }
+
         private void CheckDialoguesLength() {
             if (!ensureMultipleLanguagesDialoguesLength) {
                 return;
@@ -220,6 +275,37 @@ namespace UI {
                 dialogueEn.Length != targetLength) {
                 throw new Exception("Dialogues length must be the same");
             }
+        }
+
+        private void ShowAlternativeDialogue() {
+            ResetText();
+            _dialogue = GetAlternativeDialogue();
+
+            // Stop the coroutine if it's still running and start the new one
+            if (_typingCoroutine != null) {
+                StopCoroutine(_typingCoroutine);
+            }
+
+            _typingCoroutine = StartCoroutine(Typing());
+            DialoguePanel.SetActive(true);
+
+            if (resetAfterShowAlternativeDialogue) {
+                StartCoroutine(ResetAfterDelay());
+            }
+        }
+
+        private IEnumerator ResetAfterDelay(float delay = -1) {
+            float effectiveDelay = delay < 0 ? resetDelay : delay;
+            yield return new WaitForSeconds(effectiveDelay);
+            // If it's still active, wait until it's not
+            if (DialoguePanel.activeSelf) {
+                StartCoroutine(ResetAfterDelay(0.1f));
+                yield break;
+            }
+
+            ResetText();
+            _dialogue = GetCurrentDialogue();
+            _mustShowAlternativeDialogue = false;
         }
 
         private void HandleInteractButtonBeforeInteract() {
