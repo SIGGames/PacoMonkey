@@ -44,7 +44,6 @@ namespace UI {
         [SerializeField, ShowIf("showInteractButtonBeforeInteract")]
         private GameObject interactButtonBeforeInteractPrefab;
 
-
         [Header("Dialogues")]
         [SerializeField]
         private bool ensureMultipleLanguagesDialoguesLength = true;

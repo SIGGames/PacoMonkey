@@ -49,9 +49,31 @@ namespace UI {
         [SerializeField] private string[] dialogueEn;
         private string[] _dialogue;
 
+        [Header("Alternative Dialogue")]
+        [SerializeField,
+         Tooltip("This dialogue will be shown once the default dialogue has finished and the player interacts again")]
+        private bool hasAlternativeDialogue = true;
+
+        [SerializeField, ShowIf("hasAlternativeDialogue")]
+        private string[] alternativeDialogueCa;
+
+        [SerializeField, ShowIf("hasAlternativeDialogue")]
+        private string[] alternativeDialogueEs;
+
+        [SerializeField, ShowIf("hasAlternativeDialogue")]
+        private string[] alternativeDialogueEn;
+
+        [SerializeField, ShowIf("hasAlternativeDialogue")]
+        private bool resetAfterShowAlternativeDialogue;
+
+        [SerializeField, ShowIf("resetAfterShowAlternativeDialogue"), Range(0.1f, 5),
+         Tooltip("Time in minutes to reset the dialogue and use the default text")]
+        private float resetDelay = 1f;
+
         private int _index;
         private Coroutine _typingCoroutine;
         private GameObject _interactButtonInstance;
+        private bool _mustShowAlternativeDialogue;
 
         private static PlayerController PlayerController => CharacterManager.Instance.currentPlayerController;
         private static Vector3 PlayerPosition => PlayerController.transform.position;
@@ -109,54 +131,41 @@ namespace UI {
                 NextLine();
             } else {
                 DeactivateAllActiveFloatingDialogues();
+
+                if (_mustShowAlternativeDialogue) {
+                    ShowAlternativeDialogue();
+                    return;
+                }
+
                 _dialoguePanel.SetActive(true);
                 SetTitle();
-                if (_typingCoroutine != null)
+                if (_typingCoroutine != null) {
                     StopCoroutine(_typingCoroutine);
+                }
+
                 _typingCoroutine = StartCoroutine(Typing());
+                _mustShowAlternativeDialogue = HasAlternativeDialogue();
             }
-        }
-
-        private void DisableDialogueIfOutOfCameraBounds() {
-            if (_dialoguePanel.activeSelf) {
-                Vector3 viewportPos = Camera.main!.WorldToViewportPoint(_dialoguePanel.transform.position);
-                if (viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1) {
-                    ResetText();
-                }
-            }
-        }
-
-        private bool IsClosestNpc() {
-            FloatingDialogue[] dialogues = FindObjectsOfType<FloatingDialogue>();
-            float npcDistance = Vector3.Distance(transform.position, PlayerPosition);
-            foreach (FloatingDialogue d in dialogues) {
-                if (d == this) {
-                    continue;
-                }
-
-                float candidateDistance = Vector3.Distance(d.transform.position, PlayerPosition);
-                if (candidateDistance < npcDistance) {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         private void SetTitle() {
-            if (_dialogueTitle != null)
+            if (_dialogueTitle != null) {
                 _dialogueTitle.text = string.IsNullOrEmpty(title) ? gameObject.name : title;
+            }
         }
 
         private void NextLine() {
-            if (_dialogue.Length == 0)
+            if (_dialogue.Length == 0) {
                 return;
+            }
 
             if (_index < _dialogue.Length - 1) {
                 _index++;
                 _dialogueText.text = "";
-                if (_typingCoroutine != null)
+                if (_typingCoroutine != null) {
                     StopCoroutine(_typingCoroutine);
+                }
+
                 _typingCoroutine = StartCoroutine(Typing());
             } else {
                 ResetText();
@@ -164,10 +173,14 @@ namespace UI {
         }
 
         private void ResetText() {
-            if (_typingCoroutine != null)
+            if (_typingCoroutine != null) {
                 StopCoroutine(_typingCoroutine);
-            if (_dialogueText != null)
+            }
+
+            if (_dialogueText != null) {
                 _dialogueText.text = "";
+            }
+
             _index = 0;
             _dialoguePanel.SetActive(false);
         }
@@ -203,6 +216,52 @@ namespace UI {
             return selectedDialogue;
         }
 
+        private string[] GetAlternativeDialogue() {
+            string[] alt = GameController.Instance.currentLanguage switch {
+                Languages.Catalan => alternativeDialogueCa,
+                Languages.Spanish => alternativeDialogueEs,
+                Languages.English => alternativeDialogueEn,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            if (alt == null || alt.Length == 0) {
+                string[] defaultDialogue = { "No alternative dialogue" };
+                alternativeDialogueCa = defaultDialogue;
+                alternativeDialogueEs = defaultDialogue;
+                alternativeDialogueEn = defaultDialogue;
+                alt = defaultDialogue;
+            }
+
+            return alt;
+        }
+
+        private void ShowAlternativeDialogue() {
+            ResetText();
+            _dialogue = GetAlternativeDialogue();
+
+            // Stop the coroutine if it's still running and start the new one
+            if (_typingCoroutine != null) {
+                StopCoroutine(_typingCoroutine);
+            }
+
+            _typingCoroutine = StartCoroutine(Typing());
+
+
+            _dialoguePanel.SetActive(true);
+
+            if (resetAfterShowAlternativeDialogue) {
+                StartCoroutine(ResetAfterDelay());
+            }
+        }
+
+        private bool HasAlternativeDialogue() {
+            if (!hasAlternativeDialogue) {
+                return false;
+            }
+
+            string[] alt = GetAlternativeDialogue();
+            return alt is { Length: > 0 };
+        }
+
         private void CheckDialoguesLength() {
             if (!ensureMultipleLanguagesDialoguesLength) {
                 return;
@@ -212,6 +271,45 @@ namespace UI {
             if (dialogueCa.Length != targetLength || dialogueEs.Length != targetLength || dialogueEn.Length != targetLength) {
                 throw new Exception("The dialogues must have the same length for all languages.");
             }
+        }
+
+        private IEnumerator ResetAfterDelay() {
+            yield return new WaitForSeconds(resetDelay);
+            // If it's still active, wait until it's not
+            if (_dialoguePanel.activeSelf) {
+                StartCoroutine(ResetAfterDelay());
+                yield break;
+            }
+
+            ResetText();
+            _dialogue = GetCurrentDialogue();
+            _mustShowAlternativeDialogue = false;
+        }
+
+        private void DisableDialogueIfOutOfCameraBounds() {
+            if (_dialoguePanel.activeSelf) {
+                Vector3 viewportPos = Camera.main!.WorldToViewportPoint(_dialoguePanel.transform.position);
+                if (viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1) {
+                    ResetText();
+                }
+            }
+        }
+
+        private bool IsClosestNpc() {
+            FloatingDialogue[] dialogues = FindObjectsOfType<FloatingDialogue>();
+            float npcDistance = Vector3.Distance(transform.position, PlayerPosition);
+            foreach (FloatingDialogue d in dialogues) {
+                if (d == this) {
+                    continue;
+                }
+
+                float candidateDistance = Vector3.Distance(d.transform.position, PlayerPosition);
+                if (candidateDistance < npcDistance) {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void DeactivateAllActiveFloatingDialogues() {
