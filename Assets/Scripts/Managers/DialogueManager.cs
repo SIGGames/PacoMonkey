@@ -8,6 +8,8 @@ namespace Managers {
     public class DialogueManager : MonoBehaviour {
         public static DialogueManager Instance { get; private set; }
 
+        public Sprite playerSprite;
+
         // Components
         public GameObject DialoguePanel { get; private set; }
         public TextMeshProUGUI DialogueText { get; private set; }
@@ -40,7 +42,7 @@ namespace Managers {
 
             Debugger.LogIfNull((nameof(DialoguePanel), DialoguePanel), (nameof(DialogueText), DialogueText),
                 (nameof(DialogueTitle), DialogueTitle), (nameof(DialogueImage), DialogueImage),
-                (nameof(DialogueNextStepImage), DialogueNextStepImage));
+                (nameof(DialogueNextStepImage), DialogueNextStepImage), (nameof(playerSprite), playerSprite));
         }
     }
 }
