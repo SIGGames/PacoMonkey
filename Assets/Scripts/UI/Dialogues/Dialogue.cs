@@ -303,11 +303,6 @@ namespace UI.Dialogues {
             ResetText();
             _dialogue = GetAlternativeDialogue();
 
-            foreach (DialogueLine dialogueLine in _dialogue) {
-                Debug.Log(dialogueLine.text);
-            }
-
-
             // Stop the coroutine if it's still running and start the new one
             if (_typingCoroutine != null) {
                 StopCoroutine(_typingCoroutine);
