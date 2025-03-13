@@ -9,6 +9,7 @@ TagManager:
   - ClimbableWall
   - DamageTile
   - Projectile
+  - Boss
   layers:
   - Default
   - TransparentFX
