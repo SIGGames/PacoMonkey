@@ -69,6 +69,10 @@ namespace Mechanics.Fight {
         }
 
         private void Update() {
+            if (!playerController.controlEnabled) {
+                return;
+            }
+            
             if (isMeleeActive && GetMeleeKey() && canMeleeAttack) {
                 StartMeleeAttackAnimation();
             }
