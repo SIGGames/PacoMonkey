@@ -1,5 +1,5 @@
 using Controllers;
-using Mechanics;
+using Managers;
 using UnityEngine;
 using static PlayerInput.KeyBinds;
 
@@ -13,17 +13,12 @@ namespace UI {
 
         public GameController gameController;
 
-        bool _showMainCanvas;
+        public static bool IsMenuOpen { get; private set; }
 
-        [SerializeField] private PlayerController[] playerControllers;
-        private bool PCIsNull;
+        private bool _showMainCanvas;
+        private bool _controlWasEnabled;
 
-        private void Awake() {
-            playerControllers = FindObjectsOfType<PlayerController>();
-            PCIsNull = playerControllers == null || playerControllers.Length == 0;
-        }
-
-        void OnEnable() {
+        private void OnEnable() {
             _ToggleMainMenu(_showMainCanvas);
         }
 
@@ -33,7 +28,7 @@ namespace UI {
             }
         }
 
-        void _ToggleMainMenu(bool show) {
+        private void _ToggleMainMenu(bool show) {
             if (show) {
                 Time.timeScale = 0;
                 mainMenu.gameObject.SetActive(true);
@@ -44,19 +39,24 @@ namespace UI {
                 foreach (var i in gamePlayCanvasii) i.gameObject.SetActive(true);
             }
 
+            IsMenuOpen = show;
             _showMainCanvas = show;
         }
 
-        void Update() {
-            if (GetMenuKey()) {
-                ToggleMainMenu(show: !_showMainCanvas);
+        private void Update() {
+            if (!GetMenuKey()) {
+                return;
+            }
 
-                if (!PCIsNull) {
-                    foreach (var playerController in playerControllers) {
-                        playerController.controlEnabled = !_showMainCanvas;
-                        playerController.FreezePosition(_showMainCanvas);
-                    }
-                }
+            bool openingMenu = !_showMainCanvas;
+            ToggleMainMenu(openingMenu);
+
+            if (openingMenu) {
+                _controlWasEnabled = CharacterManager.Instance.currentPlayerController.controlEnabled;
+            }
+
+            if (_controlWasEnabled) {
+                CharacterManager.Instance.currentPlayerController.FreezePosition(openingMenu);
             }
         }
     }

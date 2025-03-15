@@ -107,6 +107,10 @@ namespace UI.Dialogues {
                 HandleInteractButtonBeforeInteract();
             }
 
+            if (MetaGameController.IsMenuOpen) {
+                return;
+            }
+
             if (!PlayerIsClose) {
                 return;
             }

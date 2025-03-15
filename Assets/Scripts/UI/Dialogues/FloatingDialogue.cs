@@ -109,6 +109,10 @@ namespace UI.Dialogues {
         }
 
         private void Update() {
+            if (MetaGameController.IsMenuOpen) {
+                return;
+            }
+
             DisableDialogueIfOutOfCameraBounds();
 
             if (showInteractButtonBeforeInteract) {
