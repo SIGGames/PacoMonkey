@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 95391780594314510}
   - component: {fileID: 50915408107096866}
   - component: {fileID: 8509783501685719824}
-  - component: {fileID: 6082575806313374961}
   - component: {fileID: 1824045667}
   m_Layer: 13
   m_Name: Player
@@ -53,18 +52,19 @@ MonoBehaviour:
   minGroundNormalY: 0.9
   gravityModifier: 1
   velocity: {x: 0, y: 0}
-  jumpAudio: {fileID: 8300000, guid: 67975c08d56ceb147bad38572d805aa8, type: 3}
-  respawnAudio: {fileID: 8300000, guid: e18959d46b63f3c4c8cc020a433cf848, type: 3}
-  ouchAudio: {fileID: 8300000, guid: 6c05149e5a2fba64ba172e25a61074b7, type: 3}
+  targetVelocity: {x: 0, y: 0}
+  body: {fileID: 0}
+  controlEnabled: 1
+  isPositionFreezed: 0
+  movementState: 0
+  isFacingRight: 1
+  canRun: 1
   maxRunSpeed: 4
   runAcceleration: 75
   runDeceleration: 70
+  flipOffsetChange: 0.06
+  canWalk: 1
   walkSpeedMultiplier: 0.33
-  crouchSpeedMultiplier: 0.5
-  cameraOffsetOnCrouch: {x: 0, y: -1.5}
-  slideDuration: 1.5
-  isSliding: 0
-  slideMinSpeedMultiplier: 0.5
   jumpModifier: 1.5
   jumpTakeOffSpeed: 7
   jumpDeceleration: 0.7
@@ -72,14 +72,19 @@ MonoBehaviour:
   jumpBufferTime: 0.2
   fallSpeedMultiplier: 1.5
   jumpComponentBalance: 55
+  jumpDecelerationDelay: 0.2
   jumpState: 0
+  boxColliderOnDeathSize: {x: 0, y: 0}
+  boxColliderOnDeathOffset: {x: 0, y: 0}
   collider2d: {fileID: 0}
+  lives: {fileID: 0}
   audioSource: {fileID: 0}
-  health: {fileID: 0}
-  controlEnabled: 1
-  movementState: 0
-  isFacingRight: 1
+  jumpAudio: {fileID: 8300000, guid: 67975c08d56ceb147bad38572d805aa8, type: 3}
+  respawnAudio: {fileID: 8300000, guid: e18959d46b63f3c4c8cc020a433cf848, type: 3}
+  ouchAudio: {fileID: 8300000, guid: 6c05149e5a2fba64ba172e25a61074b7, type: 3}
   move: {x: 0, y: 0}
+  boxCollider: {fileID: 0}
+  respawnPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212064061491315838
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -276,20 +281,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6082575806313374961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208144871472054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffad43bb006db4856a9c527b89b48db9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentHp: 0
-  currentLives: 0
 --- !u!61 &1824045667
 BoxCollider2D:
   m_ObjectHideFlags: 0
