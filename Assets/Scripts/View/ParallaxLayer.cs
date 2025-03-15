@@ -11,13 +11,13 @@ namespace View {
         /// </summary>
         public Vector3 movementScale = Vector3.one;
 
-        Transform _camera;
+        private Transform _camera;
 
-        void Awake() {
+        private void Awake() {
             _camera = Camera.main.transform;
         }
 
-        void LateUpdate() {
+        private void LateUpdate() {
             transform.position = Vector3.Scale(_camera.position, movementScale);
         }
     }

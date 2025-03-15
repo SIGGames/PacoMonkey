@@ -31,7 +31,6 @@ namespace Controllers {
         private Vector2 BossPosition => transform.position;
         private static Vector2 PlayerPosition => CurrentPlayer.transform.position;
 
-
         private void Awake() {
             col = GetComponent<Collider2D>();
             audioSource = GetComponent<AudioSource>();
@@ -50,11 +49,9 @@ namespace Controllers {
             }
         }
 
-
         private void Update() {
             HandleFlip();
         }
-
 
         private void HandleFlip() {
             if (PlayerPosition.x > BossPosition.x && !isFacingRight) {
