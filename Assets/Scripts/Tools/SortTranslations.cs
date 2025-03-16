@@ -6,7 +6,7 @@ namespace Tools {
     public static class SortTranslations {
         [MenuItem("Tools/Sort Translations")]
         public static void SortTranslationsData() {
-            const string assetPath = "Assets/Prefabs/Translations.asset";
+            const string assetPath = "Assets/Resources/Translations.asset";
 
             LocalizationData translationsData = AssetDatabase.LoadAssetAtPath<LocalizationData>(assetPath);
             if (translationsData == null) {
