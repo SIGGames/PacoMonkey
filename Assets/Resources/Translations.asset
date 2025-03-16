@@ -29,6 +29,10 @@ MonoBehaviour:
     catalan: Enrere
     spanish: "Atr\xE1s"
     english: Back
+  - key: brightness
+    catalan: Brillantor
+    spanish: Brillo
+    english: Brightness
   - key: catalan
     catalan: "Catal\xE0"
     spanish: Catalan
@@ -113,3 +117,7 @@ MonoBehaviour:
     catalan: Espanyol
     spanish: "Espa\xF1ol"
     english: Spanish
+  - key: video
+    catalan: "V\xEDdeo"
+    spanish: Video
+    english: Video
