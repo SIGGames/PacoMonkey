@@ -41,3 +41,7 @@ MonoBehaviour:
     catalan: Sortir
     spanish: Salir
     english: Quit
+  - key: mz-start
+    catalan: Zona de sortida
+    spanish: Zona de salida
+    english: Starting zone

@@ -1,9 +1,12 @@
+using Enums;
 using Platformer.Core;
 using UnityEngine;
 
 namespace Controllers {
     public class GameController : MonoBehaviour {
         public static GameController Instance { get; private set; }
+
+        public MapZone currentMapZone = MapZone.Start;
 
         private void OnEnable() {
             Instance = this;
