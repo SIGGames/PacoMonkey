@@ -39,6 +39,14 @@ namespace Localization {
             }
         }
 
+        public void SetLanguage(string language) {
+            currentLanguage = language.ToLower() switch {
+                "catalan" => Language.Catalan,
+                "spanish" => Language.Spanish,
+                "english" => Language.English,
+                _ => currentLanguage
+            };
+        }
 
         private void ChangeLanguage() {
             PlayerPrefs.SetInt(LanguageKey, (int)currentLanguage);

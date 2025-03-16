@@ -69,7 +69,23 @@ MonoBehaviour:
     catalan: Sortir
     spanish: Salir
     english: Quit
+  - key: select-language
+    catalan: Selecciona un idioma
+    spanish: Seleciona un idioma
+    english: Select a language
   - key: session-time
     catalan: "Temps de la sessi\xF3"
     spanish: Tiempo de la sesion
     english: Session time
+  - key: spanish
+    catalan: Espanyol
+    spanish: "Espa\xF1ol"
+    english: Spanish
+  - key: catalan
+    catalan: "Catal\xE0"
+    spanish: Catalan
+    english: Catalan
+  - key: english
+    catalan: "Angl\xE8s"
+    spanish: "Ingl\xE9s"
+    english: English
