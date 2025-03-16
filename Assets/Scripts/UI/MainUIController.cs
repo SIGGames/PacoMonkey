@@ -8,14 +8,16 @@ namespace UI {
         public GameObject[] panels;
 
         public void SetActivePanel(int index) {
-            for (var i = 0; i < panels.Length; i++) {
-                var active = i == index;
+            for (int i = 0; i < panels.Length; i++) {
+                bool active = i == index;
                 var g = panels[i];
-                if (g.activeSelf != active) g.SetActive(active);
+                if (g.activeSelf != active) {
+                    g.SetActive(active);
+                }
             }
         }
 
-        void OnEnable() {
+        private void OnEnable() {
             SetActivePanel(0);
         }
     }

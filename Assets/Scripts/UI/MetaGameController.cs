@@ -1,3 +1,4 @@
+using System.Linq;
 using Controllers;
 using Managers;
 using UnityEngine;
@@ -55,8 +56,16 @@ namespace UI {
                 return;
             }
 
+            if (IsMenuOpen && !CanResumeGame()) {
+                return;
+            }
+
             bool openingMenu = !_showMainCanvas;
             ToggleMainMenu(openingMenu);
+        }
+
+        private bool CanResumeGame() {
+            return mainMenu.panels.Any(panel => panel.name.Contains("PauseMenu") && panel.activeSelf);
         }
     }
 }

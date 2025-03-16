@@ -45,3 +45,23 @@ MonoBehaviour:
     catalan: Zona de sortida
     spanish: Zona de salida
     english: Starting zone
+  - key: play
+    catalan: Jugar
+    spanish: Jugar
+    english: Play
+  - key: credits
+    catalan: "Cr\xE8dits"
+    spanish: Creditos
+    english: Credits
+  - key: julia-text
+    catalan: Game designer  i project manager
+    spanish: Game designer y responsable de proyectos
+    english: Game designer and project manager
+  - key: abel-text
+    catalan: Art designer i content manager
+    spanish: Art designer y content manager
+    english: Art designer and content manager
+  - key: aniol-text
+    catalan: Programador del videjoc
+    spanish: Programador de videojuego
+    english: Game developer
