@@ -22,6 +22,10 @@ namespace Localization {
             }
         }
 
+        private void Start() {
+            currentLanguage = (Language)PlayerPrefs.GetInt(LanguageKey, (int)currentLanguage);
+        }
+
         public string GetLocalizedText(string key) {
             string text = localizationData.GetText(key, currentLanguage);
 

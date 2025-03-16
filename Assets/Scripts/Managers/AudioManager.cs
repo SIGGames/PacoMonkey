@@ -10,10 +10,14 @@ namespace Managers {
         public Slider musicSlider;
         public Slider sfxSlider;
 
+        private const float DefaultMasterVolume = 8f;
+        private const float DefaultMusicVolume = 6f;
+        private const float DefaultSfxVolume = 6f;
+
         private void Start() {
-            float globalVolume = PlayerPrefs.GetFloat(MasterVolumeKey, 8f);
-            float musicVolume = PlayerPrefs.GetFloat(MusicVolumeKey, 6f);
-            float sfxVolume = PlayerPrefs.GetFloat(SfxVolumeKey, 6f);
+            float globalVolume = PlayerPrefs.GetFloat(MasterVolumeKey, DefaultMasterVolume);
+            float musicVolume = PlayerPrefs.GetFloat(MusicVolumeKey, DefaultMusicVolume);
+            float sfxVolume = PlayerPrefs.GetFloat(SfxVolumeKey, DefaultSfxVolume);
 
             if (masterVolumeSlider != null) {
                 masterVolumeSlider.value = globalVolume;
@@ -35,19 +39,37 @@ namespace Managers {
             SetSfxVolume(sfxVolume);
         }
 
-        public void SetMasterVolume(float value) {
+        private void SetMasterVolume(float value) {
             audioMixer.SetFloat(MasterVolumeKey, Mathf.Log10(value) * 20);
             PlayerPrefs.SetFloat(MasterVolumeKey, value);
+            SaveAudioSettings();
         }
 
-        public void SetMusicVolume(float value) {
+        private void SetMusicVolume(float value) {
             audioMixer.SetFloat(MasterVolumeKey, Mathf.Log10(value) * 20);
             PlayerPrefs.SetFloat(MusicVolumeKey, value);
+            SaveAudioSettings();
         }
 
-        public void SetSfxVolume(float value) {
+        private void SetSfxVolume(float value) {
             audioMixer.SetFloat(MasterVolumeKey, Mathf.Log10(value) * 20);
             PlayerPrefs.SetFloat(SfxVolumeKey, value);
+            SaveAudioSettings();
+        }
+
+        private static void SaveAudioSettings() {
+            PlayerPrefs.Save();
+        }
+
+        public void ResetAudioSettings() {
+            PlayerPrefs.DeleteKey(MasterVolumeKey);
+            PlayerPrefs.DeleteKey(MusicVolumeKey);
+            PlayerPrefs.DeleteKey(SfxVolumeKey);
+            PlayerPrefs.Save();
+
+            masterVolumeSlider.value = DefaultMasterVolume;
+            musicSlider.value = DefaultMusicVolume;
+            sfxSlider.value = DefaultSfxVolume;
         }
     }
 }

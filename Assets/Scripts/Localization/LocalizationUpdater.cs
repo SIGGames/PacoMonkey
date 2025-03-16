@@ -1,4 +1,5 @@
 ﻿using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Localization {
@@ -7,7 +8,13 @@ namespace Localization {
         private TextMeshProUGUI _textComponent;
 
         private void Awake() {
-            _textComponent = GetComponent<TextMeshProUGUI>();
+            if (_textComponent == null) {
+                _textComponent = GetComponent<TextMeshProUGUI>();
+            }
+
+            if (_textComponent == null) {
+                Debug.LogError("Text component not found: " + name);
+            }
         }
 
         private void Start() {
@@ -17,6 +24,8 @@ namespace Localization {
         private void OnEnable() {
             if (LocalizationManager.Instance != null) {
                 LocalizationManager.Instance.OnLanguageChanged += UpdateText;
+                // Force update since the text might have changed while the object was disabled
+                UpdateText();
             }
         }
 

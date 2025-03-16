@@ -49,6 +49,10 @@ MonoBehaviour:
     catalan: "Cr\xE8dits"
     spanish: Creditos
     english: Credits
+  - key: default-values
+    catalan: Restablir valors per defecte
+    spanish: Restablecer valores por defecto
+    english: Set default values
   - key: english
     catalan: "Angl\xE8s"
     spanish: "Ingl\xE9s"
