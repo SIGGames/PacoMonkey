@@ -21,10 +21,18 @@ MonoBehaviour:
     catalan: Programador del videjoc
     spanish: Programador de videojuego
     english: Game developer
+  - key: audio
+    catalan: "\xC0udio"
+    spanish: Audio
+    english: Audio
   - key: back
-    catalan: Enrera
+    catalan: Enrere
     spanish: "Atr\xE1s"
     english: Back
+  - key: catalan
+    catalan: "Catal\xE0"
+    spanish: Catalan
+    english: Catalan
   - key: configuration
     catalan: "Configuraci\xF3"
     spanish: "Configuraci\xF3n"
@@ -33,10 +41,18 @@ MonoBehaviour:
     catalan: Continua
     spanish: Continuar
     english: Continue
+  - key: controls
+    catalan: Controls
+    spanish: Controles
+    english: Controls
   - key: credits
     catalan: "Cr\xE8dits"
     spanish: Creditos
     english: Credits
+  - key: english
+    catalan: "Angl\xE8s"
+    spanish: "Ingl\xE9s"
+    english: English
   - key: julia-text
     catalan: Game designer i project manager
     spanish: Game designer y responsable de proyectos
@@ -49,6 +65,10 @@ MonoBehaviour:
     catalan: "Men\xFA principal"
     spanish: "Men\xFA principal"
     english: Main Menu
+  - key: master-volume
+    catalan: Volum General
+    spanish: Volumen General
+    english: Master Volume
   - key: mz-start
     catalan: Zona de sortida
     spanish: Zona de salida
@@ -81,11 +101,3 @@ MonoBehaviour:
     catalan: Espanyol
     spanish: "Espa\xF1ol"
     english: Spanish
-  - key: catalan
-    catalan: "Catal\xE0"
-    spanish: Catalan
-    english: Catalan
-  - key: english
-    catalan: "Angl\xE8s"
-    spanish: "Ingl\xE9s"
-    english: English
