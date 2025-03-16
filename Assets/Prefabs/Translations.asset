@@ -21,3 +21,23 @@ MonoBehaviour:
     catalan: Continua
     spanish: Continuar
     english: Continue
+  - key: session-time
+    catalan: "Temps de la sessi\xF3"
+    spanish: Tiempo de la sesion
+    english: Session time
+  - key: play-time
+    catalan: Temps de joc
+    spanish: Tiempo de juego
+    english: Play time
+  - key: pause
+    catalan: Pausa
+    spanish: Pausa
+    english: Pause
+  - key: main-menu
+    catalan: "Men\xFA principal"
+    spanish: "Men\xFA principal"
+    english: Main Menu
+  - key: quit
+    catalan: Sortir
+    spanish: Salir
+    english: Quit
