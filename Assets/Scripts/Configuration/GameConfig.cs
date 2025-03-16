@@ -2,7 +2,9 @@
 
 namespace Configuration {
     public static class GameConfig {
-        public const Languages DefaultLanguage = Languages.Catalan;
+        public const string GameVersion = "v9.0.0";
+
+        public const Language DefaultLanguage = Language.Catalan;
 
         // Player Config
         public const bool IsGodMode = false;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using static Configuration.GameConfig;
+using static Utils.PlayerPrefsKeys;
 
 namespace Configuration {
     public class ResolutionManager : MonoBehaviour {
@@ -10,9 +11,9 @@ namespace Configuration {
         [SerializeField] private int frameRate = FrameRate;
 
         private void Start() {
-            int width = PlayerPrefs.GetInt("ScreenWidth", screenWidth);
-            int height = PlayerPrefs.GetInt("ScreenHeight", screenHeight);
-            bool isFullscreen = PlayerPrefs.GetInt("FullScreen", fullScreen ? 1 : 0) == 1;
+            int width = PlayerPrefs.GetInt(ScreenWidthKey, screenWidth);
+            int height = PlayerPrefs.GetInt(ScreenHeightKey, screenHeight);
+            bool isFullscreen = PlayerPrefs.GetInt(FullScreenKey, fullScreen ? 1 : 0) == 1;
 
             Screen.SetResolution(width, height, isFullscreen);
 
@@ -21,9 +22,9 @@ namespace Configuration {
         }
 
         public void SaveResolutionSettings(int width, int height, bool isFullscreen) {
-            PlayerPrefs.SetInt("ScreenWidth", width);
-            PlayerPrefs.SetInt("ScreenHeight", height);
-            PlayerPrefs.SetInt("FullScreen", isFullscreen ? 1 : 0);
+            PlayerPrefs.SetInt(ScreenWidthKey, width);
+            PlayerPrefs.SetInt(ScreenHeightKey, height);
+            PlayerPrefs.SetInt(FullScreenKey, isFullscreen ? 1 : 0);
             PlayerPrefs.Save();
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections;
 using Controllers;
 using Enums;
+using Localization;
 using Managers;
 using NaughtyAttributes;
 using TMPro;
@@ -245,10 +246,10 @@ namespace UI.Dialogues {
         }
 
         private DialogueLine[] GetCurrentDialogue() {
-            DialogueLine[] selectedDialogue = GameController.Instance.currentLanguage switch {
-                Languages.Catalan => dialogueCa,
-                Languages.Spanish => dialogueEs,
-                Languages.English => dialogueEn,
+            DialogueLine[] selectedDialogue = LocalizationManager.Instance.currentLanguage switch {
+                Language.Catalan => dialogueCa,
+                Language.Spanish => dialogueEs,
+                Language.English => dialogueEn,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
@@ -264,10 +265,10 @@ namespace UI.Dialogues {
         }
 
         private DialogueLine[] GetAlternativeDialogue() {
-            DialogueLine[] alt = GameController.Instance.currentLanguage switch {
-                Languages.Catalan => alternativeDialogueCa,
-                Languages.Spanish => alternativeDialogueEs,
-                Languages.English => alternativeDialogueEn,
+            DialogueLine[] alt = LocalizationManager.Instance.currentLanguage switch {
+                Language.Catalan => alternativeDialogueCa,
+                Language.Spanish => alternativeDialogueEs,
+                Language.English => alternativeDialogueEn,
                 _ => throw new ArgumentOutOfRangeException()
             };
             if (alt == null || alt.Length == 0) {

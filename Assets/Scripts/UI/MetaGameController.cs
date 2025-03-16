@@ -24,7 +24,14 @@ namespace UI {
 
         public void ToggleMainMenu(bool show) {
             if (_showMainCanvas != show) {
+                if (show) {
+                    _controlWasEnabled = CharacterManager.Instance.currentPlayerController.controlEnabled;
+                }
+
                 _ToggleMainMenu(show);
+                if (_controlWasEnabled) {
+                    CharacterManager.Instance.currentPlayerController.FreezePosition(show);
+                }
             }
         }
 
@@ -50,14 +57,6 @@ namespace UI {
 
             bool openingMenu = !_showMainCanvas;
             ToggleMainMenu(openingMenu);
-
-            if (openingMenu) {
-                _controlWasEnabled = CharacterManager.Instance.currentPlayerController.controlEnabled;
-            }
-
-            if (_controlWasEnabled) {
-                CharacterManager.Instance.currentPlayerController.FreezePosition(openingMenu);
-            }
         }
     }
 }
