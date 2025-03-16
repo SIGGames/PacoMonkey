@@ -74,7 +74,7 @@ namespace UI.Dialogues {
         private DialogueCharacter _dialogueCharacter;
         private Coroutine _typingCoroutine;
         private GameObject _interactButtonInstance;
-        private bool _mustShowAlternativeDialogue;
+        public bool mustShowAlternativeDialogue;
 
         private static PlayerController PlayerController => CharacterManager.Instance.currentPlayerController;
         private static Vector3 PlayerPosition => PlayerController.transform.position;
@@ -133,12 +133,18 @@ namespace UI.Dialogues {
                 return;
             }
 
-            if (_dialoguePanel.activeSelf) {
+            ShowDialogue();
+        }
+
+        public void ShowDialogue(bool deactivate = true) {
+            if (IsDialogueActive()) {
                 NextLine();
             } else {
-                DeactivateAllActiveFloatingDialogues();
+                if (deactivate) {
+                    DeactivateAllActiveFloatingDialogues();
+                }
 
-                if (_mustShowAlternativeDialogue) {
+                if (mustShowAlternativeDialogue) {
                     ShowAlternativeDialogue();
                     return;
                 }
@@ -150,8 +156,12 @@ namespace UI.Dialogues {
                 }
 
                 _typingCoroutine = StartTyping();
-                _mustShowAlternativeDialogue = HasAlternativeDialogue();
+                mustShowAlternativeDialogue = HasAlternativeDialogue();
             }
+        }
+
+        public bool IsDialogueActive() {
+            return _dialoguePanel.activeSelf;
         }
 
         private void SetTitle() {
@@ -164,7 +174,7 @@ namespace UI.Dialogues {
             }
         }
 
-        private void NextLine() {
+        public void NextLine() {
             if (_dialogue.Length == 0) {
                 return;
             }
@@ -302,18 +312,18 @@ namespace UI.Dialogues {
             float effectiveDelay = delay < 0 ? resetDelay : delay;
             yield return new WaitForSeconds(effectiveDelay);
             // If it's still active, wait until it's not
-            if (_dialoguePanel.activeSelf) {
+            if (IsDialogueActive()) {
                 StartCoroutine(ResetAfterDelay(0.1f));
                 yield break;
             }
 
             ResetText();
             _dialogue = GetCurrentDialogue();
-            _mustShowAlternativeDialogue = false;
+            mustShowAlternativeDialogue = false;
         }
 
         private void DisableDialogueIfOutOfCameraBounds() {
-            if (_dialoguePanel.activeSelf) {
+            if (IsDialogueActive()) {
                 Vector3 viewportPos = Camera.main!.WorldToViewportPoint(_dialoguePanel.transform.position);
                 if (viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1) {
                     ResetText();
@@ -341,14 +351,14 @@ namespace UI.Dialogues {
         private void DeactivateAllActiveFloatingDialogues() {
             FloatingDialogue[] dialogues = FindObjectsOfType<FloatingDialogue>();
             foreach (FloatingDialogue dialogue in dialogues) {
-                if (dialogue != this && dialogue._dialoguePanel.activeSelf) {
+                if (dialogue != this && dialogue.IsDialogueActive()) {
                     dialogue._dialoguePanel.SetActive(false);
                 }
             }
         }
 
         private void HandleInteractButtonBeforeInteract() {
-            if (PlayerIsClose && !_dialoguePanel.activeSelf) {
+            if (PlayerIsClose && !IsDialogueActive()) {
                 ShowInteractButton();
             } else {
                 HideInteractButton();
