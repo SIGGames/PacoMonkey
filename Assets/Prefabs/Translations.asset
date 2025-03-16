@@ -13,50 +13,6 @@ MonoBehaviour:
   m_Name: Translations
   m_EditorClassIdentifier: 
   texts:
-  - key: configuration
-    catalan: "Configuraci\xF3"
-    spanish: "Configuraci\xF3n"
-    english: Configuration
-  - key: continue
-    catalan: Continua
-    spanish: Continuar
-    english: Continue
-  - key: session-time
-    catalan: "Temps de la sessi\xF3"
-    spanish: Tiempo de la sesion
-    english: Session time
-  - key: play-time
-    catalan: Temps de joc
-    spanish: Tiempo de juego
-    english: Play time
-  - key: pause
-    catalan: Pausa
-    spanish: Pausa
-    english: Pause
-  - key: main-menu
-    catalan: "Men\xFA principal"
-    spanish: "Men\xFA principal"
-    english: Main Menu
-  - key: quit
-    catalan: Sortir
-    spanish: Salir
-    english: Quit
-  - key: mz-start
-    catalan: Zona de sortida
-    spanish: Zona de salida
-    english: Starting zone
-  - key: play
-    catalan: Jugar
-    spanish: Jugar
-    english: Play
-  - key: credits
-    catalan: "Cr\xE8dits"
-    spanish: Creditos
-    english: Credits
-  - key: julia-text
-    catalan: Game designer i project manager
-    spanish: Game designer y responsable de proyectos
-    english: Game designer and project manager
   - key: abel-text
     catalan: Art designer i content manager
     spanish: Art designer y content manager
@@ -69,3 +25,51 @@ MonoBehaviour:
     catalan: Enrera
     spanish: "Atr\xE1s"
     english: Back
+  - key: configuration
+    catalan: "Configuraci\xF3"
+    spanish: "Configuraci\xF3n"
+    english: Configuration
+  - key: continue
+    catalan: Continua
+    spanish: Continuar
+    english: Continue
+  - key: credits
+    catalan: "Cr\xE8dits"
+    spanish: Creditos
+    english: Credits
+  - key: julia-text
+    catalan: Game designer i project manager
+    spanish: Game designer y responsable de proyectos
+    english: Game designer and project manager
+  - key: language
+    catalan: Idioma
+    spanish: Idioma
+    english: Language
+  - key: main-menu
+    catalan: "Men\xFA principal"
+    spanish: "Men\xFA principal"
+    english: Main Menu
+  - key: mz-start
+    catalan: Zona de sortida
+    spanish: Zona de salida
+    english: Starting zone
+  - key: pause
+    catalan: Pausa
+    spanish: Pausa
+    english: Pause
+  - key: play
+    catalan: Jugar
+    spanish: Jugar
+    english: Play
+  - key: play-time
+    catalan: Temps de joc
+    spanish: Tiempo de juego
+    english: Play time
+  - key: quit
+    catalan: Sortir
+    spanish: Salir
+    english: Quit
+  - key: session-time
+    catalan: "Temps de la sessi\xF3"
+    spanish: Tiempo de la sesion
+    english: Session time
