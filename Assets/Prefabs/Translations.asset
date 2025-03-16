@@ -54,7 +54,7 @@ MonoBehaviour:
     spanish: Creditos
     english: Credits
   - key: julia-text
-    catalan: Game designer  i project manager
+    catalan: Game designer i project manager
     spanish: Game designer y responsable de proyectos
     english: Game designer and project manager
   - key: abel-text
@@ -65,3 +65,7 @@ MonoBehaviour:
     catalan: Programador del videjoc
     spanish: Programador de videojuego
     english: Game developer
+  - key: back
+    catalan: Enrera
+    spanish: "Atr\xE1s"
+    english: Back

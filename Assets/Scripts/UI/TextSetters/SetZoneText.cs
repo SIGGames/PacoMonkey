@@ -6,9 +6,13 @@ using UnityEngine;
 
 namespace UI.TextSetters {
     public class SetZoneText : MonoBehaviour {
-        [SerializeField] private TextMeshProUGUI textComponent;
+        private TextMeshProUGUI _textComponent;
 
         private MapZone _previousMapZone = MapZone.Unknown;
+
+        private void Awake() {
+            _textComponent = GetComponent<TextMeshProUGUI>();
+        }
 
         private void Update() {
             if (GameController.Instance.currentMapZone == _previousMapZone) {
@@ -20,7 +24,7 @@ namespace UI.TextSetters {
 
             // Retrieve the localized text for the current map zone
             string zoneKey = "mz-" + currentMapZone.ToString().ToLower();
-            textComponent.text = LocalizationManager.Instance.GetLocalizedText(zoneKey);
+            _textComponent.text = LocalizationManager.Instance.GetLocalizedText(zoneKey);
         }
     }
 }
