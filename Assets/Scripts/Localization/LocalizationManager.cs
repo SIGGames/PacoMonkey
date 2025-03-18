@@ -23,7 +23,19 @@ namespace Localization {
         }
 
         private void Start() {
-            currentLanguage = (Language)PlayerPrefs.GetInt(LanguageKey, (int)currentLanguage);
+            // Gets the language from the player preferences or sets the default language based on the system language
+            if (!PlayerPrefs.HasKey(LanguageKey)) {
+                currentLanguage = Application.systemLanguage switch {
+                    SystemLanguage.Catalan => Language.Catalan,
+                    SystemLanguage.Spanish => Language.Spanish,
+                    SystemLanguage.English => Language.English,
+                    _ => GameConfig.DefaultLanguage
+                };
+                PlayerPrefs.SetInt(LanguageKey, (int)currentLanguage);
+                PlayerPrefs.Save();
+            } else {
+                currentLanguage = (Language)PlayerPrefs.GetInt(LanguageKey, (int)currentLanguage);
+            }
         }
 
         public string GetLocalizedText(string key) {

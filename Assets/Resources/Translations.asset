@@ -40,7 +40,7 @@ MonoBehaviour:
   - key: configuration
     catalan: "Configuraci\xF3"
     spanish: "Configuraci\xF3n"
-    english: Configuration
+    english: Settings
   - key: continue
     catalan: Continua
     spanish: Continuar
@@ -61,6 +61,10 @@ MonoBehaviour:
     catalan: "Angl\xE8s"
     spanish: "Ingl\xE9s"
     english: English
+  - key: full-screen
+    catalan: Pantalla Completa
+    spanish: Pantalla Completa
+    english: Full Screen
   - key: julia-text
     catalan: Game designer i project manager
     spanish: Game designer y responsable de proyectos
@@ -105,10 +109,6 @@ MonoBehaviour:
     catalan: Selecciona un idioma
     spanish: Seleciona un idioma
     english: Select a language
-  - key: session-time
-    catalan: "Temps de la sessi\xF3"
-    spanish: Tiempo de la sesion
-    english: Session time
   - key: sfx-volume
     catalan: Volum Efectes de So
     spanish: Volumen Efectos de Sonido

@@ -10,6 +10,7 @@ using static Utils.AnimatorUtils;
 using static PlayerInput.KeyBinds;
 using static Utils.LayerUtils;
 using static Configuration.GameConfig;
+using static Utils.PlayerPrefsKeys;
 
 namespace Controllers {
     public class PlayerController : KinematicObject {
@@ -130,7 +131,8 @@ namespace Controllers {
             flipManager = new FlipManager(_spriteRenderer, boxCollider, animator, flipOffsetChange, isFacingRight);
             _colliderManager = new ColliderManager(collider2d);
             _colliderManager.UpdateCollider(false, boxCollider.size);
-            respawnPosition = transform.position;
+            respawnPosition.x = PlayerPrefs.GetFloat(RespawnPositionX, transform.position.x);
+            respawnPosition.y = PlayerPrefs.GetFloat(RespawnPositionY, transform.position.y);
         }
 
         protected override void Start() {
@@ -142,6 +144,10 @@ namespace Controllers {
 
             if (boxColliderOnDeathOffset == Vector2.zero) {
                 boxColliderOnDeathOffset = boxCollider.offset;
+            }
+
+            if (respawnPosition != Vector3.zero) {
+                transform.position = respawnPosition;
             }
         }
 

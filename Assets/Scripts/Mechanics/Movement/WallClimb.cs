@@ -1,6 +1,7 @@
 ﻿using Controllers;
 using Enums;
 using Gameplay;
+using UI;
 using UnityEngine;
 using Utils;
 using static Utils.AnimatorUtils;
@@ -55,6 +56,10 @@ namespace Mechanics.Movement {
         }
 
         private void Update() {
+            if (MetaGameController.IsMenuOpen) {
+                return;
+            }
+
             if (!player.lives.IsAlive) {
                 if (_isClimbing) {
                     StopClimbing();

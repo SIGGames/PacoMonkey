@@ -8,5 +8,7 @@
         public const string ScreenHeightKey = "ScreenHeight";
         public const string ScreenWidthKey = "ScreenWidth";
         public const string SfxVolumeKey = "SfxVolume";
+        public const string RespawnPositionX = "RespawnPositionX";
+        public const string RespawnPositionY = "RespawnPositionY";
     }
 }

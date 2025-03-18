@@ -1,7 +1,7 @@
 ﻿using Controllers;
-using Enums;
 using Managers;
 using UnityEngine;
+using static Utils.PlayerPrefsKeys;
 
 namespace Zones {
     public class CheckPoint : MonoBehaviour {
@@ -19,6 +19,14 @@ namespace Zones {
 
             _playerController = CharacterManager.currentPlayerController;
             _playerController.respawnPosition = transform.position;
+
+            SaveCheckPoint();
+        }
+
+        private void SaveCheckPoint() {
+            PlayerPrefs.SetFloat(RespawnPositionX, _playerController.respawnPosition.x);
+            PlayerPrefs.SetFloat(RespawnPositionY, _playerController.respawnPosition.y);
+            PlayerPrefs.Save();
         }
     }
 }

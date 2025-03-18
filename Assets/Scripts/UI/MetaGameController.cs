@@ -52,16 +52,24 @@ namespace UI {
         }
 
         private void Update() {
-            if (!GetMenuKey()) {
+            if (GetConfigurationKey()) {
+                if (!_showMainCanvas) {
+                    ToggleMainMenu(true);
+                }
+
+                // Configuration menu
+                mainMenu.SetActivePanel(2);
                 return;
             }
 
-            if (IsMenuOpen && !CanResumeGame()) {
-                return;
-            }
+            if (GetMenuKey()) {
+                if (IsMenuOpen && !CanResumeGame()) {
+                    return;
+                }
 
-            bool openingMenu = !_showMainCanvas;
-            ToggleMainMenu(openingMenu);
+                bool openingMenu = !_showMainCanvas;
+                ToggleMainMenu(openingMenu);
+            }
         }
 
         private bool CanResumeGame() {
