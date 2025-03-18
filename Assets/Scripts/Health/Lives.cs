@@ -22,9 +22,11 @@ namespace Health {
         public event Action OnLivesChanged;
         public bool IsAlive => currentLives > 0;
         private Coroutine _incrementCoroutine;
+        private float _startingMaxLives;
 
         private void Awake() {
             CurrentLives = startingLives;
+            _startingMaxLives = maxLives;
         }
 
         public float CurrentLives {
@@ -96,6 +98,11 @@ namespace Health {
             maxLives = Mathf.Clamp(maxLives, 0, MaxInspectorLives);
             currentLives = Mathf.Clamp(currentLives, 0, maxLives);
             OnLivesChanged?.Invoke();
+        }
+
+        public void MultiplyLives(float multiplier) {
+            CurrentLives = startingLives * multiplier;
+            MaxLives = _startingMaxLives * multiplier;
         }
     }
 }

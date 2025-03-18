@@ -21,7 +21,7 @@ namespace Mechanics.Fight {
         [SerializeField] private bool alwaysDrawMeleeBox;
         [SerializeField] private Vector2 meleeBoxSize = new(1f, 1f);
         [SerializeField, Range(-1, 1)] private float meleeVerticalOffset = 0.1f;
-        [SerializeField, Range(0, 500)] private int meleeDamage = 200;
+        [SerializeField, Range(0, 500)] public int meleeDamage = 200;
         [SerializeField, Range(0, 5)] private float cooldownTime = 0.5f;
         [SerializeField] private Vector2 meleeBounceForce = new(5f, 0f);
         private LedgeDetection _ledgeCheck;
@@ -33,7 +33,7 @@ namespace Mechanics.Fight {
         [SerializeField] private Vector2 rangedOffset = new(0.1f, 0.1f);
         [SerializeField, Range(0, 10)] private float rangedProjectileSpeed = 5f;
         [SerializeField, Range(0, 10)] private float rangedProjectileDuration = 2f;
-        [SerializeField, Range(0, 500)] private int rangedDamage = 200;
+        [SerializeField, Range(0, 500)] public int rangedDamage = 200;
         [SerializeField, Range(0, 5)] private float rangedCooldownTime = 0.5f;
 
         [Header("Parry Settings")]

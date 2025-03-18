@@ -248,6 +248,7 @@ namespace Controllers {
             if (other.gameObject.CompareTag(Player)) {
                 return;
             }
+
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
             if (player == null) {
                 return;
@@ -362,6 +363,14 @@ namespace Controllers {
 
             animator.SetFloat(VelocityX, Mathf.Abs(_velocity.x));
             animator.SetFloat(VelocityY, Mathf.Abs(_velocity.y));
+        }
+
+        public void SetDifficultyMultiplier(float multiplier) {
+            attackDamage *= multiplier;
+            if (_health != null) {
+                _health.maxHealth *= multiplier;
+                _health.CurrentHealth *= multiplier;
+            }
         }
 
         private void CheckGrounded() {

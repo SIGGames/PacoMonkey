@@ -114,6 +114,7 @@ namespace Managers {
             selectedConfig.characterGameObject.transform.position = previousPosition;
             selectedConfig.characterGameObject.SetActive(true);
             currentPlayerController.FreezePosition(false);
+            DifficultyManager.Instance.SetPlayerDifficultyMultiplier();
             UpdateAnimator(selectedConfig);
 
             // Update the Cinemachine camera to follow the new character

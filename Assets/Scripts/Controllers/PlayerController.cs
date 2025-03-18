@@ -548,6 +548,19 @@ namespace Controllers {
             Teleport(respawnPosition);
         }
 
+        public void SetDifficultyMultiplier(float multiplier) {
+            if (lives != null) {
+                // Since this is the player, the lives are the inverse of the difficulty multiplier
+                lives.MultiplyLives(1f / multiplier);
+            }
+
+            PlayerFight playerFight = GetComponent<PlayerFight>();
+            if (playerFight != null) {
+                playerFight.meleeDamage *= (int)multiplier;
+                playerFight.rangedDamage *= (int)multiplier;
+            }
+        }
+
         private void HandleDebugInput() {
             // TODO: This key binds are for debugging purposes
             if (Input.GetKeyDown(KeyCode.F4)) {
