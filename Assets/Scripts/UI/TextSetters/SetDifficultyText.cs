@@ -1,5 +1,4 @@
-﻿using Enums;
-using Localization;
+﻿using Localization;
 using Managers;
 using TMPro;
 using UnityEngine;
@@ -7,7 +6,6 @@ using UnityEngine;
 namespace UI.TextSetters {
     public class SetDifficultyText : MonoBehaviour {
         private TextMeshProUGUI _textComponent;
-        private Difficulty _previousDifficulty;
 
         private void Awake() {
             _textComponent = GetComponent<TextMeshProUGUI>();
@@ -17,17 +15,11 @@ namespace UI.TextSetters {
             }
         }
 
-        private void Update() {
-            Difficulty currentDifficulty = DifficultyManager.Instance.currentDifficulty;
-
-            if (_previousDifficulty == currentDifficulty) {
-                return;
+        private void OnEnable() {
+            if (DifficultyManager.Instance != null) {
+                string difficultyKey = DifficultyManager.Instance.currentDifficulty.ToString().ToLower();
+                _textComponent.text = LocalizationManager.Instance.GetLocalizedText(difficultyKey);
             }
-
-            _previousDifficulty = currentDifficulty;
-
-            string difficultyKey = currentDifficulty.ToString().ToLower();
-            _textComponent.text = LocalizationManager.Instance.GetLocalizedText(difficultyKey);
         }
     }
 }

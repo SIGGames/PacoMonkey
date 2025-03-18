@@ -47,7 +47,9 @@ public class KinematicObject : MonoBehaviour {
     protected void Teleport(Vector3 position) {
         body.position = position;
         velocity *= 0;
-        body.velocity *= 0;
+        if (body.bodyType != RigidbodyType2D.Static) {
+            body.velocity *= 0;
+        }
     }
 
     protected virtual void OnEnable() {

@@ -37,6 +37,10 @@ MonoBehaviour:
     catalan: "Catal\xE0"
     spanish: Catalan
     english: Catalan
+  - key: choose-difficulty
+    catalan: Escull la dificultat
+    spanish: Elige la dificultad
+    english: Choose the difficulty
   - key: configuration
     catalan: "Configuraci\xF3"
     spanish: "Configuraci\xF3n"
@@ -73,6 +77,10 @@ MonoBehaviour:
     catalan: Pantalla Completa
     spanish: Pantalla Completa
     english: Full Screen
+  - key: game-delete
+    catalan: "Al confirmar perdr\xE0s tot el progr\xE9s actual, est\xE0s segur?"
+    spanish: "Al confirmar perder\xE1s todo el progreso actual, \xBFest\xE1s seguro?"
+    english: By confirming you will lose all current progress, are you sure?
   - key: hard
     catalan: "Dif\xEDcil"
     spanish: Dificil
@@ -105,6 +113,10 @@ MonoBehaviour:
     catalan: Joc Nou
     spanish: Juego Nuevo
     english: New Game
+  - key: no
+    catalan: No
+    spanish: No
+    english: No
   - key: normal
     catalan: Normal
     spanish: Normal
@@ -141,3 +153,7 @@ MonoBehaviour:
     catalan: "V\xEDdeo"
     spanish: Video
     english: Video
+  - key: yes
+    catalan: Si
+    spanish: "S\xED"
+    english: Yes

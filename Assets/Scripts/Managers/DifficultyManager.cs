@@ -15,8 +15,6 @@ namespace Managers {
         [SerializeField, Range(1f, 2f)]
         private float hardMultiplier = 1.2f;
 
-        private Difficulty _previousDifficulty;
-
         private void Awake() {
             if (Instance == null) {
                 Instance = this;
@@ -45,15 +43,12 @@ namespace Managers {
         }
 
         private void SetDifficulty(Difficulty newDifficulty) {
-            if (newDifficulty != _previousDifficulty) {
-                currentDifficulty = newDifficulty;
-                _previousDifficulty = currentDifficulty;
+            currentDifficulty = newDifficulty;
 
-                PlayerPrefs.SetInt(DifficultyKey, (int)currentDifficulty);
-                PlayerPrefs.Save();
+            PlayerPrefs.SetInt(DifficultyKey, (int)currentDifficulty);
+            PlayerPrefs.Save();
 
-                UpdateMultiplierValues();
-            }
+            UpdateMultiplierValues();
         }
 
         private void UpdateMultiplierValues() {
@@ -63,6 +58,7 @@ namespace Managers {
                 if (enemy == null) {
                     continue;
                 }
+
                 enemy.SetDifficultyMultiplier(GetDifficultyMultiplier());
             }
 
@@ -86,13 +82,5 @@ namespace Managers {
                 _ => 1f
             };
         }
-
-        #if UNITY_EDITOR
-        private void OnValidate() {
-            if (Application.isPlaying) {
-                SetDifficulty(currentDifficulty);
-            }
-        }
-        #endif
     }
 }
