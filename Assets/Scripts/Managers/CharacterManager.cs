@@ -186,5 +186,10 @@ namespace Managers {
                 }
             }
         }
+
+        public void ResetState() {
+            currentPlayerController.ResetState();
+            InstanceEnemies();
+        }
     }
 }

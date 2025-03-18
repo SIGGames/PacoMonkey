@@ -57,6 +57,14 @@ MonoBehaviour:
     catalan: Restablir valors per defecte
     spanish: Restablecer valores por defecto
     english: Set default values
+  - key: difficulty
+    catalan: Dificultat
+    spanish: Dificultad
+    english: Difficulty
+  - key: easy
+    catalan: "F\xE0cil"
+    spanish: Facil
+    english: Easy
   - key: english
     catalan: "Angl\xE8s"
     spanish: "Ingl\xE9s"
@@ -65,6 +73,10 @@ MonoBehaviour:
     catalan: Pantalla Completa
     spanish: Pantalla Completa
     english: Full Screen
+  - key: hard
+    catalan: "Dif\xEDcil"
+    spanish: Dificil
+    english: Hard
   - key: julia-text
     catalan: Game designer i project manager
     spanish: Game designer y responsable de proyectos
@@ -89,6 +101,14 @@ MonoBehaviour:
     catalan: Zona de sortida
     spanish: Zona de salida
     english: Starting zone
+  - key: new-game
+    catalan: Joc Nou
+    spanish: Juego Nuevo
+    english: New Game
+  - key: normal
+    catalan: Normal
+    spanish: Normal
+    english: Normal
   - key: pause
     catalan: Pausa
     spanish: Pausa

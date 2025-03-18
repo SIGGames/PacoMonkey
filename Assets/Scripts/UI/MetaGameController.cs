@@ -19,6 +19,14 @@ namespace UI {
         private bool _showMainCanvas;
         private bool _controlWasEnabled;
 
+        private void Start() {
+            if (gameController.showMenuAtStart) {
+                ToggleMainMenu(true);
+                // Title screen
+                mainMenu.SetActivePanel(1);
+            }
+        }
+
         private void OnEnable() {
             _ToggleMainMenu(_showMainCanvas);
         }

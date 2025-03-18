@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using TMPro;
+using UI.Dialogues;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -43,6 +44,18 @@ namespace Managers {
             Debugger.LogIfNull((nameof(DialoguePanel), DialoguePanel), (nameof(DialogueText), DialogueText),
                 (nameof(DialogueTitle), DialogueTitle), (nameof(DialogueImage), DialogueImage),
                 (nameof(DialogueNextStepImage), DialogueNextStepImage), (nameof(playerSprite), playerSprite));
+        }
+
+        public static void ResetDialogues() {
+            Dialogue[] dialogues = FindObjectsOfType<Dialogue>(true);
+            foreach (Dialogue dialogue in dialogues) {
+                dialogue.ResetDialogue();
+            }
+
+            FloatingDialogue[] floatingDialogues = FindObjectsOfType<FloatingDialogue>(true);
+            foreach (FloatingDialogue dialogue in floatingDialogues) {
+                dialogue.ResetDialogue();
+            }
         }
     }
 }

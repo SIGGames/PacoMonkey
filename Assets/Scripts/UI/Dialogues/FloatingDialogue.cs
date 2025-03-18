@@ -318,9 +318,7 @@ namespace UI.Dialogues {
                 yield break;
             }
 
-            ResetText();
-            _dialogue = GetCurrentDialogue();
-            mustShowAlternativeDialogue = false;
+            ResetDialogue();
         }
 
         private void DisableDialogueIfOutOfCameraBounds() {
@@ -380,6 +378,12 @@ namespace UI.Dialogues {
             if (_interactButtonInstance != null) {
                 _interactButtonInstance.SetActive(false);
             }
+        }
+
+        public void ResetDialogue() {
+            ResetText();
+            _dialogue = GetCurrentDialogue();
+            mustShowAlternativeDialogue = false;
         }
 
         private void OnDrawGizmosSelected() {

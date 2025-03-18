@@ -1,15 +1,27 @@
-﻿using UnityEngine;
+﻿using Controllers;
+using NaughtyAttributes;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI {
     public class SubPanelController : MonoBehaviour {
         public GameObject[] subPanels;
 
-        // This needs to be the same length as subPanels and in the same order
-        public Image[] subPanelsButtonsImages;
+        [SerializeField]
+        private bool configureButtons = true;
 
-        public Color32 activeColor = new(159, 122, 222, 255); // Purple
-        public Color32 inactiveColor = new(207, 201, 217, 255); // Magenta
+        [SerializeField, ShowIf("configureButtons"),
+         Tooltip("The images of the sub-panel buttons, this must be at the same order as the sub-panels")]
+        private Image[] subPanelsButtonsImages;
+
+        [SerializeField, ShowIf("configureButtons")]
+        private Color32 activeColor = new(159, 122, 222, 255); // Purple
+
+        [SerializeField, ShowIf("configureButtons")]
+        private Color32 inactiveColor = new(207, 201, 217, 255); // Magenta
+
+        [SerializeField]
+        private bool isLoadSavePanel;
 
         public void SetActiveSubPanel(int index) {
             for (int i = 0; i < subPanels.Length; i++) {
@@ -18,12 +30,18 @@ namespace UI {
                     subPanels[i].SetActive(active);
                 }
 
-                subPanelsButtonsImages[i].color = active ? activeColor : inactiveColor;
+                if (configureButtons) {
+                    subPanelsButtonsImages[i].color = active ? activeColor : inactiveColor;
+                }
             }
         }
 
         private void OnEnable() {
-            SetActiveSubPanel(0);
+            if (isLoadSavePanel && GameController.Instance != null && subPanels.Length > 1) {
+                SetActiveSubPanel(GameController.Instance.existsGameProgress ? 1 : 0);
+            } else {
+                SetActiveSubPanel(0);
+            }
         }
     }
 }

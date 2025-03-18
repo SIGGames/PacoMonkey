@@ -44,5 +44,11 @@ namespace Managers {
             PlayerPrefs.SetFloat(CurrentPlayTimeKey, PlayTime);
             PlayerPrefs.Save();
         }
+
+        public void ResetPlayTime() {
+            PlayTime = 0;
+            PlayerPrefs.SetFloat(CurrentPlayTimeKey, PlayTime);
+            PlayerPrefs.Save();
+        }
     }
 }

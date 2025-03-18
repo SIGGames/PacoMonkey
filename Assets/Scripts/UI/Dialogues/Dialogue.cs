@@ -335,9 +335,7 @@ namespace UI.Dialogues {
                 yield break;
             }
 
-            ResetText();
-            _dialogue = GetCurrentDialogue();
-            _mustShowAlternativeDialogue = false;
+            ResetDialogue();
         }
 
         private void HandleInteractButtonBeforeInteract() {
@@ -362,6 +360,12 @@ namespace UI.Dialogues {
             if (_interactButtonInstance != null) {
                 _interactButtonInstance.SetActive(false);
             }
+        }
+
+        public void ResetDialogue() {
+            ResetText();
+            _dialogue = GetCurrentDialogue();
+            _mustShowAlternativeDialogue = false;
         }
 
         private void OnDrawGizmosSelected() {
