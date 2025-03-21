@@ -25,10 +25,12 @@ namespace UI {
             StartCoroutine(SelectFirst(panels[index].firstSelectedButton));
         }
 
-        private IEnumerator SelectFirst(GameObject go) {
+        private IEnumerator SelectFirst(GameObject button) {
             yield return null; // Wait for the next frame to ensure the object is active
-            EventSystem.current.SetSelectedGameObject(go);
-            _lastValidSelection = go;
+            if (button != null) {
+                EventSystem.current.SetSelectedGameObject(button);
+                _lastValidSelection = button;
+            }
         }
 
         private void OnEnable() {
