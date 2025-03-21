@@ -141,6 +141,10 @@ MonoBehaviour:
     catalan: Sortir
     spanish: Salir
     english: Quit
+  - key: resolution
+    catalan: "Resoluci\xF3"
+    spanish: Resolucion
+    english: Resolution
   - key: select-language
     catalan: Selecciona un idioma
     spanish: Seleciona un idioma
