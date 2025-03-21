@@ -41,6 +41,10 @@ MonoBehaviour:
     catalan: Escull la dificultat
     spanish: Elige la dificultad
     english: Choose the difficulty
+  - key: choose-game
+    catalan: Escull la partida
+    spanish: Elige la partida
+    english: Choose the game
   - key: configuration
     catalan: "Configuraci\xF3"
     spanish: "Configuraci\xF3n"
@@ -149,6 +153,10 @@ MonoBehaviour:
     catalan: Espanyol
     spanish: "Espa\xF1ol"
     english: Spanish
+  - key: start-new-game
+    catalan: "Comen\xE7a una nova partida"
+    spanish: Empieza una nueva partida
+    english: Start a new game
   - key: video
     catalan: "V\xEDdeo"
     spanish: Video
