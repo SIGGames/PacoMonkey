@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,9 +22,13 @@ namespace UI {
                 }
             }
 
-            GameObject firstButton = panels[index].firstSelectedButton;
-            EventSystem.current.SetSelectedGameObject(firstButton);
-            _lastValidSelection = firstButton;
+            StartCoroutine(SelectFirst(panels[index].firstSelectedButton));
+        }
+
+        private IEnumerator SelectFirst(GameObject go) {
+            yield return null; // Wait for the next frame to ensure the object is active
+            EventSystem.current.SetSelectedGameObject(go);
+            _lastValidSelection = go;
         }
 
         private void OnEnable() {
@@ -34,7 +39,6 @@ namespace UI {
             var eventSystem = EventSystem.current;
             if (eventSystem.currentSelectedGameObject == null ||
                 !IsSelectable(eventSystem.currentSelectedGameObject)) {
-
                 eventSystem.SetSelectedGameObject(_lastValidSelection);
             } else {
                 _lastValidSelection = eventSystem.currentSelectedGameObject;
