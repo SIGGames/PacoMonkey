@@ -1,24 +1,54 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace UI {
     /// <summary>
     /// A simple controller for switching between UI panels.
     /// </summary>
     public class MainUIController : MonoBehaviour {
-        public GameObject[] panels;
+        public PanelObject[] panels;
+
+        private GameObject _lastValidSelection;
 
         public void SetActivePanel(int index) {
             for (int i = 0; i < panels.Length; i++) {
                 bool active = i == index;
-                var g = panels[i];
+                var g = panels[i].panelGameObject;
                 if (g.activeSelf != active) {
                     g.SetActive(active);
                 }
             }
+
+            GameObject firstButton = panels[index].firstSelectedButton;
+            EventSystem.current.SetSelectedGameObject(firstButton);
+            _lastValidSelection = firstButton;
         }
 
         private void OnEnable() {
             SetActivePanel(0);
         }
+
+        private void Update() {
+            var eventSystem = EventSystem.current;
+            if (eventSystem.currentSelectedGameObject == null ||
+                !IsSelectable(eventSystem.currentSelectedGameObject)) {
+
+                eventSystem.SetSelectedGameObject(_lastValidSelection);
+            } else {
+                _lastValidSelection = eventSystem.currentSelectedGameObject;
+            }
+        }
+
+        private static bool IsSelectable(GameObject obj) {
+            return obj != null && obj.GetComponent<Selectable>() != null;
+        }
+    }
+
+    [Serializable]
+    public class PanelObject {
+        public GameObject panelGameObject;
+        public GameObject firstSelectedButton;
     }
 }

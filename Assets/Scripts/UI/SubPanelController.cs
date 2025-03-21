@@ -1,37 +1,19 @@
 ﻿using Controllers;
-using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace UI {
-    public class SubPanelController : MonoBehaviour {
+    public class SubPanelController : MonoBehaviour, IPointerEnterHandler, ISelectHandler {
         public GameObject[] subPanels;
 
-        [SerializeField]
-        private bool configureButtons = true;
-
-        [SerializeField, ShowIf("configureButtons"),
-         Tooltip("The images of the sub-panel buttons, this must be at the same order as the sub-panels")]
-        private Image[] subPanelsButtonsImages;
-
-        [SerializeField, ShowIf("configureButtons")]
-        private Color32 activeColor = new(159, 122, 222, 255); // Purple
-
-        [SerializeField, ShowIf("configureButtons")]
-        private Color32 inactiveColor = new(207, 201, 217, 255); // Magenta
-
-        [SerializeField]
-        private bool isLoadSavePanel;
+        [SerializeField] private bool setActiveOnSelect = true;
+        [SerializeField] private bool isLoadSavePanel;
 
         public void SetActiveSubPanel(int index) {
             for (int i = 0; i < subPanels.Length; i++) {
                 bool active = i == index;
                 if (subPanels[i].activeSelf != active) {
                     subPanels[i].SetActive(active);
-                }
-
-                if (configureButtons) {
-                    subPanelsButtonsImages[i].color = active ? activeColor : inactiveColor;
                 }
             }
         }
@@ -41,6 +23,30 @@ namespace UI {
                 SetActiveSubPanel(GameController.Instance.existsGameProgress ? 1 : 0);
             } else {
                 SetActiveSubPanel(0);
+            }
+        }
+
+        public void OnPointerEnter(PointerEventData eventData) {
+                Debug.Log("1");
+            if (setActiveOnSelect && eventData.pointerEnter != null) {
+                for (int i = 0; i < subPanels.Length; i++) {
+                    if (eventData.pointerEnter == subPanels[i]) {
+                        SetActiveSubPanel(i);
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void OnSelect(BaseEventData eventData) {
+                Debug.Log("2");
+            if (setActiveOnSelect && eventData.selectedObject != null) {
+                for (int i = 0; i < subPanels.Length; i++) {
+                    if (eventData.selectedObject == subPanels[i]) {
+                        SetActiveSubPanel(i);
+                        break;
+                    }
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ using System.Linq;
 using Controllers;
 using Managers;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using static PlayerInput.KeyBinds;
 
 namespace UI {
@@ -13,6 +14,8 @@ namespace UI {
         public Canvas[] gamePlayCanvasii;
 
         public GameController gameController;
+
+        [SerializeField] private GameObject mainMenuGameObject;
 
         public static bool IsMenuOpen { get; private set; }
 
@@ -48,6 +51,7 @@ namespace UI {
             if (show) {
                 Time.timeScale = 0;
                 mainMenu.gameObject.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(mainMenuGameObject);
                 foreach (var i in gamePlayCanvasii) i.gameObject.SetActive(false);
             } else {
                 Time.timeScale = 1;
@@ -81,7 +85,7 @@ namespace UI {
         }
 
         private bool CanResumeGame() {
-            return mainMenu.panels.Any(panel => panel.name.Contains("PauseMenu") && panel.activeSelf);
+            return mainMenu.panels.Any(panel => panel.panelGameObject.name.Contains("PauseMenu") && panel.panelGameObject.activeSelf);
         }
     }
 }
