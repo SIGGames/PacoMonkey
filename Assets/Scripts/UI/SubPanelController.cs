@@ -1,9 +1,10 @@
-﻿using Controllers;
+﻿using System.Linq;
+using Controllers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace UI {
-    public class SubPanelController : MonoBehaviour, IPointerEnterHandler, ISelectHandler {
+    public class SubPanelController : MonoBehaviour {
         public GameObject[] subPanels;
 
         [SerializeField] private bool setActiveOnSelect = true;
@@ -26,27 +27,15 @@ namespace UI {
             }
         }
 
-        public void OnPointerEnter(PointerEventData eventData) {
-                Debug.Log("1");
-            if (setActiveOnSelect && eventData.pointerEnter != null) {
-                for (int i = 0; i < subPanels.Length; i++) {
-                    if (eventData.pointerEnter == subPanels[i]) {
-                        SetActiveSubPanel(i);
-                        break;
-                    }
-                }
+        private void Update() {
+            if (!setActiveOnSelect) {
+                return;
             }
-        }
 
-        public void OnSelect(BaseEventData eventData) {
-                Debug.Log("2");
-            if (setActiveOnSelect && eventData.selectedObject != null) {
-                for (int i = 0; i < subPanels.Length; i++) {
-                    if (eventData.selectedObject == subPanels[i]) {
-                        SetActiveSubPanel(i);
-                        break;
-                    }
-                }
+            // Actives the sub panel when a button is selected
+            GameObject current = EventSystem.current.currentSelectedGameObject;
+            if (subPanels.Any(subPanel => subPanel.name == current.name)) {
+                SetActiveSubPanel(subPanels.ToList().FindIndex(subPanel => subPanel.name == current.name));
             }
         }
     }
