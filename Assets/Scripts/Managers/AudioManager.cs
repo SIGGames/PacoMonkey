@@ -16,6 +16,18 @@ namespace Managers {
         [SerializeField] private TMP_InputField musicVolumeInput;
         [SerializeField] private TMP_InputField sfxVolumeInput;
 
+        [SerializeField, Range(MinVolume, MaxVolume)]
+        private float currentMasterVolume = DefaultMasterVolume;
+
+        [SerializeField, Range(MinVolume, MaxVolume)]
+        private float currentMusicVolume = DefaultMusicVolume;
+
+        [SerializeField, Range(MinVolume, MaxVolume)]
+        private float currentSfxVolume = DefaultSfxVolume;
+
+        [SerializeField, Range(0, 1)]
+        private float volumeReducer = 1;
+
         private const float DefaultMasterVolume = 8f;
         private const float DefaultMusicVolume = 6f;
         private const float DefaultSfxVolume = 6f;
@@ -71,30 +83,42 @@ namespace Managers {
         }
 
         private void SetMasterVolume(float value) {
+            currentMasterVolume = value;
             audioMixer.SetFloat(MasterVolumeKey, GetNormalizedVolume(value));
             PlayerPrefs.SetFloat(MasterVolumeKey, value);
             SaveAudioSettings();
+
+            // Update music and sfx volume since they are dependent on the master volume
+            SetMusicVolume(currentMusicVolume);
+            SetSfxVolume(currentSfxVolume);
         }
 
         private void SetMusicVolume(float value) {
-            audioMixer.SetFloat(MusicVolumeKey, GetNormalizedVolume(value));
+            float scaledVolume = value * currentMasterVolume / MaxVolume;
+
+            audioMixer.SetFloat(MusicVolumeKey, GetNormalizedVolume(scaledVolume));
+            currentMusicVolume = value;
             PlayerPrefs.SetFloat(MusicVolumeKey, value);
             SaveAudioSettings();
         }
 
         private void SetSfxVolume(float value) {
-            audioMixer.SetFloat(SfxVolumeKey, GetNormalizedVolume(value));
+            float scaledVolume = value * currentMasterVolume / MaxVolume;
+
+            audioMixer.SetFloat(SfxVolumeKey, GetNormalizedVolume(scaledVolume));
+            currentSfxVolume = value;
             PlayerPrefs.SetFloat(SfxVolumeKey, value);
             SaveAudioSettings();
         }
 
-        private static float GetNormalizedVolume(float value) {
+        private float GetNormalizedVolume(float value) {
             // On min volume mute the sound
             if (Math.Abs(value - MinVolume) < 0.01f) {
                 return -80f;
             }
+
             // Convert volume to decibels
-            return Mathf.Log10(Mathf.Clamp(value, MinVolume, MaxVolume)) * 20f;
+            return Mathf.Log10(Mathf.Clamp(value, MinVolume, MaxVolume)) * 20f * volumeReducer;
         }
 
         private static void SaveAudioSettings() {
@@ -138,6 +162,10 @@ namespace Managers {
             masterVolumeSlider.value = DefaultMasterVolume;
             musicSlider.value = DefaultMusicVolume;
             sfxSlider.value = DefaultSfxVolume;
+
+            currentMasterVolume = DefaultMasterVolume;
+            currentMusicVolume = DefaultMusicVolume;
+            currentSfxVolume = DefaultSfxVolume;
         }
     }
 }
