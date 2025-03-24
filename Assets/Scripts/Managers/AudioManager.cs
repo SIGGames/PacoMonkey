@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -70,21 +71,30 @@ namespace Managers {
         }
 
         private void SetMasterVolume(float value) {
-            audioMixer.SetFloat(MasterVolumeKey, Mathf.Log10(value) * 20);
+            audioMixer.SetFloat(MasterVolumeKey, GetNormalizedVolume(value));
             PlayerPrefs.SetFloat(MasterVolumeKey, value);
             SaveAudioSettings();
         }
 
         private void SetMusicVolume(float value) {
-            audioMixer.SetFloat(MusicVolumeKey, Mathf.Log10(value) * 20);
+            audioMixer.SetFloat(MusicVolumeKey, GetNormalizedVolume(value));
             PlayerPrefs.SetFloat(MusicVolumeKey, value);
             SaveAudioSettings();
         }
 
         private void SetSfxVolume(float value) {
-            audioMixer.SetFloat(SfxVolumeKey, Mathf.Log10(value) * 20);
+            audioMixer.SetFloat(SfxVolumeKey, GetNormalizedVolume(value));
             PlayerPrefs.SetFloat(SfxVolumeKey, value);
             SaveAudioSettings();
+        }
+
+        private static float GetNormalizedVolume(float value) {
+            // On min volume mute the sound
+            if (Math.Abs(value - MinVolume) < 0.01f) {
+                return -80f;
+            }
+            // Convert volume to decibels
+            return Mathf.Log10(Mathf.Clamp(value, MinVolume, MaxVolume)) * 20f;
         }
 
         private static void SaveAudioSettings() {
