@@ -167,5 +167,11 @@ namespace Managers {
             currentMusicVolume = DefaultMusicVolume;
             currentSfxVolume = DefaultSfxVolume;
         }
+
+        public void DisableCarrets() {
+            Destroy(masterVolumeInput.GetComponentInChildren<TMP_SelectionCaret>().gameObject);
+            Destroy(musicVolumeInput.GetComponentInChildren<TMP_SelectionCaret>());
+            Destroy(sfxVolumeInput.GetComponentInChildren<TMP_SelectionCaret>().gameObject);
+        }
     }
 }
