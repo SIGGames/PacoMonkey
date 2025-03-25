@@ -53,6 +53,10 @@ namespace Managers {
 
             InitializeSliders(globalVolume, musicVolume, sfxVolume);
             InitializeInputs(globalVolume, musicVolume, sfxVolume);
+
+            SetMasterVolume(globalVolume);
+            SetMusicVolume(musicVolume);
+            SetSfxVolume(sfxVolume);
         }
 
         private void InitializeSliders(float globalVolume, float musicVolume, float sfxVolume) {
