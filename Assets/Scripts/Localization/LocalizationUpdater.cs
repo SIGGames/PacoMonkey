@@ -1,15 +1,20 @@
 ﻿using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Localization {
     public class LocalizedTextUpdater : MonoBehaviour {
         [SerializeField] private string textKey;
         private TextMeshProUGUI _textComponent;
+        private Text _text; // Fallback for TextMeshProUGUI
 
         private void Awake() {
             if (_textComponent == null) {
                 _textComponent = GetComponent<TextMeshProUGUI>();
+            }
+
+            if (_textComponent == null) {
+                _text = GetComponent<Text>();
             }
 
             if (_textComponent == null) {
@@ -37,7 +42,11 @@ namespace Localization {
 
         private void UpdateText() {
             if (LocalizationManager.Instance != null) {
-                _textComponent.text = LocalizationManager.Instance.GetLocalizedText(textKey);
+                if (_textComponent != null) {
+                    _textComponent.text = LocalizationManager.Instance.GetLocalizedText(textKey);
+                } else if (_text != null) {
+                    _text.text = LocalizationManager.Instance.GetLocalizedText(textKey);
+                }
             }
         }
     }

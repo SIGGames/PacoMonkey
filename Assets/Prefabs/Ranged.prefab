@@ -226,17 +226,17 @@ MonoBehaviour:
   enemyType: 1
   moveSpeed: 2
   chaseStopRange:
-    value: 6.4
-    color: {r: 0.24116516, g: 1, b: 0, a: 1}
+    value: 1
+    color: {r: 0, g: 1, b: 0, a: 1}
   sightBoxSize: {x: 6.2, y: 1}
-  sightBoxOffset: {x: 1.07, y: 0}
+  sightBoxOffset: {x: 1.8, y: 0.4}
   sightBoxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   attackDamage: 0.5
   attackRange:
     value: 6.8
     color: {r: 1, g: 0, b: 0, a: 1}
   attackBoxSize: {x: 2, y: 1}
-  attackBoxOffset: {x: 1, y: 0}
+  attackBoxOffset: {x: 0.5, y: 0}
   attackBoxColor: {r: 1, g: 0, b: 0, a: 1}
   cooldownTime: 3
   projectilePrefab: {fileID: 1740425626303593056, guid: adb830a166958f8468afa8244d93a9b2,
@@ -266,7 +266,8 @@ AudioSource:
   m_GameObject: {fileID: 1661912868639658944}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7404915982430651803, guid: 3a42fdb61d9dc59418ba38dce719bee7,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

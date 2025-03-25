@@ -113,6 +113,14 @@ MonoBehaviour:
     catalan: Volum General
     spanish: Volumen General
     english: Master Volume
+  - key: melee-attack
+    catalan: Atac cos a cos
+    spanish: Ataque cuerpo a cuerpo
+    english: Melee attack
+  - key: movement
+    catalan: Moviment
+    spanish: Movimiento
+    english: Movement
   - key: music-volume
     catalan: "Volum M\xFAsica"
     spanish: "Volumen M\xFAsica"
@@ -153,6 +161,10 @@ MonoBehaviour:
     catalan: Reassignar tecles
     spanish: Reasignar teclas
     english: Rebind controls
+  - key: reset
+    catalan: Revertir
+    spanish: Revertir
+    english: Reset
   - key: resolution
     catalan: "Resoluci\xF3"
     spanish: Resolucion
@@ -177,6 +189,10 @@ MonoBehaviour:
     catalan: "V\xEDdeo"
     spanish: Video
     english: Video
+  - key: waiting-for-input
+    catalan: Prem una tecla per assignar
+    spanish: Pulsa una tecla para asignar
+    english: Press a key to assign
   - key: yes
     catalan: Si
     spanish: "S\xED"
