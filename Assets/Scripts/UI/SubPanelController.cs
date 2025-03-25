@@ -42,5 +42,9 @@ namespace UI {
                 SetActiveSubPanel(subPanels.ToList().FindIndex(subPanel => subPanel.panelGameObject.name == current.name));
             }
         }
+
+        public void ForceSelectedPanel(GameObject buttonGameObject) {
+            EventSystem.current.SetSelectedGameObject(buttonGameObject);
+        }
     }
 }

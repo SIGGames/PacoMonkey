@@ -53,6 +53,10 @@ MonoBehaviour:
     catalan: Continua
     spanish: Continuar
     english: Continue
+  - key: controller
+    catalan: Commandament
+    spanish: Mando
+    english: Controller
   - key: controls
     catalan: Controls
     spanish: Controles
@@ -93,6 +97,10 @@ MonoBehaviour:
     catalan: Game designer i project manager
     spanish: Game designer y responsable de proyectos
     english: Game designer and project manager
+  - key: keyboard
+    catalan: Teclat
+    spanish: Teclado
+    english: Keyboard
   - key: language
     catalan: Idioma
     spanish: Idioma
@@ -141,6 +149,10 @@ MonoBehaviour:
     catalan: Sortir
     spanish: Salir
     english: Quit
+  - key: rebind-controls
+    catalan: Reassignar tecles
+    spanish: Reasignar teclas
+    english: Rebind controls
   - key: resolution
     catalan: "Resoluci\xF3"
     spanish: Resolucion
