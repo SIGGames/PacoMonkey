@@ -265,6 +265,10 @@ namespace Rebinding_UI {
                             if (nextBindingIndex < action.bindings.Count && action.bindings[nextBindingIndex].isPartOfComposite)
                                 PerformInteractiveRebind(action, nextBindingIndex, true);
                         }
+
+                        string overrides = m_Action.action.actionMap.asset.SaveBindingOverridesAsJson();
+                        PlayerPrefs.SetString("bindingOverrides", overrides);
+                        PlayerPrefs.Save();
                     });
 
             // If it's a part binding, show the name of the part in the UI.
@@ -327,6 +331,14 @@ namespace Rebinding_UI {
             s_RebindActionUIs.Add(this);
             if (s_RebindActionUIs.Count == 1)
                 InputSystem.onActionChange += OnActionChange;
+
+            // Load binding overrides from player prefs
+            if (PlayerPrefs.HasKey("bindingOverrides") && m_Action != null && m_Action.action != null) {
+                string overrides = PlayerPrefs.GetString("bindingOverrides");
+                m_Action.action.actionMap.asset.LoadBindingOverridesFromJson(overrides);
+            }
+
+            UpdateBindingDisplay();
         }
 
         protected void OnDisable() {

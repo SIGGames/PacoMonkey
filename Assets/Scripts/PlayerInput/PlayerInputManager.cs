@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
+using static Utils.PlayerPrefsKeys;
 
 namespace PlayerInput {
     public class PlayerInputManager : MonoBehaviour {
@@ -40,6 +41,11 @@ namespace PlayerInput {
 
             InputActions = new PlayerInputActions();
             InputActions.Enable();
+
+            if (PlayerPrefs.HasKey(BindingOverridesKey)) {
+                string overrides = PlayerPrefs.GetString(BindingOverridesKey);
+                InputActions.LoadBindingOverridesFromJson(overrides);
+            }
         }
 
         private void OnEnable() {

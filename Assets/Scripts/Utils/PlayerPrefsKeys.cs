@@ -8,6 +8,7 @@
         public const string RespawnPositionY = "RespawnPositionY";
 
         // Game Settings
+        public const string BindingOverridesKey = "bindingOverrides";
         public const string FullScreenKey = "FullScreen";
         public const string LanguageKey = "Language";
         public const string MasterVolumeKey = "MasterVolume";
