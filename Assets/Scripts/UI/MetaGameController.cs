@@ -64,7 +64,7 @@ namespace UI {
         }
 
         private void Update() {
-            if (GetConfigurationKey()) {
+            if (GetConfigurationKey() && !IsMenuOpen) {
                 if (!_showMainCanvas) {
                     ToggleMainMenu(true);
                 }

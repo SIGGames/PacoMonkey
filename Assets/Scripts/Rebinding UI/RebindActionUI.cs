@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Localization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -178,6 +179,7 @@ namespace Rebinding_UI {
             }
 
             ResetBinding(action, bindingIndex);
+            SaveControlSettings();
             /*
             if (action.bindings[bindingIndex].isComposite) {
                 // It's a composite. Remove overrides from part bindings.
@@ -191,7 +193,7 @@ namespace Rebinding_UI {
             UpdateBindingDisplay();
         }
 
-        private void ResetBinding(InputAction action, int bindingIndex) {
+        private static void ResetBinding(InputAction action, int bindingIndex) {
             InputBinding newBinding = action.bindings[bindingIndex];
             string oldOverridePath = newBinding.overridePath;
 
@@ -266,22 +268,24 @@ namespace Rebinding_UI {
                                 PerformInteractiveRebind(action, nextBindingIndex, true);
                         }
 
-                        string overrides = m_Action.action.actionMap.asset.SaveBindingOverridesAsJson();
-                        PlayerPrefs.SetString("bindingOverrides", overrides);
-                        PlayerPrefs.Save();
+                        SaveControlSettings();
                     });
 
             // If it's a part binding, show the name of the part in the UI.
-            string partName = default(string);
-            if (action.bindings[bindingIndex].isPartOfComposite)
-                partName = $"Binding '{action.bindings[bindingIndex].name}'. ";
+            string bindingName = default;
+            if (action.bindings[bindingIndex].isPartOfComposite) {
+                bindingName = $"'{action.bindings[bindingIndex].name}'";
+            }
+            // TODO: Display binding name
 
             // Bring up rebind overlay, if we have one.
             m_RebindOverlay?.SetActive(true);
             if (m_RebindText != null) {
-                string text = !string.IsNullOrEmpty(m_RebindOperation.expectedControlType)
-                    ? $"{partName}Waiting for {m_RebindOperation.expectedControlType} input..."
-                    : $"{partName}Waiting for input...";
+                string text = LocalizationManager.Instance.GetLocalizedText("waiting-for-input");
+                if (!string.IsNullOrEmpty(m_RebindOperation.expectedControlType)) {
+                    text += $" {bindingName}";
+                }
+
                 m_RebindText.text = text;
             }
 
@@ -323,6 +327,12 @@ namespace Rebinding_UI {
             }
 
             return false;
+        }
+
+        private void SaveControlSettings() {
+            string overrides = m_Action.action.actionMap.asset.SaveBindingOverridesAsJson();
+            PlayerPrefs.SetString("bindingOverrides", overrides);
+            PlayerPrefs.Save();
         }
 
         protected void OnEnable() {
