@@ -1,5 +1,7 @@
 #if UNITY_EDITOR
 using System.Linq;
+using Enums;
+using UI.Rebinding_UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,6 +16,7 @@ namespace Rebinding_UI {
     [CustomEditor(typeof(RebindActionUI))]
     public class RebindActionUIEditor : UnityEditor.Editor {
         private RebindActionUI _rebindActionUI;
+
         protected void OnEnable() {
             _rebindActionUI = (RebindActionUI)target;
 
@@ -29,6 +32,7 @@ namespace Rebinding_UI {
             m_DisplayStringOptionsProperty = serializedObject.FindProperty("m_DisplayStringOptions");
             _actionOverrideProperty = serializedObject.FindProperty("overrideActionLabel");
             _actionOverrideStringProperty = serializedObject.FindProperty("actionLabelString");
+            _bindsInputTypeProperty = serializedObject.FindProperty("bindsInputType");
 
             RefreshBindingOptions();
         }
@@ -54,6 +58,8 @@ namespace Rebinding_UI {
                 if (optionsOld != optionsNew)
                     m_DisplayStringOptionsProperty.intValue = (int)optionsNew;
             }
+
+            EditorGUILayout.PropertyField(_bindsInputTypeProperty, new GUIContent("Input Device Type"));
 
             // UI section.
             EditorGUILayout.Space();
@@ -166,6 +172,7 @@ namespace Rebinding_UI {
         private SerializedProperty m_DisplayStringOptionsProperty;
         private SerializedProperty _actionOverrideProperty;
         private SerializedProperty _actionOverrideStringProperty;
+        private SerializedProperty _bindsInputTypeProperty;
 
         private GUIContent m_BindingLabel = new GUIContent("Binding");
         private GUIContent m_DisplayOptionsLabel = new GUIContent("Display Options");

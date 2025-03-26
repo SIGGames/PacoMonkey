@@ -1,5 +1,6 @@
 using PlayerInput;
 using TMPro;
+using UI.Rebinding_UI;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Enums;
 using Localization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using static Utils.PlayerPrefsKeys;
 
 // ReSharper disable Unity.NoNullPropagation
-namespace Rebinding_UI {
+namespace UI.Rebinding_UI {
     /// <summary>
     /// A reusable component with a self-contained UI for rebinding a single action.
     /// </summary>
@@ -24,6 +26,9 @@ namespace Rebinding_UI {
                 UpdateBindingDisplay();
             }
         }
+
+        [SerializeField]
+        private InputDeviceType bindsInputType;
 
         /// <summary>
         /// ID (in string form) of the binding that is to be rebound on the action.
@@ -295,6 +300,18 @@ namespace Rebinding_UI {
             // Give listeners a chance to act on the rebind starting.
             m_RebindStartEvent?.Invoke(this, m_RebindOperation);
 
+            // Enable bind only for those binds that match the input device
+            switch (bindsInputType) {
+                case InputDeviceType.Controller:
+                    m_RebindOperation.WithControlsExcluding("<Keyboard>").WithCancelingThrough("<Keyboard>/escape");
+                    break;
+                case InputDeviceType.Keyboard:
+                    m_RebindOperation.WithControlsExcluding("<Gamepad>").WithCancelingThrough("<Keyboard>/escape");
+                    break;
+                case InputDeviceType.Unknown:
+                default:
+                    break;
+            }
             m_RebindOperation.Start();
             return;
 
@@ -329,7 +346,7 @@ namespace Rebinding_UI {
 
         private void SaveControlSettings() {
             string overrides = m_Action.action.actionMap.asset.SaveBindingOverridesAsJson();
-            PlayerPrefs.SetString("bindingOverrides", overrides);
+            PlayerPrefs.SetString(BindingOverridesKey, overrides);
             PlayerPrefs.Save();
         }
 
@@ -341,8 +358,8 @@ namespace Rebinding_UI {
                 InputSystem.onActionChange += OnActionChange;
 
             // Load binding overrides from player prefs
-            if (PlayerPrefs.HasKey("bindingOverrides") && m_Action != null && m_Action.action != null) {
-                string overrides = PlayerPrefs.GetString("bindingOverrides");
+            if (PlayerPrefs.HasKey(BindingOverridesKey) && m_Action != null && m_Action.action != null) {
+                string overrides = PlayerPrefs.GetString(BindingOverridesKey);
                 m_Action.action.actionMap.asset.LoadBindingOverridesFromJson(overrides);
             }
 
