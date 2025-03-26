@@ -272,11 +272,9 @@ namespace Rebinding_UI {
                     });
 
             // If it's a part binding, show the name of the part in the UI.
-            string bindingName = default;
-            if (action.bindings[bindingIndex].isPartOfComposite) {
-                bindingName = $"'{action.bindings[bindingIndex].name}'";
-            }
-            // TODO: Display binding name
+            string bindingName = action.bindings[bindingIndex].isPartOfComposite
+                ? $"'{action.bindings[bindingIndex].name}'"
+                : $"'{m_Action?.action.name}'";
 
             // Bring up rebind overlay, if we have one.
             m_RebindOverlay?.SetActive(true);
