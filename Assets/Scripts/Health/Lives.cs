@@ -79,9 +79,11 @@ namespace Health {
         }
 
         public void Die() {
+            #pragma warning disable CS0162 // Unreachable code detected
             if (IsGodMode) {
                 return;
             }
+            #pragma warning restore CS0162 // Unreachable code detected
 
             DecrementLives(CurrentLives);
         }

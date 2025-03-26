@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Enums;
 using Managers;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -17,16 +19,20 @@ namespace PlayerInput {
 
         public InputDeviceType currentInputDevice = InputDeviceType.Unknown;
 
+        [SerializeField, ShowIf("currentInputDevice", InputDeviceType.Controller)]
+        private ControllerType currentControllerType = ControllerType.Unknown;
+
         [SerializeField, Range(0.1f, 3)]
         private float inputDeviceCheckInterval = 0.5f;
 
         [Header("Controller Input Images")]
-        [SerializeField]
-        private Sprite controllerInteractImage;
+        public GamepadIcons playStationIcons;
+
+        public GamepadIcons xboxIcons;
 
         [Header("Keyboard Input Images")]
         [SerializeField]
-        private Sprite keyboardInteractImage;
+        private KeyboardIcons keyboardIcons;
 
         private Coroutine _checkInputDeviceCoroutine;
 
@@ -46,6 +52,21 @@ namespace PlayerInput {
                 string overrides = PlayerPrefs.GetString(BindingOverridesKey);
                 InputActions.LoadBindingOverridesFromJson(overrides);
             }
+        }
+
+        private void Start() {
+            if (Gamepad.current != null) {
+                SetControllerType();
+                currentInputDevice = InputDeviceType.Controller;
+            } else if (Keyboard.current != null) {
+                currentControllerType = ControllerType.Unknown;
+                currentInputDevice = InputDeviceType.Keyboard;
+            } else {
+                currentControllerType = ControllerType.Unknown;
+                currentInputDevice = InputDeviceType.Unknown;
+            }
+
+            UpdateInteractKeyImages();
         }
 
         private void OnEnable() {
@@ -78,7 +99,7 @@ namespace PlayerInput {
         }
 
         private void OnInputTypeChange() {
-            UpdateKeyImages();
+            UpdateInteractKeyImages();
         }
 
         private static InputDeviceType GetCurrentInputDevice() {
@@ -86,44 +107,279 @@ namespace PlayerInput {
             if (Gamepad.current != null) {
                 if (Gamepad.current.allControls.Any(control => control is ButtonControl { isPressed: true })
                     || Gamepad.current.leftStick.ReadValue().sqrMagnitude > 0.001f) {
+                    SetControllerType();
                     return InputDeviceType.Controller;
                 }
             }
 
             // Check if any key is currently pressed
             if (Keyboard.current != null) {
-                if (Keyboard.current.allKeys.Any(key => key.isPressed))
+                if (Keyboard.current.allKeys.Any(key => key.isPressed)) {
                     return InputDeviceType.Keyboard;
+                }
             }
 
             return InputDeviceType.Unknown;
         }
 
-        private void UpdateKeyImages() {
+        private static void SetControllerType() {
+            if (Gamepad.current is { } gamepad) {
+                string product = gamepad.description.product?.ToLower() ?? "";
+                string manufacturer = gamepad.description.manufacturer?.ToLower() ?? "";
+
+                if (product.Contains("dualshock") || product.Contains("playstation") || product.Contains("wireless controller") ||
+                    manufacturer.Contains("sony")) {
+                    Instance.currentControllerType = ControllerType.PlayStation;
+                }
+
+                if (product.Contains("xbox") || manufacturer.Contains("microsoft")) {
+                    Instance.currentControllerType = ControllerType.Xbox;
+                    return;
+                }
+            }
+
+            Instance.currentControllerType = ControllerType.Unknown;
+        }
+
+        private void UpdateInteractKeyImages() {
+            Sprite interactSprite = GetInputSprite(InputActions.PlayerControls.Interact);
+
             // Update the interact key image in the floating dialogue
             IEnumerable<Image> keyImages = FindObjectsOfType<Image>(true)
                 .Where(img => img.gameObject.name == "FloatingDialogueNextStep");
             foreach (Image keyImage in keyImages) {
-                keyImage.sprite = GetInputSprite(keyImage);
+                keyImage.sprite = interactSprite;
             }
 
             // Update the interact key image before interacting with the NPC
             IEnumerable<Image> beforeInteractImages = FindObjectsOfType<Image>(true)
                 .Where(img => img.gameObject.name == "FloatingDialogueBeforeInteract");
             foreach (Image image in beforeInteractImages) {
-                image.sprite = GetInputSprite(image);
+                image.sprite = interactSprite;
             }
 
             // Update the next step image in the fixed dialogue panel
-            DialogueManager.Instance.DialogueNextStepImage.sprite =
-                GetInputSprite(DialogueManager.Instance.DialogueNextStepImage);
+            DialogueManager.Instance.DialogueNextStepImage.sprite = interactSprite;
         }
 
-        private Sprite GetInputSprite(Image image) {
+        private string GetActiveBindingControlPath(InputAction action) {
+            // This gets the control path of the first binding that is not a composite depending on the current input device
+            if (action.bindings.Count == 0) {
+                return "";
+            }
+
+            if (currentInputDevice == InputDeviceType.Controller) {
+                foreach (var binding in action.bindings) {
+                    if (binding.isComposite || binding.isPartOfComposite)
+                        continue;
+
+                    if (binding.effectivePath.Contains("Gamepad")) {
+                        return binding.effectivePath;
+                    }
+                }
+            }
+
+            if (currentInputDevice == InputDeviceType.Keyboard) {
+                foreach (var binding in action.bindings) {
+                    if (binding.isComposite || binding.isPartOfComposite)
+                        continue;
+
+                    if (binding.effectivePath.Contains("Keyboard")) {
+                        return binding.effectivePath;
+                    }
+                }
+            }
+
+            return action.bindings[0].effectivePath;
+        }
+
+        public Sprite GetInputSprite(InputAction action) {
+            return GetInputSprite(GetActiveBindingControlPath(action));
+        }
+
+        private Sprite GetInputSprite(string controlPath) {
             return currentInputDevice switch {
-                InputDeviceType.Controller => controllerInteractImage,
-                InputDeviceType.Keyboard => keyboardInteractImage,
-                _ => image.sprite
+                InputDeviceType.Controller => GetControllerSprite(controlPath),
+                InputDeviceType.Keyboard => keyboardIcons.GetSprite(controlPath),
+                _ => keyboardIcons.GetSprite(controlPath) // Keyboard is the fallback for input devices
+            };
+        }
+
+        public Sprite GetControllerSprite(string controlPath) {
+            return currentControllerType switch {
+                ControllerType.PlayStation => playStationIcons.GetSprite(controlPath),
+                ControllerType.Xbox => xboxIcons.GetSprite(controlPath),
+                _ => playStationIcons.GetSprite(controlPath) // PlayStation is the fallback for controller types
+            };
+        }
+
+        public static string GetCleanControlPath(string controlPath) {
+            // Clearing the path, this can not be done using .ToHumanReadableString since it UpperCases the first letter
+            if (controlPath.Contains("<Keyboard>/")) {
+                return controlPath.Replace("<Keyboard>/", "");
+            }
+
+            if (controlPath.Contains("<Gamepad>")) {
+                return controlPath.Replace("<Gamepad>/", "");
+            }
+
+            // Just in case the path is not as expected
+            return controlPath.Contains("/") ? controlPath[(controlPath.LastIndexOf('/') + 1)..] : controlPath;
+        }
+    }
+
+    [Serializable]
+    public struct GamepadIcons {
+        public Sprite buttonSouth;
+        public Sprite buttonNorth;
+        public Sprite buttonEast;
+        public Sprite buttonWest;
+        public Sprite startButton;
+        public Sprite selectButton;
+        public Sprite leftTrigger;
+        public Sprite rightTrigger;
+        public Sprite leftShoulder;
+        public Sprite rightShoulder;
+        public Sprite dpad;
+        public Sprite dpadUp;
+        public Sprite dpadDown;
+        public Sprite dpadLeft;
+        public Sprite dpadRight;
+        public Sprite leftStick;
+        public Sprite rightStick;
+        public Sprite leftStickPress;
+        public Sprite rightStickPress;
+
+        public Sprite GetSprite(string controlPath) {
+            return PlayerInputManager.GetCleanControlPath(controlPath) switch {
+                "buttonSouth" => buttonSouth,
+                "buttonNorth" => buttonNorth,
+                "buttonEast" => buttonEast,
+                "buttonWest" => buttonWest,
+                "start" => startButton,
+                "select" => selectButton,
+                "leftTrigger" => leftTrigger,
+                "rightTrigger" => rightTrigger,
+                "leftShoulder" => leftShoulder,
+                "rightShoulder" => rightShoulder,
+                "dpad" => dpad,
+                "dpad/up" => dpadUp,
+                "dpad/down" => dpadDown,
+                "dpad/left" => dpadLeft,
+                "dpad/right" => dpadRight,
+                "leftStick" => leftStick,
+                "rightStick" => rightStick,
+                "leftStickPress" => leftStickPress,
+                "rightStickPress" => rightStickPress,
+                _ => null
+            };
+        }
+    }
+
+    [Serializable]
+    public struct KeyboardIcons {
+        public Sprite keyW;
+        public Sprite keyA;
+        public Sprite keyS;
+        public Sprite keyD;
+        public Sprite keyE;
+        public Sprite keyQ;
+        public Sprite keySpace;
+        public Sprite keyShift;
+        public Sprite keyCtrl;
+        public Sprite keyAlt;
+        public Sprite keyTab;
+        public Sprite keyCapsLock;
+        public Sprite keyEsc;
+        public Sprite keyF1;
+        public Sprite keyF2;
+        public Sprite keyF3;
+        public Sprite keyF4;
+        public Sprite keyF5;
+        public Sprite keyF6;
+        public Sprite keyF7;
+        public Sprite keyF8;
+        public Sprite keyF9;
+        public Sprite keyF10;
+        public Sprite keyF11;
+        public Sprite keyF12;
+        public Sprite keyPrintScreen;
+        public Sprite keyInsert;
+        public Sprite keyHome;
+        public Sprite keyPageUp;
+        public Sprite keyDelete;
+        public Sprite keyEnd;
+        public Sprite keyPageDown;
+        public Sprite keyArrowUp;
+        public Sprite keyArrowDown;
+        public Sprite keyArrowLeft;
+        public Sprite keyArrowRight;
+        public Sprite keyNumpadMinus;
+        public Sprite keyNumpadPlus;
+        public Sprite keyNumpadEnter;
+        public Sprite keyNumpad1;
+        public Sprite keyNumpad2;
+        public Sprite keyNumpad3;
+        public Sprite keyNumpad4;
+        public Sprite keyNumpad5;
+        public Sprite keyNumpad6;
+        public Sprite keyNumpad7;
+        public Sprite keyNumpad8;
+        public Sprite keyNumpad9;
+        public Sprite keyNumpad0;
+
+        public Sprite GetSprite(string controlPath) {
+            return PlayerInputManager.GetCleanControlPath(controlPath) switch {
+                "w" => keyW,
+                "a" => keyA,
+                "s" => keyS,
+                "d" => keyD,
+                "e" => keyE,
+                "q" => keyQ,
+                "space" => keySpace,
+                "leftShift" => keyShift,
+                "leftCtrl" => keyCtrl,
+                "leftAlt" => keyAlt,
+                "tab" => keyTab,
+                "capsLock" => keyCapsLock,
+                "escape" => keyEsc,
+                "f1" => keyF1,
+                "f2" => keyF2,
+                "f3" => keyF3,
+                "f4" => keyF4,
+                "f5" => keyF5,
+                "f6" => keyF6,
+                "f7" => keyF7,
+                "f8" => keyF8,
+                "f9" => keyF9,
+                "f10" => keyF10,
+                "f11" => keyF11,
+                "f12" => keyF12,
+                "printScreen" => keyPrintScreen,
+                "insert" => keyInsert,
+                "home" => keyHome,
+                "pageUp" => keyPageUp,
+                "delete" => keyDelete,
+                "end" => keyEnd,
+                "pageDown" => keyPageDown,
+                "upArrow" => keyArrowUp,
+                "downArrow" => keyArrowDown,
+                "leftArrow" => keyArrowLeft,
+                "rightArrow" => keyArrowRight,
+                "numpadMinus" => keyNumpadMinus,
+                "numpadPlus" => keyNumpadPlus,
+                "numpadEnter" => keyNumpadEnter,
+                "numpad1" => keyNumpad1,
+                "numpad2" => keyNumpad2,
+                "numpad3" => keyNumpad3,
+                "numpad4" => keyNumpad4,
+                "numpad5" => keyNumpad5,
+                "numpad6" => keyNumpad6,
+                "numpad7" => keyNumpad7,
+                "numpad8" => keyNumpad8,
+                "numpad9" => keyNumpad9,
+                "numpad0" => keyNumpad0,
+                _ => null
             };
         }
     }

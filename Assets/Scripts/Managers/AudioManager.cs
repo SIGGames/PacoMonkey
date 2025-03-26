@@ -173,9 +173,25 @@ namespace Managers {
         }
 
         public void DisableCarrets() {
-            Destroy(masterVolumeInput.GetComponentInChildren<TMP_SelectionCaret>().gameObject);
-            Destroy(musicVolumeInput.GetComponentInChildren<TMP_SelectionCaret>().gameObject);
-            Destroy(sfxVolumeInput.GetComponentInChildren<TMP_SelectionCaret>().gameObject);
+            if (masterVolumeInput == null || musicVolumeInput == null || sfxVolumeInput == null) {
+                return;
+            }
+
+            TMP_SelectionCaret masterVolumeCaret = masterVolumeInput.GetComponentInChildren<TMP_SelectionCaret>();
+            TMP_SelectionCaret musicVolumeCaret = musicVolumeInput.GetComponentInChildren<TMP_SelectionCaret>();
+            TMP_SelectionCaret sfxVolumeCaret = sfxVolumeInput.GetComponentInChildren<TMP_SelectionCaret>();
+
+            if (masterVolumeCaret != null) {
+                masterVolumeCaret.enabled = false;
+            }
+
+            if (musicVolumeCaret != null) {
+                musicVolumeCaret.enabled = false;
+            }
+
+            if (sfxVolumeCaret != null) {
+                sfxVolumeCaret.enabled = false;
+            }
         }
     }
 }
