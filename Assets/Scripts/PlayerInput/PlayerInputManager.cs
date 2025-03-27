@@ -47,11 +47,7 @@ namespace PlayerInput {
 
             InputActions = new PlayerInputActions();
             InputActions.Enable();
-
-            if (PlayerPrefs.HasKey(BindingOverridesKey)) {
-                string overrides = PlayerPrefs.GetString(BindingOverridesKey);
-                InputActions.LoadBindingOverridesFromJson(overrides);
-            }
+            UpdateBindingKeys();
         }
 
         private void Start() {
