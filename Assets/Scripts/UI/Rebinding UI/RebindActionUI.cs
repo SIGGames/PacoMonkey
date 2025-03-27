@@ -7,7 +7,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using static Utils.PlayerPrefsKeys;
+using PlayerInputManager = PlayerInput.PlayerInputManager;
 
 // ReSharper disable Unity.NoNullPropagation
 namespace UI.Rebinding_UI {
@@ -29,6 +31,8 @@ namespace UI.Rebinding_UI {
 
         [SerializeField]
         private InputDeviceType bindsInputType;
+
+        private GameObject _resetToDefaultButton;
 
         /// <summary>
         /// ID (in string form) of the binding that is to be rebound on the action.
@@ -173,6 +177,8 @@ namespace UI.Rebinding_UI {
 
             // Give listeners a chance to configure UI in response.
             m_UpdateBindingUIEvent?.Invoke(this, displayString, deviceLayoutName, controlPath);
+
+            UpdateResetButton();
         }
 
         /// <summary>
@@ -232,7 +238,8 @@ namespace UI.Rebinding_UI {
             }
         }
 
-        private void PerformInteractiveRebind(InputAction action, int bindingIndex, bool allCompositeParts = false) {
+        private void PerformInteractiveRebind(InputAction action, int bindingIndex, bool allCompositeParts = false,
+            bool keyHasBeenUsed = false) {
             m_RebindOperation?.Cancel(); // Will null out m_RebindOperation.
 
             action.Disable();
@@ -258,7 +265,7 @@ namespace UI.Rebinding_UI {
                         if (CheckDuplicateBindings(action, bindingIndex, allCompositeParts)) {
                             action.RemoveBindingOverride(bindingIndex);
                             CleanUp();
-                            PerformInteractiveRebind(action, bindingIndex, allCompositeParts);
+                            PerformInteractiveRebind(action, bindingIndex, allCompositeParts, true);
                             return;
                         }
 
@@ -284,8 +291,10 @@ namespace UI.Rebinding_UI {
             // Bring up rebind overlay, if we have one.
             m_RebindOverlay?.SetActive(true);
             if (m_RebindText != null) {
-                string text = LocalizationManager.Instance.GetLocalizedText("waiting-for-input");
-                if (!string.IsNullOrEmpty(m_RebindOperation.expectedControlType)) {
+                string text = LocalizationManager.Instance.GetLocalizedText(
+                    !keyHasBeenUsed ? "waiting-for-input" : "key-already-used");
+
+                if (!string.IsNullOrEmpty(m_RebindOperation.expectedControlType) && !keyHasBeenUsed) {
                     text += $" {bindingName}";
                 }
 
@@ -350,7 +359,7 @@ namespace UI.Rebinding_UI {
             PlayerPrefs.SetString(BindingOverridesKey, overrides);
             PlayerPrefs.Save();
 
-            PlayerInput.PlayerInputManager.Instance.UpdateBindingKeys();
+            PlayerInputManager.Instance.UpdateBindingKeys();
         }
 
         protected void OnEnable() {
@@ -361,8 +370,8 @@ namespace UI.Rebinding_UI {
             }
 
             // Load binding overrides from player prefs
-            if (PlayerInput.PlayerInputManager.Instance != null && PlayerInput.PlayerInputManager.Instance.InputActions != null) {
-                string overrides = PlayerInput.PlayerInputManager.Instance.InputActions.SaveBindingOverridesAsJson();
+            if (PlayerInputManager.Instance != null && PlayerInputManager.Instance.InputActions != null) {
+                string overrides = PlayerInputManager.Instance.InputActions.SaveBindingOverridesAsJson();
                 m_Action.action.actionMap.asset.LoadBindingOverridesFromJson(overrides);
             }
 
@@ -462,8 +471,25 @@ namespace UI.Rebinding_UI {
             UpdateActionLabel();
             UpdateBindingDisplay();
         }
-
         #endif
+
+        private void Awake() {
+            _resetToDefaultButton = transform.Find("ResetToDefaultButton")?.GetComponent<Button>()?.gameObject;
+        }
+
+        private void UpdateResetButton() {
+            if (_resetToDefaultButton == null) {
+                return;
+            }
+
+            if (!ResolveActionAndBinding(out InputAction action, out int bindingIndex)) {
+                _resetToDefaultButton.GetComponent<Button>().interactable = false;
+                return;
+            }
+
+            bool isChanged = action.bindings[bindingIndex].effectivePath != action.bindings[bindingIndex].path;
+            _resetToDefaultButton.GetComponent<Button>().interactable = isChanged;
+        }
 
         private void UpdateActionLabel() {
             if (m_ActionLabel != null) {

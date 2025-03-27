@@ -97,6 +97,10 @@ MonoBehaviour:
     catalan: Game designer i project manager
     spanish: Game designer y responsable de proyectos
     english: Game designer and project manager
+  - key: key-already-used
+    catalan: "Aquesta tecla ja est\xE0 sent utilitzada"
+    spanish: "Esta tecla ya est\xE1 siendo utilizada"
+    english: This keybind has already been used
   - key: keyboard
     catalan: Teclat
     spanish: Teclado
