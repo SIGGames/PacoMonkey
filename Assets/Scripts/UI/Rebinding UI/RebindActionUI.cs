@@ -312,6 +312,7 @@ namespace UI.Rebinding_UI {
                 default:
                     break;
             }
+
             m_RebindOperation.Start();
             return;
 
@@ -348,18 +349,20 @@ namespace UI.Rebinding_UI {
             string overrides = m_Action.action.actionMap.asset.SaveBindingOverridesAsJson();
             PlayerPrefs.SetString(BindingOverridesKey, overrides);
             PlayerPrefs.Save();
+
+            PlayerInput.PlayerInputManager.Instance.UpdateBindingKeys();
         }
 
         protected void OnEnable() {
-            if (s_RebindActionUIs == null)
-                s_RebindActionUIs = new List<RebindActionUI>();
+            s_RebindActionUIs ??= new List<RebindActionUI>();
             s_RebindActionUIs.Add(this);
-            if (s_RebindActionUIs.Count == 1)
+            if (s_RebindActionUIs.Count == 1) {
                 InputSystem.onActionChange += OnActionChange;
+            }
 
             // Load binding overrides from player prefs
-            if (PlayerPrefs.HasKey(BindingOverridesKey) && m_Action != null && m_Action.action != null) {
-                string overrides = PlayerPrefs.GetString(BindingOverridesKey);
+            if (PlayerInput.PlayerInputManager.Instance != null && PlayerInput.PlayerInputManager.Instance.InputActions != null) {
+                string overrides = PlayerInput.PlayerInputManager.Instance.InputActions.SaveBindingOverridesAsJson();
                 m_Action.action.actionMap.asset.LoadBindingOverridesFromJson(overrides);
             }
 

@@ -79,6 +79,13 @@ namespace PlayerInput {
             StopCoroutine(_checkInputDeviceCoroutine);
         }
 
+        public void UpdateBindingKeys() {
+            if (PlayerPrefs.HasKey(BindingOverridesKey)) {
+                string overrides = PlayerPrefs.GetString(BindingOverridesKey);
+                InputActions.LoadBindingOverridesFromJson(overrides);
+            }
+        }
+
         [SuppressMessage("ReSharper", "IteratorNeverReturns")]
         private IEnumerator CheckInputDeviceCoroutine() {
             while (true) {
