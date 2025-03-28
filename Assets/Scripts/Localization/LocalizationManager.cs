@@ -38,6 +38,10 @@ namespace Localization {
             }
         }
 
+        public bool HasKey(string key) {
+            return localizationData.HasKey(key);
+        }
+
         public string GetLocalizedText(string key) {
             string text = localizationData.GetText(key, currentLanguage);
 

@@ -85,6 +85,10 @@ MonoBehaviour:
     catalan: Dificultat
     spanish: Dificultad
     english: Difficulty
+  - key: down
+    catalan: Baixar
+    spanish: Bajar
+    english: Down
   - key: easy
     catalan: "F\xE0cil"
     spanish: Facil
@@ -129,6 +133,10 @@ MonoBehaviour:
     catalan: Idioma
     spanish: Idioma
     english: Language
+  - key: left
+    catalan: Esquerra
+    spanish: Izquierda
+    english: Left
   - key: main-menu
     catalan: "Men\xFA principal"
     spanish: "Men\xFA principal"
@@ -201,6 +209,10 @@ MonoBehaviour:
     catalan: "Resoluci\xF3"
     spanish: Resolucion
     english: Resolution
+  - key: right
+    catalan: Dreta
+    spanish: Derecha
+    english: Right
   - key: select-language
     catalan: Selecciona un idioma
     spanish: Seleciona un idioma

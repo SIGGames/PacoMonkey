@@ -29,5 +29,9 @@ namespace Localization {
 
             return $"[MISSING: {key}]";
         }
+
+        public bool HasKey(string key) {
+            return texts.Any(text => text.key == key);
+        }
     }
 }

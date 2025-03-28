@@ -296,6 +296,12 @@ namespace UI.Rebinding_UI {
                 ? $"'{action.bindings[bindingIndex].name}'"
                 : $"'{m_Action?.action.name}'";
 
+            // Translate the binding name if possible
+            string formattedBindingName = bindingName.ToLower().Replace("'", "");
+            if (LocalizationManager.Instance != null && LocalizationManager.Instance.HasKey(formattedBindingName)) {
+                bindingName = "'" + LocalizationManager.Instance.GetLocalizedText(formattedBindingName) + "'";
+            }
+
             // Bring up rebind overlay, if we have one.
             m_RebindOverlay?.SetActive(true);
             if (m_RebindText != null) {
