@@ -1,15 +1,14 @@
 using PlayerInput;
 using TMPro;
-using UI.Rebinding_UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Rebinding_UI {
+namespace UI.Rebinding_UI {
     public class SetGamepadIcons : MonoBehaviour {
         protected void OnEnable() {
             // Hook into all updateBindingUIEvents on all RebindActionUI components in our hierarchy.
             RebindActionUI[] rebindUIComponents = transform.GetComponentsInChildren<RebindActionUI>();
-            foreach (var component in rebindUIComponents) {
+            foreach (RebindActionUI component in rebindUIComponents) {
                 component.updateBindingUIEvent.AddListener(OnUpdateBindingDisplay);
                 component.UpdateBindingDisplay();
             }
@@ -17,8 +16,9 @@ namespace Rebinding_UI {
 
         private static void OnUpdateBindingDisplay(RebindActionUI component, string bindingDisplayString, string deviceLayoutName,
             string controlPath) {
-            if (string.IsNullOrEmpty(deviceLayoutName) || string.IsNullOrEmpty(controlPath))
+            if (string.IsNullOrEmpty(deviceLayoutName) || string.IsNullOrEmpty(controlPath)) {
                 return;
+            }
 
             Sprite icon = PlayerInputManager.Instance.GetControllerSprite(controlPath);
             TextMeshProUGUI textComponent = component.BindingText;

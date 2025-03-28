@@ -200,7 +200,7 @@ namespace PlayerInput {
             return GetInputSprite(GetActiveBindingControlPath(action));
         }
 
-        private Sprite GetInputSprite(string controlPath) {
+        public Sprite GetInputSprite(string controlPath) {
             return currentInputDevice switch {
                 InputDeviceType.Controller => GetControllerSprite(controlPath),
                 InputDeviceType.Keyboard => keyboardIcons.GetSprite(controlPath),
@@ -287,6 +287,26 @@ namespace PlayerInput {
         public Sprite keyD;
         public Sprite keyE;
         public Sprite keyQ;
+        public Sprite keyR;
+        public Sprite keyF;
+        public Sprite keyT;
+        public Sprite keyG;
+        public Sprite keyY;
+        public Sprite keyH;
+        public Sprite keyU;
+        public Sprite keyJ;
+        public Sprite keyI;
+        public Sprite keyK;
+        public Sprite keyO;
+        public Sprite keyL;
+        public Sprite keyP;
+        public Sprite keyZ;
+        public Sprite keyX;
+        public Sprite keyC;
+        public Sprite keyV;
+        public Sprite keyB;
+        public Sprite keyN;
+        public Sprite keyM;
         public Sprite keySpace;
         public Sprite keyShift;
         public Sprite keyCtrl;
@@ -339,6 +359,26 @@ namespace PlayerInput {
                 "d" => keyD,
                 "e" => keyE,
                 "q" => keyQ,
+                "r" => keyR,
+                "f" => keyF,
+                "t" => keyT,
+                "g" => keyG,
+                "y" => keyY,
+                "h" => keyH,
+                "u" => keyU,
+                "j" => keyJ,
+                "i" => keyI,
+                "k" => keyK,
+                "o" => keyO,
+                "l" => keyL,
+                "p" => keyP,
+                "z" => keyZ,
+                "x" => keyX,
+                "c" => keyC,
+                "v" => keyV,
+                "b" => keyB,
+                "n" => keyN,
+                "m" => keyM,
                 "space" => keySpace,
                 "leftShift" => keyShift,
                 "leftCtrl" => keyCtrl,
