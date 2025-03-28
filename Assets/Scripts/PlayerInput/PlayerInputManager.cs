@@ -281,6 +281,9 @@ namespace PlayerInput {
 
     [Serializable]
     public struct KeyboardIcons {
+        public Sprite mouseLeftButton;
+        public Sprite mouseRightButton;
+        public Sprite mouseMiddleButton;
         public Sprite keyW;
         public Sprite keyA;
         public Sprite keyS;
@@ -331,6 +334,7 @@ namespace PlayerInput {
         public Sprite keyHome;
         public Sprite keyPageUp;
         public Sprite keyDelete;
+        public Sprite keyEnter;
         public Sprite keyEnd;
         public Sprite keyPageDown;
         public Sprite keyArrowUp;
@@ -339,6 +343,7 @@ namespace PlayerInput {
         public Sprite keyArrowRight;
         public Sprite keyNumpadMinus;
         public Sprite keyNumpadPlus;
+        public Sprite keyPlus;
         public Sprite keyNumpadEnter;
         public Sprite keyNumpad1;
         public Sprite keyNumpad2;
@@ -353,6 +358,9 @@ namespace PlayerInput {
 
         public Sprite GetSprite(string controlPath) {
             return PlayerInputManager.GetCleanControlPath(controlPath) switch {
+                "leftButton" => mouseLeftButton,
+                "rightButton" => mouseRightButton,
+                "middleButton" => mouseMiddleButton,
                 "w" => keyW,
                 "a" => keyA,
                 "s" => keyS,
@@ -403,25 +411,38 @@ namespace PlayerInput {
                 "home" => keyHome,
                 "pageUp" => keyPageUp,
                 "delete" => keyDelete,
+                "enter" => keyEnter,
                 "end" => keyEnd,
                 "pageDown" => keyPageDown,
-                "upArrow" => keyArrowUp,
-                "downArrow" => keyArrowDown,
-                "leftArrow" => keyArrowLeft,
-                "rightArrow" => keyArrowRight,
+                "uparrow" => keyArrowUp,
+                "downarrow" => keyArrowDown,
+                "leftarrow" => keyArrowLeft,
+                "rightarrow" => keyArrowRight,
                 "numpadMinus" => keyNumpadMinus,
+                "slash" => keyNumpadMinus,
                 "numpadPlus" => keyNumpadPlus,
+                "rightBracket" => keyPlus,
                 "numpadEnter" => keyNumpadEnter,
                 "numpad1" => keyNumpad1,
+                "1" => keyNumpad1,
                 "numpad2" => keyNumpad2,
+                "2" => keyNumpad2,
                 "numpad3" => keyNumpad3,
+                "3" => keyNumpad3,
                 "numpad4" => keyNumpad4,
+                "4" => keyNumpad4,
                 "numpad5" => keyNumpad5,
+                "5" => keyNumpad5,
                 "numpad6" => keyNumpad6,
+                "6" => keyNumpad6,
                 "numpad7" => keyNumpad7,
+                "7" => keyNumpad7,
                 "numpad8" => keyNumpad8,
+                "8" => keyNumpad8,
                 "numpad9" => keyNumpad9,
+                "9" => keyNumpad9,
                 "numpad0" => keyNumpad0,
+                "0" => keyNumpad0,
                 _ => null
             };
         }

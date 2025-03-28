@@ -253,7 +253,8 @@ namespace UI.Rebinding_UI {
 
             // Configure the rebind.
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
-                .WithControlsExcluding("<Mouse>")
+                .WithControlsExcluding("<Mouse>/leftButton")
+                .WithControlsExcluding("<Mouse>/press")
                 .WithCancelingThrough("<Keyboard>/escape")
                 .OnCancel(
                     operation => {
