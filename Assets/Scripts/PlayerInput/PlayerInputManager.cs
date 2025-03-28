@@ -126,16 +126,15 @@ namespace PlayerInput {
         }
 
         private static void SetControllerType() {
-            if (Gamepad.current is { } gamepad) {
-                string product = gamepad.description.product?.ToLower() ?? "";
-                string manufacturer = gamepad.description.manufacturer?.ToLower() ?? "";
+            if (Gamepad.current is not null) {
+                string name = Gamepad.current.device.name.ToLower();
 
-                if (product.Contains("dualshock") || product.Contains("playstation") || product.Contains("wireless controller") ||
-                    manufacturer.Contains("sony")) {
+                if (name.Contains("sony") || name.Contains("playstation") || name.Contains("dualshock")) {
                     Instance.currentControllerType = ControllerType.PlayStation;
+                    return;
                 }
 
-                if (product.Contains("xbox") || manufacturer.Contains("microsoft")) {
+                if (name.Contains("microsoft") || name.Contains("xbox") || name.Contains("controllerwindows")) {
                     Instance.currentControllerType = ControllerType.Xbox;
                     return;
                 }
