@@ -22,6 +22,10 @@ namespace UI.Rebinding_UI {
                 return;
             }
 
+            if (PlayerInputManager.Instance == null) {
+                return;
+            }
+
             Sprite icon = PlayerInputManager.Instance.GetInputSprite(controlPath);
             TextMeshProUGUI textComponent = component.BindingText;
 
@@ -60,8 +64,12 @@ namespace UI.Rebinding_UI {
                 // Getting the key of the composite part
                 InputBinding part = action.bindings[i];
                 string partKey = part.effectivePath;
-                partKey = PlayerInputManager.GetCleanControlPath(partKey).ToLower();
-                Sprite icon = PlayerInputManager.Instance.GetInputSprite(partKey);
+
+                Sprite icon = null;
+                if (PlayerInputManager.Instance != null) {
+                    partKey = PlayerInputManager.GetCleanControlPath(partKey).ToLower();
+                    icon = PlayerInputManager.Instance.GetInputSprite(partKey);
+                }
 
                 // Getting the key image
                 Transform parentTransform = component.BindingText.transform.parent;

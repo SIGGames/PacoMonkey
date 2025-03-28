@@ -216,7 +216,7 @@ namespace PlayerInput {
             };
         }
 
-        public static string GetCleanControlPath(string controlPath) {
+        public static string GetCleanControlPath(string controlPath, bool cleanPath = true) {
             // Clearing the path, this can not be done using .ToHumanReadableString since it UpperCases the first letter
             if (controlPath.Contains("<Keyboard>/")) {
                 return controlPath.Replace("<Keyboard>/", "");
@@ -227,7 +227,11 @@ namespace PlayerInput {
             }
 
             // Just in case the path is not as expected
-            return controlPath.Contains("/") ? controlPath[(controlPath.LastIndexOf('/') + 1)..] : controlPath;
+            if (cleanPath) {
+                return controlPath.Contains("/") ? controlPath[(controlPath.LastIndexOf('/') + 1)..] : controlPath;
+            }
+
+            return controlPath;
         }
     }
 
@@ -254,7 +258,7 @@ namespace PlayerInput {
         public Sprite rightStickPress;
 
         public Sprite GetSprite(string controlPath) {
-            return PlayerInputManager.GetCleanControlPath(controlPath) switch {
+            return PlayerInputManager.GetCleanControlPath(controlPath, false) switch {
                 "buttonSouth" => buttonSouth,
                 "buttonNorth" => buttonNorth,
                 "buttonEast" => buttonEast,
@@ -271,7 +275,15 @@ namespace PlayerInput {
                 "dpad/left" => dpadLeft,
                 "dpad/right" => dpadRight,
                 "leftStick" => leftStick,
+                "leftStick/down" => null,
+                "leftStick/up" => null,
+                "leftStick/left" => null,
+                "leftStick/right" => null,
                 "rightStick" => rightStick,
+                "rightStick/down" => null,
+                "rightStick/up" => null,
+                "rightStick/left" => null,
+                "rightStick/right" => null,
                 "leftStickPress" => leftStickPress,
                 "rightStickPress" => rightStickPress,
                 _ => null
