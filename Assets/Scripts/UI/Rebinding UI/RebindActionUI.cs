@@ -6,6 +6,7 @@ using Localization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static Utils.PlayerPrefsKeys;
@@ -258,6 +259,7 @@ namespace UI.Rebinding_UI {
                 .WithCancelingThrough("<Keyboard>/escape")
                 .OnCancel(
                     operation => {
+                        EnableUINavigation();
                         action.Enable();
                         m_RebindStopEvent?.Invoke(this, operation);
                         m_RebindOverlay?.SetActive(false);
@@ -266,6 +268,7 @@ namespace UI.Rebinding_UI {
                     })
                 .OnComplete(
                     operation => {
+                        EnableUINavigation();
                         action.Enable();
                         m_RebindOverlay?.SetActive(false);
                         m_RebindStopEvent?.Invoke(this, operation);
@@ -336,6 +339,7 @@ namespace UI.Rebinding_UI {
                     break;
             }
 
+            DisableUINavigation();
             m_RebindOperation.Start();
             return;
 
@@ -374,6 +378,18 @@ namespace UI.Rebinding_UI {
             PlayerPrefs.Save();
 
             PlayerInputManager.Instance.UpdateBindingKeys();
+        }
+
+        private void DisableUINavigation() {
+            if (EventSystem.current != null) {
+                EventSystem.current.sendNavigationEvents = false;
+            }
+        }
+
+        private void EnableUINavigation() {
+            if (EventSystem.current != null) {
+                EventSystem.current.sendNavigationEvents = true;
+            }
         }
 
         protected void OnEnable() {
