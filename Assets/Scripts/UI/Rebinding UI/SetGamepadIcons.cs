@@ -24,16 +24,19 @@ namespace UI.Rebinding_UI {
             TextMeshProUGUI textComponent = component.BindingText;
 
             // Grab Image component.
-            Transform imageGo = textComponent.transform.parent.Find("ActionBindingIcon");
-            Image imageComponent = imageGo.GetComponent<Image>();
+            Transform container = textComponent.transform.parent.Find("ActionRebindIcons");
+            if (container != null) {
+                Transform imageGo = container.Find("ActionBindingIcon");
+                Image imageComponent = imageGo.GetComponent<Image>();
 
-            if (icon != null) {
-                textComponent.gameObject.SetActive(false);
-                imageComponent.sprite = icon;
-                imageComponent.gameObject.SetActive(true);
-            } else {
-                textComponent.gameObject.SetActive(true);
-                imageComponent.gameObject.SetActive(false);
+                if (icon != null) {
+                    textComponent.gameObject.SetActive(false);
+                    imageComponent.sprite = icon;
+                    imageComponent.gameObject.SetActive(true);
+                } else {
+                    textComponent.gameObject.SetActive(true);
+                    imageComponent.gameObject.SetActive(false);
+                }
             }
         }
     }
