@@ -53,6 +53,10 @@ MonoBehaviour:
     catalan: "Configuraci\xF3"
     spanish: "Configuraci\xF3n"
     english: Settings
+  - key: configuration
+    catalan: "Configuraci\xF3"
+    spanish: Configuracion
+    english: Configuration
   - key: continue
     catalan: Continua
     spanish: Continuar
@@ -109,6 +113,10 @@ MonoBehaviour:
     catalan: Game designer i project manager
     spanish: Game designer y responsable de proyectos
     english: Game designer and project manager
+  - key: jump
+    catalan: Saltar
+    spanish: Saltar
+    english: Jump
   - key: key-already-used
     catalan: "Aquesta tecla ja est\xE0 sent utilitzada"
     spanish: "Esta tecla ya est\xE1 siendo utilizada"
@@ -133,6 +141,10 @@ MonoBehaviour:
     catalan: Atac cos a cos
     spanish: Ataque cuerpo a cuerpo
     english: Melee attack
+  - key: menu
+    catalan: "Men\xFA"
+    spanish: "Men\xFA"
+    english: Menu
   - key: movement
     catalan: Moviment
     spanish: Movimiento
@@ -205,6 +217,10 @@ MonoBehaviour:
     catalan: "Comen\xE7a una nova partida"
     spanish: Empieza una nueva partida
     english: Start a new game
+  - key: up
+    catalan: Pujar
+    spanish: Subir
+    english: Up
   - key: video
     catalan: "V\xEDdeo"
     spanish: Video
@@ -213,6 +229,10 @@ MonoBehaviour:
     catalan: Prem una tecla per assignar
     spanish: Pulsa una tecla para asignar
     english: Press a key to assign
+  - key: walk
+    catalan: Caminar
+    spanish: Andar
+    english: Walk
   - key: yes
     catalan: Si
     spanish: "S\xED"
