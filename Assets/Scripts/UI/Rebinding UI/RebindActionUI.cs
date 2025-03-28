@@ -376,6 +376,11 @@ namespace UI.Rebinding_UI {
             }
 
             UpdateBindingDisplay();
+
+            // On language change event update the action labels
+            if (LocalizationManager.Instance != null) {
+                LocalizationManager.Instance.OnLanguageChanged += UpdateActionLabel;
+            }
         }
 
         protected void OnDisable() {
@@ -387,6 +392,8 @@ namespace UI.Rebinding_UI {
                 s_RebindActionUIs = null;
                 InputSystem.onActionChange -= OnActionChange;
             }
+
+            // Do not unsubscribe from language change event since this will be done while this is disabled
         }
 
         // When the action system re-resolves bindings, we want to update our UI in response. While this will
@@ -477,6 +484,11 @@ namespace UI.Rebinding_UI {
             _resetToDefaultButton = transform.Find("ResetToDefaultButton")?.GetComponent<Button>()?.gameObject;
         }
 
+        private void Start() {
+            UpdateActionLabel();
+            UpdateBindingDisplay();
+        }
+
         private void UpdateResetButton() {
             if (_resetToDefaultButton == null) {
                 return;
@@ -495,12 +507,22 @@ namespace UI.Rebinding_UI {
             if (m_ActionLabel != null) {
                 var action = m_Action?.action;
 
+                string text;
                 if (overrideActionLabel) {
-                    m_ActionLabel.text = actionLabelString;
+                    text = actionLabelString;
                 } else {
-                    m_ActionLabel.text = action != null ? action.name : string.Empty;
-                    actionLabelString = string.Empty;
+                    text = action != null ? action.name : string.Empty;
                 }
+
+                if (text != null) {
+                    // Formatting text for translations
+                    string formattedText = text.ToLower().Replace(" ", "-");
+                    if (LocalizationManager.Instance != null) {
+                        text = LocalizationManager.Instance.GetLocalizedText(formattedText);
+                    }
+                }
+
+                m_ActionLabel.text = text;
             }
         }
 

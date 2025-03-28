@@ -33,6 +33,10 @@ MonoBehaviour:
     catalan: Brillantor
     spanish: Brillo
     english: Brightness
+  - key: cameramove
+    catalan: "Moviment C\xE0mera"
+    spanish: Movimento Camara
+    english: Camera Movement
   - key: catalan
     catalan: "Catal\xE0"
     spanish: Catalan
@@ -65,6 +69,10 @@ MonoBehaviour:
     catalan: "Cr\xE8dits"
     spanish: Creditos
     english: Credits
+  - key: crouch
+    catalan: Acotxar-se
+    spanish: Agacharse
+    english: Crouch
   - key: default-values
     catalan: Restablir valors per defecte
     spanish: Restablecer valores por defecto
@@ -93,6 +101,10 @@ MonoBehaviour:
     catalan: "Dif\xEDcil"
     spanish: Dificil
     english: Hard
+  - key: interact
+    catalan: Interactuar
+    spanish: Interactuar
+    english: Interact
   - key: julia-text
     catalan: Game designer i project manager
     spanish: Game designer y responsable de proyectos
@@ -117,7 +129,7 @@ MonoBehaviour:
     catalan: Volum General
     spanish: Volumen General
     english: Master Volume
-  - key: melee-attack
+  - key: melee
     catalan: Atac cos a cos
     spanish: Ataque cuerpo a cuerpo
     english: Melee attack
@@ -161,6 +173,10 @@ MonoBehaviour:
     catalan: Sortir
     spanish: Salir
     english: Quit
+  - key: range
+    catalan: Atac a rang
+    spanish: Ataque a rango
+    english: Ranged Attack
   - key: rebind-controls
     catalan: Reassignar tecles
     spanish: Reasignar teclas
