@@ -189,8 +189,14 @@ namespace UI.Rebinding_UI {
                 return;
             }
 
-            ResetBinding(action, bindingIndex);
-            SaveControlSettings();
+            // If its composite all parts needs to be reset
+            if (action.bindings[bindingIndex].isComposite) {
+                for (int i = bindingIndex + 1; i < action.bindings.Count && action.bindings[i].isPartOfComposite; i++) {
+                    action.RemoveBindingOverride(i);
+                }
+            } else {
+                ResetBinding(action, bindingIndex);
+            }
             /*
             if (action.bindings[bindingIndex].isComposite) {
                 // It's a composite. Remove overrides from part bindings.
@@ -201,6 +207,7 @@ namespace UI.Rebinding_UI {
             }
             */
 
+            SaveControlSettings();
             UpdateBindingDisplay();
         }
 
@@ -499,7 +506,20 @@ namespace UI.Rebinding_UI {
                 return;
             }
 
-            bool isChanged = action.bindings[bindingIndex].effectivePath != action.bindings[bindingIndex].path;
+            bool isChanged = false;
+            // If its a composite all parts needs to be checked
+            if (action.bindings[bindingIndex].isComposite) {
+                for (int i = bindingIndex + 1; i < action.bindings.Count && action.bindings[i].isPartOfComposite; i++) {
+                    if (!string.IsNullOrEmpty(action.bindings[i].overridePath) &&
+                        action.bindings[i].overridePath != action.bindings[i].path) {
+                        isChanged = true;
+                        break;
+                    }
+                }
+            } else {
+                isChanged = action.bindings[bindingIndex].effectivePath != action.bindings[bindingIndex].path;
+            }
+
             _resetToDefaultButton.GetComponent<Button>().interactable = isChanged;
         }
 
