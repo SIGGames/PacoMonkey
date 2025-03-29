@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tools {
+namespace Editor.Tools {
     public static class UpdateSelectedColor {
         [MenuItem("Tools/Update Selected Color")]
         public static void UpdateAllSelectedColors() {

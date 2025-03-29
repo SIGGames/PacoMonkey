@@ -1,39 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Platformer.Mechanics;
+﻿using System.Globalization;
+using Mechanics;
 using UnityEditor;
 using UnityEngine;
-using PatrolPath = Mechanics.PatrolPath;
 
-namespace Platformer
-{
+namespace Editor {
     [CustomEditor(typeof(PatrolPath))]
-    public class PatrolPathGizmo : Editor
-    {
-        public void OnSceneGUI()
-        {
+    public class PatrolPathGizmo : UnityEditor.Editor {
+        public void OnSceneGUI() {
             var path = target as PatrolPath;
-            using (var cc = new EditorGUI.ChangeCheckScope())
-            {
-                var sp = path.transform.InverseTransformPoint(
-                    Handles.PositionHandle(path.transform.TransformPoint(path.startPosition), path.transform.rotation));
-                var ep = path.transform.InverseTransformPoint(
-                    Handles.PositionHandle(path.transform.TransformPoint(path.endPosition), path.transform.rotation));
-                if (cc.changed)
-                {
-                    sp.y = 0;
-                    ep.y = 0;
-                    path.startPosition = sp;
-                    path.endPosition = ep;
+            using (var cc = new EditorGUI.ChangeCheckScope()) {
+                if (path != null) {
+                    var sp = path.transform.InverseTransformPoint(
+                        Handles.PositionHandle(path.transform.TransformPoint(path.startPosition), path.transform.rotation));
+                    var ep = path.transform.InverseTransformPoint(
+                        Handles.PositionHandle(path.transform.TransformPoint(path.endPosition), path.transform.rotation));
+                    if (cc.changed) {
+                        sp.y = 0;
+                        ep.y = 0;
+                        path.startPosition = sp;
+                        path.endPosition = ep;
+                    }
                 }
             }
 
-            Handles.Label(path.transform.position, (path.startPosition - path.endPosition).magnitude.ToString());
+            if (path != null)
+                Handles.Label(path.transform.position, (path.startPosition - path.endPosition).magnitude.ToString(CultureInfo.InvariantCulture));
         }
 
         [DrawGizmo(GizmoType.Selected | GizmoType.NonSelected)]
-        static void OnDrawGizmo(PatrolPath path, GizmoType gizmoType)
-        {
+        private static void OnDrawGizmo(PatrolPath path, GizmoType gizmoType) {
             var start = path.transform.TransformPoint(path.startPosition);
             var end = path.transform.TransformPoint(path.endPosition);
             Handles.color = Color.yellow;

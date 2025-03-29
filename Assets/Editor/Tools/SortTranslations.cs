@@ -2,7 +2,7 @@
 using Localization;
 using UnityEditor;
 
-namespace Tools {
+namespace Editor.Tools {
     public static class SortTranslations {
         [MenuItem("Tools/Sort Translations")]
         public static void SortTranslationsData() {
