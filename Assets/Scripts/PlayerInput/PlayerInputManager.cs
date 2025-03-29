@@ -244,6 +244,7 @@ namespace PlayerInput {
         public Sprite buttonWest;
         public Sprite startButton;
         public Sprite selectButton;
+        public Sprite touchpad;
         public Sprite leftTrigger;
         public Sprite rightTrigger;
         public Sprite leftShoulder;
@@ -266,6 +267,7 @@ namespace PlayerInput {
                 "buttonWest" => buttonWest,
                 "start" => startButton,
                 "select" => selectButton,
+                "touchpadButton" => touchpad,
                 "leftTrigger" => leftTrigger,
                 "rightTrigger" => rightTrigger,
                 "leftShoulder" => leftShoulder,
