@@ -18,6 +18,8 @@ namespace Managers {
         public Image DialogueImage { get; private set; }
         public Image DialogueNextStepImage { get; private set; }
 
+        public GameObject beforeInteractButtonPrefab;
+
         // Components Titles
         private const string DialoguePanelIdentifier = "DialoguePanel";
         private const string DialogueTextIdentifier = "DialogueText";

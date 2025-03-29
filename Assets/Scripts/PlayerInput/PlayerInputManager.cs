@@ -6,6 +6,7 @@ using System.Linq;
 using Enums;
 using Managers;
 using NaughtyAttributes;
+using UI.Dialogues;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -101,7 +102,7 @@ namespace PlayerInput {
             }
         }
 
-        private void OnInputTypeChange() {
+        public void OnInputTypeChange() {
             UpdateInteractKeyImages();
         }
 
@@ -160,6 +161,7 @@ namespace PlayerInput {
                 image.sprite = interactSprite;
             }
 
+            DialogueManager.Instance.beforeInteractButtonPrefab.GetComponent<Image>().sprite = interactSprite;
             // Update the next step image in the fixed dialogue panel
             DialogueManager.Instance.DialogueNextStepImage.sprite = interactSprite;
         }

@@ -378,15 +378,16 @@ namespace UI.Rebinding_UI {
             PlayerPrefs.Save();
 
             PlayerInputManager.Instance.UpdateBindingKeys();
+            PlayerInputManager.Instance.OnInputTypeChange();
         }
 
-        private void DisableUINavigation() {
+        private static void DisableUINavigation() {
             if (EventSystem.current != null) {
                 EventSystem.current.sendNavigationEvents = false;
             }
         }
 
-        private void EnableUINavigation() {
+        private static void EnableUINavigation() {
             if (EventSystem.current != null) {
                 EventSystem.current.sendNavigationEvents = true;
             }

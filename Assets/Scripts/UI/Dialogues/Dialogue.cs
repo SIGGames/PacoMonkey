@@ -42,9 +42,6 @@ namespace UI.Dialogues {
         [SerializeField, ShowIf("showInteractButtonBeforeInteract")]
         private Vector2 interactButtonOffset = new(0, 1f);
 
-        [SerializeField, ShowIf("showInteractButtonBeforeInteract")]
-        private GameObject interactButtonBeforeInteractPrefab;
-
         [Header("Dialogues")]
         [SerializeField]
         private bool ensureMultipleLanguagesDialoguesLength = true;
@@ -348,7 +345,7 @@ namespace UI.Dialogues {
 
         private void ShowInteractButton() {
             if (_interactButtonInstance == null) {
-                _interactButtonInstance = Instantiate(interactButtonBeforeInteractPrefab, transform);
+                _interactButtonInstance = Instantiate(DialogueManager.Instance.beforeInteractButtonPrefab, transform);
                 _interactButtonInstance.name = InteractButtonIdentifier;
             }
 
