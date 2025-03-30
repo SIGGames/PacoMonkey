@@ -36,7 +36,7 @@ namespace UI {
                 return;
             }
 
-            // Actives the sub panel when a button is selected
+            // Actives the sub panel when a button is selected. This was kinda genius TBH.
             GameObject current = EventSystem.current.currentSelectedGameObject;
             if (subPanels.Any(subPanel => subPanel.panelGameObject.name == current.name)) {
                 SetActiveSubPanel(subPanels.ToList().FindIndex(subPanel => subPanel.panelGameObject.name == current.name));
