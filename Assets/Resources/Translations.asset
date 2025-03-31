@@ -61,6 +61,10 @@ MonoBehaviour:
     catalan: Continua
     spanish: Continuar
     english: Continue
+  - key: contrast
+    catalan: Contrast
+    spanish: Contraste
+    english: Contrast
   - key: controller
     catalan: Commandament
     spanish: Mando

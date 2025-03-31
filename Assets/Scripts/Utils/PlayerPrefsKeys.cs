@@ -16,5 +16,8 @@
         public const string ScreenHeightKey = "ScreenHeight";
         public const string ScreenWidthKey = "ScreenWidth";
         public const string SfxVolumeKey = "SfxVolume";
+        public const string BrightnessKey = "Brightness";
+        public const string ContrastKey = "Contrast";
+        public const string VSyncCountKey = "VSyncCount";
     }
 }
