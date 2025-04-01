@@ -11,22 +11,19 @@ namespace UI {
     public class VideoUIConfiguration : MonoBehaviour {
         [SerializeField] private Slider brightnessSlider;
         [SerializeField] private TMP_InputField brightnessInput;
-        [SerializeField] private Slider contrastSlider;
-        [SerializeField] private TMP_InputField contrastInput;
         [SerializeField] private Toggle vSyncCheckbox;
         [SerializeField] private Toggle fullscreenCheckbox;
         [SerializeField] private TMP_Dropdown resolutionDropdown;
         [SerializeField] private bool setAllResolutions;
         [SerializeField] private ResolutionManager resMgr;
 
-        private const float DefaultBrightness = 5f;
-        private const float DefaultContrast = 1f;
+        private const float DefaultBrightness = 10f;
         private const bool DefaultVSyncCount = true;
         private const bool DefaultFullScreen = false;
 
         private void Awake() {
-            if (brightnessSlider == null || contrastSlider == null || vSyncCheckbox == null || fullscreenCheckbox == null
-                || resolutionDropdown == null || brightnessInput == null || contrastInput == null) {
+            if (brightnessSlider == null || vSyncCheckbox == null || fullscreenCheckbox == null || resolutionDropdown == null ||
+                brightnessInput == null) {
                 Debug.LogError("One or more UI elements are not assigned in the inspector");
                 enabled = false;
             }
@@ -38,12 +35,11 @@ namespace UI {
 
         private void Start() {
             float savedBrightness = PlayerPrefs.GetFloat(BrightnessKey, DefaultBrightness);
-            float savedContrast = PlayerPrefs.GetFloat(ContrastKey, DefaultContrast);
             bool savedFullscreen = PlayerPrefs.GetInt(FullScreenKey, DefaultFullScreen ? 1 : 0) == 1;
             int savedVSync = PlayerPrefs.GetInt(VSyncCountKey, DefaultVSyncCount ? 1 : 0);
 
-            InitializeSliders(savedBrightness, savedContrast);
-            InitializeInputs(savedBrightness, savedContrast);
+            InitializeSliders(savedBrightness);
+            InitializeInputs(savedBrightness);
             InitializeDropdown();
 
             vSyncCheckbox.isOn = savedVSync != 0;
@@ -54,7 +50,6 @@ namespace UI {
             fullscreenCheckbox.onValueChanged.AddListener(OnFullscreenChanged);
 
             resMgr.SetBrightness(savedBrightness);
-            resMgr.SetContrast(savedContrast);
             resMgr.SetVSyncCount(savedVSync);
 
             if (savedFullscreen) {
@@ -66,22 +61,15 @@ namespace UI {
             }
         }
 
-        private void InitializeSliders(float brightness, float contrast) {
+        private void InitializeSliders(float brightness) {
             brightnessSlider.value = brightness;
             brightnessSlider.onValueChanged.AddListener(OnBrightnessSliderChanged);
             brightnessSlider.onValueChanged.AddListener(delegate { UpdateInputFromSlider(brightnessSlider, brightnessInput); });
-
-            contrastSlider.value = contrast;
-            contrastSlider.onValueChanged.AddListener(OnContrastSliderChanged);
-            contrastSlider.onValueChanged.AddListener(delegate { UpdateInputFromSlider(contrastSlider, contrastInput); });
         }
 
-        private void InitializeInputs(float brightness, float contrast) {
+        private void InitializeInputs(float brightness) {
             brightnessInput.text = brightness.ToString(CultureInfo.InvariantCulture);
             brightnessInput.onValueChanged.AddListener(delegate { OnBrightnessInputChanged(); });
-
-            contrastInput.text = contrast.ToString(CultureInfo.InvariantCulture);
-            contrastInput.onValueChanged.AddListener(delegate { OnContrastInputChanged(); });
         }
 
         private void InitializeDropdown() {
@@ -97,7 +85,6 @@ namespace UI {
 
         public void ResetVideoSettings() {
             PlayerPrefs.DeleteKey(BrightnessKey);
-            PlayerPrefs.DeleteKey(ContrastKey);
             PlayerPrefs.DeleteKey(VSyncCountKey);
             PlayerPrefs.DeleteKey(FullScreenKey);
             PlayerPrefs.DeleteKey(ScreenWidthKey);
@@ -105,9 +92,7 @@ namespace UI {
             PlayerPrefs.Save();
 
             brightnessSlider.value = DefaultBrightness;
-            contrastSlider.value = DefaultContrast;
             brightnessInput.text = DefaultBrightness.ToString(CultureInfo.InvariantCulture);
-            contrastInput.text = DefaultContrast.ToString(CultureInfo.InvariantCulture);
             vSyncCheckbox.isOn = DefaultVSyncCount;
             fullscreenCheckbox.isOn = DefaultFullScreen;
             resolutionDropdown.value = GetCurrentResolutionIndex();
@@ -117,21 +102,10 @@ namespace UI {
             resMgr.SetBrightness(value);
         }
 
-        private void OnContrastSliderChanged(float value) {
-            resMgr.SetContrast(value);
-        }
-
         private void OnBrightnessInputChanged() {
             if (float.TryParse(brightnessInput.text, NumberStyles.Float, CultureInfo.InvariantCulture, out float value)) {
                 value = Mathf.Clamp(value, 0f, 10f);
                 brightnessSlider.value = value;
-            }
-        }
-
-        private void OnContrastInputChanged() {
-            if (float.TryParse(contrastInput.text, NumberStyles.Float, CultureInfo.InvariantCulture, out float value)) {
-                value = Mathf.Clamp(value, 0f, 10f);
-                contrastSlider.value = value;
             }
         }
 
