@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texts:
   - key: abel-text
-    catalan: Art designer i content manager
-    spanish: Art designer y content manager
-    english: Art designer and content manager
+    catalan: Art designer
+    spanish: Art designer
+    english: Art designer
   - key: aniol-text
-    catalan: Programador del videjoc
-    spanish: Programador de videojuego
-    english: Game developer
+    catalan: Programador
+    spanish: Programador
+    english: Developer
   - key: audio
     catalan: "\xC0udio"
     spanish: Audio
