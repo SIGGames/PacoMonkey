@@ -54,8 +54,18 @@ namespace Mechanics.Movement {
             _animator.SetBool(IsHolding, true);
             isHolding = true;
 
-            float xOffset = player.isFacingRight ? holdPositionOffset.x : -holdPositionOffset.x;
-            player.AddPosition(xOffset, holdPositionOffset.y);
+            // Snaps the player to the ledge corner using collider size and facing direction,
+            // then applies extra offset for fine-tuning. Should prevent getting stuck inside tiles (I hope).
+            Vector3 ledgePos = ledgeCheck.transform.position;
+            float xOffset = player.isFacingRight ? -player.boxCollider.size.x / 2f : player.boxCollider.size.x / 2f;
+            float yOffset = -player.boxCollider.size.y / 2f;
+
+            Vector3 autoOffset = new Vector3(xOffset, yOffset, 0f);
+            Vector3 manualOffset = new Vector3(player.isFacingRight ? holdPositionOffset.x : -holdPositionOffset.x,
+                holdPositionOffset.y, 0f);
+
+            Vector3 holdPosition = ledgePos + autoOffset + manualOffset;
+            player.SetPosition(holdPosition);
 
             player.UnlockMovementState();
             player.SetMovementState(PlayerMovementState.Hold, 2);
