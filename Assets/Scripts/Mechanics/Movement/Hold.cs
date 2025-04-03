@@ -54,7 +54,6 @@ namespace Mechanics.Movement {
             _animator.SetBool(IsHolding, true);
             isHolding = true;
 
-
             float xOffset = player.isFacingRight ? holdPositionOffset.x : -holdPositionOffset.x;
             player.AddPosition(xOffset, holdPositionOffset.y);
 

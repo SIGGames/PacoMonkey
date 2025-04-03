@@ -16,6 +16,7 @@ namespace Gameplay {
         public bool isNearWall;
         public bool isCloseToClimbableWall;
         private Collider2D _detectedLedge;
+        private Vector3 LedgeCheckPosition => ledgeCheck.transform.position;
 
         private void Awake() {
             if (player == null) {
@@ -35,12 +36,11 @@ namespace Gameplay {
 
         private void UpdateWallCheck() {
             Vector2 direction = player.isFacingRight ? Vector2.right : Vector2.left;
-            Vector2 origin = ledgeCheck.transform.position;
 
-            RaycastHit2D hit = Physics2D.Raycast(origin, direction, 0.5f, Ground);
+            RaycastHit2D hit = Physics2D.Raycast(LedgeCheckPosition, direction, 0.5f, Ground.value);
             isNearWall = hit.collider != null;
 
-            Debug.DrawRay(origin, direction * 0.5f, isNearWall ? Color.green : Color.red);
+            Debug.DrawRay(LedgeCheckPosition, direction * 0.5f, isNearWall ? Color.green : Color.red);
         }
 
         private void UpdateLedgeCheckPosition() {
@@ -78,9 +78,8 @@ namespace Gameplay {
 
         private bool IsValidLedge() {
             const float rayLength = 0.4f;
-            Vector3 ledgePosition = ledgeCheck.transform.position;
-            Vector2 checkAbove = ledgePosition + Vector3.up * rayLength;
-            Collider2D hitAbove = Physics2D.OverlapCircle(checkAbove, transform.localScale.x, Ground);
+            Vector2 checkAbove = LedgeCheckPosition + Vector3.up * rayLength;
+            Collider2D hitAbove = Physics2D.OverlapCircle(checkAbove, transform.localScale.x, Ground.value);
 
             // Ledge candidate
             if (hitAbove == null) {
@@ -97,13 +96,12 @@ namespace Gameplay {
             float radius = transform.localScale.x;
             Vector2 floorPoint = player.transform.position +
                                  (player.isFacingRight ? Vector3.right : Vector3.left) * rayLength;
-            return Physics2D.OverlapCircle(floorPoint, radius, Ground) != null;
+            return Physics2D.OverlapCircle(floorPoint, radius, Ground.value) != null;
         }
 
         public bool IsGroundAbove(float rayLength = 0.4f) {
-            Vector3 ledgePosition = ledgeCheck.transform.position;
-            Vector2 ceilingPoint = ledgePosition + Vector3.up * rayLength;
-            return Physics2D.OverlapCircle(ceilingPoint, transform.localScale.x, Ground) != null;
+            Vector2 ceilingPoint = LedgeCheckPosition + Vector3.up * rayLength;
+            return Physics2D.OverlapCircle(ceilingPoint, transform.localScale.x, Ground.value) != null;
         }
 
         private void OnDrawGizmosSelected() {
@@ -111,11 +109,10 @@ namespace Gameplay {
                 return;
             }
 
-            Vector3 ledgePosition = ledgeCheck.transform.position;
             const float rayLength = 0.4f;
             float radius = transform.localScale.x;
 
-            Vector2 checkAbove = ledgePosition + Vector3.up * rayLength;
+            Vector2 checkAbove = LedgeCheckPosition + Vector3.up * rayLength;
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(checkAbove, radius);
 
