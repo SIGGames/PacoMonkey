@@ -4,7 +4,9 @@ using Gameplay;
 using Health;
 using Managers;
 using Mechanics.Fight;
+using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static Platformer.Core.Simulation;
 using static Utils.AnimatorUtils;
 using static PlayerInput.KeyBinds;
@@ -82,11 +84,20 @@ namespace Controllers {
         private bool _stopJump;
 
         [Header("Player Death")]
+        [SerializeField] private bool rumbleOnHit = true;
+
+        [SerializeField, ShowIf("rumbleOnHit")]
+        private float rumbleDuration = 0.2f;
+
+        [SerializeField, ShowIf("rumbleOnHit")]
+        private float rumbleIntensity = 0.1f;
+
         [SerializeField] private Vector2 boxColliderOnDeathSize;
+        private Vector2 _originalBoxColliderSize;
 
         [SerializeField] private Vector2 boxColliderOnDeathOffset;
-        private Vector2 _originalBoxColliderSize;
         private Vector2 _originalBoxColliderOffset;
+
 
         [Header("Player Components")]
         public Collider2D collider2d;
@@ -510,6 +521,17 @@ namespace Controllers {
                     playerFight.canRangedAttack = true;
                     playerFight.canParry = true;
                 }
+            }
+
+            if (rumbleOnHit && Gamepad.current != null) {
+                Gamepad.current.SetMotorSpeeds(rumbleIntensity, rumbleIntensity);
+                Invoke(nameof(StopRumble), rumbleDuration);
+            }
+        }
+
+        private void StopRumble() {
+            if (Gamepad.current != null) {
+                Gamepad.current.SetMotorSpeeds(0, 0);
             }
         }
 
