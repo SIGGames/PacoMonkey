@@ -78,13 +78,15 @@ namespace Managers {
 
             CameraManager.Instance.SetProgressiveZoom(duration);
 
-            /*
+            Image tempImage = Instantiate(brightnessImage, brightnessImage.transform.parent);
+            tempImage.gameObject.name = "DeathSequenceImage";
             if (deathSequenceSprite != null) {
-                brightnessImage.sprite = deathSequenceSprite;
-            }*/
+                tempImage.sprite = deathSequenceSprite;
+            }
 
             // Just in case the brightness image is not active
             brightnessImage.gameObject.SetActive(true);
+            tempImage.gameObject.SetActive(true);
 
             // Lerp from transparent red to opaque black
             while (time < duration) {
@@ -99,7 +101,7 @@ namespace Managers {
             }
 
             // Resetting everything
-            // brightnessImage.sprite = null;
+            Destroy(tempImage.gameObject);
             CameraManager.Instance.ResetCamera();
             SetBrightness(currentBrightness);
         }
