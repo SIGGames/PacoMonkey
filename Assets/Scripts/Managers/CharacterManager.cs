@@ -22,6 +22,7 @@ namespace Managers {
         [SerializeField] private Character currentCharacter;
         public PlayerController currentPlayerController;
         public Sprite currentCharacterFaceSprite;
+        public float currentCharacterRespawnTime;
 
         [Serializable]
         public class CharacterConfiguration {
@@ -67,7 +68,7 @@ namespace Managers {
         }
 
         private void Start() {
-            foreach (var config in characters) {
+            foreach (CharacterConfiguration config in characters) {
                 if (config.characterGameObject == null) {
                     Debug.LogError($"Character {config.characterType} is missing its GameObject");
                     enabled = false;
@@ -98,7 +99,7 @@ namespace Managers {
         public void SetCharacter(Character character) {
             Vector3 previousPosition = Vector3.zero;
 
-            foreach (var config in characters) {
+            foreach (CharacterConfiguration config in characters) {
                 if (config.characterType == currentCharacter) {
                     previousPosition = config.characterGameObject.transform.position;
                 }
@@ -106,7 +107,7 @@ namespace Managers {
                 config.characterGameObject.SetActive(false);
             }
 
-            var selectedConfig = Array.Find(characters, c => c.characterType == character);
+            CharacterConfiguration selectedConfig = Array.Find(characters, c => c.characterType == character);
             if (selectedConfig == null) {
                 return;
             }
@@ -114,6 +115,7 @@ namespace Managers {
             currentCharacter = character;
             currentPlayerController = GetCurrentPlayerController();
             currentCharacterFaceSprite = selectedConfig.characterFaceSprite;
+            currentCharacterRespawnTime = selectedConfig.respawnTime;
             UpdatePlayerFaceSprite();
 
             selectedConfig.characterGameObject.transform.position = previousPosition;
@@ -132,7 +134,7 @@ namespace Managers {
         }
 
         public void RespawnCharacter() {
-            var selectedConfig = Array.Find(characters, c => c.characterType == currentCharacter);
+            CharacterConfiguration selectedConfig = Array.Find(characters, c => c.characterType == currentCharacter);
             StartCoroutine(RespawnRoutine(selectedConfig));
         }
 
@@ -171,7 +173,7 @@ namespace Managers {
         }
 
         private PlayerController GetCurrentPlayerController() {
-            var selectedConfig = Array.Find(characters, c => c.characterType == currentCharacter);
+            CharacterConfiguration selectedConfig = Array.Find(characters, c => c.characterType == currentCharacter);
             return selectedConfig.characterGameObject.GetComponent<PlayerController>();
         }
 

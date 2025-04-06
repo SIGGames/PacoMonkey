@@ -73,8 +73,7 @@ namespace Managers {
 
         private IEnumerator DeathSequenceCoroutine() {
             // Death sequence animation aberration
-            const float duration = 4f;
-            float time = 0f;
+            float duration = CharacterManager.Instance.currentCharacterRespawnTime;
 
             CameraManager.Instance.SetProgressiveZoom(duration);
 
@@ -89,6 +88,7 @@ namespace Managers {
             tempImage.gameObject.SetActive(true);
 
             // Lerp from transparent red to opaque black
+            float time = 0f;
             while (time < duration) {
                 time += Time.deltaTime;
                 float t = time / duration;
