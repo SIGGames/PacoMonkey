@@ -7,6 +7,7 @@ using Enums;
 using Gameplay;
 using Health;
 using Health.UI;
+using UI.TextSetters;
 using UnityEngine;
 using Utils;
 using static Utils.AnimatorUtils;
@@ -20,12 +21,14 @@ namespace Managers {
 
         [SerializeField] private Character currentCharacter;
         public PlayerController currentPlayerController;
+        public Sprite currentCharacterFaceSprite;
 
         [Serializable]
         public class CharacterConfiguration {
             public Character characterType;
             public GameObject characterGameObject;
             public AnimatorOverrideController animatorOverrideController;
+            public Sprite characterFaceSprite;
 
             [Range(0, 10)]
             public float respawnTime = 2f;
@@ -110,6 +113,8 @@ namespace Managers {
 
             currentCharacter = character;
             currentPlayerController = GetCurrentPlayerController();
+            currentCharacterFaceSprite = selectedConfig.characterFaceSprite;
+            UpdatePlayerFaceSprite();
 
             selectedConfig.characterGameObject.transform.position = previousPosition;
             selectedConfig.characterGameObject.SetActive(true);
@@ -190,6 +195,14 @@ namespace Managers {
         public void ResetState() {
             currentPlayerController.ResetState();
             InstanceEnemies();
+        }
+
+        private void UpdatePlayerFaceSprite() {
+            // Since there is only one player face, we can use the first one
+            SetPlayerFace setPlayerFaceSetters = FindObjectOfType<SetPlayerFace>(true);
+            if (setPlayerFaceSetters != null) {
+                setPlayerFaceSetters.UpdatePlayerFace(currentCharacterFaceSprite);
+            }
         }
     }
 }

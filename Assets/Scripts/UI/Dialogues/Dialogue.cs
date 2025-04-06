@@ -180,7 +180,7 @@ namespace UI.Dialogues {
         private void SetImage() {
             DialogueImage.sprite = _dialogueCharacter == DialogueCharacter.Npc
                 ? dialogueSprite
-                : DialogueManager.Instance.playerSprite;
+                : CharacterManager.Instance.currentCharacterFaceSprite;
         }
 
         private void SetTitle() {
