@@ -15,7 +15,6 @@ namespace UI {
         [SerializeField] private Toggle fullscreenCheckbox;
         [SerializeField] private TMP_Dropdown resolutionDropdown;
         [SerializeField] private bool setAllResolutions;
-        [SerializeField] private ResolutionManager resMgr;
 
         private const float DefaultBrightness = 10f;
         private const bool DefaultVSyncCount = true;
@@ -26,10 +25,6 @@ namespace UI {
                 brightnessInput == null) {
                 Debug.LogError("One or more UI elements are not assigned in the inspector");
                 enabled = false;
-            }
-
-            if (resMgr == null) {
-                resMgr = FindObjectOfType<ResolutionManager>();
             }
         }
 
@@ -49,8 +44,8 @@ namespace UI {
             vSyncCheckbox.onValueChanged.AddListener(OnVSyncChanged);
             fullscreenCheckbox.onValueChanged.AddListener(OnFullscreenChanged);
 
-            resMgr.SetBrightness(savedBrightness);
-            resMgr.SetVSyncCount(savedVSync);
+            ResolutionManager.Instance.SetBrightness(savedBrightness);
+            ResolutionManager.Instance.SetVSyncCount(savedVSync);
 
             if (savedFullscreen) {
                 int screenWidth = Screen.currentResolution.width;
@@ -98,8 +93,8 @@ namespace UI {
             resolutionDropdown.value = GetCurrentResolutionIndex();
         }
 
-        private void OnBrightnessSliderChanged(float value) {
-            resMgr.SetBrightness(value);
+        private static void OnBrightnessSliderChanged(float value) {
+            ResolutionManager.Instance.SetBrightness(value);
         }
 
         private void OnBrightnessInputChanged() {
@@ -109,8 +104,8 @@ namespace UI {
             }
         }
 
-        private void OnVSyncChanged(bool state) {
-            resMgr.SetVSyncCount(state ? 1 : 0);
+        private static void OnVSyncChanged(bool state) {
+            ResolutionManager.Instance.SetVSyncCount(state ? 1 : 0);
         }
 
         private void OnFullscreenChanged(bool state) {

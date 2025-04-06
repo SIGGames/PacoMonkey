@@ -118,8 +118,7 @@ namespace Managers {
             UpdateAnimator(selectedConfig);
 
             // Update the Cinemachine camera to follow the new character
-            cinemachineCamera.Follow = selectedConfig.characterGameObject.transform;
-            cinemachineCamera.LookAt = selectedConfig.characterGameObject.transform;
+            CameraManager.Instance.FollowAndLookAt(selectedConfig.characterGameObject.transform);
 
             Lives playerLives = currentPlayerController.lives;
             if (playerLives != null) {
@@ -136,14 +135,14 @@ namespace Managers {
             currentPlayerController.FreezePosition();
             currentPlayerController.SetVelocity(Vector2.zero);
             currentPlayerController.SetColliderOnDeath();
+            ResolutionManager.Instance.StartDeathSequence();
             yield return new WaitForSeconds(characterConfig.respawnTime);
             currentPlayerController.FreezePosition(false);
             currentPlayerController.ResetState();
             currentPlayerController.SetColliderOnDeath();
             InstanceEnemies();
 
-            cinemachineCamera.Follow = characterConfig.characterGameObject.transform;
-            cinemachineCamera.LookAt = characterConfig.characterGameObject.transform;
+            CameraManager.Instance.FollowAndLookAt(characterConfig.characterGameObject.transform);
         }
 
         private void UpdateAnimator(CharacterConfiguration characterConfig) {

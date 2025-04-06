@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using System.Collections;
+using Cinemachine;
 using UnityEngine;
 
 namespace Managers {
@@ -6,6 +7,8 @@ namespace Managers {
         public static CameraManager Instance { get; private set; }
 
         private CinemachineVirtualCamera _virtualCamera;
+        [SerializeField] private GameObject camera1;
+        [SerializeField] private GameObject camera2;
         private CinemachineFramingTransposer _framingTransposer;
         private float _initialOrthographicSize;
         private Vector3 _initialOffset;
@@ -13,23 +16,25 @@ namespace Managers {
         private bool _isFramingTransposerNotNull;
         private bool _isVirtualCameraNotNull;
 
-        private void Start() {
-            _isVirtualCameraNotNull = _virtualCamera != null;
-            _isFramingTransposerNotNull = _framingTransposer != null;
-        }
-
         private void Awake() {
             InitializeSingleton();
             InitializeCameraComponents();
             SaveInitialCameraSettings();
         }
 
+        private void Start() {
+            _isVirtualCameraNotNull = _virtualCamera != null;
+            _isFramingTransposerNotNull = _framingTransposer != null;
+
+            // This is the main one
+            camera1.SetActive(true);
+        }
+
         private void InitializeSingleton() {
             if (Instance == null) {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
-            }
-            else {
+            } else {
                 Destroy(gameObject);
             }
         }
@@ -55,10 +60,30 @@ namespace Managers {
             }
         }
 
-        public void SetZoom(float zoomAmount) {
-            if (_isVirtualCameraNotNull) {
-                _virtualCamera.m_Lens.OrthographicSize = zoomAmount;
+        public void FollowAndLookAt(Transform target) {
+            CinemachineVirtualCamera virtualCamera1 = camera1.GetComponent<CinemachineVirtualCamera>();
+            if (virtualCamera1 != null) {
+                virtualCamera1.Follow = target;
+                virtualCamera1.LookAt = target;
             }
+
+            CinemachineVirtualCamera virtualCamera2 = camera2.GetComponent<CinemachineVirtualCamera>();
+            if (virtualCamera2 != null) {
+                virtualCamera2.Follow = target;
+                virtualCamera2.LookAt = target;
+            }
+        }
+
+        public void SetProgressiveZoom(float duration) {
+            camera1.SetActive(false);
+            camera2.SetActive(true);
+
+            Invoke(nameof(ResetZoom), duration);
+        }
+
+        private void ResetZoom() {
+            camera1.SetActive(true);
+            camera2.SetActive(false);
         }
 
         public void SetOffset(Vector2 offset) {
