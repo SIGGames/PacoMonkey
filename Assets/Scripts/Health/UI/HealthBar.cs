@@ -14,6 +14,12 @@ namespace Health.UI {
         [SerializeField, ShowIf("isDifficultyChooseUI")]
         private Difficulty difficulty;
 
+        [SerializeField, ShowIf("isDifficultyChooseUI")]
+        private bool overrideHearts;
+
+        [SerializeField, ShowIf("isDifficultyChooseUI"), EnableIf("overrideHearts")]
+        private int overrideHeartsCount;
+
         private CharacterManager CharacterManager => CharacterManager.Instance;
 
         private void Start() {
@@ -49,7 +55,8 @@ namespace Health.UI {
             }
 
             if (_hearts.Count != maxLives) {
-                AdjustHearts(maxLives);
+                // This is a bit of a hack but im lazy to do it properly
+                AdjustHearts(overrideHearts ? overrideHeartsCount : maxLives);
             }
 
             // Since this is just for the UI, we want to show the max lives
