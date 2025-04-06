@@ -59,7 +59,7 @@ namespace Managers {
                     continue;
                 }
 
-                enemy.SetDifficultyMultiplier(GetDifficultyMultiplier());
+                enemy.SetDifficultyMultiplier(GetDifficultyMultiplier(currentDifficulty));
             }
 
             SetPlayerDifficultyMultiplier();
@@ -72,11 +72,11 @@ namespace Managers {
                 return;
             }
 
-            CharacterManager.Instance.currentPlayerController.SetDifficultyMultiplier(GetDifficultyMultiplier());
+            CharacterManager.Instance.currentPlayerController.SetDifficultyMultiplier(GetDifficultyMultiplier(currentDifficulty));
         }
 
-        private float GetDifficultyMultiplier() {
-            return currentDifficulty switch {
+        public float GetDifficultyMultiplier(Difficulty difficulty) {
+            return difficulty switch {
                 Difficulty.Easy => easyMultiplier,
                 Difficulty.Hard => hardMultiplier,
                 _ => 1f

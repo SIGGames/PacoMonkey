@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Enums;
 using Managers;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Health.UI {
@@ -7,9 +9,14 @@ namespace Health.UI {
         public GameObject heartPrefab;
         public Lives playerLives;
         private readonly List<HealthHeart> _hearts = new();
+        [SerializeField] private bool isDifficultyChooseUI;
+
+        [SerializeField, ShowIf("isDifficultyChooseUI")]
+        private Difficulty difficulty;
+
         private CharacterManager CharacterManager => CharacterManager.Instance;
 
-        void Start() {
+        private void Start() {
             playerLives.OnLivesChanged += UpdateUI;
             InitializeHearts();
             UpdateUI();
@@ -33,15 +40,28 @@ namespace Health.UI {
             }
         }
 
-        public void UpdateUI() {
+        private void UpdateUI() {
             int maxLives = Mathf.CeilToInt(playerLives.GetMaxLives());
+
+            // This is kinda broken since this rounding it's not consistent with in-game UI, but it works for now
+            if (isDifficultyChooseUI) {
+                maxLives = Mathf.RoundToInt(maxLives * GetDifficultyMultiplier());
+            }
 
             if (_hearts.Count != maxLives) {
                 AdjustHearts(maxLives);
             }
 
-            float currentLives = playerLives.CurrentLives;
+            // Since this is just for the UI, we want to show the max lives
+            if (isDifficultyChooseUI) {
+                foreach (HealthHeart heart in _hearts) {
+                    heart.SetHeartImage(HeartState.Full);
+                }
 
+                return;
+            }
+
+            float currentLives = playerLives.CurrentLives;
             for (int i = 0; i < _hearts.Count; i++) {
                 if (currentLives >= i + 1) {
                     _hearts[i].SetHeartImage(HeartState.Full);
@@ -66,6 +86,11 @@ namespace Health.UI {
                     _hearts.RemoveAt(i);
                 }
             }
+        }
+
+        private float GetDifficultyMultiplier() {
+            // Since this is a difficulty multiplier, the lives are the inverse of the multiplier
+            return 1 / DifficultyManager.Instance.GetDifficultyMultiplier(difficulty);
         }
 
         private void ClearHearts() {
