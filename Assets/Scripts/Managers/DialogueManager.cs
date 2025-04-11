@@ -49,11 +49,17 @@ namespace Managers {
         public static void ResetDialogues() {
             Dialogue[] dialogues = FindObjectsOfType<Dialogue>(true);
             foreach (Dialogue dialogue in dialogues) {
+                if (dialogue == null) {
+                    continue;
+                }
                 dialogue.ResetDialogue();
             }
 
             FloatingDialogue[] floatingDialogues = FindObjectsOfType<FloatingDialogue>(true);
             foreach (FloatingDialogue dialogue in floatingDialogues) {
+                if (dialogue == null) {
+                    continue;
+                }
                 dialogue.ResetDialogue();
             }
         }

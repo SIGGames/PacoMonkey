@@ -200,7 +200,9 @@ namespace UI.Dialogues {
             }
 
             _index = 0;
-            _dialoguePanel.SetActive(false);
+            if (_dialoguePanel != null) {
+                _dialoguePanel.SetActive(false);
+            }
         }
 
         private Coroutine StartTyping() {
