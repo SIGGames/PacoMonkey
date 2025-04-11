@@ -20,9 +20,9 @@ namespace Managers {
         [SerializeField] private Character initialCharacter;
 
         [SerializeField] private Character currentCharacter;
-        public PlayerController currentPlayerController;
-        public Sprite currentCharacterFaceSprite;
-        public float currentCharacterRespawnTime;
+        [HideInInspector] public PlayerController currentPlayerController;
+        [HideInInspector] public Sprite currentCharacterFaceSprite;
+        [HideInInspector] public float currentCharacterRespawnTime;
 
         [Serializable]
         public class CharacterConfiguration {
