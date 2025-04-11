@@ -97,7 +97,7 @@ namespace Health.UI {
 
         private float GetDifficultyMultiplier() {
             // Since this is a difficulty multiplier, the lives are the inverse of the multiplier
-            return 1 / DifficultyManager.Instance.GetDifficultyMultiplier(difficulty);
+            return 1 / DifficultyManager.Instance.GetPlayerDifficultyMultiplier(difficulty);
         }
 
         private void ClearHearts() {

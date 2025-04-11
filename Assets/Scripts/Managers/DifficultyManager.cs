@@ -9,11 +9,19 @@ namespace Managers {
         public Difficulty currentDifficulty = Difficulty.Normal;
 
         [Header("Multiplier values relative to Normal difficulty")]
+        [Header("Player Multipliers")]
         [SerializeField, Range(0.1f, 1f)]
-        private float easyMultiplier = 0.7f;
+        private float easyPlayerMultiplier = 0.7f;
 
         [SerializeField, Range(1f, 2f)]
-        private float hardMultiplier = 1.2f;
+        private float hardPlayerMultiplier = 1.2f;
+
+        [Header("Enemies Multipliers")]
+        [SerializeField, Range(0.1f, 1f)]
+        private float easyEnemyMultiplier = 0.7f;
+
+        [SerializeField, Range(1f, 2f)]
+        private float hardEnemyMultiplier = 1.2f;
 
         private void Awake() {
             if (Instance == null) {
@@ -59,7 +67,7 @@ namespace Managers {
                     continue;
                 }
 
-                enemy.SetDifficultyMultiplier(GetDifficultyMultiplier(currentDifficulty));
+                enemy.SetDifficultyMultiplier(GetEnemyDifficultyMultiplier(currentDifficulty));
             }
 
             SetPlayerDifficultyMultiplier();
@@ -72,13 +80,22 @@ namespace Managers {
                 return;
             }
 
-            CharacterManager.Instance.currentPlayerController.SetDifficultyMultiplier(GetDifficultyMultiplier(currentDifficulty));
+            CharacterManager.Instance.currentPlayerController.SetDifficultyMultiplier(
+                GetPlayerDifficultyMultiplier(currentDifficulty));
         }
 
-        public float GetDifficultyMultiplier(Difficulty difficulty) {
+        public float GetPlayerDifficultyMultiplier(Difficulty difficulty) {
             return difficulty switch {
-                Difficulty.Easy => easyMultiplier,
-                Difficulty.Hard => hardMultiplier,
+                Difficulty.Easy => easyPlayerMultiplier,
+                Difficulty.Hard => hardPlayerMultiplier,
+                _ => 1f
+            };
+        }
+
+        private float GetEnemyDifficultyMultiplier(Difficulty difficulty) {
+            return difficulty switch {
+                Difficulty.Easy => easyEnemyMultiplier,
+                Difficulty.Hard => hardEnemyMultiplier,
                 _ => 1f
             };
         }
