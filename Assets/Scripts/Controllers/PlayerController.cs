@@ -98,6 +98,7 @@ namespace Controllers {
         [SerializeField] private Vector2 boxColliderOnDeathOffset;
         private Vector2 _originalBoxColliderOffset;
 
+        [SerializeField, Range(0, 0.5f)] private float verticalPositionOffsetOnDeath;
 
         [Header("Player Components")]
         public Collider2D collider2d;
@@ -226,8 +227,11 @@ namespace Controllers {
             Vector2 boxColliderDeathOffset = new Vector2(
                 isFacingRight ? boxColliderOnDeathOffset.x : -boxColliderOnDeathOffset.x,
                 boxColliderOnDeathOffset.y);
-            boxCollider.offset = lives.IsAlive ? _originalBoxColliderOffset : boxColliderDeathOffset;
 
+            // This is a bit of a hack but like I can adjust the vertical position precisely
+            transform.position = new Vector3(transform.position.x, transform.position.y + verticalPositionOffsetOnDeath, 0);
+
+            boxCollider.offset = lives.IsAlive ? _originalBoxColliderOffset : boxColliderDeathOffset;
             // Set body type to kinematic to enable gravity and collisions while the player has died
             SetBodyType(RigidbodyType2D.Kinematic);
         }
