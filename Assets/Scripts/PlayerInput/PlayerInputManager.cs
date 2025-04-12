@@ -196,16 +196,20 @@ namespace PlayerInput {
             return action.bindings[0].effectivePath;
         }
 
-        public Sprite GetInputSprite(InputAction action) {
+        private Sprite GetInputSprite(InputAction action) {
             return GetInputSprite(GetActiveBindingControlPath(action));
         }
 
-        public Sprite GetInputSprite(string controlPath) {
+        private Sprite GetInputSprite(string controlPath) {
             return currentInputDevice switch {
                 InputDeviceType.Controller => GetControllerSprite(controlPath),
-                InputDeviceType.Keyboard => keyboardIcons.GetSprite(controlPath),
+                InputDeviceType.Keyboard => GetKeyboardSprite(controlPath),
                 _ => keyboardIcons.GetSprite(controlPath) // Keyboard is the fallback for input devices
             };
+        }
+
+        public Sprite GetKeyboardSprite(string controlPath) {
+            return keyboardIcons.GetSprite(controlPath);
         }
 
         public Sprite GetControllerSprite(string controlPath) {
@@ -255,6 +259,14 @@ namespace PlayerInput {
         public Sprite dpadRight;
         public Sprite leftStick;
         public Sprite rightStick;
+        public Sprite leftStickUp;
+        public Sprite leftStickDown;
+        public Sprite leftStickLeft;
+        public Sprite leftStickRight;
+        public Sprite rightStickUp;
+        public Sprite rightStickDown;
+        public Sprite rightStickLeft;
+        public Sprite rightStickRight;
         public Sprite leftStickPress;
         public Sprite rightStickPress;
 
@@ -277,15 +289,16 @@ namespace PlayerInput {
                 "dpad/left" => dpadLeft,
                 "dpad/right" => dpadRight,
                 "leftStick" => leftStick,
-                "leftStick/down" => null,
-                "leftStick/up" => null,
-                "leftStick/left" => null,
-                "leftStick/right" => null,
+                "leftStick/down" => leftStickDown,
+                "leftStick/up" => leftStickUp,
+                "leftstick/up" => leftStickUp,
+                "leftStick/left" => leftStickLeft,
+                "leftStick/right" => leftStickRight,
                 "rightStick" => rightStick,
-                "rightStick/down" => null,
-                "rightStick/up" => null,
-                "rightStick/left" => null,
-                "rightStick/right" => null,
+                "rightStick/down" => rightStickDown,
+                "rightStick/up" => rightStickUp,
+                "rightStick/left" => rightStickLeft,
+                "rightStick/right" => rightStickRight,
                 "leftStickPress" => leftStickPress,
                 "rightStickPress" => rightStickPress,
                 _ => null

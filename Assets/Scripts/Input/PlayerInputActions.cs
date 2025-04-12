@@ -170,6 +170,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Quest"",
+                    ""type"": ""Button"",
+                    ""id"": ""e61ccaab-364e-4431-b8a6-7e89febe25d0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -656,6 +665,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""26da4067-59c0-4904-afa3-b80e3799e64f"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Quest"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ace31e92-d5d2-4f71-85b8-a657d3f40d62"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Quest"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -680,6 +711,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_PlayerControls_Melee = m_PlayerControls.FindAction("Melee", throwIfNotFound: true);
         m_PlayerControls_Range = m_PlayerControls.FindAction("Range", throwIfNotFound: true);
         m_PlayerControls_Dash = m_PlayerControls.FindAction("Dash", throwIfNotFound: true);
+        m_PlayerControls_Quest = m_PlayerControls.FindAction("Quest", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -757,6 +789,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_Melee;
     private readonly InputAction m_PlayerControls_Range;
     private readonly InputAction m_PlayerControls_Dash;
+    private readonly InputAction m_PlayerControls_Quest;
     public struct PlayerControlsActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -777,6 +810,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Melee => m_Wrapper.m_PlayerControls_Melee;
         public InputAction @Range => m_Wrapper.m_PlayerControls_Range;
         public InputAction @Dash => m_Wrapper.m_PlayerControls_Dash;
+        public InputAction @Quest => m_Wrapper.m_PlayerControls_Quest;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -834,6 +868,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @Quest.started += instance.OnQuest;
+            @Quest.performed += instance.OnQuest;
+            @Quest.canceled += instance.OnQuest;
         }
 
         private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -886,6 +923,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @Quest.started -= instance.OnQuest;
+            @Quest.performed -= instance.OnQuest;
+            @Quest.canceled -= instance.OnQuest;
         }
 
         public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -921,5 +961,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMelee(InputAction.CallbackContext context);
         void OnRange(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnQuest(InputAction.CallbackContext context);
     }
 }

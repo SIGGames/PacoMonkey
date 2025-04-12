@@ -45,9 +45,9 @@ namespace Rebinding_UI {
             using (new EditorGUI.IndentLevelScope()) {
                 EditorGUILayout.PropertyField(m_ActionProperty);
 
-                var newSelectedBinding = EditorGUILayout.Popup(m_BindingLabel, m_SelectedBindingOption, m_BindingOptions);
+                int newSelectedBinding = EditorGUILayout.Popup(m_BindingLabel, m_SelectedBindingOption, m_BindingOptions);
                 if (newSelectedBinding != m_SelectedBindingOption) {
-                    var bindingId = m_BindingOptionValues[newSelectedBinding];
+                    string bindingId = m_BindingOptionValues[newSelectedBinding];
                     m_BindingIdProperty.stringValue = bindingId;
                     m_SelectedBindingOption = newSelectedBinding;
                 }

@@ -26,14 +26,16 @@ namespace UI.Rebinding_UI {
                 return;
             }
 
-            Sprite icon = PlayerInputManager.Instance.GetInputSprite(controlPath);
+            Sprite icon = PlayerInputManager.Instance.GetKeyboardSprite(controlPath);
             TextMeshProUGUI textComponent = component.BindingText;
 
             Transform container = textComponent.transform.parent.Find("ActionRebindIcons");
             if (container != null) {
                 Transform imageGo = container.Find("ActionBindingIcon");
-                if (imageGo == null)
+                if (imageGo == null) {
                     return;
+                }
+
                 Image imageComponent = imageGo.GetComponent<Image>();
 
                 if (icon != null) {
@@ -68,7 +70,7 @@ namespace UI.Rebinding_UI {
                 Sprite icon = null;
                 if (PlayerInputManager.Instance != null) {
                     partKey = PlayerInputManager.GetCleanControlPath(partKey).ToLower();
-                    icon = PlayerInputManager.Instance.GetInputSprite(partKey);
+                    icon = PlayerInputManager.Instance.GetKeyboardSprite(partKey);
                 }
 
                 // Getting the key image

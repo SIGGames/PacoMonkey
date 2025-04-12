@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using static Utils.PlayerPrefsKeys;
 using PlayerInputManager = PlayerInput.PlayerInputManager;
@@ -34,6 +35,8 @@ namespace UI.Rebinding_UI {
         private InputDeviceType bindsInputType;
 
         private GameObject _resetToDefaultButton;
+
+        private InputSystemUIInputModule _uiInputModule;
 
         /// <summary>
         /// ID (in string form) of the binding that is to be rebound on the action.
@@ -391,15 +394,24 @@ namespace UI.Rebinding_UI {
             PlayerInputManager.Instance.OnInputTypeChange();
         }
 
-        private static void DisableUINavigation() {
+        private void DisableUINavigation() {
             if (EventSystem.current != null) {
                 EventSystem.current.sendNavigationEvents = false;
             }
+
+            _uiInputModule = EventSystem.current.GetComponent<InputSystemUIInputModule>();
+            if (_uiInputModule != null) {
+                _uiInputModule.enabled = false;
+            }
         }
 
-        private static void EnableUINavigation() {
+        private void EnableUINavigation() {
             if (EventSystem.current != null) {
                 EventSystem.current.sendNavigationEvents = true;
+            }
+
+            if (_uiInputModule != null) {
+                _uiInputModule.enabled = true;
             }
         }
 
