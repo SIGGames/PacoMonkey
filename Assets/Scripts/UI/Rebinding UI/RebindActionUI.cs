@@ -160,16 +160,26 @@ namespace UI.Rebinding_UI {
         /// </summary>
         public void UpdateBindingDisplay() {
             string displayString = string.Empty;
-            string deviceLayoutName = default(string);
-            string controlPath = default(string);
+            string deviceLayoutName = default;
+            string controlPath = default;
 
             // Get display string from action.
             var action = m_Action?.action;
             if (action != null) {
                 int bindingIndex = action.bindings.IndexOf(x => x.id.ToString() == m_BindingId);
-                if (bindingIndex != -1)
+                if (bindingIndex != -1) {
                     displayString = action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath,
                         DisplayStringOptions);
+
+                    // If we have no display string, try to get the effective path
+                    if (string.IsNullOrEmpty(controlPath)) {
+                        controlPath = action.bindings[bindingIndex].effectivePath;
+                    }
+
+                    if (string.IsNullOrEmpty(controlPath)) {
+                        controlPath = action.bindings[bindingIndex].path;
+                    }
+                }
             }
 
             // Set on label (if any).
