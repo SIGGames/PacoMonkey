@@ -4,6 +4,7 @@ using System.Linq;
 using Enums;
 using Localization;
 using TMPro;
+using UI.TextSetters;
 using UnityEngine;
 using static Utils.PlayerPrefsKeys;
 
@@ -16,6 +17,7 @@ namespace Managers {
 
         [Header("Components")]
         public TextMeshProUGUI questNameText;
+
         public TextMeshProUGUI questTypeText;
         public TextMeshProUGUI questDescriptionText;
         public TextMeshProUGUI questCharacterText;
@@ -25,6 +27,7 @@ namespace Managers {
 
         [Header("To translate the quest name and description: Pattern + Quest Id")]
         [SerializeField] private string nameTranslationPattern = "qn-";
+
         [SerializeField] private string descriptionTranslationPattern = "qd-";
 
         private void Awake() {
@@ -60,6 +63,16 @@ namespace Managers {
                 // Character is not translatable
                 questCharacterText.text = GetCharacterName(activeQuest.questCharacter);
             }
+
+            // Update the quest name in the UI
+            SetActiveQuestName activeQuestNameTextSetter = FindObjectOfType<SetActiveQuestName>();
+            if (activeQuestNameTextSetter != null) {
+                activeQuestNameTextSetter.UpdateTextName(GetActiveQuestName());
+            }
+        }
+
+        private string GetActiveQuestName() {
+            return GetTranslatedText(nameTranslationPattern + _activeQuestId);
         }
 
         public void SetActiveQuest(string id) {
