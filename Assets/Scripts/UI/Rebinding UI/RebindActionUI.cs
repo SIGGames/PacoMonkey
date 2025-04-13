@@ -342,7 +342,7 @@ namespace UI.Rebinding_UI {
             // Enable bind only for those binds that match the input device
             switch (bindsInputType) {
                 case InputDeviceType.Controller:
-                    m_RebindOperation.WithControlsExcluding("<Keyboard>").WithCancelingThrough("<Keyboard>/escape");
+                    m_RebindOperation.WithControlsExcluding("<Keyboard>").WithControlsExcluding("<Mouse>").WithCancelingThrough("<Keyboard>/escape");
                     break;
                 case InputDeviceType.Keyboard:
                     m_RebindOperation.WithControlsExcluding("<Gamepad>").WithCancelingThrough("<Keyboard>/escape");

@@ -101,6 +101,10 @@ MonoBehaviour:
     catalan: "Angl\xE8s"
     spanish: "Ingl\xE9s"
     english: English
+  - key: exit
+    catalan: Sortir
+    spanish: Salir
+    english: Exit
   - key: full-screen
     catalan: Pantalla Completa
     spanish: Pantalla Completa
