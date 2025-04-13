@@ -29,6 +29,10 @@ MonoBehaviour:
     catalan: Enrere
     spanish: "Atr\xE1s"
     english: Back
+  - key: back-to-game
+    catalan: Retornar al joc
+    spanish: Vuelver al juego
+    english: Return to the game
   - key: brightness
     catalan: Brillantor
     spanish: Brillo
@@ -149,6 +153,10 @@ MonoBehaviour:
     catalan: "Men\xFA principal"
     spanish: "Men\xFA principal"
     english: Main Menu
+  - key: mainquest
+    catalan: "Missi\xF3 Principal"
+    spanish: Mision Principal
+    english: Main Quest
   - key: master-volume
     catalan: Volum General
     spanish: Volumen General
@@ -197,6 +205,14 @@ MonoBehaviour:
     catalan: Temps de joc
     spanish: Tiempo de juego
     english: Play time
+  - key: qd-1.1
+    catalan: Rescatar al [pare paco] del Zoo.
+    spanish: Rescatar al [paco padre] del Zoo.
+    english: Rescue [paco's father] from Zoo.
+  - key: qn-1.1
+    catalan: Rescatar al [pare paco]
+    spanish: Rescatar al [paco padre]
+    english: Rescue [paco's father]
   - key: quit
     catalan: Sortir
     spanish: Salir
@@ -229,6 +245,10 @@ MonoBehaviour:
     catalan: Volum Efectes de So
     spanish: Volumen Efectos de Sonido
     english: Sound Effects Volume
+  - key: sidequest
+    catalan: "Missi\xF3 Secundaria"
+    spanish: Mision Secundaria
+    english: Side Quest
   - key: spanish
     catalan: Espanyol
     spanish: "Espa\xF1ol"

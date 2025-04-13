@@ -54,6 +54,7 @@ namespace Controllers {
         }
 
         private void ResetInGameProgressData() {
+            PlayerPrefs.DeleteKey(ActiveQuestKey);
             PlayerPrefs.DeleteKey(CurrentPlayTimeKey);
             PlayerPrefs.DeleteKey(DifficultyKey);
             PlayerPrefs.DeleteKey(IsGameStartedKey);

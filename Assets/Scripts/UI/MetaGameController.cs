@@ -75,17 +75,31 @@ namespace UI {
             }
 
             if (GetMenuKey()) {
-                if (IsMenuOpen && !CanResumeGame()) {
+                if (IsMenuOpen && !IsInPanel("PauseMenu")) {
                     return;
                 }
 
                 bool openingMenu = !_showMainCanvas;
                 ToggleMainMenu(openingMenu);
             }
+
+            if (GetQuestKey()) {
+                // Quest menu
+                if (!IsMenuOpen) {
+                    ToggleMainMenu(true);
+                    mainMenu.SetActivePanel(5);
+                } else {
+                    // This menu can be toggled if the game is on the quest menu
+                    if (IsInPanel("Quests")) {
+                        ToggleMainMenu(false);
+                    }
+                }
+            }
         }
 
-        private bool CanResumeGame() {
-            return mainMenu.panels.Any(panel => panel.panelGameObject.name.Contains("PauseMenu") && panel.panelGameObject.activeSelf);
+        private bool IsInPanel(string panelName) {
+            return mainMenu.panels.Any(
+                panel => panel.panelGameObject.name.Contains(panelName) && panel.panelGameObject.activeSelf);
         }
     }
 }

@@ -108,5 +108,9 @@ namespace PlayerInput {
         public static bool GetInteractKey() {
             return PlayerControls.Interact.triggered;
         }
+
+        public static bool GetQuestKey() {
+            return PlayerControls.Quest.triggered;
+        }
     }
 }

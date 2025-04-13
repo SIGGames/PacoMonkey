@@ -42,10 +42,10 @@ namespace Localization {
             return localizationData.HasKey(key);
         }
 
-        public string GetLocalizedText(string key) {
+        public string GetLocalizedText(string key, bool debugIfMissing = true) {
             string text = localizationData.GetText(key, currentLanguage);
 
-            if (string.IsNullOrEmpty(text) || text.Contains("MISSING")) {
+            if (debugIfMissing && (string.IsNullOrEmpty(text) || text.Contains("MISSING"))) {
                 Debug.LogWarning($"Missing text for key: {key}");
             }
 
