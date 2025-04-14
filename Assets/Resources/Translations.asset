@@ -17,6 +17,10 @@ MonoBehaviour:
     catalan: Art designer
     spanish: Art designer
     english: Art designer
+  - key: active-quest
+    catalan: "Missi\xF3 activa"
+    spanish: "Misi\xF3n activa"
+    english: Active quest
   - key: aniol-text
     catalan: Programador
     spanish: Programador
