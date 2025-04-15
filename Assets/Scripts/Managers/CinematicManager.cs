@@ -30,17 +30,6 @@ namespace Managers {
             }
         }
 
-        private void Update() {
-            // TODO: Remove this
-            if (Input.GetKeyDown(KeyCode.F2)) {
-                StartCinematic(Cinematic.NewGame);
-            }
-
-            if (Input.GetKeyDown(KeyCode.F3)) {
-                StartCinematic(Cinematic.Death);
-            }
-        }
-
         public void StartCinematic(Cinematic cinematic) {
             CinematicConfig config = cinematicConfigs.Find(cinematicConfig => cinematicConfig.cinematic == cinematic);
             if (config != null) {
