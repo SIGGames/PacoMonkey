@@ -109,10 +109,12 @@ namespace Managers {
         public Cinematic cinematic;
 
         [Tooltip("Duration of the cinematic in seconds (ignored for Death)")]
+        [Range(0.01f, 10f)]
         public float cinematicDuration = 1f;
 
         [Header("Wait Before Start")]
         public bool waitBeforeStart;
+        [Range(0.01f, 10f)]
         public float waitDuration = 1f;
 
         [Header("Fade In")]
@@ -125,6 +127,7 @@ namespace Managers {
 
         [Header("Progressive Zoom")]
         public bool progressiveZoom;
+        [Range(0.01f, 10f)]
         public float cameraZoomMultiplier = 1f;
     }
 }
