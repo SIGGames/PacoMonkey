@@ -109,7 +109,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Configuration"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""5709ba3c-e057-4927-91b8-b3498bd4b1d7"",
                     ""expectedControlType"": ""Button"",
@@ -166,15 +166,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""12bdb3e6-60e6-4700-b8d7-30a28a22fb0d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Quest"",
-                    ""type"": ""Button"",
-                    ""id"": ""e61ccaab-364e-4431-b8a6-7e89febe25d0"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -372,7 +363,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""102f9191-cec6-4b73-8d0a-864ecec876ac"",
-                    ""path"": ""<Gamepad>/touchpadButton"",
+                    ""path"": ""<Gamepad>/dpad"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -519,7 +510,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Configuration"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -530,7 +521,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Configuration"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -665,28 +656,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""26da4067-59c0-4904-afa3-b80e3799e64f"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Quest"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ace31e92-d5d2-4f71-85b8-a657d3f40d62"",
-                    ""path"": ""<Gamepad>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Quest"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -704,14 +673,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_PlayerControls_Interact = m_PlayerControls.FindAction("Interact", throwIfNotFound: true);
         m_PlayerControls_CameraMove = m_PlayerControls.FindAction("CameraMove", throwIfNotFound: true);
         m_PlayerControls_Menu = m_PlayerControls.FindAction("Menu", throwIfNotFound: true);
-        m_PlayerControls_Configuration = m_PlayerControls.FindAction("Configuration", throwIfNotFound: true);
+        m_PlayerControls_Pause = m_PlayerControls.FindAction("Pause", throwIfNotFound: true);
         m_PlayerControls_Map = m_PlayerControls.FindAction("Map", throwIfNotFound: true);
         m_PlayerControls_Inventory = m_PlayerControls.FindAction("Inventory", throwIfNotFound: true);
         m_PlayerControls_Parry = m_PlayerControls.FindAction("Parry", throwIfNotFound: true);
         m_PlayerControls_Melee = m_PlayerControls.FindAction("Melee", throwIfNotFound: true);
         m_PlayerControls_Range = m_PlayerControls.FindAction("Range", throwIfNotFound: true);
         m_PlayerControls_Dash = m_PlayerControls.FindAction("Dash", throwIfNotFound: true);
-        m_PlayerControls_Quest = m_PlayerControls.FindAction("Quest", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -782,14 +750,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_Interact;
     private readonly InputAction m_PlayerControls_CameraMove;
     private readonly InputAction m_PlayerControls_Menu;
-    private readonly InputAction m_PlayerControls_Configuration;
+    private readonly InputAction m_PlayerControls_Pause;
     private readonly InputAction m_PlayerControls_Map;
     private readonly InputAction m_PlayerControls_Inventory;
     private readonly InputAction m_PlayerControls_Parry;
     private readonly InputAction m_PlayerControls_Melee;
     private readonly InputAction m_PlayerControls_Range;
     private readonly InputAction m_PlayerControls_Dash;
-    private readonly InputAction m_PlayerControls_Quest;
     public struct PlayerControlsActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -803,14 +770,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_PlayerControls_Interact;
         public InputAction @CameraMove => m_Wrapper.m_PlayerControls_CameraMove;
         public InputAction @Menu => m_Wrapper.m_PlayerControls_Menu;
-        public InputAction @Configuration => m_Wrapper.m_PlayerControls_Configuration;
+        public InputAction @Pause => m_Wrapper.m_PlayerControls_Pause;
         public InputAction @Map => m_Wrapper.m_PlayerControls_Map;
         public InputAction @Inventory => m_Wrapper.m_PlayerControls_Inventory;
         public InputAction @Parry => m_Wrapper.m_PlayerControls_Parry;
         public InputAction @Melee => m_Wrapper.m_PlayerControls_Melee;
         public InputAction @Range => m_Wrapper.m_PlayerControls_Range;
         public InputAction @Dash => m_Wrapper.m_PlayerControls_Dash;
-        public InputAction @Quest => m_Wrapper.m_PlayerControls_Quest;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -847,9 +813,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Menu.started += instance.OnMenu;
             @Menu.performed += instance.OnMenu;
             @Menu.canceled += instance.OnMenu;
-            @Configuration.started += instance.OnConfiguration;
-            @Configuration.performed += instance.OnConfiguration;
-            @Configuration.canceled += instance.OnConfiguration;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
             @Map.started += instance.OnMap;
             @Map.performed += instance.OnMap;
             @Map.canceled += instance.OnMap;
@@ -868,9 +834,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
-            @Quest.started += instance.OnQuest;
-            @Quest.performed += instance.OnQuest;
-            @Quest.canceled += instance.OnQuest;
         }
 
         private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -902,9 +865,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Menu.started -= instance.OnMenu;
             @Menu.performed -= instance.OnMenu;
             @Menu.canceled -= instance.OnMenu;
-            @Configuration.started -= instance.OnConfiguration;
-            @Configuration.performed -= instance.OnConfiguration;
-            @Configuration.canceled -= instance.OnConfiguration;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
             @Map.started -= instance.OnMap;
             @Map.performed -= instance.OnMap;
             @Map.canceled -= instance.OnMap;
@@ -923,9 +886,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
-            @Quest.started -= instance.OnQuest;
-            @Quest.performed -= instance.OnQuest;
-            @Quest.canceled -= instance.OnQuest;
         }
 
         public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -954,13 +914,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnCameraMove(InputAction.CallbackContext context);
         void OnMenu(InputAction.CallbackContext context);
-        void OnConfiguration(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
         void OnMap(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnParry(InputAction.CallbackContext context);
         void OnMelee(InputAction.CallbackContext context);
         void OnRange(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnQuest(InputAction.CallbackContext context);
     }
 }

@@ -64,6 +64,8 @@ namespace UI {
         }
 
         private void Update() {
+            // Commented since this is not used in the game, but it can be used in the future to open configuration menu
+            /*
             if (GetConfigurationKey() && !IsMenuOpen) {
                 if (!_showMainCanvas) {
                     ToggleMainMenu(true);
@@ -72,9 +74,9 @@ namespace UI {
                 // Configuration menu
                 mainMenu.SetActivePanel(2);
                 return;
-            }
+            }*/
 
-            if (GetMenuKey()) {
+            if (GetPauseKey()) {
                 if (IsMenuOpen && !IsInPanel("PauseMenu")) {
                     return;
                 }
@@ -83,7 +85,7 @@ namespace UI {
                 ToggleMainMenu(openingMenu);
             }
 
-            if (GetQuestKey()) {
+            if (GetMenuKey()) {
                 // Quest menu
                 if (!IsMenuOpen) {
                     ToggleMainMenu(true);

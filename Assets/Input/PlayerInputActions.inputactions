@@ -87,7 +87,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Configuration",
+                    "name": "Pause",
                     "type": "Button",
                     "id": "5709ba3c-e057-4927-91b8-b3498bd4b1d7",
                     "expectedControlType": "Button",
@@ -144,15 +144,6 @@
                     "name": "Dash",
                     "type": "Button",
                     "id": "12bdb3e6-60e6-4700-b8d7-30a28a22fb0d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Quest",
-                    "type": "Button",
-                    "id": "e61ccaab-364e-4431-b8a6-7e89febe25d0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -350,7 +341,7 @@
                 {
                     "name": "",
                     "id": "102f9191-cec6-4b73-8d0a-864ecec876ac",
-                    "path": "<Gamepad>/touchpadButton",
+                    "path": "<Gamepad>/dpad",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -497,7 +488,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Configuration",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -508,7 +499,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Configuration",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -641,28 +632,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "26da4067-59c0-4904-afa3-b80e3799e64f",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quest",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ace31e92-d5d2-4f71-85b8-a657d3f40d62",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Quest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

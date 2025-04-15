@@ -61,8 +61,8 @@ namespace PlayerInput {
             return PlayerControls.Menu.triggered;
         }
 
-        public static bool GetConfigurationKey() {
-            return PlayerControls.Configuration.triggered;
+        public static bool GetPauseKey() {
+            return PlayerControls.Pause.triggered;
         }
 
         private static Vector2 GetCameraMoveAxis() {
@@ -107,10 +107,6 @@ namespace PlayerInput {
 
         public static bool GetInteractKey() {
             return PlayerControls.Interact.triggered;
-        }
-
-        public static bool GetQuestKey() {
-            return PlayerControls.Quest.triggered;
         }
     }
 }
