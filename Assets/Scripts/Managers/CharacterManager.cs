@@ -142,7 +142,7 @@ namespace Managers {
             currentPlayerController.FreezePosition();
             currentPlayerController.SetVelocity(Vector2.zero);
             currentPlayerController.SetColliderOnDeath();
-            ResolutionManager.Instance.StartDeathSequence();
+            CinematicManager.Instance.StartCinematic(Cinematic.Death);
             yield return new WaitForSeconds(characterConfig.respawnTime);
             currentPlayerController.FreezePosition(false);
             currentPlayerController.ResetState();

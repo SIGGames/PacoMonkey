@@ -2,6 +2,7 @@ using Enums;
 using Managers;
 using Platformer.Core;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static Utils.PlayerPrefsKeys;
 
 namespace Controllers {
@@ -51,6 +52,7 @@ namespace Controllers {
             PlayerPrefs.SetInt(IsGameStartedKey, 1);
             PlayerPrefs.Save();
             RevertGameStateToDefault();
+            CinematicManager.Instance.StartCinematic(Cinematic.NewGame);
         }
 
         private void ResetInGameProgressData() {

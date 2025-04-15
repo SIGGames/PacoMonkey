@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using static Configuration.GameConfig;
 using static Utils.PlayerPrefsKeys;
@@ -14,8 +13,7 @@ namespace Managers {
         [SerializeField] private int vSyncCount = VSyncCount;
         [SerializeField] private int frameRate = FrameRate;
         [SerializeField, Range(1f, 10f)] private float currentBrightness = 10f;
-        [SerializeField] private Image brightnessImage;
-        [SerializeField] private Sprite deathSequenceSprite;
+        [SerializeField] public Image brightnessImage;
 
         private void Awake() {
             if (Instance == null) {
@@ -67,42 +65,8 @@ namespace Managers {
             PlayerPrefs.Save();
         }
 
-        public void StartDeathSequence() {
-            StartCoroutine(DeathSequenceCoroutine());
-        }
-
-        private IEnumerator DeathSequenceCoroutine() {
-            // Death sequence animation aberration
-            float duration = CharacterManager.Instance.currentCharacterRespawnTime;
-
-            CameraManager.Instance.SetProgressiveZoom(duration);
-
-            Image tempImage = Instantiate(brightnessImage, brightnessImage.transform.parent);
-            tempImage.gameObject.name = "DeathSequenceImage";
-            if (deathSequenceSprite != null) {
-                tempImage.sprite = deathSequenceSprite;
-            }
-
-            // Just in case the brightness image is not active
-            brightnessImage.gameObject.SetActive(true);
-            tempImage.gameObject.SetActive(true);
-
-            // Lerp from transparent red to opaque black
-            float time = 0f;
-            while (time < duration) {
-                time += Time.deltaTime;
-                float t = time / duration;
-                brightnessImage.color = Color.Lerp(
-                    new Color(1, 0, 0, 0),
-                    new Color(0, 0, 0, 1),
-                    t
-                );
-                yield return null;
-            }
-
-            // Resetting everything
-            Destroy(tempImage.gameObject);
-            CameraManager.Instance.ResetCamera();
+        public void ResetBrightness() {
+            currentBrightness = PlayerPrefs.GetFloat(BrightnessKey, currentBrightness);
             SetBrightness(currentBrightness);
         }
     }

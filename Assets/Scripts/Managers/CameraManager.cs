@@ -74,11 +74,15 @@ namespace Managers {
             }
         }
 
-        public void SetProgressiveZoom(float duration) {
+        public void SetProgressiveZoom(float duration, bool resetCameraOnFinish = true) {
             camera1.SetActive(false);
             camera2.SetActive(true);
 
             Invoke(nameof(ResetZoom), duration);
+
+            if (resetCameraOnFinish) {
+                ResetCamera();
+            }
         }
 
         private void ResetZoom() {
