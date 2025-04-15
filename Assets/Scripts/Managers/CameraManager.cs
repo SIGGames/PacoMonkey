@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using Cinemachine;
 using UnityEngine;
 
@@ -74,8 +74,14 @@ namespace Managers {
             }
         }
 
-        public void SetProgressiveZoom(float duration, bool resetCameraOnFinish = true) {
+        public void SetProgressiveZoom(float duration, float zoomMultiplierCamera2 = 1, bool resetCameraOnFinish = true) {
             camera1.SetActive(false);
+
+            // Set the zoom multiplier for camera2
+            if (Math.Abs(zoomMultiplierCamera2 - 1) > 0.01f) {
+                camera2.GetComponent<CinemachineVirtualCamera>().m_Lens.OrthographicSize = _initialOrthographicSize * zoomMultiplierCamera2;
+            }
+
             camera2.SetActive(true);
 
             Invoke(nameof(ResetZoom), duration);
@@ -92,8 +98,7 @@ namespace Managers {
 
         public void SetOffset(Vector2 offset) {
             if (_isFramingTransposerNotNull) {
-                _framingTransposer.m_TrackedObjectOffset =
-                    new Vector3(offset.x, offset.y, _framingTransposer.m_TrackedObjectOffset.z);
+                _framingTransposer.m_TrackedObjectOffset = new Vector3(offset.x, offset.y, _framingTransposer.m_TrackedObjectOffset.z);
             }
         }
 
@@ -103,6 +108,16 @@ namespace Managers {
                 _framingTransposer.m_TrackedObjectOffset = _initialOffset;
                 _virtualCamera.transform.position = _initialCameraPosition;
             }
+        }
+
+        public void SetActiveCamera(int cameraIdx) {
+            if (cameraIdx is < 1 or > 2) {
+                Debug.LogError("Invalid camera index");
+                return;
+            }
+
+            camera1.SetActive(cameraIdx == 1);
+            camera2.SetActive(cameraIdx == 2);
         }
 
         public void ShakeCamera(float amplitude, float frequency, float duration) {

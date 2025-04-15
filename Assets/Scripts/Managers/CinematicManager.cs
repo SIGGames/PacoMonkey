@@ -54,7 +54,7 @@ namespace Managers {
             }
 
             if (config.progressiveZoom) {
-                CameraManager.Instance.SetProgressiveZoom(GetCinematicDuration(config));
+                CameraManager.Instance.SetProgressiveZoom(GetCinematicDuration(config), config.cameraZoomMultiplier);
             }
 
             if (config.showFadeIn) {
@@ -85,7 +85,8 @@ namespace Managers {
             // Lerp from start color to end color
             float timer = 0f;
             while (timer < fadeInDuration) {
-                fadeImage.color = Color.Lerp(config.fadeInStartColor, config.fadeInEndColor, timer / fadeInDuration);
+                float t = Mathf.Pow(timer / fadeInDuration, 1f / Mathf.Clamp(config.fadeInBias, 0.01f, 1f));
+                fadeImage.color = Color.Lerp(config.fadeInStartColor, config.fadeInEndColor, t);
                 timer += Time.deltaTime;
                 yield return null;
             }
@@ -116,13 +117,14 @@ namespace Managers {
 
         [Header("Fade In")]
         public bool showFadeIn;
+        [Range(0.01f, 1f)]
+        public float fadeInBias = 0.5f;
         public Color fadeInStartColor = new(0, 0, 0, 0); // Transparent
         public Color fadeInEndColor = new(0, 0, 0, 1); // Opaque black
         public Sprite fadeInSprite;
 
-        // TODO: FadeOut
-
         [Header("Progressive Zoom")]
         public bool progressiveZoom;
+        public float cameraZoomMultiplier = 1f;
     }
 }
