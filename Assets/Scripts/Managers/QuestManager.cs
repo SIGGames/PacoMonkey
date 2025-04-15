@@ -79,6 +79,11 @@ namespace Managers {
             SetActiveQuest(FindQuest(id));
         }
 
+        public void ResetQuests() {
+            _activeQuestId = quests.FirstOrDefault()?.id ?? string.Empty;
+            UpdateQuestPanelTexts();
+        }
+
         private void SetActiveQuest(Quest quest) {
             _activeQuestId = quest.id;
 

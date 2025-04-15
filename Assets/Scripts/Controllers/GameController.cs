@@ -52,6 +52,9 @@ namespace Controllers {
             PlayerPrefs.SetInt(IsGameStartedKey, 1);
             PlayerPrefs.Save();
             RevertGameStateToDefault();
+        }
+
+        public void StartNewGame() {
             CinematicManager.Instance.StartCinematic(Cinematic.NewGame);
         }
 
@@ -73,6 +76,7 @@ namespace Controllers {
             currentMapZone = DefaultMapZone;
             PlayTimeManager.Instance.ResetPlayTime();
             DialogueManager.ResetDialogues();
+            QuestManager.Instance.ResetQuests();
         }
     }
 }
