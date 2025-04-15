@@ -52,24 +52,27 @@ namespace Managers {
             if (config.waitBeforeStart) {
                 yield return new WaitForSeconds(config.waitDuration);
             }
+            float cinematicDuration = GetCinematicDuration(config);
+
+            // Hide HUD if needed
+            if (config.hideHUD) {
+                StartCoroutine(HideHud(GetCinematicDuration(config)));
+            }
 
             if (config.progressiveZoom) {
-                CameraManager.Instance.SetProgressiveZoom(GetCinematicDuration(config), config.cameraZoomMultiplier);
+                CameraManager.Instance.SetProgressiveZoom(cinematicDuration, config.cameraZoomMultiplier);
             }
 
             if (config.showFadeIn) {
-                yield return StartCoroutine(FadeIn(config));
+                yield return StartCoroutine(FadeIn(config, cinematicDuration));
             }
         }
 
-        private static IEnumerator FadeIn(CinematicConfig config) {
+        private static IEnumerator FadeIn(CinematicConfig config, float cinematicDuration) {
             Image fadeImage = ResolutionManager.Instance.brightnessImage;
             if (fadeImage == null) {
                 yield break;
             }
-
-            // Death cinematic uses a different duration
-            float fadeInDuration = GetCinematicDuration(config);
 
             Image tempImage = Instantiate(fadeImage, fadeImage.transform.parent);
             tempImage.gameObject.name = config.cinematic + "FadeImage";
@@ -84,8 +87,8 @@ namespace Managers {
 
             // Lerp from start color to end color
             float timer = 0f;
-            while (timer < fadeInDuration) {
-                float t = Mathf.Pow(timer / fadeInDuration, 1f / Mathf.Clamp(config.fadeInBias, 0.01f, 1f));
+            while (timer < cinematicDuration) {
+                float t = Mathf.Pow(timer / cinematicDuration, 1f / Mathf.Clamp(config.fadeInBias, 0.01f, 1f));
                 fadeImage.color = Color.Lerp(config.fadeInStartColor, config.fadeInEndColor, t);
                 timer += Time.deltaTime;
                 yield return null;
@@ -101,6 +104,17 @@ namespace Managers {
             return config.cinematic == Cinematic.Death
                 ? CharacterManager.Instance.currentCharacterRespawnTime
                 : config.cinematicDuration;
+        }
+
+        private static IEnumerator HideHud(float duration) {
+            GameObject hud = GameObject.Find("InGameInterface");
+            if (hud == null) {
+                yield break;
+            }
+
+            hud.SetActive(false);
+            yield return new WaitForSeconds(duration);
+            hud.SetActive(true);
         }
     }
 
@@ -129,5 +143,8 @@ namespace Managers {
         public bool progressiveZoom;
         [Range(0.01f, 10f)]
         public float cameraZoomMultiplier = 1f;
+
+        [Header("Hide HUD while cinematic is playing")]
+        public bool hideHUD;
     }
 }

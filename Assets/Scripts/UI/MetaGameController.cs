@@ -52,11 +52,11 @@ namespace UI {
                 Time.timeScale = 0;
                 mainMenu.gameObject.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(mainMenuGameObject);
-                foreach (var i in gamePlayCanvasii) i.gameObject.SetActive(false);
+                foreach (Canvas i in gamePlayCanvasii) i.gameObject.SetActive(false);
             } else {
                 Time.timeScale = 1;
                 mainMenu.gameObject.SetActive(false);
-                foreach (var i in gamePlayCanvasii) i.gameObject.SetActive(true);
+                foreach (Canvas i in gamePlayCanvasii) i.gameObject.SetActive(true);
             }
 
             IsMenuOpen = show;
