@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Enums;
 using Localization;
 using TMPro;
@@ -13,7 +12,7 @@ using PlayerInputManager = PlayerInput.PlayerInputManager;
 namespace Zones {
     public class ShowTutorialKeysZone : MonoBehaviour {
         [SerializeField] private bool canReopen;
-        [SerializeField] private List<InGameInputAction> actionsToListen;
+        [SerializeField] private List<TutorialActionBinding> actionsToShow;
 
         [Header("Components")]
         [SerializeField] private string titleTextKey;
@@ -21,7 +20,7 @@ namespace Zones {
         [SerializeField] private GameObject popupPrefab;
         [SerializeField] private GameObject iconPrefab;
 
-        private readonly Dictionary<InGameInputAction, List<InputAction>> _listenedActions = new();
+        private readonly List<InputAction> _listenedActions = new();
         private bool _active;
         private bool _activated;
 
@@ -42,9 +41,7 @@ namespace Zones {
         }
 
         private void OpenPopUp() {
-            if (_activated && !canReopen) {
-                return;
-            }
+            if (_activated && !canReopen) return;
 
             popupPrefab.SetActive(true);
             _active = true;
@@ -55,14 +52,10 @@ namespace Zones {
             EnableActionListeners();
         }
 
-        private void SetUpTitleText() {
-            TextMeshProUGUI titleText = popupPrefab.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            if (titleText != null) {
-                titleText.text = LocalizationManager.Instance.GetLocalizedText(titleTextKey);
-            }
-        }
-
         private void ClosePopUp() {
+            if (popupPrefab == null) {
+                return;
+            }
             popupPrefab.SetActive(false);
             _active = false;
 
@@ -70,72 +63,70 @@ namespace Zones {
             ClearIcons();
         }
 
+        private void SetUpTitleText() {
+            TextMeshProUGUI titleText = popupPrefab.transform.Find("Title")?.GetComponent<TextMeshProUGUI>();
+            if (titleText != null) {
+                titleText.text = LocalizationManager.Instance.GetLocalizedText(titleTextKey);
+            }
+        }
+
         private void SetupIcons() {
             ClearIcons();
-            foreach (InGameInputAction inGameInputAction in actionsToListen) {
-                List<(InputAction action, string part)> actionBindings = GetActions(inGameInputAction);
-                if (actionBindings == null || actionBindings.Count == 0) continue;
 
-                _listenedActions[inGameInputAction] = actionBindings.Select(ab => ab.action).ToList();
+            foreach (TutorialActionBinding tutorialAction in actionsToShow) {
+                if (tutorialAction.actionReference == null) {
+                    continue;
+                }
 
-                foreach ((var action, string part) in actionBindings) {
-                    GameObject iconObj = Instantiate(iconPrefab, keysContainer);
-                    iconObj.name = $"Icon_{inGameInputAction}_{part ?? "Main"}";
+                InputAction action = tutorialAction.actionReference.action;
+                if (action == null || tutorialAction.bindingIndex < 0 || tutorialAction.bindingIndex >= action.bindings.Count) {
+                    continue;
+                }
 
-                    string controlPath = part == null
-                        ? PlayerInputManager.Instance.GetActiveBindingControlPath(action)
-                        : GetCompositeBindingControlPath(action, part);
+                string controlPath = GetEffectivePath(action, tutorialAction);
+                _listenedActions.Add(action);
 
-                    Sprite sprite = PlayerInputManager.Instance.GetInputSprite(controlPath);
-                    if (sprite != null) {
-                        iconObj.GetComponentInChildren<Image>().sprite = sprite;
-                    }
+                GameObject iconObj = Instantiate(iconPrefab, keysContainer);
+                iconObj.name = $"Icon_{action.name}_{tutorialAction.bindingIndex}";
+
+                Sprite sprite = PlayerInputManager.Instance.GetInputSprite(controlPath);
+                if (sprite != null) {
+                    iconObj.GetComponentInChildren<Image>().sprite = sprite;
                 }
             }
         }
 
-        private static string GetCompositeBindingControlPath(InputAction action, string partName) {
-            foreach (var binding in action.bindings.Where(binding =>
-                         binding.isPartOfComposite &&
-                         string.Equals(binding.name, partName, StringComparison.CurrentCultureIgnoreCase))) {
-                return binding.effectivePath;
-            }
+        private static string GetEffectivePath(InputAction action, TutorialActionBinding tutorialAction) {
+            // Good luck with this
+            int idx = tutorialAction.bindingIndex;
 
-            return "";
-        }
-
-        private static List<(InputAction action, string part)> GetActions(InGameInputAction input) {
-            List<(InputAction, string)> result = new();
-
-            string name = input.ToString();
-
-            if (name.StartsWith("Secondary")) {
-                string raw = name.Replace("Secondary", "");
-                string[] directions = { "Left", "Right", "Up", "Down" };
-
-                foreach (string dir in directions) {
-                    if (raw.EndsWith(dir)) {
-                        string baseActionName = raw[..^dir.Length];
-                        InputAction baseAction = PlayerInputManager.Instance.InputActions.FindAction(baseActionName);
-                        if (baseAction != null) {
-                            result.Add((baseAction, dir.ToLower()));
-                        }
-
+            if (PlayerInputManager.Instance.currentInputDevice == InputDeviceType.Controller) {
+                for (int i = idx + 1; i < action.bindings.Count; i++) {
+                    if (!action.bindings[i].isPartOfComposite && action.bindings[i].effectivePath.Contains("Gamepad")) {
+                        idx = i;
                         break;
                     }
                 }
-            } else {
-                InputAction action = PlayerInputManager.Instance.InputActions.FindAction(name);
-                if (action != null) {
-                    result.Add((action, null));
-                }
             }
 
-            return result;
+            if (idx >= action.bindings.Count) {
+                idx = tutorialAction.bindingIndex;
+                Debug.LogWarning("Gamepad binding not found, fallback to original index");
+            }
+
+            InputBinding binding = action.bindings[idx];
+
+            string path = !string.IsNullOrEmpty(binding.overridePath)
+                ? binding.overridePath
+                : !string.IsNullOrEmpty(binding.effectivePath)
+                    ? binding.effectivePath
+                    : binding.path;
+
+            return path;
         }
 
         private void ClearIcons() {
-            foreach (Transform child in keysContainer.transform) {
+            foreach (Transform child in keysContainer) {
                 Destroy(child.gameObject);
             }
 
@@ -143,24 +134,28 @@ namespace Zones {
         }
 
         private void EnableActionListeners() {
-            foreach (InputAction action in _listenedActions.SelectMany(pair => pair.Value)) {
+            foreach (var action in _listenedActions) {
                 action.performed += OnAnyActionPerformed;
             }
         }
 
         private void DisableActionListeners() {
-            foreach (InputAction action in _listenedActions.SelectMany(pair => pair.Value)) {
+            foreach (var action in _listenedActions) {
                 action.performed -= OnAnyActionPerformed;
             }
         }
 
         private void OnAnyActionPerformed(InputAction.CallbackContext ctx) {
-            if (!_active) {
-                return;
-            }
+            if (!_active) return;
 
             popupPrefab.SetActive(false);
             DisableActionListeners();
         }
+    }
+
+    [Serializable]
+    public struct TutorialActionBinding {
+        public InputActionReference actionReference;
+        public int bindingIndex;
     }
 }
