@@ -56,6 +56,7 @@ namespace Zones {
             if (popupPrefab == null) {
                 return;
             }
+
             popupPrefab.SetActive(false);
             _active = false;
 
@@ -74,55 +75,26 @@ namespace Zones {
             ClearIcons();
 
             foreach (TutorialActionBinding tutorialAction in actionsToShow) {
-                if (tutorialAction.actionReference == null) {
-                    continue;
-                }
-
                 InputAction action = tutorialAction.actionReference.action;
-                if (action == null || tutorialAction.bindingIndex < 0 || tutorialAction.bindingIndex >= action.bindings.Count) {
+                if (action == null) {
                     continue;
                 }
-
-                string controlPath = GetEffectivePath(action, tutorialAction);
                 _listenedActions.Add(action);
 
-                GameObject iconObj = Instantiate(iconPrefab, keysContainer);
-                iconObj.name = $"Icon_{action.name}_{tutorialAction.bindingIndex}";
-
+                string controlPath = GetControlPath(tutorialAction);
                 Sprite sprite = PlayerInputManager.Instance.GetInputSprite(controlPath);
                 if (sprite != null) {
+                    GameObject iconObj = Instantiate(iconPrefab, keysContainer);
+                    iconObj.name = $"Icon_{action.name}_{controlPath}";
                     iconObj.GetComponentInChildren<Image>().sprite = sprite;
                 }
             }
         }
 
-        private static string GetEffectivePath(InputAction action, TutorialActionBinding tutorialAction) {
-            // Good luck with this
-            int idx = tutorialAction.bindingIndex;
-
-            if (PlayerInputManager.Instance.currentInputDevice == InputDeviceType.Controller) {
-                for (int i = idx + 1; i < action.bindings.Count; i++) {
-                    if (!action.bindings[i].isPartOfComposite && action.bindings[i].effectivePath.Contains("Gamepad")) {
-                        idx = i;
-                        break;
-                    }
-                }
-            }
-
-            if (idx >= action.bindings.Count) {
-                idx = tutorialAction.bindingIndex;
-                Debug.LogWarning("Gamepad binding not found, fallback to original index");
-            }
-
-            InputBinding binding = action.bindings[idx];
-
-            string path = !string.IsNullOrEmpty(binding.overridePath)
-                ? binding.overridePath
-                : !string.IsNullOrEmpty(binding.effectivePath)
-                    ? binding.effectivePath
-                    : binding.path;
-
-            return path;
+        private static string GetControlPath(TutorialActionBinding tutorialAction) {
+            return PlayerInputManager.Instance.currentInputDevice == InputDeviceType.Controller
+                ? tutorialAction.gamepadInputActionName
+                : tutorialAction.keyBoardInputActionName;
         }
 
         private void ClearIcons() {
@@ -156,6 +128,7 @@ namespace Zones {
     [Serializable]
     public struct TutorialActionBinding {
         public InputActionReference actionReference;
-        public int bindingIndex;
+        public string keyBoardInputActionName;
+        public string gamepadInputActionName;
     }
 }

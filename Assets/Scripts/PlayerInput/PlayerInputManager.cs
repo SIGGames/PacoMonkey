@@ -196,7 +196,7 @@ namespace PlayerInput {
             return action.bindings[0].effectivePath;
         }
 
-        public Sprite GetInputSprite(InputAction action) {
+        private Sprite GetInputSprite(InputAction action) {
             return GetInputSprite(GetActiveBindingControlPath(action));
         }
 
