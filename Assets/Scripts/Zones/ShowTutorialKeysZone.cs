@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using Enums;
 using Localization;
+using PlayerInput;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static Utils.TagUtils;
-using PlayerInputManager = PlayerInput.PlayerInputManager;
 
 namespace Zones {
     public class ShowTutorialKeysZone : MonoBehaviour {
@@ -81,7 +80,7 @@ namespace Zones {
         private static string GetControlPath(TutorialActionBinding tutorialAction) {
             return PlayerInputManager.Instance.currentInputDevice == InputDeviceType.Controller
                 ? tutorialAction.gamepadInputActionName
-                : tutorialAction.keyBoardInputActionName;
+                : tutorialAction.keyboardInputActionName;
         }
 
         private void ClearIcons() {
@@ -93,7 +92,7 @@ namespace Zones {
 
     [Serializable]
     public struct TutorialActionBinding {
-        public string keyBoardInputActionName;
+        public string keyboardInputActionName;
         public string gamepadInputActionName;
     }
 }
