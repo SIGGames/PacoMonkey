@@ -43,7 +43,6 @@ namespace Managers {
             }
             float cinematicDuration = GetCinematicDuration(config);
 
-            // Hide HUD if needed
             if (config.hideHUD) {
                 StartCoroutine(HideHud(GetCinematicDuration(config)));
             }

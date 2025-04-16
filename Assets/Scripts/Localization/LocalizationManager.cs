@@ -43,7 +43,7 @@ namespace Localization {
         }
 
         public string GetLocalizedText(string key, bool debugIfMissing = true) {
-            string text = localizationData.GetText(key, currentLanguage);
+            string text = localizationData.GetText(key.ToLower(), currentLanguage);
 
             if (debugIfMissing && (string.IsNullOrEmpty(text) || text.Contains("MISSING"))) {
                 Debug.LogWarning($"Missing text for key: {key}");

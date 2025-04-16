@@ -165,7 +165,7 @@ namespace PlayerInput {
             DialogueManager.Instance.DialogueNextStepImage.sprite = interactSprite;
         }
 
-        private string GetActiveBindingControlPath(InputAction action) {
+        public string GetActiveBindingControlPath(InputAction action) {
             // This gets the control path of the first binding that is not a composite depending on the current input device
             if (action.bindings.Count == 0) {
                 return "";
@@ -196,11 +196,11 @@ namespace PlayerInput {
             return action.bindings[0].effectivePath;
         }
 
-        private Sprite GetInputSprite(InputAction action) {
+        public Sprite GetInputSprite(InputAction action) {
             return GetInputSprite(GetActiveBindingControlPath(action));
         }
 
-        private Sprite GetInputSprite(string controlPath) {
+        public Sprite GetInputSprite(string controlPath) {
             return currentInputDevice switch {
                 InputDeviceType.Controller => GetControllerSprite(controlPath),
                 InputDeviceType.Keyboard => GetKeyboardSprite(controlPath),
