@@ -57,6 +57,10 @@ MonoBehaviour:
     catalan: Escull la partida
     spanish: Elige la partida
     english: Choose the game
+  - key: climb
+    catalan: Escalar
+    spanish: Escalar
+    english: Climb
   - key: configuration
     catalan: "Configuraci\xF3"
     spanish: "Configuraci\xF3n"
@@ -197,6 +201,10 @@ MonoBehaviour:
     catalan: Normal
     spanish: Normal
     english: Normal
+  - key: open-current-quest
+    catalan: "Obrir la missi\xF3 actual"
+    spanish: "Abrir la misi\xF3n actual"
+    english: Open current quest
   - key: pause
     catalan: Pausa
     spanish: Pausa

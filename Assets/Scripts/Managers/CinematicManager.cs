@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Enums;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Managers {
@@ -11,6 +13,13 @@ namespace Managers {
         public static CinematicManager Instance { get; private set; }
 
         [SerializeField] private List<CinematicConfig> cinematicConfigs;
+
+        [Header("Cinematic Configurations")]
+        [SerializeField] private GameObject timerGameObject;
+
+        private Coroutine _activeTimerCoroutine;
+        private Color _originalTextColor;
+        private bool _hasTriggeredVibration;
 
         private void Awake() {
             if (Instance != null && Instance != this) {
@@ -27,6 +36,17 @@ namespace Managers {
             HashSet<Cinematic> uniqueCinematics = new();
             foreach (CinematicConfig config in cinematicConfigs.Where(config => !uniqueCinematics.Add(config.cinematic))) {
                 Debug.LogError($"Duplicate cinematic entry found: {config.cinematic}");
+            }
+        }
+
+        private void Update() {
+            // TODO: Remove this debug code
+            if (Input.GetKeyDown(KeyCode.F2)) {
+                StartCinematic(Cinematic.Ending);
+            }
+
+            if (Input.GetKeyDown(KeyCode.F3)) {
+                StopTimer();
             }
         }
 
@@ -53,6 +73,11 @@ namespace Managers {
 
             if (config.showFadeIn) {
                 yield return StartCoroutine(FadeIn(config, cinematicDuration));
+            }
+
+            if (config.showTimer) {
+                // Start the timer coroutine only if there is not already one running
+                _activeTimerCoroutine ??= StartCoroutine(ShowTimer(config));
             }
         }
 
@@ -104,6 +129,80 @@ namespace Managers {
             yield return new WaitForSeconds(duration);
             hud.SetActive(true);
         }
+
+        private IEnumerator ShowTimer(CinematicConfig config) {
+            if (timerGameObject == null) {
+                Debug.LogError("Timer GameObject not assigned");
+                yield break;
+            }
+
+            TextMeshProUGUI timerText = timerGameObject.GetComponentInChildren<TextMeshProUGUI>();
+            _originalTextColor = timerText.color;
+            timerGameObject.SetActive(true);
+            float timeRemaining = config.timerDuration;
+            float threshold = config.timerDuration * config.lowTimerPercentage;
+
+            while (timeRemaining > 0f) {
+                timeRemaining -= Time.deltaTime;
+                int secondsTotal = Mathf.CeilToInt(timeRemaining);
+                if (secondsTotal > 60) {
+                    int minutes = secondsTotal / 60;
+                    int seconds = secondsTotal % 60;
+                    timerText.text = $"{minutes:00}:{seconds:00}";
+                } else {
+                    timerText.text = secondsTotal.ToString();
+                }
+
+                if (timeRemaining <= threshold) {
+                    timerText.color = config.lowTimerColor;
+
+                    if (!_hasTriggeredVibration && Gamepad.current != null) {
+                        Gamepad.current.SetMotorSpeeds(config.rumbleIntensityOnLowTime, config.rumbleIntensityOnLowTime);
+                        _hasTriggeredVibration = true;
+                        StartCoroutine(StopRumbleAfterDelay(config.rumbleDurationOnLowTime));
+                    }
+                }
+                yield return null;
+            }
+
+            // Timer finished
+            if (config.killPlayerOnFinishTime) {
+                CharacterManager.Instance.currentPlayerController.KillPlayer();
+            }
+
+            ResetTimerUI(timerText);
+        }
+
+        public void StopTimer() {
+            if (_activeTimerCoroutine != null) {
+                StopCoroutine(_activeTimerCoroutine);
+                _activeTimerCoroutine = null;
+            }
+
+            ResetTimerUI();
+        }
+
+        private void ResetTimerUI(TextMeshProUGUI timerText = null) {
+            if (timerGameObject != null) {
+                if (timerText == null) {
+                    timerText = timerGameObject.GetComponentInChildren<TextMeshProUGUI>();
+                }
+                timerText.color = _originalTextColor;
+                timerGameObject.SetActive(false);
+            }
+            _hasTriggeredVibration = false;
+
+            if (Gamepad.current != null) {
+                Gamepad.current.SetMotorSpeeds(0f, 0f);
+            }
+        }
+
+        private static IEnumerator StopRumbleAfterDelay(float delay) {
+            yield return new WaitForSeconds(delay);
+            if (Gamepad.current != null) {
+                Gamepad.current.SetMotorSpeeds(0f, 0f);
+            }
+        }
     }
 
     [Serializable]
@@ -131,6 +230,19 @@ namespace Managers {
         public bool progressiveZoom;
         [Range(0.01f, 10f)]
         public float cameraZoomMultiplier = 1f;
+
+        [Header("Timer")]
+        public bool showTimer;
+        [Range(0.01f, 1000f)]
+        public float timerDuration = 60f;
+        [Range(0.01f, 1f)]
+        public float lowTimerPercentage = 0.2f;
+        public Color lowTimerColor = Color.red;
+        [Range(0.01f, 1f)]
+        public float rumbleIntensityOnLowTime = 0.5f;
+        [Range(0.01f, 2f)]
+        public float rumbleDurationOnLowTime = 0.5f;
+        public bool killPlayerOnFinishTime;
 
         [Header("Hide HUD while cinematic is playing")]
         public bool hideHUD;
