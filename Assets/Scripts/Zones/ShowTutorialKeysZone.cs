@@ -115,6 +115,12 @@ namespace Zones {
                 Destroy(child.gameObject);
             }
         }
+
+        public void ResetZone() {
+            _activated = false;
+            ClearIcons();
+            popupPrefab.SetActive(false);
+        }
     }
 
     [Serializable]

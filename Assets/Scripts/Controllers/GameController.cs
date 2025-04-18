@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using Enums;
 using Managers;
 using Platformer.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zones;
 using static Utils.PlayerPrefsKeys;
 
 namespace Controllers {
@@ -77,6 +79,14 @@ namespace Controllers {
             PlayTimeManager.Instance.ResetPlayTime();
             DialogueManager.ResetDialogues();
             QuestManager.Instance.ResetQuests();
+            ResetMapZones();
+        }
+
+        private static void ResetMapZones() {
+            List<ShowTutorialKeysZone> mapZones = new(FindObjectsOfType<ShowTutorialKeysZone>());
+            foreach (ShowTutorialKeysZone mapZone in mapZones) {
+                mapZone.ResetZone();
+            }
         }
     }
 }
