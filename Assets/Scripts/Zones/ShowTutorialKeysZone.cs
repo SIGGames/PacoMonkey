@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Enums;
 using Localization;
@@ -11,6 +12,7 @@ using static Utils.TagUtils;
 namespace Zones {
     public class ShowTutorialKeysZone : MonoBehaviour {
         [SerializeField] private bool canReopen;
+        [SerializeField, Range(0f, 2f)] private float animationDuration = 0.25f;
         [SerializeField] private List<TutorialActionBinding> actionsToShow;
 
         [Header("Components")]
@@ -38,9 +40,12 @@ namespace Zones {
         }
 
         private void OpenPopUp() {
-            if (_activated && !canReopen) return;
+            if (_activated && !canReopen) {
+                return;
+            }
 
             popupPrefab.SetActive(true);
+            StartCoroutine(AnimatePopUp(true, animationDuration));
             _activated = true;
 
             SetUpTitleText();
@@ -48,18 +53,40 @@ namespace Zones {
         }
 
         private void ClosePopUp() {
-            if (popupPrefab == null) {
+            if (popupPrefab == null || !_activated) {
                 return;
             }
 
-            popupPrefab.SetActive(false);
-            ClearIcons();
+            StartCoroutine(AnimatePopUp(false, animationDuration));
         }
 
         private void SetUpTitleText() {
             TextMeshProUGUI titleText = popupPrefab.transform.Find("Title")?.GetComponent<TextMeshProUGUI>();
             if (titleText != null) {
                 titleText.text = LocalizationManager.Instance.GetLocalizedText(titleTextKey);
+            }
+        }
+
+        private IEnumerator AnimatePopUp(bool isOpening, float duration = 0.25f) {
+            RectTransform rect = popupPrefab.GetComponent<RectTransform>();
+            Vector3 startScale = rect.localScale;
+            Vector3 endScale = isOpening ? Vector3.one : Vector3.zero;
+
+            float timer = 0f;
+
+            while (timer < duration) {
+                float t = timer / duration;
+                float scale = Mathf.SmoothStep(startScale.x, endScale.x, t);
+                rect.localScale = new Vector3(scale, scale, 1f);
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            rect.localScale = endScale;
+
+            if (!isOpening) {
+                ClearIcons();
+                popupPrefab.SetActive(false);
             }
         }
 
