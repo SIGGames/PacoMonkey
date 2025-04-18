@@ -199,8 +199,10 @@ namespace Mechanics.Movement {
                 player.gravityModifier = 0;
             }
 
-            player.body.velocity = Vector2.zero;
-            player.velocity = Vector2.zero;
+            if (player.body.bodyType != RigidbodyType2D.Static) {
+                player.body.velocity = Vector2.zero;
+                player.velocity = Vector2.zero;
+            }
         }
     }
 }

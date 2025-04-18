@@ -221,10 +221,18 @@ MonoBehaviour:
     catalan: Rescatar al [pare paco] del Zoo.
     spanish: Rescatar al [paco padre] del Zoo.
     english: Rescue [paco's father] from Zoo.
+  - key: qd-2.1
+    catalan: Elimina a tots els enemics
+    spanish: Elimina a todos los enemigos
+    english: Kill all enemies
   - key: qn-1.1
     catalan: Rescatar al [pare paco]
     spanish: Rescatar al [paco padre]
     english: Rescue [paco's father]
+  - key: qn-2.1
+    catalan: Eliminar tots els enemics
+    spanish: Eliminar a todos los enemigos
+    english: Kill all enemies
   - key: quit
     catalan: Sortir
     spanish: Salir
