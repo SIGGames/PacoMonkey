@@ -53,12 +53,12 @@ namespace Zones {
             SetupIcons();
         }
 
-        private void ClosePopUp() {
+        public void ClosePopUp(bool instantly = false) {
             if (popupPrefab == null || !_activated) {
                 return;
             }
 
-            StartCoroutine(ClosePopUpRoutine(animationDuration));
+            StartCoroutine(ClosePopUpRoutine(instantly, animationDuration));
         }
 
         private void SetUpTitleText() {
@@ -68,8 +68,10 @@ namespace Zones {
             }
         }
 
-        private IEnumerator ClosePopUpRoutine(float duration) {
-            yield return new WaitForSeconds(closeDelay);
+        private IEnumerator ClosePopUpRoutine(bool instantly, float duration) {
+            if (!instantly) {
+                yield return new WaitForSeconds(closeDelay);
+            }
             yield return AnimatePopUp(false, duration);
             ClearIcons();
             popupPrefab.SetActive(false);
