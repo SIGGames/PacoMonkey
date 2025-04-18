@@ -152,7 +152,7 @@ namespace Managers {
             }
             yield return new WaitForSeconds(showCinematic ? characterConfig.respawnTime : 0);
             currentPlayerController.FreezePosition(false);
-            currentPlayerController.ResetState();
+            currentPlayerController.ResetState(false);
             currentPlayerController.SetColliderOnDeath();
             InstanceEnemies();
 
@@ -202,7 +202,7 @@ namespace Managers {
         }
 
         public void ResetState() {
-            currentPlayerController.ResetState();
+            currentPlayerController.ResetState(true);
             InstanceEnemies();
         }
 

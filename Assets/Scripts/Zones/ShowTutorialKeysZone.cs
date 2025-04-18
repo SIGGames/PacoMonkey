@@ -57,7 +57,7 @@ namespace Zones {
                 return;
             }
 
-            StartCoroutine(AnimatePopUp(false, animationDuration));
+            StartCoroutine(ClosePopUpRoutine(animationDuration));
         }
 
         private void SetUpTitleText() {
@@ -65,6 +65,12 @@ namespace Zones {
             if (titleText != null) {
                 titleText.text = LocalizationManager.Instance.GetLocalizedText(titleTextKey);
             }
+        }
+
+        private IEnumerator ClosePopUpRoutine(float duration) {
+            yield return AnimatePopUp(false, duration);
+            ClearIcons();
+            popupPrefab.SetActive(false);
         }
 
         private IEnumerator AnimatePopUp(bool isOpening, float duration = 0.25f) {
@@ -83,11 +89,6 @@ namespace Zones {
             }
 
             rect.localScale = endScale;
-
-            if (!isOpening) {
-                ClearIcons();
-                popupPrefab.SetActive(false);
-            }
         }
 
         private void SetupIcons() {

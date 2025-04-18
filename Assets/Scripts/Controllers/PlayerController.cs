@@ -146,6 +146,7 @@ namespace Controllers {
         private float _jumpDecelerationTimer;
         private bool _isDying;
         [HideInInspector] public Vector3 respawnPosition;
+        private Vector3 _originalPosition;
 
         private void Awake() {
             InitializeComponents();
@@ -155,6 +156,7 @@ namespace Controllers {
             _colliderManager.UpdateCollider(false, boxCollider.size);
             respawnPosition.x = PlayerPrefs.GetFloat(RespawnPositionX, transform.position.x);
             respawnPosition.y = PlayerPrefs.GetFloat(RespawnPositionY, transform.position.y);
+            _originalPosition = transform.position;
         }
 
         protected override void Start() {
@@ -260,11 +262,16 @@ namespace Controllers {
             return Physics2D.OverlapBox(Bounds.center, Bounds.size, 0f, Ground.value) != null;
         }
 
-        public void ResetState() {
+        public void ResetState(bool isGameReset) {
             animator.SetBool(IsClimbing, false);
             animator.SetBool(IsHolding, false);
             animator.SetBool(Dead, false);
-            Respawn();
+            if (isGameReset) {
+                // Since the game has been reestablished, the respawn point its not valid, it needs to be the original position
+                SetPosition(_originalPosition);
+            } else {
+                Respawn();
+            }
             lives.ResetLives();
             _isDying = false;
         }
