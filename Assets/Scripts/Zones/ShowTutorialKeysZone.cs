@@ -13,6 +13,7 @@ namespace Zones {
     public class ShowTutorialKeysZone : MonoBehaviour {
         [SerializeField] private bool canReopen;
         [SerializeField, Range(0f, 2f)] private float animationDuration = 0.25f;
+        [SerializeField, Range(0f, 5f)] private float closeDelay = 2f;
         [SerializeField] private List<TutorialActionBinding> actionsToShow;
 
         [Header("Components")]
@@ -68,6 +69,7 @@ namespace Zones {
         }
 
         private IEnumerator ClosePopUpRoutine(float duration) {
+            yield return new WaitForSeconds(closeDelay);
             yield return AnimatePopUp(false, duration);
             ClearIcons();
             popupPrefab.SetActive(false);
