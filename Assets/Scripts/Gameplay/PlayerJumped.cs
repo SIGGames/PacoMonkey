@@ -8,7 +8,7 @@ namespace Gameplay {
 
         public override void Execute() {
             if (player.audioSource) {
-                player.audioSource.PlayOneShot(AudioManager.GetRandomAudioClip(player.jumpAudios));
+                player.audioSource.PlayOneShot(AudioManager.GetRandomAudioClip(player.jumpAudios), player.jumpAudioVolume);
             }
         }
     }

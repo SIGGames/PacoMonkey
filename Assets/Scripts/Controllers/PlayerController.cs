@@ -109,9 +109,18 @@ namespace Controllers {
         [Header("Player Audio")]
         public AudioSource audioSource;
 
+        [Range(0, 2)]
+        public float jumpAudioVolume = 0.5f;
         public List<AudioClip> jumpAudios;
+
+        [Range(0, 2)]
+        public float landAudioVolume = 0.5f;
+        public List<AudioClip> landAudios;
+
+        [Range(0, 2)]
+        public float hitAudioVolume = 0.5f;
+        public List<AudioClip> hitAudios;
         public AudioClip respawnAudio;
-        public AudioClip ouchAudio;
 
         private bool _jump;
         private float _jumpTimeCounter;
@@ -492,7 +501,9 @@ namespace Controllers {
         }
 
         public void SetBodyType(RigidbodyType2D bodyType) {
-            body.bodyType = bodyType;
+            if (body != null) {
+                body.bodyType = bodyType;
+            }
         }
 
         public void SetVelocity(Vector2 newVelocity) {
@@ -516,6 +527,8 @@ namespace Controllers {
             if (lives.IsAlive) {
                 PlayerController player = CharacterManager.Instance.currentPlayerController;
                 player.animator.SetTrigger(Hurt);
+
+                player.audioSource.PlayOneShot(AudioManager.GetRandomAudioClip(hitAudios), hitAudioVolume);
 
                 // Reset the player's fight state
                 PlayerFight playerFight = player.GetComponent<PlayerFight>();
