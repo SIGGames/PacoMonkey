@@ -139,6 +139,7 @@ namespace Managers {
             TextMeshProUGUI timerText = timerGameObject.GetComponentInChildren<TextMeshProUGUI>();
             _originalTextColor = timerText.color;
             timerGameObject.SetActive(true);
+            StartCoroutine(AnimateTimerPopup());
             float timeRemaining = config.timerDuration;
             float threshold = config.timerDuration * config.lowTimerPercentage;
 
@@ -171,6 +172,25 @@ namespace Managers {
             }
 
             ResetTimerUI(timerText);
+        }
+
+        private IEnumerator AnimateTimerPopup(float duration = 0.25f) {
+            RectTransform rect = timerGameObject.GetComponent<RectTransform>();
+            Vector3 initialScale = Vector3.zero;
+            Vector3 finalScale = Vector3.one;
+
+            float timer = 0f;
+            rect.localScale = initialScale;
+
+            while (timer < duration) {
+                float t = timer / duration;
+                float scale = Mathf.SmoothStep(0f, 1f, t);
+                rect.localScale = new Vector3(scale, scale, 1f);
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            rect.localScale = finalScale;
         }
 
         public void StopTimer() {
