@@ -87,7 +87,7 @@ namespace Managers {
         private void SetActiveQuest(Quest quest) {
             _activeQuestId = quest.id;
 
-            PlayerPrefs.SetInt(ActiveQuestKey, _activeQuestId.GetHashCode());
+            PlayerPrefs.SetString(ActiveQuestKey, _activeQuestId);
             PlayerPrefs.Save();
 
             UpdateQuestPanelTexts();

@@ -11,7 +11,9 @@ namespace Zones {
         [SerializeField] private bool questRequired;
         [Tooltip("Active quest required to trigger action")]
         [ShowIf("questRequired")]
-        [SerializeField] private string activeQuestId;
+        [SerializeField] private string requiredQuestId;
+        [Tooltip("Next quest to be activated after all enemies are defeated")]
+        [SerializeField] private string nextQuestId;
 
         private readonly HashSet<EnemyController> _trackedEnemies = new();
 
@@ -49,10 +51,12 @@ namespace Zones {
         }
 
         private void OnAllEnemiesDefeated() {
-            if (questRequired && QuestManager.Instance.GetActiveQuest().id != activeQuestId) {
+            if (questRequired && QuestManager.Instance.GetActiveQuest().id != requiredQuestId) {
                 return;
             }
-            Debug.Log($"All enemies in zone '{name}' defeated!");
+            if (!string.IsNullOrEmpty(nextQuestId)) {
+                QuestManager.Instance.SetActiveQuest(nextQuestId);
+            }
         }
     }
 }
