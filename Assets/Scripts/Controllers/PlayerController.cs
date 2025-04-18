@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Enums;
 using Gameplay;
 using Health;
@@ -108,7 +109,7 @@ namespace Controllers {
         [Header("Player Audio")]
         public AudioSource audioSource;
 
-        public AudioClip jumpAudio;
+        public List<AudioClip> jumpAudios;
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
 

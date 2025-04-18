@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using static Utils.PlayerPrefsKeys;
+using Random = UnityEngine.Random;
 
 namespace Managers {
     public class AudioManager : MonoBehaviour {
@@ -192,6 +194,15 @@ namespace Managers {
             if (sfxVolumeCaret != null) {
                 sfxVolumeCaret.enabled = false;
             }
+        }
+
+        public static AudioClip GetRandomAudioClip(List<AudioClip> audioClips) {
+            if (audioClips == null || audioClips.Count == 0) {
+                return null;
+            }
+
+            int randomIndex = Random.Range(0, audioClips.Count);
+            return audioClips[randomIndex];
         }
     }
 }

@@ -1,4 +1,5 @@
 using Controllers;
+using Managers;
 using Platformer.Core;
 
 namespace Gameplay {
@@ -6,8 +7,8 @@ namespace Gameplay {
         public PlayerController player;
 
         public override void Execute() {
-            if (player.audioSource && player.jumpAudio) {
-                player.audioSource.PlayOneShot(player.jumpAudio);
+            if (player.audioSource) {
+                player.audioSource.PlayOneShot(AudioManager.GetRandomAudioClip(player.jumpAudios));
             }
         }
     }
