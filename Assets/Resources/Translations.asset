@@ -245,6 +245,10 @@ MonoBehaviour:
     catalan: "Resoluci\xF3"
     spanish: Resolucion
     english: Resolution
+  - key: respawn
+    catalan: "Reapar\xE8ixer"
+    spanish: Reaparecer
+    english: Respawn
   - key: right
     catalan: Dreta
     spanish: Derecha

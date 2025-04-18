@@ -135,15 +135,22 @@ namespace Managers {
 
         public void RespawnCharacter() {
             CharacterConfiguration selectedConfig = Array.Find(characters, c => c.characterType == currentCharacter);
-            StartCoroutine(RespawnRoutine(selectedConfig));
+            StartCoroutine(RespawnRoutine(selectedConfig, false));
         }
 
-        private IEnumerator RespawnRoutine(CharacterConfiguration characterConfig) {
+        public void RespawnCharacter(bool showCinematic) {
+            CharacterConfiguration selectedConfig = Array.Find(characters, c => c.characterType == currentCharacter);
+            StartCoroutine(RespawnRoutine(selectedConfig, showCinematic));
+        }
+
+        private IEnumerator RespawnRoutine(CharacterConfiguration characterConfig, bool showCinematic) {
             currentPlayerController.FreezePosition();
             currentPlayerController.SetVelocity(Vector2.zero);
             currentPlayerController.SetColliderOnDeath();
-            CinematicManager.Instance.StartCinematic(Cinematic.Death);
-            yield return new WaitForSeconds(characterConfig.respawnTime);
+            if (showCinematic) {
+                CinematicManager.Instance.StartCinematic(Cinematic.Death);
+            }
+            yield return new WaitForSeconds(showCinematic ? characterConfig.respawnTime : 0);
             currentPlayerController.FreezePosition(false);
             currentPlayerController.ResetState();
             currentPlayerController.SetColliderOnDeath();

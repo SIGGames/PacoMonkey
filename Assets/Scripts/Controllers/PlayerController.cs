@@ -227,7 +227,7 @@ namespace Controllers {
             animator.SetBool(Dead, true);
             animator.SetTrigger(Death);
             _isDying = true;
-            CharacterManager.Instance.RespawnCharacter();
+            CharacterManager.Instance.RespawnCharacter(true);
         }
 
         public void SetColliderOnDeath() {
@@ -493,7 +493,6 @@ namespace Controllers {
             SetPosition(new Vector3(x ?? position.x, y ?? position.y, z ?? position.z));
         }
 
-        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
         public void SetPosition(Vector3 position) {
             // Do not try to use the Teleport method from the KinematicObject class because it will reset the velocity
             // times witch I have fallen into this: 2
@@ -585,7 +584,7 @@ namespace Controllers {
         }
 
         public void Respawn() {
-            Teleport(respawnPosition);
+            SetPosition(respawnPosition);
         }
 
         public void SetDifficultyMultiplier(float multiplier) {
