@@ -93,7 +93,7 @@ namespace Managers {
             UpdateQuestPanelTexts();
         }
 
-        private Quest GetActiveQuest() {
+        public Quest GetActiveQuest() {
             // In case there is no active quest, return the first one
             return FindQuest(_activeQuestId) ?? quests.FirstOrDefault();
         }
