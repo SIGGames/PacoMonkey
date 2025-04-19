@@ -118,7 +118,7 @@ namespace Managers {
             currentCharacterRespawnTime = selectedConfig.respawnTime;
             UpdatePlayerFaceSprite();
 
-            selectedConfig.characterGameObject.transform.position = previousPosition;
+            currentPlayerController.SetPosition(previousPosition);
             selectedConfig.characterGameObject.SetActive(true);
             currentPlayerController.FreezePosition(false);
             DifficultyManager.Instance.SetPlayerDifficultyMultiplier();

@@ -63,6 +63,11 @@ namespace Managers {
             if (config.waitBeforeStart) {
                 yield return new WaitForSeconds(config.waitDuration);
             }
+
+            if (config.changeCharacter) {
+                CharacterManager.Instance.SetCharacter(config.characterToChange);
+            }
+
             float cinematicDuration = GetCinematicDuration(config);
 
             if (config.hideHUD) {
@@ -248,6 +253,10 @@ namespace Managers {
         public bool waitBeforeStart;
         [Range(0.01f, 10f)]
         public float waitDuration = 1f;
+
+        [Header("Character")]
+        public bool changeCharacter;
+        public Character characterToChange;
 
         [Header("Fade In")]
         public bool showFadeIn;
