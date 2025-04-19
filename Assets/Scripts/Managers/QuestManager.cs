@@ -8,7 +8,6 @@ using TMPro;
 using UI.TextSetters;
 using UnityEngine;
 using static Utils.PlayerPrefsKeys;
-using Random = UnityEngine.Random;
 
 namespace Managers {
     public class QuestManager : MonoBehaviour {
@@ -19,7 +18,6 @@ namespace Managers {
 
         [Header("Components")]
         public TextMeshProUGUI questNameText;
-
         public TextMeshProUGUI questTypeText;
         public TextMeshProUGUI questDescriptionText;
         public TextMeshProUGUI questCharacterText;

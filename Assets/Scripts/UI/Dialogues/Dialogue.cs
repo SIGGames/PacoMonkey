@@ -42,6 +42,17 @@ namespace UI.Dialogues {
         [SerializeField, ShowIf("showInteractButtonBeforeInteract")]
         private Vector2 interactButtonOffset = new(0, 1f);
 
+        [SerializeField]
+        private bool triggerQuestOnFinish;
+
+        [SerializeField, ShowIf("triggerQuestOnFinish")]
+        private string questIdToTrigger = "";
+
+        [SerializeField]
+        private bool triggerCinematicOnFinish;
+
+        [SerializeField, ShowIf("triggerCinematicOnFinish")] private Cinematic cinematicToTrigger;
+
         [Header("Dialogues")]
         [SerializeField]
         private bool ensureMultipleLanguagesDialoguesLength = true;
@@ -86,6 +97,7 @@ namespace UI.Dialogues {
         private GameObject _interactButtonInstance;
         private const bool FreezePlayer = true;
         private bool _mustShowAlternativeDialogue;
+        private bool _hasActivated;
         private const string InteractButtonIdentifier = "FloatingDialogueBeforeInteract";
 
         private void Awake() {
@@ -205,6 +217,11 @@ namespace UI.Dialogues {
 
                 _typingCoroutine = StartTyping();
             } else {
+                if (!_hasActivated) {
+                    TriggerQuestIfNeeded();
+                    TriggerCinematicIfNeeded();
+                    _hasActivated = true;
+                }
                 ResetText();
             }
         }
@@ -368,6 +385,18 @@ namespace UI.Dialogues {
         private void OnDrawGizmosSelected() {
             Gizmos.color = playerDistance.color;
             Gizmos.DrawWireSphere(transform.position, playerDistance.value);
+        }
+
+        private void TriggerQuestIfNeeded() {
+            if (triggerQuestOnFinish && !string.IsNullOrEmpty(questIdToTrigger)) {
+                QuestManager.Instance.SetActiveQuest(questIdToTrigger);
+            }
+        }
+
+        private void TriggerCinematicIfNeeded() {
+            if (triggerCinematicOnFinish) {
+                CinematicManager.Instance.StartCinematic(cinematicToTrigger);
+            }
         }
     }
 }
