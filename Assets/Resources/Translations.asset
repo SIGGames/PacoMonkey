@@ -35,7 +35,7 @@ MonoBehaviour:
     english: Back
   - key: back-to-game
     catalan: Retornar al joc
-    spanish: Vuelver al juego
+    spanish: Volver al juego
     english: Return to the game
   - key: brightness
     catalan: Brillantor
@@ -65,10 +65,6 @@ MonoBehaviour:
     catalan: "Configuraci\xF3"
     spanish: "Configuraci\xF3n"
     english: Settings
-  - key: configuration
-    catalan: "Configuraci\xF3"
-    spanish: Configuracion
-    english: Configuration
   - key: continue
     catalan: Continua
     spanish: Continuar
@@ -163,7 +159,7 @@ MonoBehaviour:
     english: Main Menu
   - key: mainquest
     catalan: "Missi\xF3 Principal"
-    spanish: Mision Principal
+    spanish: "Misi\xF3n Principal"
     english: Main Quest
   - key: master-volume
     catalan: Volum General
@@ -324,15 +320,15 @@ MonoBehaviour:
     english: Right
   - key: select-language
     catalan: Selecciona un idioma
-    spanish: Seleciona un idioma
+    spanish: Selecciona un idioma
     english: Select a language
   - key: sfx-volume
     catalan: Volum Efectes de So
     spanish: Volumen Efectos de Sonido
     english: Sound Effects Volume
   - key: sidequest
-    catalan: "Missi\xF3 Secundaria"
-    spanish: Mision Secundaria
+    catalan: "Missi\xF3 Secund\xE0ria"
+    spanish: "Misi\xF3n Secundaria"
     english: Side Quest
   - key: spanish
     catalan: Espanyol
