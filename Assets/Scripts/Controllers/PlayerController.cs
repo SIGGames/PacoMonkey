@@ -274,6 +274,7 @@ namespace Controllers {
             }
             lives.ResetLives();
             _isDying = false;
+            SetVelocity(Vector2.zero);
         }
 
         private void HandleHorizontalMovement() {
@@ -575,6 +576,7 @@ namespace Controllers {
                 } else {
                     Teleport(new Vector3(wallBounds.max.x + margin, position.y, position.z));
                 }
+                SetVelocity(Vector2.zero);
             }
 
             // If the player is out of map bounds tp

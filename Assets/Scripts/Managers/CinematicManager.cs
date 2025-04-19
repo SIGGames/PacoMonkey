@@ -77,9 +77,13 @@ namespace Managers {
                 yield return StartCoroutine(FadeIn(config, cinematicDuration));
             }
 
+            // TODO: Do this with a level manager since this is just a crap
             if (config.cinematic == Cinematic.Ending) {
                 level1GameObject.SetActive(false);
                 level2GameObject.SetActive(true);
+            } else if (config.cinematic == Cinematic.NewGame) {
+                level1GameObject.SetActive(true);
+                level2GameObject.SetActive(false);
             }
 
             if (config.showTimer) {

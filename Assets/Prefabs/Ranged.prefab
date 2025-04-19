@@ -226,7 +226,7 @@ MonoBehaviour:
   enemyType: 1
   moveSpeed: 2
   chaseStopRange:
-    value: 1
+    value: 6.4
     color: {r: 0, g: 1, b: 0, a: 1}
   sightBoxSize: {x: 6.2, y: 1}
   sightBoxOffset: {x: 1.8, y: 0.4}
@@ -270,7 +270,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
