@@ -16,6 +16,8 @@ namespace Managers {
 
         [Header("Cinematic Configurations")]
         [SerializeField] private GameObject timerGameObject;
+        [SerializeField] private GameObject level1GameObject;
+        [SerializeField] private GameObject level2GameObject;
 
         private Coroutine _activeTimerCoroutine;
         private Color _originalTextColor;
@@ -73,6 +75,11 @@ namespace Managers {
 
             if (config.showFadeIn) {
                 yield return StartCoroutine(FadeIn(config, cinematicDuration));
+            }
+
+            if (config.cinematic == Cinematic.Ending) {
+                level1GameObject.SetActive(false);
+                level2GameObject.SetActive(true);
             }
 
             if (config.showTimer) {
