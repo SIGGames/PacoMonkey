@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Enums;
 using Localization;
 using TMPro;
 using UI.TextSetters;
 using UnityEngine;
 using static Utils.PlayerPrefsKeys;
+using Random = UnityEngine.Random;
 
 namespace Managers {
     public class QuestManager : MonoBehaviour {
@@ -113,7 +115,14 @@ namespace Managers {
                 return key;
             }
 
-            return text;
+            return FormatText(text);
+        }
+
+        private static string FormatText(string input) {
+            input = input.Replace("\\n", "\n");
+            input = Regex.Replace(input, @"\*\*(.*?)\*\*", "<b>$1</b>");
+            input = Regex.Replace(input, @"(?<!\*)\*(?!\*)(.*?)\*(?!\*)", "<i>$1</i>");
+            return input;
         }
 
         private static string GetCharacterName(Character character) {

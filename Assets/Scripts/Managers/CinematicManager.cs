@@ -60,6 +60,10 @@ namespace Managers {
         }
 
         private IEnumerator PlayCinematic(CinematicConfig config) {
+            if (_activeTimerCoroutine != null) {
+                StopTimer();
+            }
+
             if (config.waitBeforeStart) {
                 yield return new WaitForSeconds(config.waitDuration);
             }

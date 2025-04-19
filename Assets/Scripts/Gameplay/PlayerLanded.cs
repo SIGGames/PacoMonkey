@@ -1,5 +1,4 @@
 using Controllers;
-using Managers;
 using Platformer.Core;
 
 namespace Gameplay {
@@ -9,11 +8,6 @@ namespace Gameplay {
         public override void Execute() {
             // Since player is grounded, we can unlock movement state
             player.UnlockMovementState();
-
-            // Play landing audio
-            if (player.audioSource) {
-                player.audioSource.PlayOneShot(AudioManager.GetRandomAudioClip(player.landAudios), player.landAudioVolume);
-            }
         }
     }
 }
