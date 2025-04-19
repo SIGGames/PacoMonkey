@@ -51,8 +51,12 @@ namespace Zones {
         }
 
         private void OnAllEnemiesDefeated() {
-            if (questRequired && QuestManager.Instance.GetActiveQuest().id != requiredQuestId) {
-                return;
+            if (questRequired) {
+                QuestManager.Quest activeQuest = QuestManager.Instance.GetActiveQuest();
+                if (activeQuest == null || activeQuest.id != requiredQuestId) {
+                    // Quest not active or not the required quest
+                    return;
+                }
             }
             if (!string.IsNullOrEmpty(nextQuestId)) {
                 QuestManager.Instance.SetActiveQuest(nextQuestId);

@@ -380,6 +380,7 @@ namespace UI.Dialogues {
             ResetText();
             _dialogue = GetCurrentDialogue();
             _mustShowAlternativeDialogue = false;
+            _hasActivated = false;
         }
 
         private void OnDrawGizmosSelected() {

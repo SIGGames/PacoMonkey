@@ -21,6 +21,7 @@ namespace Managers {
         public TextMeshProUGUI questTypeText;
         public TextMeshProUGUI questDescriptionText;
         public TextMeshProUGUI questCharacterText;
+        public GameObject activeQuestPanel;
 
         [SerializeField]
         private List<Quest> quests = new();
@@ -40,12 +41,18 @@ namespace Managers {
         }
 
         private void Start() {
-            _activeQuestId = PlayerPrefs.GetString(ActiveQuestKey, quests.FirstOrDefault()?.id ?? string.Empty);
+            _activeQuestId = PlayerPrefs.GetString(ActiveQuestKey);
             UpdateQuestPanelTexts();
         }
 
         private void UpdateQuestPanelTexts() {
             Quest activeQuest = GetActiveQuest();
+
+            if (activeQuest == null) {
+                activeQuestPanel.SetActive(false);
+                return;
+            }
+            activeQuestPanel.SetActive(true);
 
             if (questNameText != null) {
                 questNameText.text = GetTranslatedText(nameTranslationPattern + activeQuest.id);
@@ -80,7 +87,7 @@ namespace Managers {
         }
 
         public void ResetQuests() {
-            _activeQuestId = quests.FirstOrDefault()?.id ?? string.Empty;
+            _activeQuestId = null;
             UpdateQuestPanelTexts();
         }
 
@@ -94,17 +101,11 @@ namespace Managers {
         }
 
         public Quest GetActiveQuest() {
-            // In case there is no active quest, return the first one
-            return FindQuest(_activeQuestId) ?? quests.FirstOrDefault();
+            return FindQuest(_activeQuestId);
         }
 
         private Quest FindQuest(string id) {
-            Quest quest = quests.FirstOrDefault(q => q.id == id);
-            if (quest == null) {
-                Debug.LogWarning($"Quest with ID {id} not found");
-            }
-
-            return quest;
+            return quests.FirstOrDefault(q => q.id == id);
         }
 
         private string GetTranslatedText(string key) {

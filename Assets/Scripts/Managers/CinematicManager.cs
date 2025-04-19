@@ -41,7 +41,8 @@ namespace Managers {
             }
 
             // TODO: Do this with a level manager since this is just a crap
-            if (QuestManager.Instance.GetActiveQuest().id.Contains("2")) {
+            QuestManager.Quest activeQuest = QuestManager.Instance.GetActiveQuest();
+            if (activeQuest != null && activeQuest.id.Contains("2")) {
                 level1GameObject.SetActive(false);
                 level2GameObject.SetActive(true);
             } else {

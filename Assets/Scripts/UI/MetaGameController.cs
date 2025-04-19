@@ -85,7 +85,7 @@ namespace UI {
                 ToggleMainMenu(openingMenu);
             }
 
-            if (GetMenuKey()) {
+            if (GetMenuKey() && QuestManager.Instance.GetActiveQuest() != null) {
                 // Quest menu
                 if (!IsMenuOpen) {
                     ToggleMainMenu(true);
