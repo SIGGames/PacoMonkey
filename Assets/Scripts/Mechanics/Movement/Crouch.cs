@@ -178,7 +178,6 @@ namespace Mechanics.Movement {
 
             _playerController.SetVelocity(Vector2.zero);
             _playerController.SetBodyType(RigidbodyType2D.Dynamic);
-            _playerController.SetSpeed(crouchSpeed);
 
             animator.SetBool(IsCrouching, true);
             CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);

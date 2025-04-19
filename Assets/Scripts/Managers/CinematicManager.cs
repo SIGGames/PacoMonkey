@@ -39,6 +39,15 @@ namespace Managers {
             foreach (CinematicConfig config in cinematicConfigs.Where(config => !uniqueCinematics.Add(config.cinematic))) {
                 Debug.LogError($"Duplicate cinematic entry found: {config.cinematic}");
             }
+
+            // TODO: Do this with a level manager since this is just a crap
+            if (QuestManager.Instance.GetActiveQuest().id.Contains("2")) {
+                level1GameObject.SetActive(false);
+                level2GameObject.SetActive(true);
+            } else {
+                level1GameObject.SetActive(true);
+                level2GameObject.SetActive(false);
+            }
         }
 
         private void Update() {

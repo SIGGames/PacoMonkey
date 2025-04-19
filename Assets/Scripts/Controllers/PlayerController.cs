@@ -137,6 +137,7 @@ namespace Controllers {
         public BoxCollider2D boxCollider;
 
         public FlipManager flipManager;
+        [HideInInspector] public float airTime;
         private bool _wasMoving;
         private int _currentPriority;
         private ColliderManager _colliderManager;
@@ -388,6 +389,12 @@ namespace Controllers {
                     Schedule<PlayerLanded>().player = this;
                     jumpState = JumpState.Grounded;
                     break;
+            }
+
+            if (!IsGrounded) {
+                airTime += Time.deltaTime;
+            } else if (jumpState == JumpState.Grounded) {
+                airTime = 0f;
             }
         }
 

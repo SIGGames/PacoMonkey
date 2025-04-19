@@ -1008,6 +1008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bce63954753400ea9a7bd9cb8610caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minAirTime: 0.04
 --- !u!1101 &-1018229964347983447
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
