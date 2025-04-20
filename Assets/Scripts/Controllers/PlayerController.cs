@@ -271,6 +271,7 @@ namespace Controllers {
             if (isGameReset) {
                 // Since the game has been reestablished, the respawn point its not valid, it needs to be the original position
                 SetPosition(_originalPosition);
+                respawnPosition = _originalPosition;
             } else {
                 Respawn();
             }
