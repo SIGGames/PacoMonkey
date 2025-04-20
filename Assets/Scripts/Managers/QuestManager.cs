@@ -31,8 +31,9 @@ namespace Managers {
 
         [Header("To translate the quest name and description: Pattern + Quest Id")]
         [SerializeField] private string nameTranslationPattern = "qn-";
-
         [SerializeField] private string descriptionTranslationPattern = "qd-";
+
+        private Quest _previousQuest;
 
         private void Awake() {
             if (Instance != null && Instance != this) {
@@ -99,6 +100,7 @@ namespace Managers {
 
         public void ResetQuests() {
             _activeQuestId = null;
+            _previousQuest = null;
             UpdateQuestPanelTexts();
             ShowEnemyCountText(false);
             foreach (Quest quest in quests) {
@@ -107,10 +109,19 @@ namespace Managers {
         }
 
         private void SetActiveQuest(Quest quest) {
+            if (quest == null) {
+                if (_previousQuest == null) {
+                    // If this is the first time, where the quest is null then we can reset the camera for initial scene
+                    CameraManager.Instance.FollowAndLookAt(null);
+                }
+                return;
+            }
+
             if (quest is not { isAvailable: true }) {
                 return;
             }
 
+            _previousQuest = GetActiveQuest();
             ManageSpecialActions(quest);
             ShowDisabledGameObject(false, quest);
 

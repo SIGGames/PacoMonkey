@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using PlayerInputManager = PlayerInput.PlayerInputManager;
 
 namespace Managers {
     public class CinematicManager : MonoBehaviour {
@@ -117,6 +118,10 @@ namespace Managers {
                 yield break;
             }
 
+            if (config.disablePlayerPositionWhileFadeIn) {
+                PlayerInputManager.Instance.InputActions.PlayerControls.Move.Disable();
+            }
+
             Image tempImage = Instantiate(fadeImage, fadeImage.transform.parent);
             tempImage.gameObject.name = config.cinematic + "FadeImage";
 
@@ -141,6 +146,9 @@ namespace Managers {
             fadeImage.color = config.fadeInEndColor;
             ResolutionManager.Instance.ResetBrightness();
             Destroy(tempImage.gameObject);
+            if (config.disablePlayerPositionWhileFadeIn) {
+                PlayerInputManager.Instance.InputActions.PlayerControls.Move.Enable();
+            }
 
             if (config.disableFollowCameraOnFinishFadeIn) {
                 CameraManager.Instance.FollowAndLookAt(null);
@@ -284,6 +292,7 @@ namespace Managers {
         public Color fadeInEndColor = new(0, 0, 0, 1); // Opaque black
         public Sprite fadeInSprite;
         public bool disableFollowCameraOnFinishFadeIn;
+        public bool disablePlayerPositionWhileFadeIn;
 
         [Header("Progressive Zoom")]
         public bool progressiveZoom;

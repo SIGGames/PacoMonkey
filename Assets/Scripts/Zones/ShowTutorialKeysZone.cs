@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Enums;
 using Localization;
+using Managers;
 using PlayerInput;
 using TMPro;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Zones {
         [SerializeField] private bool canReopen;
         [SerializeField, Range(0f, 2f)] private float animationDuration = 0.25f;
         [SerializeField, Range(0f, 5f)] private float closeDelay = 2f;
+        [SerializeField] private bool requireActiveQuestToShow;
         [SerializeField] private List<TutorialActionBinding> actionsToShow;
 
         [Header("Components")]
@@ -42,6 +44,10 @@ namespace Zones {
 
         private void OpenPopUp() {
             if (_activated && !canReopen) {
+                return;
+            }
+
+            if (requireActiveQuestToShow && QuestManager.Instance.GetActiveQuest() == null) {
                 return;
             }
 
