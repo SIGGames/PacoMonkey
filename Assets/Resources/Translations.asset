@@ -214,61 +214,61 @@ MonoBehaviour:
     spanish: Tiempo de juego
     english: Play time
   - key: qd-1
-    catalan: "Anar a buscar al *Brom* al *Port Mar\xEDtim* per rebre informaci\xF3
-      sobre el parador del *Min Dundi*, el pare del *Paco*."
-    spanish: "Ir a buscar a *Brom* al *Puerto Mar\xEDtimo* para recibir informaci\xF3n
-      sobre el paradero de *Min Dundi*, el padre de *Paco*."
-    english: Go find *Brom* at the *Seaport* to get information about the whereabouts
-      of *Min Dundi*, *Paco*'s father.
+    catalan: "Anar a buscar al **Brom** al **Port Mar\xEDtim** per rebre informaci\xF3
+      sobre el parador del **Min Dundi**, el pare del **Paco**."
+    spanish: "Ir a buscar a **Brom** al **Puerto Mar\xEDtimo** para recibir informaci\xF3n
+      sobre el paradero de **Min Dundi**, el padre de **Paco**."
+    english: Go find **Brom** at the **Seaport** to get information about the whereabouts
+      of **Min Dundi**, **Paco**'s father.
   - key: qd-1.1
-    catalan: "Navegar amb el *Brom* sobre l\u2019*Anora*, el vaixell del *Brom*,
-      per viatjar fins l\u2019illa habitada per humans, anomenada *Norah*, i rescatar
-      al *Min Dundi* del *Zoo*."
-    spanish: Navegar con *Brom* a bordo del *Anora*, el barco de *Brom*, para viajar
-      hasta la isla habitada por humanos, llamada *Norah*, y rescatar a *Min Dundi*
-      del *Zoo*.
-    english: Sail with *Brom* aboard the *Anora*, *Brom*'s ship, to travel to the
-      human-inhabited island called *Norah* and rescue *Min Dundi* from the *Zoo*.
+    catalan: "Navegar amb el **Brom** sobre l\u2019**Anora**, el vaixell del **Brom**,
+      per viatjar fins l\u2019illa habitada per humans, anomenada **Norah**, i rescatar
+      al **Min Dundi** del **Zoo**."
+    spanish: Navegar con **Brom** a bordo del **Anora**, el barco de **Brom**, para viajar
+      hasta la isla habitada por humanos, llamada **Norah**, y rescatar a **Min Dundi**
+      del **Zoo**.
+    english: Sail with **Brom** aboard the **Anora**, **Brom**'s ship, to travel to the
+      human-inhabited island called **Norah** and rescue **Min Dundi** from the **Zoo**.
   - key: qd-2
-    catalan: "Tornar en menys de *3:30 min* a casa, *Cal Trac*, per protegir al *Paco*
-      de la fam\xEDlia *Hamik* i dels enemics que l\u2019acompanyen en l\u2019atac
-      al poblat *Mar-i-Mar*."
-    spanish: "Volver en menos de *3:30 min* a casa, *Cal Trac*, para proteger a *Paco*
-      de la familia *Hamik* y de los enemigos que los acompa\xF1an en el ataque al
-      poblado *Mar-i-Mar*."
-    english: Return to *Cal Trac* in under *3:30 minutes* to protect *Paco* from
-      the *Hamik* family and the enemies accompanying them in the attack on the *Mar-i-Mar*
+    catalan: "Tornar en menys de **3:30 min** a casa, **Cal Trac**, per protegir al **Paco**
+      de la fam\xEDlia **Hamik** i dels enemics que l\u2019acompanyen en l\u2019atac
+      al poblat **Mar-i-Mar**."
+    spanish: "Volver en menos de **3:30 min** a casa, **Cal Trac**, para proteger a **Paco**
+      de la familia **Hamik** y de los enemigos que los acompa\xF1an en el ataque al
+      poblado **Mar-i-Mar**."
+    english: Return to **Cal Trac** in under **3:30 minutes** to protect **Paco** from
+      the **Hamik** family and the enemies accompanying them in the attack on the **Mar-i-Mar**
       village.
   - key: qd-2.1
-    catalan: "Tornar en menys de *3:30 min* a casa, *Cal Trac*, per protegir al *Paco*
-      de la fam\xEDlia *Hamik* i dels enemics que l\u2019acompanyen en l\u2019atac
-      al poblat *Mar-i-Mar*. \\n\\n**Eliminar tots els enemics**\\n\\nPer assegurar
-      la seguretat del poble i de la fam\xEDlia, primer cal *eliminar tots els enemics*
+    catalan: "Tornar en menys de **3:30 min** a casa, **Cal Trac**, per protegir al **Paco**
+      de la fam\xEDlia **Hamik** i dels enemics que l\u2019acompanyen en l\u2019atac
+      al poblat **Mar-i-Mar**. \\n\\n**Eliminar tots els enemics**\\n\\nPer assegurar
+      la seguretat del poble i de la fam\xEDlia, primer cal **eliminar tots els enemics**
       abans retornar a casa. "
-    spanish: "Volver en menos de *3:30 min* a casa, *Cal Trac*, para proteger a *Paco*
-      de la familia *Hamik* y de los enemigos que los acompa\xF1an en el ataque al
-      poblado *Mar-i-Mar*. \\n\\n**Eliminar a todos los enemigos**\\n\\nPara asegurar
-      la seguridad del pueblo y de la familia, primero hay que *eliminar a todos
-      los enemigos* antes de regresar a casa. "
-    english: Return to *Cal Trac* in under *3:30 minutes* to protect *Paco* from
-      the *Hamik* family and the enemies attacking the *Mar-i-Mar* village. \n\n**Eliminate
+    spanish: "Volver en menos de **3:30 min** a casa, **Cal Trac**, para proteger a **Paco**
+      de la familia **Hamik** y de los enemigos que los acompa\xF1an en el ataque al
+      poblado **Mar-i-Mar**. \\n\\n**Eliminar a todos los enemigos**\\n\\nPara asegurar
+      la seguridad del pueblo y de la familia, primero hay que **eliminar a todos
+      los enemigos** antes de regresar a casa. "
+    english: Return to **Cal Trac** in under **3:30 minutes** to protect **Paco** from
+      the **Hamik** family and the enemies attacking the **Mar-i-Mar** village. \n\n**Eliminate
       all enemies** \n\nTo ensure the safety of the village and the family, you must
-      *eliminate all enemies* before returning home.
+      **eliminate all enemies** before returning home.
   - key: qd-2.2
-    catalan: "Tornar en menys de *3:30 min* a casa, *Cal Trac*, per protegir al *Paco*
-      de la fam\xEDlia *Hamik* i dels enemics que l\u2019acompanyen en l\u2019atac
-      al poblat *Mar-i-Mar*. \\n\\n**Ocultar al Paco** \\n\\nPer evitar que algun
-      membre de la fam\xEDlia *Hamik* reconegui al *Paco Trac* i l\u2019eliminin,
-      cal ocultar-lo sota el *barret* ara mateix (i esperar que funcioni)."
-    spanish: "Volver en menos de *3:30 min* a casa, *Cal Trac*, para proteger a *Paco*
-      de la familia *Hamik* y de los enemigos que los acompa\xF1an en el ataque al
-      poblado *Mar-i-Mar*. \\n\\n**Ocultar a Paco** \\n\\nPara evitar que alg\xFAn
-      miembro de la familia *Hamik* reconozca a *Paco Trac* y lo elimine, hay que
-      ocultarlo bajo el *sombrero* ahora mismo (y esperar que funcione)."
-    english: Return to *Cal Trac* in under *3:30 minutes* to protect *Paco* from
-      the *Hamik* family and the enemies attacking the *Mar-i-Mar* village. \n\n**Hide
-      Paco** \n\nTo prevent any member of the *Hamik* family from recognizing *Paco
-      Trac* and eliminating him, he must be hidden under the *hat* right now (and
+    catalan: "Tornar en menys de **3:30 min** a casa, **Cal Trac**, per protegir al **Paco**
+      de la fam\xEDlia **Hamik** i dels enemics que l\u2019acompanyen en l\u2019atac
+      al poblat **Mar-i-Mar**. \\n\\n**Ocultar al Paco** \\n\\nPer evitar que algun
+      membre de la fam\xEDlia **Hamik** reconegui al **Paco Trac** i l\u2019eliminin,
+      cal ocultar-lo sota el **barret** ara mateix (i esperar que funcioni)."
+    spanish: "Volver en menos de **3:30 min** a casa, **Cal Trac**, para proteger a **Paco**
+      de la familia **Hamik** y de los enemigos que los acompa\xF1an en el ataque al
+      poblado **Mar-i-Mar**. \\n\\n**Ocultar a Paco** \\n\\nPara evitar que alg\xFAn
+      miembro de la familia **Hamik** reconozca a **Paco Trac** y lo elimine, hay que
+      ocultarlo bajo el **sombrero** ahora mismo (y esperar que funcione)."
+    english: Return to **Cal Trac** in under **3:30 minutes** to protect **Paco** from
+      the **Hamik** family and the enemies attacking the **Mar-i-Mar** village. \n\n**Hide
+      Paco** \n\nTo prevent any member of the **Hamik** family from recognizing **Paco
+      Trac** and eliminating him, he must be hidden under the **hat** right now (and
       hope it works).
   - key: qn-1
     catalan: PARLAR AMB EL BROM
