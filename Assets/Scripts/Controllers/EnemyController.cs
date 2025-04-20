@@ -413,6 +413,17 @@ namespace Controllers {
         }
 
         public void ResetEnemy() {
+            // In case references are missing
+            if (_health == null) {
+                _health = GetComponent<Health.Health>();
+            }
+            if (_col == null) {
+                _col = GetComponent<Collider2D>();
+            }
+            if (enemyHealthBar == null) {
+                enemyHealthBar = GetComponentInChildren<FloatingHealthBar>();
+            }
+
             _attackCooldownTimer = 0f;
             _isAttacking = false;
             _hasBeenAttacked = false;
