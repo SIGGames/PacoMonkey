@@ -38,13 +38,14 @@ namespace Mechanics.Fight {
 
         [Header("Parry Settings")]
         [SerializeField] private bool isParryActive = true;
-
         [SerializeField, Range(0, 5)] private float parryCooldownTime = 1f;
 
         private Animator _animator;
         public bool canMeleeAttack = true;
         public bool canRangedAttack = true;
         public bool canParry = true;
+        [HideInInspector] public int baseMeleeDamage;
+        [HideInInspector] public int baseRangedDamage;
 
         private void Awake() {
             if (playerController == null) {
@@ -66,6 +67,9 @@ namespace Mechanics.Fight {
             }
 
             fightState = FightState.Idle;
+
+            baseMeleeDamage = meleeDamage;
+            baseRangedDamage = rangedDamage;
         }
 
         private void Update() {

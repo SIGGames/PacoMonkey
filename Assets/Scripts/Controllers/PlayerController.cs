@@ -630,8 +630,8 @@ namespace Controllers {
 
             PlayerFight playerFight = GetComponent<PlayerFight>();
             if (playerFight != null) {
-                playerFight.meleeDamage = Mathf.Max(1, Mathf.RoundToInt(playerFight.meleeDamage * multiplier));
-                playerFight.rangedDamage = Mathf.Max(1, Mathf.RoundToInt(playerFight.rangedDamage * multiplier));
+                playerFight.meleeDamage = Mathf.Max(1, Mathf.RoundToInt(playerFight.baseMeleeDamage / multiplier));
+                playerFight.rangedDamage = Mathf.Max(1, Mathf.RoundToInt(playerFight.baseRangedDamage / multiplier));
             }
         }
 

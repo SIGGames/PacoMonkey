@@ -80,8 +80,7 @@ namespace Managers {
                 return;
             }
 
-            CharacterManager.Instance.currentPlayerController.SetDifficultyMultiplier(
-                GetPlayerDifficultyMultiplier(currentDifficulty));
+            CharacterManager.Instance.currentPlayerController.SetDifficultyMultiplier(GetPlayerDifficultyMultiplier(currentDifficulty));
         }
 
         public float GetPlayerDifficultyMultiplier(Difficulty difficulty) {
