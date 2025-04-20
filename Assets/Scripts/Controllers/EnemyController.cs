@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Enums;
 using Gameplay;
@@ -20,7 +21,7 @@ namespace Controllers {
      RequireComponent(typeof(SpriteRenderer)), RequireComponent(typeof(Health.Health))]
     [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
     public class EnemyController : MonoBehaviour {
-        public AudioClip ouch;
+        public List<AudioClip> deathAudios;
         internal PatrolPath.Mover mover;
         private Collider2D _col;
         internal AudioSource audioSource;

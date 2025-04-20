@@ -181,7 +181,7 @@ namespace Managers {
             return selectedConfig.characterGameObject.GetComponent<PlayerController>();
         }
 
-        private static void InstanceEnemies() {
+        public static void InstanceEnemies() {
             List<EnemyController> currentEnemies = new(FindObjectsOfType<EnemyController>(true));
 
             foreach (EnemySpawnData spawnData in EnemySpawnManager.EnemySpawnList) {

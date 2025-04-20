@@ -222,7 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd654acc1f7894a509f3420e5c9ffea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ouch: {fileID: 8300000, guid: b7f741588644cd64bbee6387cb54a96d, type: 3}
+  deathAudios:
+  - {fileID: 8300000, guid: 6a0ffbaa50a08e646b7366ffc2a2b995, type: 3}
   enemyType: 0
   moveSpeed: 2
   chaseStopRange:

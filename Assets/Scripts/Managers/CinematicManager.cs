@@ -85,6 +85,10 @@ namespace Managers {
                 StartCoroutine(HideHud(GetCinematicDuration(config)));
             }
 
+            if (config.instanceEnemies) {
+                CharacterManager.InstanceEnemies();
+            }
+
             if (config.progressiveZoom) {
                 CameraManager.Instance.SetProgressiveZoom(cinematicDuration, config.cameraZoomMultiplier);
             }
@@ -283,6 +287,9 @@ namespace Managers {
         [Header("Character")]
         public bool changeCharacter;
         public Character characterToChange;
+
+        [Header("Enemies")]
+        public bool instanceEnemies;
 
         [Header("Fade In")]
         public bool showFadeIn;
