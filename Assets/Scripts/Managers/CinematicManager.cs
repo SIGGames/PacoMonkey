@@ -78,10 +78,6 @@ namespace Managers {
                 yield return new WaitForSeconds(config.waitDuration);
             }
 
-            if (config.changeCharacter) {
-                CharacterManager.Instance.SetCharacter(config.characterToChange);
-            }
-
             float cinematicDuration = GetCinematicDuration(config);
 
             if (config.hideHUD) {
@@ -93,7 +89,11 @@ namespace Managers {
             }
 
             if (config.showFadeIn) {
-                yield return StartCoroutine(FadeIn(config, cinematicDuration));
+                StartCoroutine(FadeIn(config, cinematicDuration));
+            }
+
+            if (config.changeCharacter) {
+                CharacterManager.Instance.SetCharacter(config.characterToChange);
             }
 
             // TODO: Do this with a level manager since this is just a crap

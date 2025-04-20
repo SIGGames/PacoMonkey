@@ -11,6 +11,7 @@ using UI.TextSetters;
 using UnityEngine;
 using Utils;
 using static Utils.AnimatorUtils;
+using static Utils.PlayerPrefsKeys;
 
 namespace Managers {
     public class CharacterManager : MonoBehaviour {
@@ -76,12 +77,7 @@ namespace Managers {
                 }
             }
 
-            _currentCharacterIndex = Array.FindIndex(characters, c => c.characterType == initialCharacter);
-            if (_currentCharacterIndex < 0) {
-                _currentCharacterIndex = 0;
-            }
-
-            SetCharacter(characters[_currentCharacterIndex].characterType);
+            LoadCharacter();
         }
 
         private void Update() {
@@ -113,6 +109,7 @@ namespace Managers {
             }
 
             currentCharacter = character;
+            SaveCharacter();
             currentPlayerController = GetCurrentPlayerController();
             currentCharacterFaceSprite = selectedConfig.characterFaceSprite;
             currentCharacterRespawnTime = selectedConfig.respawnTime;
@@ -201,8 +198,22 @@ namespace Managers {
             }
         }
 
-        public void ResetState() {
-            currentPlayerController.ResetState(true);
+        private void SaveCharacter() {
+            PlayerPrefs.SetString(CurrentCharacterKey, currentCharacter.ToString());
+            PlayerPrefs.Save();
+        }
+
+        public void LoadCharacter() {
+            string characterString = PlayerPrefs.GetString(CurrentCharacterKey, initialCharacter.ToString());
+            SetCharacter(Enum.TryParse(characterString, out Character loadedCharacter) ? loadedCharacter : initialCharacter);
+        }
+
+        public static void ResetState() {
+            List<PlayerController> playerControllers = new(FindObjectsOfType<PlayerController>(true));
+            foreach (PlayerController playerController in playerControllers) {
+                playerController.ResetState(true);
+            }
+
             InstanceEnemies();
         }
 

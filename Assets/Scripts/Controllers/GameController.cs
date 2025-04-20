@@ -62,6 +62,7 @@ namespace Controllers {
 
         private void ResetInGameProgressData() {
             PlayerPrefs.DeleteKey(ActiveQuestKey);
+            PlayerPrefs.DeleteKey(CurrentCharacterKey);
             PlayerPrefs.DeleteKey(CurrentPlayTimeKey);
             PlayerPrefs.DeleteKey(DifficultyKey);
             PlayerPrefs.DeleteKey(IsGameStartedKey);
@@ -74,7 +75,7 @@ namespace Controllers {
 
         private void RevertGameStateToDefault() {
             CameraManager.Instance.ResetCamera();
-            CharacterManager.Instance.ResetState();
+            CharacterManager.ResetState();
             currentMapZone = DefaultMapZone;
             PlayTimeManager.Instance.ResetPlayTime();
             DialogueManager.ResetDialogues();

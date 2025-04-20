@@ -24,6 +24,7 @@ namespace Controllers {
 
         public PlayerMovementState movementState = PlayerMovementState.Idle;
         [SerializeField] public bool isFacingRight = true;
+        [SerializeField] private bool handlePlayerInsideWall;
 
         [Header("Player Run")]
         public bool canRun = true;
@@ -568,7 +569,7 @@ namespace Controllers {
         }
 
         private void HandlePlayerInsideWall() {
-            if (IsGrounded || isPositionFreezed) {
+            if (!handlePlayerInsideWall || IsGrounded || isPositionFreezed) {
                 return;
             }
 

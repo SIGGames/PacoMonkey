@@ -2,6 +2,7 @@
     public static class PlayerPrefsKeys {
         // In Game Data
         public const string ActiveQuestKey = "ActiveQuest";
+        public const string CurrentCharacterKey = "CurrentCharacter";
         public const string CurrentPlayTimeKey = "CurrentPlayTime";
         public const string DifficultyKey = "Difficulty";
         public const string IsGameStartedKey = "IsGameStarted";

@@ -86,12 +86,25 @@ namespace Managers {
             SetActiveQuest(FindQuest(id));
         }
 
+        public void SetQuestAvailable(string id) {
+            Quest quest = FindQuest(id);
+            if (quest != null) {
+                quest.isAvailable = true;
+            }
+        }
+
         public void ResetQuests() {
             _activeQuestId = null;
             UpdateQuestPanelTexts();
         }
 
         private void SetActiveQuest(Quest quest) {
+            if (quest is not { isAvailable: true }) {
+                return;
+            }
+
+            ManageSpecialActions(quest);
+
             _activeQuestId = quest.id;
 
             PlayerPrefs.SetString(ActiveQuestKey, _activeQuestId);
@@ -106,6 +119,12 @@ namespace Managers {
 
         private Quest FindQuest(string id) {
             return quests.FirstOrDefault(q => q.id == id);
+        }
+
+        private static void ManageSpecialActions(Quest quest) {
+            if (quest.id == "2.1") {
+                CinematicManager.Instance.StopTimer();
+            }
         }
 
         private string GetTranslatedText(string key) {
@@ -133,6 +152,7 @@ namespace Managers {
             public string id;
             public QuestType questType;
             public Character questCharacter;
+            public bool isAvailable = true;
         }
 
         public enum QuestType {
