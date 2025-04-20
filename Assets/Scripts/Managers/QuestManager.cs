@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Enums;
 using Localization;
 using TMPro;
@@ -157,7 +156,7 @@ namespace Managers {
                 enemyCountTextPrefab.SetActive(show);
             }
             if (enemyCountText != null) {
-                enemyCountText.text = $"[{enemyCount}/{originalEnemyCount}]";
+                enemyCountText.text = $"[{originalEnemyCount - enemyCount}/{originalEnemyCount}]";
             }
         }
 
