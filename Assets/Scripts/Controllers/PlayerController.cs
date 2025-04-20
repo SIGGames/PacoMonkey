@@ -594,10 +594,27 @@ namespace Controllers {
         }
 
         private void OnFinishHurtAnimation() {
+            if (PlayerMovementStateMethods.CanNotMoveWhileHurt(movementState)) {
+                return;
+            }
+
             const float hurtOffset = 0.4f;
-            Vector3 pos = transform.position;
-            pos.x += isFacingRight ? -hurtOffset : hurtOffset;
-            transform.position = pos;
+            Vector3 currentPosition = transform.position;
+            Vector3 tryRight = currentPosition + new Vector3(hurtOffset, 0, 0);
+            Vector3 tryLeft = currentPosition - new Vector3(hurtOffset, 0, 0);
+
+            if (IsPositionFree(tryRight)) {
+                transform.position = tryRight;
+            } else if (IsPositionFree(tryLeft)) {
+                transform.position = tryLeft;
+            } else {
+                velocity.x = isFacingRight ? -2f : 2f;
+            }
+        }
+
+        private bool IsPositionFree(Vector3 position) {
+            Vector2 checkPoint = new Vector2(position.x, position.y);
+            return Physics2D.OverlapBox(checkPoint, Bounds.size, 0f, Ground.value) == null;
         }
 
         public void Respawn() {

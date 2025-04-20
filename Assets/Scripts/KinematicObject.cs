@@ -40,7 +40,9 @@ public class KinematicObject : MonoBehaviour {
         body.isKinematic = false;
         body.AddForce(force, ForceMode2D.Impulse);
         yield return new WaitForSeconds(maxForce / 10);
-        body.velocity = Vector2.zero;
+        if (body.bodyType != RigidbodyType2D.Static) {
+            body.velocity = Vector2.zero;
+        }
         body.isKinematic = true;
     }
 

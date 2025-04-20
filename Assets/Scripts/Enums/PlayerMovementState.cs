@@ -15,28 +15,29 @@
 
     public static class PlayerMovementStateMethods {
         public static bool IsPlayerMoving(PlayerMovementState state) {
-            return state == PlayerMovementState.Walk || state == PlayerMovementState.Run ||
-                   state == PlayerMovementState.Crouch || state == PlayerMovementState.Jump ||
-                   state == PlayerMovementState.DoubleJump || state == PlayerMovementState.Climb ||
-                   state == PlayerMovementState.WallClimb || state == PlayerMovementState.Slide;
+            return state is PlayerMovementState.Walk or PlayerMovementState.Run or PlayerMovementState.Crouch
+                or PlayerMovementState.Jump or PlayerMovementState.DoubleJump or PlayerMovementState.Climb
+                or PlayerMovementState.WallClimb or PlayerMovementState.Slide;
         }
 
         public static bool IsPlayerOnAir(PlayerMovementState state) {
-            return state == PlayerMovementState.Jump || state == PlayerMovementState.DoubleJump;
+            return state is PlayerMovementState.Jump or PlayerMovementState.DoubleJump;
         }
 
         public static bool IsPlayerAbleToCrouch(PlayerMovementState state) {
-            return state == PlayerMovementState.Idle || state == PlayerMovementState.Walk ||
-                   state == PlayerMovementState.Run;
+            return state is PlayerMovementState.Idle or PlayerMovementState.Walk or PlayerMovementState.Run;
         }
 
         public static bool IsPlayerAbleToJump(PlayerMovementState state) {
-            return state == PlayerMovementState.Idle || state == PlayerMovementState.Walk ||
-                   state == PlayerMovementState.Run;
+            return state is PlayerMovementState.Idle or PlayerMovementState.Walk or PlayerMovementState.Run;
         }
 
         public static bool PlayerCanDieNotGrounded(PlayerMovementState state) {
-            return state == PlayerMovementState.Climb || state == PlayerMovementState.WallClimb;
+            return state is PlayerMovementState.Climb or PlayerMovementState.WallClimb;
+        }
+
+        public static bool CanNotMoveWhileHurt(PlayerMovementState state) {
+            return state is PlayerMovementState.Climb or PlayerMovementState.WallClimb or PlayerMovementState.Hold;
         }
     }
 }
