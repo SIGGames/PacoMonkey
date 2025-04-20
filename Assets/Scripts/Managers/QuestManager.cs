@@ -44,7 +44,7 @@ namespace Managers {
         }
 
         private void Start() {
-            _activeQuestId = PlayerPrefs.GetString(ActiveQuestKey);
+            SetActiveQuest(PlayerPrefs.GetString(ActiveQuestKey));
             UpdateQuestPanelTexts();
             ShowEnemyCountText(false);
         }
@@ -101,6 +101,9 @@ namespace Managers {
             _activeQuestId = null;
             UpdateQuestPanelTexts();
             ShowEnemyCountText(false);
+            foreach (Quest quest in quests) {
+                ShowDisabledGameObject(true, quest);
+            }
         }
 
         private void SetActiveQuest(Quest quest) {
@@ -109,6 +112,7 @@ namespace Managers {
             }
 
             ManageSpecialActions(quest);
+            ShowDisabledGameObject(false, quest);
 
             _activeQuestId = quest.id;
 
@@ -127,8 +131,13 @@ namespace Managers {
         }
 
         private static void ManageSpecialActions(Quest quest) {
-            if (quest.id == "2.1") {
-                CinematicManager.Instance.StopTimer();
+            switch (quest.id) {
+                case "1":
+                    CameraManager.Instance.FollowAndLookAt(CharacterManager.Instance.currentPlayerController.transform);
+                    break;
+                case "2.1":
+                    CinematicManager.Instance.StopTimer();
+                    break;
             }
         }
 
@@ -138,6 +147,12 @@ namespace Managers {
             }
             if (enemyCountText != null) {
                 enemyCountText.text = $"[{enemyCount}/{originalEnemyCount}]";
+            }
+        }
+
+        private static void ShowDisabledGameObject(bool show, Quest quest) {
+            if (quest.disableGameObject && quest.gameObjectToDisable != null) {
+                quest.gameObjectToDisable.SetActive(show);
             }
         }
 
@@ -160,6 +175,8 @@ namespace Managers {
             public QuestType questType;
             public Character questCharacter;
             public bool isAvailable = true;
+            public bool disableGameObject;
+            public GameObject gameObjectToDisable;
         }
 
         public enum QuestType {

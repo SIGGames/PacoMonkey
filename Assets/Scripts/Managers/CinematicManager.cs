@@ -141,6 +141,10 @@ namespace Managers {
             fadeImage.color = config.fadeInEndColor;
             ResolutionManager.Instance.ResetBrightness();
             Destroy(tempImage.gameObject);
+
+            if (config.disableFollowCameraOnFinishFadeIn) {
+                CameraManager.Instance.FollowAndLookAt(null);
+            }
         }
 
         private static float GetCinematicDuration(CinematicConfig config) {
@@ -279,6 +283,7 @@ namespace Managers {
         public Color fadeInStartColor = new(0, 0, 0, 0); // Transparent
         public Color fadeInEndColor = new(0, 0, 0, 1); // Opaque black
         public Sprite fadeInSprite;
+        public bool disableFollowCameraOnFinishFadeIn;
 
         [Header("Progressive Zoom")]
         public bool progressiveZoom;
