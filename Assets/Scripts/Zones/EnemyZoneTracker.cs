@@ -81,6 +81,10 @@ namespace Zones {
             if (_trackedEnemies.Count == 0) {
                 OnAllEnemiesDefeated();
             }
+
+            if (showEnemyCount) {
+                QuestManager.Instance.ShowEnemyCountText(true, _trackedEnemies.Count, _originalEnemyCount);
+            }
         }
 
         private void OnAllEnemiesDefeated() {
