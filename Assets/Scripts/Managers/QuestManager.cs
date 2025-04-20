@@ -23,6 +23,9 @@ namespace Managers {
         public TextMeshProUGUI questCharacterText;
         public GameObject activeQuestPanel;
 
+        public GameObject enemyCountTextPrefab;
+        public TextMeshProUGUI enemyCountText;
+
         [SerializeField]
         private List<Quest> quests = new();
 
@@ -43,6 +46,7 @@ namespace Managers {
         private void Start() {
             _activeQuestId = PlayerPrefs.GetString(ActiveQuestKey);
             UpdateQuestPanelTexts();
+            ShowEnemyCountText(false);
         }
 
         private void UpdateQuestPanelTexts() {
@@ -96,6 +100,7 @@ namespace Managers {
         public void ResetQuests() {
             _activeQuestId = null;
             UpdateQuestPanelTexts();
+            ShowEnemyCountText(false);
         }
 
         private void SetActiveQuest(Quest quest) {
@@ -124,6 +129,15 @@ namespace Managers {
         private static void ManageSpecialActions(Quest quest) {
             if (quest.id == "2.1") {
                 CinematicManager.Instance.StopTimer();
+            }
+        }
+
+        public void ShowEnemyCountText(bool show, int enemyCount = 0, int originalEnemyCount = 0) {
+            if (enemyCountTextPrefab != null) {
+                enemyCountTextPrefab.SetActive(show);
+            }
+            if (enemyCountText != null) {
+                enemyCountText.text = $"[{enemyCount}/{originalEnemyCount}]";
             }
         }
 

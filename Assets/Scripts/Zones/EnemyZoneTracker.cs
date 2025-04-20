@@ -23,17 +23,11 @@ namespace Zones {
         [SerializeField] private string nextQuestId;
 
         [SerializeField] private bool showEnemyCount;
-        [SerializeField, ShowIf("showEnemyCount")] private GameObject enemyCountTextPrefab;
-        [SerializeField, ShowIf("showEnemyCount")] private TextMeshProUGUI enemyCountText;
 
         private readonly HashSet<EnemyController> _trackedEnemies = new();
         private int _originalEnemyCount;
 
         private void Awake() {
-            if (enemyCountTextPrefab != null) {
-                enemyCountTextPrefab.SetActive(false);
-            }
-
             TrackEnemies();
         }
 
@@ -65,12 +59,13 @@ namespace Zones {
                 return;
             }
 
-            if (_trackedEnemies.Count == 0 || enemyCountTextPrefab == null || enemyCountText == null) {
+            if (_trackedEnemies.Count == 0) {
                 return;
             }
 
-            enemyCountTextPrefab.SetActive(true);
-            enemyCountText.text = $"[{_trackedEnemies.Count}/{_originalEnemyCount}]";
+            if (showEnemyCount) {
+                QuestManager.Instance.ShowEnemyCountText(true, _trackedEnemies.Count, _originalEnemyCount);
+            }
         }
 
         private void OnDestroy() {
@@ -95,11 +90,6 @@ namespace Zones {
                     // Quest not active or not the required quest
                     return;
                 }
-            }
-
-            if (enemyCountTextPrefab != null) {
-                enemyCountTextPrefab.SetActive(false);
-                enemyCountText.text = string.Empty;
             }
 
             if (!string.IsNullOrEmpty(nextQuestId)) {
