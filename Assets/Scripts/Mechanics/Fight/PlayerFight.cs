@@ -59,7 +59,6 @@ namespace Mechanics.Fight {
             }
 
             _ledgeCheck = GetComponentInChildren<LedgeDetection>();
-
             _animator = playerController.animator;
 
             if (_animator == null) {

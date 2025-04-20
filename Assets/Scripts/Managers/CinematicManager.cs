@@ -13,7 +13,7 @@ namespace Managers {
     public class CinematicManager : MonoBehaviour {
         public static CinematicManager Instance { get; private set; }
 
-        [SerializeField] private List<CinematicConfig> cinematicConfigs;
+        public List<CinematicConfig> cinematicConfigs;
 
         [Header("Cinematic Configurations")]
         [SerializeField] private GameObject timerGameObject;

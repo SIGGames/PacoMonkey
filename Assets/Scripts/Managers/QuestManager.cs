@@ -63,7 +63,7 @@ namespace Managers {
             }
 
             if (questTypeText != null) {
-                questTypeText.text = GetTranslatedText(activeQuest.questType.ToString().ToLower());
+                questTypeText.text = GetTranslatedText(activeQuest.questType.ToString());
             }
 
             if (questDescriptionText != null) {
@@ -172,11 +172,25 @@ namespace Managers {
                 return key;
             }
 
+            if (text.Contains("<time>")) {
+                text = text.Replace("<time>", GetCinematicTimerDuration(Cinematic.Ending));
+            }
+
             return text;
         }
 
         private static string GetCharacterName(Character character) {
             return new string(character.ToString().Where(c => !char.IsDigit(c)).ToArray());
+        }
+
+        private static string GetCinematicTimerDuration(Cinematic cinematic) {
+            // This is not clean, but at this point this is fine
+            float timerSeconds = CinematicManager.Instance.cinematicConfigs
+                .FirstOrDefault(cinematicConfig => cinematicConfig.cinematic == cinematic)!.timerDuration;
+
+            int minutes = Mathf.FloorToInt(timerSeconds / 60);
+            int seconds = Mathf.FloorToInt(timerSeconds % 60);
+            return $"{minutes:00}:{seconds:00}";
         }
 
         [Serializable]
