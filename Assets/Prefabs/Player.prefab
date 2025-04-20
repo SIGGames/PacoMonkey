@@ -58,6 +58,7 @@ MonoBehaviour:
   isPositionFreezed: 0
   movementState: 0
   isFacingRight: 1
+  handlePlayerInsideWall: 0
   canRun: 1
   maxRunSpeed: 4
   runAcceleration: 75
@@ -74,16 +75,25 @@ MonoBehaviour:
   jumpComponentBalance: 55
   jumpDecelerationDelay: 0.2
   jumpState: 0
+  rumbleOnHit: 1
+  rumbleDuration: 0.2
+  rumbleIntensity: 0.1
   boxColliderOnDeathSize: {x: 0, y: 0}
   boxColliderOnDeathOffset: {x: 0, y: 0}
+  verticalPositionOffsetOnDeath: 0
   collider2d: {fileID: 0}
   lives: {fileID: 0}
   audioSource: {fileID: 0}
-  jumpAudio: {fileID: 8300000, guid: 67975c08d56ceb147bad38572d805aa8, type: 3}
+  jumpAudioVolume: 0.5
+  jumpAudios: []
+  landAudioVolume: 0.5
+  landAudios: []
+  hitAudioVolume: 0.5
+  hitAudios: []
   respawnAudio: {fileID: 8300000, guid: e18959d46b63f3c4c8cc020a433cf848, type: 3}
-  ouchAudio: {fileID: 8300000, guid: 6c05149e5a2fba64ba172e25a61074b7, type: 3}
   move: {x: 0, y: 0}
   boxCollider: {fileID: 0}
+  airTime: 0
   respawnPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212064061491315838
 SpriteRenderer:
@@ -197,7 +207,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0

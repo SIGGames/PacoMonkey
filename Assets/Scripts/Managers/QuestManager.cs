@@ -147,14 +147,7 @@ namespace Managers {
                 return key;
             }
 
-            return FormatText(text);
-        }
-
-        private static string FormatText(string input) {
-            input = input.Replace("\\n", "\n");
-            input = Regex.Replace(input, @"\*\*(.*?)\*\*", "<b>$1</b>");
-            input = Regex.Replace(input, @"(?<!\*)\*(?!\*)(.*?)\*(?!\*)", "<i>$1</i>");
-            return input;
+            return text;
         }
 
         private static string GetCharacterName(Character character) {

@@ -2,6 +2,7 @@
 using Enums;
 using UnityEngine;
 using System;
+using System.Text.RegularExpressions;
 using static Utils.PlayerPrefsKeys;
 
 namespace Localization {
@@ -49,7 +50,7 @@ namespace Localization {
                 Debug.LogWarning($"Missing text for key: {key}");
             }
 
-            return text;
+            return FormatText(text);
         }
 
         private void Update() {
@@ -73,6 +74,18 @@ namespace Localization {
             PlayerPrefs.Save();
 
             OnLanguageChanged?.Invoke();
+        }
+
+        private static string FormatText(string input) {
+            // \n: New line
+            // \t: Tab
+            // **text**: Bold
+            // *text*: Italic
+            input = input.Replace("\\n", "\n");
+            input = input.Replace("\\t", "\t");
+            input = Regex.Replace(input, @"\*\*(.*?)\*\*", "<b>$1</b>");
+            input = Regex.Replace(input, @"(?<!\*)\*(?!\*)(.*?)\*(?!\*)", "<i>$1</i>");
+            return input;
         }
     }
 }
