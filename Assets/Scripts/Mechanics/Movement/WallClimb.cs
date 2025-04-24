@@ -30,7 +30,6 @@ namespace Mechanics.Movement {
         private float _gravityModifier;
 
         private Animator _animator;
-        private Hold _hold;
 
         private void Awake() {
             if (player == null) {
@@ -41,16 +40,12 @@ namespace Mechanics.Movement {
                 ledgeCheck = GetComponentInChildren<LedgeDetection>();
             }
 
-            if (_hold == null) {
-                _hold = GetComponent<Hold>();
-            }
-
             _animator = GetComponent<Animator>();
 
             _gravityModifier = player.gravityModifier;
 
-            if (player == null || ledgeCheck == null || _hold == null) {
-                Debugger.Log(("Player", player), ("LedgeCheck", ledgeCheck), ("Hold", _hold));
+            if (player == null || ledgeCheck == null) {
+                Debugger.Log(("Player", player), ("LedgeCheck", ledgeCheck));
                 enabled = false;
             }
         }
@@ -107,11 +102,6 @@ namespace Mechanics.Movement {
             // Prevent player from climbing through the ceiling
             if (IsCeiling() && verticalInput > 0) {
                 verticalInput = 0;
-            }
-
-            if (!ledgeCheck.IsGroundAbove() && player.lives.IsAlive && _isClimbing) {
-                StopClimbing();
-                _hold.StartHold();
             }
 
             if (verticalInput != 0) {
