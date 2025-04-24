@@ -136,6 +136,16 @@ namespace Managers {
             return FindQuest(_activeQuestId);
         }
 
+        public bool IsActiveQuest(string id) {
+            Quest quest = FindQuest(id);
+            Quest activeQuest = GetActiveQuest();
+            if (quest == null || activeQuest == null) {
+                return false;
+            }
+
+            return quest.id == activeQuest.id;
+        }
+
         private Quest FindQuest(string id) {
             return quests.FirstOrDefault(q => q.id == id);
         }

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Controllers;
 using Gameplay;
 using Managers;
 using NaughtyAttributes;
-using TMPro;
 using UnityEngine;
 using static Utils.TagUtils;
 
@@ -89,8 +87,7 @@ namespace Zones {
 
         private void OnAllEnemiesDefeated() {
             if (questRequired) {
-                QuestManager.Quest activeQuest = QuestManager.Instance.GetActiveQuest();
-                if (activeQuest == null || activeQuest.id != requiredQuestId) {
+                if (QuestManager.Instance.IsActiveQuest(requiredQuestId)) {
                     // Quest not active or not the required quest
                     return;
                 }

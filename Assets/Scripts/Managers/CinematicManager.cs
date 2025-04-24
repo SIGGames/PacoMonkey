@@ -21,6 +21,7 @@ namespace Managers {
         [SerializeField] private GameObject level1GameObject;
         [SerializeField] private GameObject level2GameObject;
 
+        private Cinematic? _currentCinematic;
         private Coroutine _activeTimerCoroutine;
         private Color _originalTextColor;
         private bool _hasTriggeredVibration;
@@ -64,9 +65,16 @@ namespace Managers {
             }
         }
 
-        public void StartCinematic(Cinematic cinematic) {
+        public void StartCinematic(Cinematic cinematic, bool forceOverride = false) {
+            if (_currentCinematic != null && !forceOverride) {
+                Debug.LogWarning($"Cinematic {cinematic} was ignored because {_currentCinematic.Value} is already playing");
+                return;
+            }
+
             CinematicConfig config = cinematicConfigs.Find(cinematicConfig => cinematicConfig.cinematic == cinematic);
             if (config != null) {
+                _currentCinematic = cinematic;
+                Invoke(nameof(ResetCurrentCinematic), GetCinematicDuration(config));
                 StartCoroutine(PlayCinematic(config));
             }
         }
@@ -161,6 +169,10 @@ namespace Managers {
             if (config.disableFollowCameraOnFinishFadeIn) {
                 CameraManager.Instance.FollowAndLookAt(null);
             }
+        }
+
+        private void ResetCurrentCinematic() {
+            _currentCinematic = null;
         }
 
         private static float GetCinematicDuration(CinematicConfig config) {

@@ -29,7 +29,6 @@ namespace Zones {
             }
         }
 
-
         private static Hold GetHoldComponent() {
             return CharacterManager.Instance.currentPlayerController.gameObject.GetComponent<Hold>();
         }
