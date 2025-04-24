@@ -10,6 +10,9 @@ namespace Zones {
         private Cinematic cinematicToStart;
 
         [SerializeField]
+        private bool overrideCurrentCinematic;
+
+        [SerializeField]
         private bool requireQuestToStart;
 
         [SerializeField, ShowIf("requireQuestToStart")]
@@ -24,7 +27,7 @@ namespace Zones {
                 return;
             }
 
-            CinematicManager.Instance.StartCinematic(cinematicToStart);
+            CinematicManager.Instance.StartCinematic(cinematicToStart, overrideCurrentCinematic);
         }
     }
 }

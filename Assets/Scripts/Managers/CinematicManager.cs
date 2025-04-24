@@ -74,7 +74,7 @@ namespace Managers {
             CinematicConfig config = cinematicConfigs.Find(cinematicConfig => cinematicConfig.cinematic == cinematic);
             if (config != null) {
                 _currentCinematic = cinematic;
-                Invoke(nameof(ResetCurrentCinematic), GetCinematicDuration(config));
+                StartCoroutine(ResetCurrentCinematic(GetCinematicDuration(config, true)));
                 StartCoroutine(PlayCinematic(config));
             }
         }
@@ -171,11 +171,16 @@ namespace Managers {
             }
         }
 
-        private void ResetCurrentCinematic() {
+        private IEnumerator ResetCurrentCinematic(float time) {
+            yield return new WaitForSeconds(time);
             _currentCinematic = null;
         }
 
-        private static float GetCinematicDuration(CinematicConfig config) {
+        private static float GetCinematicDuration(CinematicConfig config, bool useTimer = false) {
+            if (useTimer && config.showTimer) {
+                return config.timerDuration;
+            }
+
             return config.cinematic == Cinematic.Death
                 ? CharacterManager.Instance.currentCharacterRespawnTime
                 : config.cinematicDuration;
