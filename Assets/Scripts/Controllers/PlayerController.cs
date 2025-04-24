@@ -79,6 +79,12 @@ namespace Controllers {
         [Range(0f, 1f)]
         public float jumpDecelerationDelay = 0.2f;
 
+        [Range(0, 1)]
+        public float wallCheckDistance = 0.4f;
+
+        [Range(0, 1)]
+        public float repositionDistance = 0.2f;
+
         private float _balanceFactor;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
@@ -401,6 +407,9 @@ namespace Controllers {
         }
 
         public void StartJump() {
+            if (IsTooCloseToJump()) {
+                return;
+            }
             if ((IsGrounded || _coyoteTimeCounter > 0f) && _jumpBufferCounter > 0) {
                 jumpState = JumpState.Jumping;
                 _jump = true;
@@ -434,6 +443,22 @@ namespace Controllers {
                     velocity.y *= jumpDeceleration;
                 }
             }
+        }
+
+        private bool IsTooCloseToJump() {
+            bool pressingTowardWall = (isFacingRight && GetRightKey()) || (!isFacingRight && GetLeftKey());
+            if (!pressingTowardWall) {
+                return false;
+            }
+
+            Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, wallCheckDistance, Ground.value);
+            if (hit.collider != null) {
+                AddPosition(isFacingRight ? -repositionDistance : repositionDistance);
+                SetVelocity(new Vector2(0, velocity.y));
+                return true;
+            }
+            return false;
         }
 
         public void DisableFlipAnimation() {
@@ -619,6 +644,7 @@ namespace Controllers {
         }
 
         public void Respawn() {
+            SetBodyType(RigidbodyType2D.Kinematic);
             SetPosition(respawnPosition);
         }
 

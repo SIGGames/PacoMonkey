@@ -33,6 +33,14 @@ namespace PlayerInput {
             return Math.Sign(horizontal);
         }
 
+        public static bool GetRightKey() {
+            return GetHorizontalAxis() > 0;
+        }
+
+        public static bool GetLeftKey() {
+            return GetHorizontalAxis() < 0;
+        }
+
         public static float GetVerticalAxis() {
             return Math.Sign(GetMoveAxis().y);
         }
