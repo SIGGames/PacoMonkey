@@ -1,28 +1,20 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Enums;
-using Localization;
 using Managers;
 using PlayerInput;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using static Utils.TagUtils;
 
 namespace Zones {
     public class ShowTutorialKeysZone : MonoBehaviour {
         [SerializeField] private bool canReopen;
-        [SerializeField, Range(0f, 2f)] private float animationDuration = 0.25f;
         [SerializeField, Range(0f, 5f)] private float closeDelay = 2f;
         [SerializeField] private bool requireActiveQuestToShow;
         [SerializeField] private List<TutorialActionBinding> actionsToShow;
 
         [Header("Components")]
         [SerializeField] private string titleTextKey;
-        [SerializeField] private Transform keysContainer;
-        [SerializeField] private GameObject popupPrefab;
-        [SerializeField] private GameObject iconPrefab;
 
         private bool _activated;
 
@@ -31,7 +23,7 @@ namespace Zones {
                 return;
             }
 
-            OpenPopUp();
+            TryOpenPopUp();
         }
 
         private void OnTriggerExit2D(Collider2D col) {
@@ -39,10 +31,10 @@ namespace Zones {
                 return;
             }
 
-            ClosePopUp();
+            PopUpManager.Instance.ClosePopUp(closeDelay);
         }
 
-        private void OpenPopUp() {
+        private void TryOpenPopUp() {
             if (_activated && !canReopen) {
                 return;
             }
@@ -51,86 +43,29 @@ namespace Zones {
                 return;
             }
 
-            popupPrefab.SetActive(true);
-            StartCoroutine(AnimatePopUp(true, animationDuration));
             _activated = true;
 
-            SetUpTitleText();
-            SetupIcons();
-        }
-
-        public void ClosePopUp(bool instantly = false) {
-            if (popupPrefab == null || !_activated) {
-                return;
-            }
-
-            StartCoroutine(ClosePopUpRoutine(instantly, animationDuration));
-        }
-
-        private void SetUpTitleText() {
-            TextMeshProUGUI titleText = popupPrefab.transform.Find("Title")?.GetComponent<TextMeshProUGUI>();
-            if (titleText != null) {
-                titleText.text = LocalizationManager.Instance.GetLocalizedText(titleTextKey);
-            }
-        }
-
-        private IEnumerator ClosePopUpRoutine(bool instantly, float duration) {
-            if (!instantly) {
-                yield return new WaitForSeconds(closeDelay);
-            }
-            yield return AnimatePopUp(false, duration);
-            ClearIcons();
-            popupPrefab.SetActive(false);
-        }
-
-        private IEnumerator AnimatePopUp(bool isOpening, float duration = 0.25f) {
-            RectTransform rect = popupPrefab.GetComponent<RectTransform>();
-            Vector3 startScale = rect.localScale;
-            Vector3 endScale = isOpening ? Vector3.one : Vector3.zero;
-
-            float timer = 0f;
-
-            while (timer < duration) {
-                float t = timer / duration;
-                float scale = Mathf.SmoothStep(startScale.x, endScale.x, t);
-                rect.localScale = new Vector3(scale, scale, 1f);
-                timer += Time.deltaTime;
-                yield return null;
-            }
-
-            rect.localScale = endScale;
-        }
-
-        private void SetupIcons() {
-            ClearIcons();
-
-            foreach (TutorialActionBinding tutorialAction in actionsToShow) {
-                string controlPath = GetControlPath(tutorialAction);
-                Sprite sprite = PlayerInputManager.Instance.GetInputSprite(controlPath);
-                if (sprite != null) {
-                    GameObject iconObj = Instantiate(iconPrefab, keysContainer);
-                    iconObj.name = $"Icon_{titleTextKey}_{controlPath}";
-                    iconObj.GetComponentInChildren<Image>().sprite = sprite;
+            List<Sprite> sprites = new();
+            foreach (TutorialActionBinding action in actionsToShow) {
+                string controlPath = GetControlPath(action);
+                Sprite icon = PlayerInputManager.Instance.GetInputSprite(controlPath);
+                if (icon != null) {
+                    sprites.Add(icon);
                 }
             }
+
+            PopUpManager.Instance.OpenPopUp(titleTextKey, sprites);
         }
 
-        private static string GetControlPath(TutorialActionBinding tutorialAction) {
+        private static string GetControlPath(TutorialActionBinding action) {
             return PlayerInputManager.Instance.currentInputDevice == InputDeviceType.Controller
-                ? tutorialAction.gamepadInputActionName
-                : tutorialAction.keyboardInputActionName;
-        }
-
-        private void ClearIcons() {
-            foreach (Transform child in keysContainer) {
-                Destroy(child.gameObject);
-            }
+                ? action.gamepadInputActionName
+                : action.keyboardInputActionName;
         }
 
         public void ResetZone() {
             _activated = false;
-            ClearIcons();
-            popupPrefab.SetActive(false);
+            PopUpManager.Instance.ResetPopUp();
         }
     }
 
