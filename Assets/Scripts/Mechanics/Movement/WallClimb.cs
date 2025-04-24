@@ -127,8 +127,8 @@ namespace Mechanics.Movement {
                 _animator.SetFloat(IsTowardsUp, 1f);
             }
 
-            bool isPressingOppositeDirection = (player.isFacingRight && GetHorizontalAxis() < 0f) ||
-                                               (!player.isFacingRight && GetHorizontalAxis() > 0f);
+            bool isPressingOppositeDirection = (player.isFacingRight && GetLeftKey()) ||
+                                               (!player.isFacingRight && GetRightKey());
 
             if (isPressingOppositeDirection && verticalInput == 0) {
                 _animator.SetFloat(IsTowardsUp, 0f);

@@ -19,6 +19,8 @@ namespace UI {
 
         public static bool IsMenuOpen { get; private set; }
 
+        public static bool isUIMenusDisabled;
+
         private bool _showMainCanvas;
         private bool _controlWasEnabled;
 
@@ -75,6 +77,10 @@ namespace UI {
                 mainMenu.SetActivePanel(2);
                 return;
             }*/
+
+            if (isUIMenusDisabled) {
+                return;
+            }
 
             if (GetPauseKey()) {
                 if (IsMenuOpen && !IsInPanel("PauseMenu")) {

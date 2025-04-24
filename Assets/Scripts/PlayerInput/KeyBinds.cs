@@ -34,11 +34,11 @@ namespace PlayerInput {
         }
 
         public static bool GetRightKey() {
-            return GetHorizontalAxis() > 0;
+            return GetHorizontalAxis() > 0f;
         }
 
         public static bool GetLeftKey() {
-            return GetHorizontalAxis() < 0;
+            return GetHorizontalAxis() < 0f;
         }
 
         public static float GetVerticalAxis() {

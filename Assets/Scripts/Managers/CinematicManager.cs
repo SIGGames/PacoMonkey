@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Enums;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -122,6 +123,8 @@ namespace Managers {
                 yield break;
             }
 
+            MetaGameController.isUIMenusDisabled = true;
+
             if (config.disablePlayerPositionWhileFadeIn) {
                 PlayerInputManager.Instance.InputActions.PlayerControls.Move.Disable();
             }
@@ -150,6 +153,7 @@ namespace Managers {
             fadeImage.color = config.fadeInEndColor;
             ResolutionManager.Instance.ResetBrightness();
             Destroy(tempImage.gameObject);
+            MetaGameController.isUIMenusDisabled = false;
             if (config.disablePlayerPositionWhileFadeIn) {
                 PlayerInputManager.Instance.InputActions.PlayerControls.Move.Enable();
             }
