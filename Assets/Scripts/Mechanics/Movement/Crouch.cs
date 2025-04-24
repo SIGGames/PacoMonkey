@@ -181,6 +181,7 @@ namespace Mechanics.Movement {
             _isCrouching = true;
 
             _playerController.SetVelocity(Vector2.zero);
+            _playerController.SetSpeed(_playerController.maxRunSpeed * crouchSpeed);
             _playerController.SetBodyType(RigidbodyType2D.Dynamic);
 
             animator.SetBool(IsCrouching, true);
