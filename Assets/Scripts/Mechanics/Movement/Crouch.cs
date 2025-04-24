@@ -95,6 +95,10 @@ namespace Mechanics.Movement {
                 return;
             }
 
+            if (_playerController.jumpState != JumpState.Grounded) {
+                CancelCoroutines();
+            }
+
             PerformCrouch();
 
             if (_slideCooldownTimer > 0) {
