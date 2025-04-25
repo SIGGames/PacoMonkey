@@ -19,7 +19,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"C:/Users/aniol/Downloads/Builds/v0.8.1;C:/Users/aniol/Downloads/Builds/Web;;;;;;;;\"}"
+                "value": "{\"m_Value\":\"C:/Users/aniol/Downloads/Builds/v0.10.4;C:/Users/aniol/Downloads/Builds/v0.10.3;C:/Users/aniol/Downloads/Builds/v0.10.2;C:/Users/aniol/Downloads/Builds/v0.10.1;C:/Users/aniol/Downloads/Builds/v0.10.0;C:/Users/aniol/Downloads/Builds/v0.8.1;C:/Users/aniol/Downloads/Builds/Web;;;\"}"
             }
         ]
     }
