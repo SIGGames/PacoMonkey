@@ -291,7 +291,6 @@ namespace PlayerInput {
                 "leftStick" => leftStick,
                 "leftStick/down" => leftStickDown,
                 "leftStick/up" => leftStickUp,
-                "leftstick/up" => leftStickUp,
                 "leftStick/left" => leftStickLeft,
                 "leftStick/right" => leftStickRight,
                 "rightStick" => rightStick,
