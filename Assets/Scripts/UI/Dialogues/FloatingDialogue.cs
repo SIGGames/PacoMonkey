@@ -125,6 +125,12 @@ namespace UI.Dialogues {
                 return;
             }
 
+            // Check if there is any important Dialogue open
+            if (DialogueManager.Instance.DialoguePanel.activeInHierarchy) {
+                ResetText();
+                return;
+            }
+
             // If there are multiple NPCs overlapping, only the closest one will interact
             if (!IsClosestNpc()) {
                 ResetText();
@@ -330,9 +336,9 @@ namespace UI.Dialogues {
         }
 
         private bool IsClosestNpc() {
-            FloatingDialogue[] dialogues = FindObjectsOfType<FloatingDialogue>();
+            FloatingDialogue[] floatingDialogues = FindObjectsOfType<FloatingDialogue>();
             float npcDistance = Vector3.Distance(transform.position, PlayerPosition);
-            foreach (FloatingDialogue d in dialogues) {
+            foreach (FloatingDialogue d in floatingDialogues) {
                 if (d == this) {
                     continue;
                 }
