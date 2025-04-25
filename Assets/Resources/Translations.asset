@@ -185,6 +185,10 @@ MonoBehaviour:
     catalan: Zona de sortida
     spanish: Zona de salida
     english: Starting zone
+  - key: mz-stoneroad
+    catalan: "Cam\xED de les Pedres"
+    spanish: Camino de las Piedras
+    english: Stone Road
   - key: new-game
     catalan: Joc Nou
     spanish: Juego Nuevo
