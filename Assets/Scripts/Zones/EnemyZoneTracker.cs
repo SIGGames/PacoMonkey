@@ -101,5 +101,12 @@ namespace Zones {
                 QuestManager.Instance.SetActiveQuest(nextQuestId);
             }
         }
+
+        public void ResetZone() {
+            _trackedEnemies.Clear();
+            _originalEnemyCount = 0;
+            QuestManager.Instance.ShowEnemyCountText(false);
+            TrackEnemies();
+        }
     }
 }

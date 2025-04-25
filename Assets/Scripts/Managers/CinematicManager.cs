@@ -67,7 +67,7 @@ namespace Managers {
 
         public void StartCinematic(Cinematic cinematic, bool forceOverride = false) {
             if (_currentCinematic != null && !forceOverride) {
-                Debug.LogWarning($"Cinematic {cinematic} was ignored because {_currentCinematic.Value} is already playing");
+                Debug.Log($"Cinematic {cinematic} was ignored because {_currentCinematic.Value} is already playing");
                 return;
             }
 

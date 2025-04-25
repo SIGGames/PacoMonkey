@@ -10,6 +10,7 @@ using Health.UI;
 using UI.TextSetters;
 using UnityEngine;
 using Utils;
+using Zones;
 using static Utils.AnimatorUtils;
 using static Utils.PlayerPrefsKeys;
 
@@ -145,18 +146,18 @@ namespace Managers {
             currentPlayerController.SetVelocity(Vector2.zero);
             currentPlayerController.SetColliderOnDeath();
             if (showCinematic) {
-                CinematicManager.Instance.StartCinematic(Cinematic.Death);
+                CinematicManager.Instance.StartCinematic(Cinematic.Death, true);
             }
             yield return new WaitForSeconds(showCinematic ? characterConfig.respawnTime : 0);
             currentPlayerController.FreezePosition(false);
             currentPlayerController.ResetState(false);
             currentPlayerController.SetColliderOnDeath();
             InstanceEnemies();
-
+            ResetEnemyCount();
             CameraManager.Instance.FollowAndLookAt(characterConfig.characterGameObject.transform);
         }
 
-        private void UpdateAnimator(CharacterConfiguration characterConfig) {
+        private static void UpdateAnimator(CharacterConfiguration characterConfig) {
             Animator animator = characterConfig.characterGameObject.GetComponent<Animator>();
             if (animator == null) {
                 Debug.LogError($"Character {characterConfig.characterType} is missing its Animator component");
@@ -222,6 +223,17 @@ namespace Managers {
             SetPlayerFace setPlayerFaceSetters = FindObjectOfType<SetPlayerFace>(true);
             if (setPlayerFaceSetters != null) {
                 setPlayerFaceSetters.UpdatePlayerFace(currentCharacterFaceSprite);
+            }
+        }
+
+        private static void ResetEnemyCount() {
+            EnemyZoneTracker[] enemyZoneTrackers = FindObjectsOfType<EnemyZoneTracker>(true);
+            foreach (EnemyZoneTracker enemyZoneTracker in enemyZoneTrackers) {
+                if (enemyZoneTracker == null) {
+                    continue;
+                }
+
+                enemyZoneTracker.ResetZone();
             }
         }
     }
