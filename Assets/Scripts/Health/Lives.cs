@@ -103,8 +103,9 @@ namespace Health {
         }
 
         public void MultiplyLives(float multiplier) {
-            CurrentLives = startingLives * multiplier;
-            MaxLives = _startingMaxLives * multiplier;
+            // In case of a half heart, it will be rounded up
+            CurrentLives = Mathf.Ceil(startingLives * multiplier);
+            MaxLives = Mathf.Ceil(_startingMaxLives * multiplier);
         }
     }
 }
