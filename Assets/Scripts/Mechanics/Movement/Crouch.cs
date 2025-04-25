@@ -182,7 +182,9 @@ namespace Mechanics.Movement {
 
             _playerController.SetVelocity(Vector2.zero);
             _playerController.SetSpeed(_playerController.maxRunSpeed * crouchSpeed);
-            _playerController.SetBodyType(RigidbodyType2D.Dynamic);
+
+            // Commented by now since this may be causing issues with the crouch collider
+            // _playerController.SetBodyType(RigidbodyType2D.Dynamic);
 
             animator.SetBool(IsCrouching, true);
             CameraManager.Instance.SetOffset(cameraOffsetOnCrouch);

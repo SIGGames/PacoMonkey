@@ -645,6 +645,7 @@ namespace Controllers {
 
         public void Respawn() {
             SetBodyType(RigidbodyType2D.Kinematic);
+            SetVelocity(Vector2.zero);
             SetPosition(respawnPosition);
         }
 
