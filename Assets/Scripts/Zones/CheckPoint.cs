@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
 using Controllers;
+using Managers;
+using NaughtyAttributes;
 using UnityEngine;
 using static Utils.PlayerPrefsKeys;
 using static Utils.TagUtils;
 
 namespace Zones {
     public class CheckPoint : MonoBehaviour {
+        [SerializeField] private bool questRequired;
+        [SerializeField, ShowIf("questRequired")] private string requiredQuestId;
+
         private List<PlayerController> _playerControllers = new();
 
         private void Awake() {
@@ -15,6 +20,10 @@ namespace Zones {
         private void OnTriggerEnter2D(Collider2D col) {
             if (!col.CompareTag(Player)) {
                 return;
+            }
+
+            if (questRequired && QuestManager.Instance.IsActiveQuest(requiredQuestId)) {
+                    return;
             }
 
             foreach (PlayerController playerController in _playerControllers) {
