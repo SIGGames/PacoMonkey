@@ -54,17 +54,6 @@ namespace Managers {
             }
         }
 
-        private void Update() {
-            // TODO: Remove this debug code
-            if (Input.GetKeyDown(KeyCode.F2)) {
-                StartCinematic(Cinematic.Ending);
-            }
-
-            if (Input.GetKeyDown(KeyCode.F3)) {
-                StopTimer();
-            }
-        }
-
         public void StartCinematic(Cinematic cinematic, bool forceOverride = false) {
             if (_currentCinematic != null && !forceOverride) {
                 Debug.Log($"Cinematic {cinematic} was ignored because {_currentCinematic.Value} is already playing");
@@ -207,8 +196,9 @@ namespace Managers {
             _originalTextColor = timerText.color;
             timerGameObject.SetActive(true);
             StartCoroutine(AnimateTimerPopup());
-            float timeRemaining = config.timerDuration;
-            float threshold = config.timerDuration * config.lowTimerPercentage;
+            float timerDuration = GetTimerDuration(config);
+            float timeRemaining = timerDuration;
+            float threshold = timerDuration * config.lowTimerPercentage;
 
             while (timeRemaining > 0f) {
                 timeRemaining -= Time.deltaTime;
@@ -289,6 +279,10 @@ namespace Managers {
             if (Gamepad.current != null) {
                 Gamepad.current.SetMotorSpeeds(0f, 0f);
             }
+        }
+
+        private static float GetTimerDuration(CinematicConfig config) {
+            return config.timerDuration * (1 / DifficultyManager.Instance.GetPlayerDifficultyMultiplier(DifficultyManager.Instance.currentDifficulty));
         }
     }
 

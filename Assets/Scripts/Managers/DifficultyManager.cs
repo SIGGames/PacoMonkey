@@ -71,8 +71,6 @@ namespace Managers {
             }
 
             SetPlayerDifficultyMultiplier();
-
-            // TODO: Update missions timers
         }
 
         public void SetPlayerDifficultyMultiplier() {

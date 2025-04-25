@@ -57,7 +57,7 @@ namespace Controllers {
         }
 
         public void StartNewGame() {
-            CinematicManager.Instance.StartCinematic(Cinematic.NewGame);
+            CinematicManager.Instance.StartCinematic(Cinematic.NewGame, true);
         }
 
         private void ResetInGameProgressData() {
