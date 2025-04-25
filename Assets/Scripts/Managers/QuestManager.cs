@@ -136,6 +136,15 @@ namespace Managers {
             return FindQuest(_activeQuestId);
         }
 
+        public bool IsActiveQuest(List<string> questIds) {
+            foreach (string questId in questIds) {
+                if (IsActiveQuest(questId)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool IsActiveQuest(string id) {
             Quest quest = FindQuest(id);
             Quest activeQuest = GetActiveQuest();
@@ -195,8 +204,8 @@ namespace Managers {
 
         private static string GetCinematicTimerDuration(Cinematic cinematic) {
             // This is not clean, but at this point this is fine
-            float timerSeconds = CinematicManager.Instance.cinematicConfigs
-                .FirstOrDefault(cinematicConfig => cinematicConfig.cinematic == cinematic)!.timerDuration;
+            CinematicConfig cinematicConfig = CinematicManager.Instance.cinematicConfigs.FirstOrDefault(cinematicConfig => cinematicConfig.cinematic == cinematic);
+            float timerSeconds = CinematicManager.GetTimerDuration(cinematicConfig);
 
             int minutes = Mathf.FloorToInt(timerSeconds / 60);
             int seconds = Mathf.FloorToInt(timerSeconds % 60);

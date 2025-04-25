@@ -25,10 +25,5 @@ namespace Utils {
         public static void OpenLinkedinUrl() {
             Application.OpenURL("https://www.linkedin.com/company/siggames/");
         }
-
-        public static void OpenTikTokUrl() {
-            // TODO: Add TikTok URL
-            Application.OpenURL("");
-        }
     }
 }

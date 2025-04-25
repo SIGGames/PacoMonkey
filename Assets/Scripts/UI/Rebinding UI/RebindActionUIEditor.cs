@@ -1,12 +1,9 @@
 #if UNITY_EDITOR
 using System.Linq;
-using Enums;
 using UI.Rebinding_UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-////TODO: support multi-object editing
 
 namespace Rebinding_UI {
     /// <summary>
@@ -14,7 +11,7 @@ namespace Rebinding_UI {
     /// picking the binding which to rebind.
     /// </summary>
     [CustomEditor(typeof(RebindActionUI))]
-    public class RebindActionUIEditor : UnityEditor.Editor {
+    public class RebindActionUIEditor : Editor {
         private RebindActionUI _rebindActionUI;
 
         protected void OnEnable() {

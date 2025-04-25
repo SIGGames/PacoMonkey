@@ -56,7 +56,7 @@ namespace Managers {
 
         public void StartCinematic(Cinematic cinematic, bool forceOverride = false) {
             if (_currentCinematic != null && !forceOverride) {
-                Debug.Log($"Cinematic {cinematic} was ignored because {_currentCinematic.Value} is already playing");
+                // Cinematic was ignored because another one is already playing
                 return;
             }
 
@@ -281,7 +281,7 @@ namespace Managers {
             }
         }
 
-        private static float GetTimerDuration(CinematicConfig config) {
+        public static float GetTimerDuration(CinematicConfig config) {
             return config.timerDuration * (1 / DifficultyManager.Instance.GetPlayerDifficultyMultiplier(DifficultyManager.Instance.currentDifficulty));
         }
     }
