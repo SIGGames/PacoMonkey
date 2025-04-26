@@ -17,6 +17,7 @@ namespace Managers {
 
         private TextMeshProUGUI _titleText;
         private RectTransform _popupRectTransform;
+        private HorizontalLayoutGroup _keysContainerLayoutGroup;
 
         [Header("Settings")]
         [SerializeField, Range(0f, 2f)] private float animationDuration = 0.25f;
@@ -34,6 +35,7 @@ namespace Managers {
 
             _titleText = popupGameObject.transform.Find("Title")?.GetComponent<TextMeshProUGUI>();
             _popupRectTransform = popupGameObject.GetComponent<RectTransform>();
+            _keysContainerLayoutGroup = keysContainer.GetComponent<HorizontalLayoutGroup>();
 
             if (popupGameObject == null || keysContainer == null || _titleText == null || keyIconPrefab == null) {
                 Debugger.LogIfNull((nameof(popupGameObject), popupGameObject), (nameof(keysContainer),
@@ -83,11 +85,33 @@ namespace Managers {
 
         private void SetIcons(string titleKey, List<Sprite> icons) {
             ClearIcons();
+            AdjustSpacing(icons.Count);
+
             foreach (Sprite sprite in icons) {
                 GameObject icon = Instantiate(keyIconPrefab, keysContainer);
                 icon.name = $"Icon_{titleKey}";
                 icon.transform.SetParent(keysContainer, false);
                 icon.GetComponent<Image>().sprite = sprite;
+            }
+        }
+
+        private void AdjustSpacing(int iconCount) {
+            if (_keysContainerLayoutGroup == null) {
+                return;
+            }
+
+            switch (iconCount) {
+                case <= 2:
+                    _keysContainerLayoutGroup.spacing = -80f;
+                    break;
+                case >= 4:
+                    _keysContainerLayoutGroup.spacing = -10f;
+                    break;
+                default: {
+                    float spacing = Mathf.Lerp(-80f, -10f, (iconCount - 2f) / 2f);
+                    _keysContainerLayoutGroup.spacing = spacing;
+                    break;
+                }
             }
         }
 
