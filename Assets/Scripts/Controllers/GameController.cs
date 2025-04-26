@@ -3,7 +3,6 @@ using Enums;
 using Managers;
 using Platformer.Core;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zones;
 using static Utils.PlayerPrefsKeys;
 
@@ -17,7 +16,7 @@ namespace Controllers {
 
         public MapZone currentMapZone = DefaultMapZone;
 
-        private const MapZone DefaultMapZone = MapZone.Start;
+        private const MapZone DefaultMapZone = MapZone.TracHouse;
 
         private void OnEnable() {
             Instance = this;

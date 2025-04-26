@@ -181,14 +181,14 @@ MonoBehaviour:
     catalan: "Volum M\xFAsica"
     spanish: "Volumen M\xFAsica"
     english: Music Volume
-  - key: mz-start
-    catalan: Zona de sortida
-    spanish: Zona de salida
-    english: Starting zone
   - key: mz-stoneroad
     catalan: "Cam\xED de les Pedres"
     spanish: Camino de las Piedras
     english: Stone Road
+  - key: mz-trachouse
+    catalan: Casa Trac
+    spanish: Casa Trac
+    english: Trac House
   - key: new-game
     catalan: Joc Nou
     spanish: Juego Nuevo

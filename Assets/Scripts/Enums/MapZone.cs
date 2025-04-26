@@ -1,6 +1,6 @@
 ﻿namespace Enums {
     public enum MapZone {
-        Start,
+        TracHouse,
         StoneRoad,
         Unknown
     }
