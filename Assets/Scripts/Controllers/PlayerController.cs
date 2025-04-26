@@ -620,6 +620,8 @@ namespace Controllers {
         }
 
         private void OnFinishHurtAnimation() {
+            // This is producing lots of issues, so I will comment it for now
+            /*
             if (PlayerMovementStateMethods.CanNotMoveWhileHurt(movementState)) {
                 return;
             }
@@ -635,7 +637,7 @@ namespace Controllers {
                 transform.position = tryLeft;
             } else {
                 velocity.x = isFacingRight ? -2f : 2f;
-            }
+            }*/
         }
 
         private bool IsPositionFree(Vector3 position) {

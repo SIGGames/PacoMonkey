@@ -164,7 +164,7 @@ namespace Managers {
                 case "1":
                     CameraManager.Instance.FollowAndLookAt(CharacterManager.Instance.currentPlayerController.transform);
                     break;
-                case "2.1":
+                case "2.2":
                     CinematicManager.Instance.StopTimer();
                     break;
             }

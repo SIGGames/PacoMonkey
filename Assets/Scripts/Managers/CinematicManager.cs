@@ -17,9 +17,12 @@ namespace Managers {
         public List<CinematicConfig> cinematicConfigs;
 
         [Header("Cinematic Configurations")]
-        [SerializeField] private GameObject timerGameObject;
         [SerializeField] private GameObject level1GameObject;
         [SerializeField] private GameObject level2GameObject;
+
+        [Header("Extra Components")]
+        [SerializeField] private GameObject timerGameObject;
+        [SerializeField] private RectTransform timerHandTransform;
 
         private Cinematic? _currentCinematic;
         private Coroutine _activeTimerCoroutine;
@@ -198,6 +201,13 @@ namespace Managers {
             StartCoroutine(AnimateTimerPopup());
             float timerDuration = GetTimerDuration(config);
             float timeRemaining = timerDuration;
+
+            // Set up the initial position for the clock hand
+            if (timerHandTransform != null) {
+                float initialAngle = Mathf.Lerp(0f, 360f, 1f - (timeRemaining / timerDuration));
+                timerHandTransform.localRotation = Quaternion.Euler(0, 0, initialAngle);
+            }
+
             float threshold = timerDuration * config.lowTimerPercentage;
 
             while (timeRemaining > 0f) {
@@ -220,6 +230,13 @@ namespace Managers {
                         StartCoroutine(StopRumbleAfterDelay(config.rumbleDurationOnLowTime));
                     }
                 }
+
+                // Timer hand rotation
+                if (timerHandTransform != null) {
+                    float angle = Mathf.Lerp(0f, 360f, 1f - (timeRemaining / timerDuration));
+                    timerHandTransform.localRotation = Quaternion.Euler(0, 0, angle);
+                }
+
                 yield return null;
             }
 
@@ -271,6 +288,10 @@ namespace Managers {
 
             if (Gamepad.current != null) {
                 Gamepad.current.SetMotorSpeeds(0f, 0f);
+            }
+
+            if (timerHandTransform != null) {
+                timerHandTransform.localRotation = Quaternion.identity;
             }
         }
 
