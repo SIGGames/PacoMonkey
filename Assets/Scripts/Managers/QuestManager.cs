@@ -49,6 +49,14 @@ namespace Managers {
             ShowEnemyCountText(false);
         }
 
+        private void OnEnable() {
+            LocalizationManager.Instance.OnLanguageChanged += UpdateQuestPanelTexts;
+        }
+
+        private void OnDisable() {
+            LocalizationManager.Instance.OnLanguageChanged -= UpdateQuestPanelTexts;
+        }
+
         private void UpdateQuestPanelTexts() {
             Quest activeQuest = GetActiveQuest();
 

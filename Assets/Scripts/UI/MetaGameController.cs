@@ -60,7 +60,11 @@ namespace UI {
                 Time.timeScale = 1;
                 mainMenu.gameObject.SetActive(false);
                 foreach (Canvas i in gamePlayCanvasii) i.gameObject.SetActive(true);
-                SetCursorVisible(false);
+
+                // Hide cursor if the game is not paused (disabled in editor)
+                #if !UNITY_EDITOR
+                    SetCursorVisible(false);
+                #endif
             }
 
             IsMenuOpen = show;
