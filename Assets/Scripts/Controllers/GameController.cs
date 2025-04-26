@@ -80,6 +80,7 @@ namespace Controllers {
             PlayTimeManager.Instance.ResetPlayTime();
             DialogueManager.ResetDialogues();
             QuestManager.Instance.ResetQuests();
+            LevelManager.Instance.ResetLevel();
             ResetMapZones();
         }
 

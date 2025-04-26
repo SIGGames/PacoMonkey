@@ -6,6 +6,7 @@
         public const string CurrentPlayTimeKey = "CurrentPlayTime";
         public const string DifficultyKey = "Difficulty";
         public const string IsGameStartedKey = "IsGameStarted";
+        public const string LevelKey = "Level";
         public const string RespawnPositionX = "RespawnPositionX";
         public const string RespawnPositionY = "RespawnPositionY";
 

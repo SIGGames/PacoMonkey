@@ -45,16 +45,6 @@ namespace Managers {
             foreach (CinematicConfig config in cinematicConfigs.Where(config => !uniqueCinematics.Add(config.cinematic))) {
                 Debug.LogError($"Duplicate cinematic entry found: {config.cinematic}");
             }
-
-            // TODO: Do this with a level manager since this is just a crap
-            QuestManager.Quest activeQuest = QuestManager.Instance.GetActiveQuest();
-            if (activeQuest != null && activeQuest.id.Contains("2")) {
-                level1GameObject.SetActive(false);
-                level2GameObject.SetActive(true);
-            } else {
-                level1GameObject.SetActive(true);
-                level2GameObject.SetActive(false);
-            }
         }
 
         public void StartCinematic(Cinematic cinematic, bool forceOverride = false) {
@@ -102,13 +92,8 @@ namespace Managers {
                 CharacterManager.Instance.SetCharacter(config.characterToChange);
             }
 
-            // TODO: Do this with a level manager since this is just a crap
-            if (config.cinematic == Cinematic.Ending) {
-                level1GameObject.SetActive(false);
-                level2GameObject.SetActive(true);
-            } else if (config.cinematic == Cinematic.NewGame) {
-                level1GameObject.SetActive(true);
-                level2GameObject.SetActive(false);
+            if (config.setLevel) {
+                LevelManager.Instance.SetLevel(config.levelToSet);
             }
 
             if (config.showTimer) {
@@ -326,6 +311,10 @@ namespace Managers {
 
         [Header("Enemies")]
         public bool instanceEnemies;
+
+        [Header("Level")]
+        public bool setLevel;
+        public Level levelToSet;
 
         [Header("Fade In")]
         public bool showFadeIn;

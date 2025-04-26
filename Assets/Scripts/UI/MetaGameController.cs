@@ -112,7 +112,7 @@ namespace UI {
                 panel => panel.panelGameObject.name.Contains(panelName) && panel.panelGameObject.activeSelf);
         }
 
-        private void SetCursorVisible(bool show) {
+        private static void SetCursorVisible(bool show) {
             Cursor.visible = show;
             Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
         }
