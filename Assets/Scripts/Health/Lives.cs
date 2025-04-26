@@ -89,7 +89,7 @@ namespace Health {
         }
 
         public void ResetLives() {
-            CurrentLives = startingLives;
+            CurrentLives = MaxLives;
         }
 
         public float GetMaxLives() {
