@@ -23,6 +23,7 @@ namespace Managers {
         [SerializeField, Range(0f, 2f)] private float animationDuration = 0.25f;
 
         private Coroutine _closeRoutine;
+        private Coroutine _animateRoutine;
         private bool _isOpen;
 
         private void Awake() {
@@ -55,7 +56,7 @@ namespace Managers {
             _isOpen = true;
             SetTitle(titleKey);
             SetIcons(titleKey, icons);
-            StartCoroutine(AnimatePopUp(true, animationDuration));
+            StartAnimatePopUp(true, animationDuration);
         }
 
         public void ClosePopUp(float closeDelay = 0f) {
@@ -124,9 +125,16 @@ namespace Managers {
         private IEnumerator ClosePopUpRoutine(float closeDelay) {
             yield return new WaitForSeconds(closeDelay);
 
-
-            yield return AnimatePopUp(false, animationDuration);
+            StartAnimatePopUp(false, animationDuration);
+            yield return new WaitUntil(() => _animateRoutine == null);
             ResetPopUp();
+        }
+
+        private void StartAnimatePopUp(bool opening, float duration) {
+            if (_animateRoutine != null) {
+                StopCoroutine(_animateRoutine);
+            }
+            _animateRoutine = StartCoroutine(AnimatePopUp(opening, duration));
         }
 
         private IEnumerator AnimatePopUp(bool opening, float duration) {
@@ -147,6 +155,7 @@ namespace Managers {
             }
 
             _popupRectTransform.localScale = end;
+            _animateRoutine = null;
         }
     }
 }
