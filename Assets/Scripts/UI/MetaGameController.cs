@@ -55,10 +55,12 @@ namespace UI {
                 mainMenu.gameObject.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(mainMenuGameObject);
                 foreach (Canvas i in gamePlayCanvasii) i.gameObject.SetActive(false);
+                SetCursorVisible(true);
             } else {
                 Time.timeScale = 1;
                 mainMenu.gameObject.SetActive(false);
                 foreach (Canvas i in gamePlayCanvasii) i.gameObject.SetActive(true);
+                SetCursorVisible(false);
             }
 
             IsMenuOpen = show;
@@ -108,6 +110,11 @@ namespace UI {
         private bool IsInPanel(string panelName) {
             return mainMenu.panels.Any(
                 panel => panel.panelGameObject.name.Contains(panelName) && panel.panelGameObject.activeSelf);
+        }
+
+        private void SetCursorVisible(bool show) {
+            Cursor.visible = show;
+            Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
         }
     }
 }
