@@ -85,11 +85,20 @@ namespace Controllers {
         [Range(0, 1)]
         public float repositionDistance = 0.2f;
 
+        [SerializeField]
+        private Vector2 colliderSizeIncrementOnJump = Vector2.zero;
+
+        [SerializeField]
+        private Vector2 colliderOffsetIncrementOnJump = Vector2.zero;
+
         private float _balanceFactor;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         public JumpState jumpState = JumpState.Grounded;
         private bool _stopJump;
+        private Vector2 _originalBoxColliderSizeBeforeJump;
+        private Vector2 _originalBoxColliderOffsetBeforeJump;
+        private bool _updatedJumpCollider;
 
         [Header("Player Death")]
         [SerializeField] private bool rumbleOnHit = true;
@@ -170,6 +179,8 @@ namespace Controllers {
         protected override void Start() {
             _originalBoxColliderSize = boxCollider.size;
             _originalBoxColliderOffset = boxCollider.offset;
+            _originalBoxColliderSizeBeforeJump = boxCollider.size;
+            _originalBoxColliderOffsetBeforeJump = boxCollider.offset;
             if (boxColliderOnDeathSize == Vector2.zero) {
                 boxColliderOnDeathSize = boxCollider.size;
             }
@@ -254,6 +265,24 @@ namespace Controllers {
             boxCollider.offset = lives.IsAlive ? _originalBoxColliderOffset : boxColliderDeathOffset;
             // Set body type to kinematic to enable gravity and collisions while the player has died
             SetBodyType(RigidbodyType2D.Kinematic);
+        }
+
+        private void UpdateColliderOnJump() {
+            if (!_updatedJumpCollider && jumpState == JumpState.InFlight) {
+                _originalBoxColliderSizeBeforeJump = boxCollider.size;
+                _originalBoxColliderOffsetBeforeJump = boxCollider.offset;
+
+                boxCollider.size = _originalBoxColliderSizeBeforeJump + colliderSizeIncrementOnJump;
+                boxCollider.offset = _originalBoxColliderOffsetBeforeJump + colliderOffsetIncrementOnJump;
+
+                _updatedJumpCollider = true;
+            } else if (_updatedJumpCollider && jumpState == JumpState.Grounded) {
+                // Reset the collider size and offset when the player is grounded
+                boxCollider.size = _originalBoxColliderSizeBeforeJump;
+                boxCollider.offset = _originalBoxColliderOffsetBeforeJump;
+
+                _updatedJumpCollider = false;
+            }
         }
 
         private void HandleGravityOnDeath() {
@@ -404,6 +433,8 @@ namespace Controllers {
             } else if (jumpState == JumpState.Grounded) {
                 airTime = 0f;
             }
+
+            UpdateColliderOnJump();
         }
 
         public void StartJump() {
