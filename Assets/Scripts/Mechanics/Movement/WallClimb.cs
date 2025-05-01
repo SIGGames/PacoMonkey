@@ -109,9 +109,10 @@ namespace Mechanics.Movement {
                 verticalInput = 0;
             }
 
+            // This has been disabled since now its disabled by HoldV2 on the right moment
             if (!ledgeCheck.IsGroundAbove() && player.lives.IsAlive && _isClimbing) {
-                StopClimbing();
-                _hold.StartHold();
+                // StopClimbing();
+                 // _hold.StartHold();
             }
 
             if (verticalInput != 0) {
@@ -156,7 +157,7 @@ namespace Mechanics.Movement {
             }
         }
 
-        private void StopClimbing() {
+        public void StopClimbing() {
             if (player.movementState != PlayerMovementState.Hold) {
                 // Rise a bit the player vertical position to help ledge detection
                 player.AddPosition(0, 0.05f);
@@ -186,8 +187,7 @@ namespace Mechanics.Movement {
 
         private bool IsBelowWall() {
             const float rayLength = 0.5f;
-            Vector2 origin = transform.position;
-            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.up, rayLength, Ground.value);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, rayLength, Ground.value);
             return hit.collider != null;
         }
 

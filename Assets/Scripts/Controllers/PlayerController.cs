@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Enums;
 using Gameplay;
 using Health;
 using Managers;
 using Mechanics.Fight;
+using Mechanics.Movement;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zones;
 using static Platformer.Core.Simulation;
 using static Utils.AnimatorUtils;
 using static PlayerInput.KeyBinds;
@@ -85,19 +88,11 @@ namespace Controllers {
         [Range(0, 1)]
         public float repositionDistance = 0.2f;
 
-        [SerializeField]
-        private Vector2 colliderSizeIncrementOnJump = Vector2.zero;
-
-        [SerializeField]
-        private Vector2 colliderOffsetIncrementOnJump = Vector2.zero;
-
         private float _balanceFactor;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         public JumpState jumpState = JumpState.Grounded;
         private bool _stopJump;
-        private Vector2 _originalBoxColliderSizeBeforeJump;
-        private Vector2 _originalBoxColliderOffsetBeforeJump;
         private bool _updatedJumpCollider;
 
         [Header("Player Death")]
@@ -179,8 +174,6 @@ namespace Controllers {
         protected override void Start() {
             _originalBoxColliderSize = boxCollider.size;
             _originalBoxColliderOffset = boxCollider.offset;
-            _originalBoxColliderSizeBeforeJump = boxCollider.size;
-            _originalBoxColliderOffsetBeforeJump = boxCollider.offset;
             if (boxColliderOnDeathSize == Vector2.zero) {
                 boxColliderOnDeathSize = boxCollider.size;
             }
@@ -267,24 +260,6 @@ namespace Controllers {
             SetBodyType(RigidbodyType2D.Kinematic);
         }
 
-        private void UpdateColliderOnJump() {
-            if (!_updatedJumpCollider && jumpState == JumpState.InFlight) {
-                _originalBoxColliderSizeBeforeJump = boxCollider.size;
-                _originalBoxColliderOffsetBeforeJump = boxCollider.offset;
-
-                boxCollider.size = _originalBoxColliderSizeBeforeJump + colliderSizeIncrementOnJump;
-                boxCollider.offset = _originalBoxColliderOffsetBeforeJump + colliderOffsetIncrementOnJump;
-
-                _updatedJumpCollider = true;
-            } else if (_updatedJumpCollider && jumpState == JumpState.Grounded) {
-                // Reset the collider size and offset when the player is grounded
-                boxCollider.size = _originalBoxColliderSizeBeforeJump;
-                boxCollider.offset = _originalBoxColliderOffsetBeforeJump;
-
-                _updatedJumpCollider = false;
-            }
-        }
-
         private void HandleGravityOnDeath() {
             if (lives.IsAlive) {
                 return;
@@ -313,6 +288,11 @@ namespace Controllers {
             lives.ResetLives();
             _isDying = false;
             SetVelocity(Vector2.zero);
+
+            HoldV2 hold = GetComponent<HoldV2>();
+            if (hold != null) {
+                hold.ResetHold();
+            }
         }
 
         private void HandleHorizontalMovement() {
@@ -433,8 +413,6 @@ namespace Controllers {
             } else if (jumpState == JumpState.Grounded) {
                 airTime = 0f;
             }
-
-            UpdateColliderOnJump();
         }
 
         public void StartJump() {
@@ -484,7 +462,7 @@ namespace Controllers {
 
             Vector2 direction = isFacingRight ? Vector2.right : Vector2.left;
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, wallCheckDistance, Ground.value);
-            if (hit.collider != null) {
+            if (GetJumpKeyDown() && hit.collider != null) {
                 AddPosition(isFacingRight ? -repositionDistance : repositionDistance);
                 SetVelocity(new Vector2(0, velocity.y));
                 return true;
@@ -699,6 +677,12 @@ namespace Controllers {
             // TODO: This key binds are for debugging purposes
             if (Input.GetKeyDown(KeyCode.F4)) {
                 Respawn();
+            }
+
+            if (Input.GetKeyDown(KeyCode.F1)) {
+                // Get the position from the Test CheckPoint object
+                Vector3 playgroundPosition = FindObjectsOfType<CheckPoint>().FirstOrDefault(x => x.name == "CheckPoint Test")?.transform.position ?? Vector3.zero;
+                SetPosition(playgroundPosition);
             }
 
             if (CharacterManager.Instance.currentPlayerController == this) {
