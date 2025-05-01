@@ -1,6 +1,5 @@
 ﻿using Controllers;
 using Enums;
-using NaughtyAttributes;
 using UnityEngine;
 using static Utils.AnimatorUtils;
 using static PlayerInput.KeyBinds;
@@ -37,6 +36,7 @@ namespace Mechanics.Movement {
         private bool _playerWasWallClimbing;
         private bool _isGrabbing;
         private bool _hasStartedClimb;
+        private bool _holdInputLock;
 
         private Animator _animator;
         private WallClimb _wallClimb;
@@ -55,11 +55,9 @@ namespace Mechanics.Movement {
                 _isGrabbing = false;
             }
 
-            if (_isGrabbing && (GetJumpKeyDown() || GetUpKeyDown())) {
-                if (!_hasStartedClimb) {
-                    _hasStartedClimb = true;
-                    ClimbLedge();
-                }
+            if (_isGrabbing && !_hasStartedClimb && !_holdInputLock && (GetJumpKeyDown() || GetUpKeyDown())) {
+                _hasStartedClimb = true;
+                ClimbLedge();
             }
         }
 
@@ -103,6 +101,9 @@ namespace Mechanics.Movement {
             _animator.SetBool(IsHolding, true);
             _player.SetMovementState(PlayerMovementState.Hold, 5);
             _player.FreezePosition();
+
+            _holdInputLock = true;
+            Invoke(nameof(UnlockHoldInput), 0.05f);
         }
 
         private void ClimbLedge() {
@@ -166,6 +167,10 @@ namespace Mechanics.Movement {
                     _player.AddPosition(signedCorrection);
                 }
             }
+        }
+
+        private void UnlockHoldInput() {
+            _holdInputLock = false;
         }
 
         private void OnDrawGizmosSelected() {
