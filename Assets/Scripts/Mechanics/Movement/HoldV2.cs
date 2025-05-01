@@ -199,7 +199,9 @@ namespace Mechanics.Movement {
             _isGrabbing = false;
             _hasStartedClimb = false;
             _playerWasWallClimbing = false;
-            _rb.gravityScale = _startingGrav;
+            if (_rb != null) {
+                _rb.gravityScale = _startingGrav;
+            }
         }
     }
 }
