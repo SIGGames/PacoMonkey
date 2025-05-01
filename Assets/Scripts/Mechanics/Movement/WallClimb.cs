@@ -78,7 +78,7 @@ namespace Mechanics.Movement {
         }
 
         private void StartClimbing() {
-            if (GetCrouchKey()) {
+            if (GetCrouchKey() || IsBelowWall()) {
                 return;
             }
             player.SetBodyType(RigidbodyType2D.Kinematic);
@@ -181,6 +181,13 @@ namespace Mechanics.Movement {
             // This method is used to check if the player is close to a ceiling while climbing
             const float rayLength = 0.5f;
             RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, rayLength, Ground.value);
+            return hit.collider != null;
+        }
+
+        private bool IsBelowWall() {
+            const float rayLength = 0.5f;
+            Vector2 origin = transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.up, rayLength, Ground.value);
             return hit.collider != null;
         }
 
