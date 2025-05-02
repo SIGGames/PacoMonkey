@@ -14,6 +14,7 @@ namespace Managers {
         [SerializeField] private int frameRate = FrameRate;
         [SerializeField, Range(1f, 10f)] private float currentBrightness = 10f;
         [SerializeField] public Image brightnessImage;
+        [SerializeField] private GameObject backgroundImage;
 
         private void Awake() {
             if (Instance == null) {
@@ -46,6 +47,7 @@ namespace Managers {
         public static void SetResolution(int width, int height, bool isFullscreen) {
             Screen.SetResolution(width, height, isFullscreen);
             SaveResolutionSettings(width, height, isFullscreen);
+            Instance?.StretchBackgroundToFullScreen();
         }
 
         public void SetVSyncCount(int count) {
@@ -63,6 +65,29 @@ namespace Managers {
 
             PlayerPrefs.SetFloat(BrightnessKey, brightness);
             PlayerPrefs.Save();
+        }
+
+        private void StretchBackgroundToFullScreen() {
+            if (backgroundImage == null) {
+                return;
+            }
+
+            SpriteRenderer sr = backgroundImage.GetComponent<SpriteRenderer>();
+            if (sr == null || sr.sprite == null || Camera.main == null) {
+                return;
+            }
+
+            float screenRatio = (float)Screen.width / Screen.height;
+            float spriteRatio = sr.sprite.bounds.size.x / sr.sprite.bounds.size.y;
+            Vector3 scale = backgroundImage.transform.localScale;
+
+            if (screenRatio >= spriteRatio) {
+                scale.x = scale.y * screenRatio / spriteRatio;
+            } else {
+                scale.y = scale.x * spriteRatio / screenRatio;
+            }
+
+            backgroundImage.transform.localScale = scale;
         }
 
         public void ResetBrightness() {
