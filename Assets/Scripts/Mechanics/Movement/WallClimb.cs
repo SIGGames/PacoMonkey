@@ -187,7 +187,10 @@ namespace Mechanics.Movement {
 
         private bool IsBelowWall() {
             const float rayLength = 0.5f;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, rayLength, Ground.value);
+            // An offset it's necessary to avoid the raycast hit the current climbing wall is a ceiling
+            const float xOffset = 0.1f;
+            Vector2 origin = new Vector2(transform.position.x + (player.isFacingRight ? xOffset : -xOffset), transform.position.y);
+            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.up, rayLength, Ground.value);
             return hit.collider != null;
         }
 
