@@ -37,9 +37,6 @@ namespace UI {
             InitializeInputs(savedBrightness);
             InitializeDropdown();
 
-            vSyncCheckbox.isOn = savedVSync != 0;
-            fullscreenCheckbox.isOn = savedFullscreen;
-
             resolutionDropdown.onValueChanged.AddListener(OnResolutionDropdownChanged);
             vSyncCheckbox.onValueChanged.AddListener(OnVSyncChanged);
             fullscreenCheckbox.onValueChanged.AddListener(OnFullscreenChanged);
@@ -54,6 +51,10 @@ namespace UI {
             } else {
                 ResolutionManager.SetResolution(Screen.width, Screen.height, false);
             }
+
+            vSyncCheckbox.isOn = savedVSync != 0;
+            fullscreenCheckbox.isOn = savedFullscreen;
+            resolutionDropdown.interactable = !savedFullscreen;
         }
 
         private void InitializeSliders(float brightness) {
@@ -115,7 +116,8 @@ namespace UI {
                 int screenHeight = Screen.currentResolution.height;
                 ResolutionManager.SetResolution(screenWidth, screenHeight, true);
             } else {
-                ResolutionManager.SetResolution(Screen.width, Screen.height, false);
+                int index = resolutionDropdown.value;
+                OnResolutionDropdownChanged(index);
             }
         }
 
