@@ -113,6 +113,13 @@ MonoBehaviour:
     catalan: Sortir
     spanish: Salir
     english: Exit
+  - key: external-credits
+    catalan: "**Efectes d'\xC0udio**\\n\\n\\url{https://elevenlabs.io/}{ElevenLabs.io}\\n\\n\\n**Icones**\\n\\n\\url{https://thoseawesomeguys.com/prompts/}{Those
+      Awesome Guys}"
+    spanish: '**Efectos de sonido**\n\n\url{https://elevenlabs.io/}{ElevenLabs.io}\n\n\n**Iconos**\n\n\url{https://thoseawesomeguys.com/prompts/}{Those
+      Awesome Guys} '
+    english: '**Sound Effects**\n\n\url{https://elevenlabs.io/}{ElevenLabs.io}\n\n\n**Icons**\n\n\url{https://thoseawesomeguys.com/prompts/}{Those
+      Awesome Guys} '
   - key: full-screen
     catalan: Pantalla Completa
     spanish: Pantalla Completa
