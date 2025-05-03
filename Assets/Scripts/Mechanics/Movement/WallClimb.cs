@@ -142,6 +142,13 @@ namespace Mechanics.Movement {
 
             if (GetJumpKeyDown() && isPressingOppositeDirection) {
                 StopClimbing();
+
+                // This offset is needed since on the compiled version the player falls on wall jumping since is colliding with something I can't see
+                #if !UNITY_EDITOR
+                    const float offsetToAdd = 0.3f;
+                    player.AddPosition(player.isFacingRight ? -offsetToAdd : offsetToAdd);
+                #endif
+
                 _animator.SetBool(IsHoldingJumpOnClimb, false);
                 _animator.SetBool(IsJumping, true);
                 player.velocity = new Vector2((player.isFacingRight ? -1f : 1f) * climbSpeed, player.jumpTakeOffSpeed);
