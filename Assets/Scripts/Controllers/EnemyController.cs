@@ -455,12 +455,14 @@ namespace Controllers {
             float decreasedBounceForceY = decreasedBounceForce * verticalPercentage;
             if (bounceOnAllDirections) {
                 CurrentPlayer.BounceX(decreasedBounceForceX);
-                CurrentPlayer.BounceY(decreasedBounceForceY);
+                // This has been commented because it was causing problems with the player
+                // CurrentPlayer.BounceY(decreasedBounceForceY);
             } else {
                 CurrentPlayer.BounceX(decreasedBounceForceX);
+                /*
                 if (!CurrentPlayer.IsGrounded) {
                     CurrentPlayer.BounceY(decreasedBounceForceY);
-                }
+                }*/
             }
         }
 
