@@ -37,7 +37,9 @@ namespace Gameplay {
         }
 
         public void ShowSprite(bool show) {
-            _spriteRenderer.enabled = show;
+            if (_spriteRenderer != null) {
+                _spriteRenderer.enabled = show;
+            }
             isHidden = !show;
         }
     }

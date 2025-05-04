@@ -576,7 +576,9 @@ namespace Controllers {
 
             if (lives.IsAlive) {
                 PlayerController player = CharacterManager.Instance.currentPlayerController;
-                player.animator.SetTrigger(Hurt);
+                if (player.movementState != PlayerMovementState.Hold) {
+                    player.animator.SetTrigger(Hurt);
+                }
 
                 player.audioSource.PlayOneShot(AudioManager.GetRandomAudioClip(hitAudios), hitAudioVolume);
 
