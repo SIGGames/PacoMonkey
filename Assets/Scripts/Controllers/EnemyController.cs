@@ -276,6 +276,7 @@ namespace Controllers {
             }
 
             if (HasWallBetweenEnemyAndPlayer()) {
+                _velocity = Vector3.zero;
                 return;
             }
 
