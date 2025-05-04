@@ -37,6 +37,7 @@ namespace Managers {
 
         private MusicType _currentMusicType;
         private AudioSource _audioSource;
+        private AudioClip _lastClip;
 
         private int _menuMusicIndex;
         private int _gameMusicIndex;
@@ -236,15 +237,20 @@ namespace Managers {
             }
 
             bool isMusicRandom = musicType == MusicType.Menu ? isMenuMusicRandom : isGameMusicRandom;
+            AudioClip nextClip;
+
             if (isMusicRandom) {
-                return GetRandomAudioClip(selectedMusics);
+                nextClip = GetRandomAudioClipAvoidingRepeat(selectedMusics, _lastClip);
+            } else {
+                int musicIdx = musicType == MusicType.Menu
+                    ? _menuMusicIndex++ % selectedMusics.Count
+                    : _gameMusicIndex++ % selectedMusics.Count;
+
+                nextClip = selectedMusics[musicIdx];
             }
 
-            int musicIdx = musicType == MusicType.Menu
-                ? _menuMusicIndex++ % selectedMusics.Count
-                : _gameMusicIndex++ % selectedMusics.Count;
-
-            return selectedMusics[musicIdx];
+            _lastClip = nextClip;
+            return nextClip;
         }
 
         public void PlayMusic(MusicType musicType, MusicSoundType musicSoundType) {
@@ -279,6 +285,19 @@ namespace Managers {
                 .Where(m => m.musicSoundType == musicSoundType)
                 .Select(m => m.audioClip)
                 .ToList();
+        }
+
+        private static AudioClip GetRandomAudioClipAvoidingRepeat(List<AudioClip> clips, AudioClip lastClip) {
+            if (clips == null || clips.Count == 0) {
+                return null;
+            }
+
+            if (clips.Count == 1 || !clips.Contains(lastClip)) {
+                return GetRandomAudioClip(clips);
+            }
+
+            List<AudioClip> filtered = clips.Where(c => c != lastClip).ToList();
+            return GetRandomAudioClip(filtered);
         }
 
         public static AudioClip GetRandomAudioClip(List<AudioClip> audioClips) {
