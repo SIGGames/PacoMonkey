@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using TMPro;
@@ -10,7 +11,11 @@ using Random = UnityEngine.Random;
 
 namespace Managers {
     public class AudioManager : MonoBehaviour {
+        public static AudioManager Instance { get; private set; }
+
         public AudioMixer audioMixer;
+
+        [Header("Audio Components")]
         [SerializeField] private Slider masterVolumeSlider;
         [SerializeField] private Slider musicSlider;
         [SerializeField] private Slider sfxSlider;
@@ -18,6 +23,14 @@ namespace Managers {
         [SerializeField] private TMP_InputField musicVolumeInput;
         [SerializeField] private TMP_InputField sfxVolumeInput;
 
+        [Header("Music Settings")]
+        [SerializeField] private List<AudioClip> onMenuMusics;
+        [SerializeField] private List<AudioClip> onGameMusics;
+
+        private MusicType _currentMusicType;
+        private AudioSource _audioSource;
+
+        [Header("Volume Settings")]
         [SerializeField, Range(MinVolume, MaxVolume)]
         private float currentMasterVolume = DefaultMasterVolume;
 
@@ -37,6 +50,12 @@ namespace Managers {
         private const float MaxVolume = 10f;
 
         private void Awake() {
+            if (Instance == null) {
+                Instance = this;
+            } else {
+                Destroy(gameObject);
+            }
+
             if (masterVolumeSlider == null || musicSlider == null || sfxSlider == null) {
                 Debug.LogError("One or more sliders are not assigned in the inspector");
                 enabled = false;
@@ -46,6 +65,8 @@ namespace Managers {
                 Debug.LogError("One or more input fields are not assigned in the inspector");
                 enabled = false;
             }
+
+            _audioSource = GetComponent<AudioSource>();
         }
 
         private void Start() {
@@ -196,6 +217,26 @@ namespace Managers {
             }
         }
 
+        public void PlayRandomMusic(MusicType musicType) {
+            _currentMusicType = musicType;
+
+            List<AudioClip> selectedMusics = musicType == MusicType.Menu ? onMenuMusics : onGameMusics;
+            AudioClip randomClip = GetRandomAudioClip(selectedMusics);
+
+            if (randomClip != null) {
+                _audioSource.clip = randomClip;
+                _audioSource.Play();
+
+                StopAllCoroutines();
+                StartCoroutine(PlayNextAfterDelay(randomClip.length));
+            }
+        }
+
+        private IEnumerator PlayNextAfterDelay(float delay) {
+            yield return new WaitForSecondsRealtime(delay + 0.1f);
+            PlayRandomMusic(_currentMusicType);
+        }
+
         public static AudioClip GetRandomAudioClip(List<AudioClip> audioClips) {
             if (audioClips == null || audioClips.Count == 0) {
                 return null;
@@ -204,5 +245,11 @@ namespace Managers {
             int randomIndex = Random.Range(0, audioClips.Count);
             return audioClips[randomIndex];
         }
+    }
+
+    [Serializable]
+    public enum MusicType {
+        Menu,
+        Game
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using Controllers;
 using Managers;
@@ -7,6 +8,8 @@ using static PlayerInput.KeyBinds;
 
 namespace UI {
     public class MetaGameController : MonoBehaviour {
+        public static MetaGameController Instance { get; private set; }
+
         // The main UI object which used for the menu.
         public MainUIController mainMenu;
 
@@ -24,12 +27,21 @@ namespace UI {
         private bool _showMainCanvas;
         private bool _controlWasEnabled;
 
+        private static MusicType? _currentMusicType;
+        private static Coroutine _delayedMusicCoroutine;
+
+        private void Awake() {
+            Instance = this;
+        }
+
         private void Start() {
             if (gameController.showMenuAtStart) {
                 ToggleMainMenu(true);
                 // Title screen
                 mainMenu.SetActivePanel(1);
             }
+
+            PlayMusicAudio();
         }
 
         private void OnEnable() {
@@ -47,6 +59,8 @@ namespace UI {
                     CharacterManager.Instance.currentPlayerController.FreezePosition(show);
                 }
             }
+
+            PlayMusicAudio();
         }
 
         private void _ToggleMainMenu(bool show) {
@@ -119,6 +133,45 @@ namespace UI {
         private static void SetCursorVisible(bool show) {
             Cursor.visible = show;
             Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
+        }
+
+        private MusicType? GetTargetMusicType() {
+            if (!IsMenuOpen) {
+                return MusicType.Game;
+            }
+
+            if (IsInPanel("PauseMenu") || IsInPanel("Quests")) {
+                return null;
+            }
+            return MusicType.Menu;
+        }
+
+        private static IEnumerator DelayedMusicRetry() {
+            const float retryDelay = 0.3f;
+            yield return new WaitForSecondsRealtime(retryDelay);
+
+            _delayedMusicCoroutine = null;
+            PlayMusicAudio();
+        }
+
+        private static void PlayMusicAudio() {
+            MusicType? newType = Instance.GetTargetMusicType();
+
+            // When there is no new type its because the game is on a menu that it must do not modify the current music,
+            // but it must retry the search the music in case the user moves into another menu that needs to play menu music.
+            if (newType == null) {
+                _delayedMusicCoroutine ??= Instance.StartCoroutine(DelayedMusicRetry());
+                return;
+            }
+
+            if (_currentMusicType == newType) {
+                return;
+            }
+
+            _currentMusicType = newType;
+            if (AudioManager.Instance != null) {
+                AudioManager.Instance.PlayRandomMusic(newType.Value);
+            }
         }
     }
 }
