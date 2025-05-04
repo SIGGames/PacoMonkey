@@ -24,11 +24,15 @@ namespace Managers {
         [SerializeField] private TMP_InputField sfxVolumeInput;
 
         [Header("Music Settings")]
+        [SerializeField] private string currentMusicTitle;
         [SerializeField] private List<AudioClip> onMenuMusics;
-        [SerializeField] private List<AudioClip> onGameMusics;
+        [SerializeField] private List<InGameMusic> onGameMusics;
 
         private MusicType _currentMusicType;
         private AudioSource _audioSource;
+
+        private int _menuMusicIndex;
+        private int _gameMusicIndex;
 
         [Header("Volume Settings")]
         [SerializeField, Range(MinVolume, MaxVolume)]
@@ -217,24 +221,34 @@ namespace Managers {
             }
         }
 
-        public void PlayRandomMusic(MusicType musicType) {
+        public void PlayMusic(MusicType musicType, bool random = true) {
             _currentMusicType = musicType;
 
-            List<AudioClip> selectedMusics = musicType == MusicType.Menu ? onMenuMusics : onGameMusics;
-            AudioClip randomClip = GetRandomAudioClip(selectedMusics);
+            List<AudioClip> selectedMusics = musicType == MusicType.Menu ? onMenuMusics : onGameMusics.ConvertAll(m => m.audioClip);
+            AudioClip audioClip;
 
-            if (randomClip != null) {
-                _audioSource.clip = randomClip;
+            if (random) {
+                audioClip = GetRandomAudioClip(selectedMusics);
+            } else {
+                int index = musicType == MusicType.Menu
+                    ? _menuMusicIndex++ % selectedMusics.Count
+                    : _gameMusicIndex++ % selectedMusics.Count;
+                audioClip = selectedMusics[index];
+            }
+
+            if (audioClip != null) {
+                _audioSource.clip = audioClip;
+                currentMusicTitle = audioClip.name;
                 _audioSource.Play();
 
                 StopAllCoroutines();
-                StartCoroutine(PlayNextAfterDelay(randomClip.length));
+                StartCoroutine(PlayNextAfterDelay(audioClip.length));
             }
         }
 
         private IEnumerator PlayNextAfterDelay(float delay) {
             yield return new WaitForSecondsRealtime(delay + 0.1f);
-            PlayRandomMusic(_currentMusicType);
+            PlayMusic(_currentMusicType);
         }
 
         public static AudioClip GetRandomAudioClip(List<AudioClip> audioClips) {
@@ -251,5 +265,17 @@ namespace Managers {
     public enum MusicType {
         Menu,
         Game
+    }
+
+    [Serializable]
+    public enum MusicSoundType {
+        Calm,
+        Action,
+    }
+
+    [Serializable]
+    public class InGameMusic {
+        public AudioClip audioClip;
+        public MusicSoundType musicSoundType;
     }
 }
