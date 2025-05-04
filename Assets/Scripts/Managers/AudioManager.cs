@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -227,8 +228,8 @@ namespace Managers {
             }
         }
 
-        private AudioClip GetNextClip(MusicType musicType) {
-            List<AudioClip> selectedMusics = GetSelectedMusics(musicType);
+        private AudioClip GetNextClip(MusicType musicType, MusicSoundType musicSoundType) {
+            List<AudioClip> selectedMusics = GetSelectedMusics(musicType, musicSoundType);
 
             if (selectedMusics == null || selectedMusics.Count == 0) {
                 return null;
@@ -248,7 +249,7 @@ namespace Managers {
 
         public void PlayMusic(MusicType musicType, MusicSoundType musicSoundType = MusicSoundType.All) {
             _currentMusicType = musicType;
-            AudioClip audioClip = GetNextClip(musicType);
+            AudioClip audioClip = GetNextClip(musicType, musicSoundType);
 
             if (audioClip != null) {
                 _audioSource.clip = audioClip;
@@ -265,10 +266,19 @@ namespace Managers {
             PlayMusic(_currentMusicType);
         }
 
-        private List<AudioClip> GetSelectedMusics(MusicType musicType) {
-            return musicType == MusicType.Menu
-                ? onMenuMusics
-                : onGameMusics.ConvertAll(m => m.audioClip);
+        private List<AudioClip> GetSelectedMusics(MusicType musicType, MusicSoundType musicSoundType = MusicSoundType.All) {
+            if (musicType == MusicType.Menu) {
+                return onMenuMusics;
+            }
+
+            if (musicSoundType == MusicSoundType.All) {
+                return onGameMusics.ConvertAll(m => m.audioClip);
+            }
+
+            return onGameMusics
+                .Where(m => m.musicSoundType == musicSoundType)
+                .Select(m => m.audioClip)
+                .ToList();
         }
 
         public static AudioClip GetRandomAudioClip(List<AudioClip> audioClips) {
