@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Controllers;
 using Gameplay;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using static Utils.PlayerPrefsKeys;
@@ -9,8 +11,12 @@ namespace Managers {
     public class HiddenElementsManager : MonoBehaviour {
         public static HiddenElementsManager Instance { get; private set; }
 
-        [Header("Settings")]
+        [Header("Settings"), Range(1, 10)]
         [SerializeField] private float timeToClosePanel = 5f;
+
+        [SerializeField] private bool paintPlayerOnFinish = true;
+        [SerializeField, ShowIf("paintPlayerOnFinish")] private Color playerColor;
+        private bool _playerHasBeenPainted;
 
         [Header("Components")]
         [SerializeField] private GameObject hiddenElementsPanel;
@@ -32,6 +38,10 @@ namespace Managers {
 
         private void Start() {
             LoadPickedHiddenElements();
+
+            if (HasAllHiddenElements()) {
+                ShowPanel();
+            }
         }
 
         public void RegisterHiddenElement(string id) {
@@ -70,13 +80,33 @@ namespace Managers {
         private void ShowPanel() {
             hiddenElementsText.text = "[" + _pickedHiddenElements.Count + "/" + _hiddenElementsCount + "]";
             hiddenElementsPanel.SetActive(true);
-            StopAllCoroutines();
-            StartCoroutine(HidePanel());
+
+            if (!HasAllHiddenElements()) {
+                if (_playerHasBeenPainted) {
+                    PaintPlayers(Color.white);
+                    _playerHasBeenPainted = false;
+                }
+
+                StopAllCoroutines();
+                StartCoroutine(HidePanel());
+            } else {
+                OnFinish();
+            }
         }
 
         private IEnumerator HidePanel() {
             yield return new WaitForSeconds(timeToClosePanel);
             hiddenElementsPanel.SetActive(false);
+        }
+
+        private bool HasAllHiddenElements() {
+            return _pickedHiddenElements.Count == _hiddenElementsCount;
+        }
+
+        private void OnFinish() {
+            if (paintPlayerOnFinish) {
+                PaintPlayers(playerColor);
+            }
         }
 
         public void ResetHiddenElements() {
@@ -88,10 +118,27 @@ namespace Managers {
             foreach (HiddenElement hiddenElement in hiddenElements) {
                 hiddenElement.ShowSprite(false);
             }
+            ShowPanel();
+            hiddenElementsPanel.SetActive(false);
         }
 
         private void FindHiddenElementsCount() {
             _hiddenElementsCount = FindObjectsOfType<HiddenElement>(true).Length;
+        }
+
+        private void PaintPlayers(Color color) {
+            PlayerController[] players = FindObjectsOfType<PlayerController>(true);
+            foreach (PlayerController player in players) {
+                if (player == null) {
+                    continue;
+                }
+
+                SpriteRenderer spriteRenderer = player.gameObject.GetComponent<SpriteRenderer>();
+                if (spriteRenderer != null) {
+                    spriteRenderer.color = color;
+                    _playerHasBeenPainted = true;
+                }
+            }
         }
     }
 }
