@@ -93,6 +93,10 @@ MonoBehaviour:
     catalan: Restablir valors per defecte
     spanish: Restablecer valores por defecto
     english: Set default values
+  - key: developed-by
+    catalan: Desenvolupat per
+    spanish: Desarrollado por
+    english: Developed by
   - key: difficulty
     catalan: Dificultat
     spanish: Dificultad
@@ -114,12 +118,17 @@ MonoBehaviour:
     spanish: Salir
     english: Exit
   - key: external-credits
-    catalan: "**Efectes d'\xC0udio**\\n\\n\\url{https://elevenlabs.io/}{ElevenLabs.io}\\n\\n\\n**Icones**\\n\\n\\url{https://thoseawesomeguys.com/prompts/}{Those
+    catalan: "**M\xFAsica del joc**\\n\\n\\url{https://suno.com/}{Suno}\\par**Efectes
+      d'\xC0udio**\\n\\n\\url{https://elevenlabs.io/}{ElevenLabs.io}\\par**Icones
+      Teclat i Comandament**\\n\\n\\url{https://thoseawesomeguys.com/prompts/}{Those
       Awesome Guys}"
-    spanish: '**Efectos de sonido**\n\n\url{https://elevenlabs.io/}{ElevenLabs.io}\n\n\n**Iconos**\n\n\url{https://thoseawesomeguys.com/prompts/}{Those
-      Awesome Guys} '
-    english: '**Sound Effects**\n\n\url{https://elevenlabs.io/}{ElevenLabs.io}\n\n\n**Icons**\n\n\url{https://thoseawesomeguys.com/prompts/}{Those
-      Awesome Guys} '
+    spanish: "**M\xFAsica del juego**\\n\\n\\url{https://suno.com/}{Suno}\\par**Efectos
+      de sonido**\\n\\n\\url{https://elevenlabs.io/}{ElevenLabs.io}\\par**Iconos
+      Teclado y Mando**\\n\\n\\url{https://thoseawesomeguys.com/prompts/}{Those Awesome
+      Guys}"
+    english: '**Game Music**\n\n\url{https://suno.com/}{Suno}\n\n\n**Sound Effects**\n\n\url{https://elevenlabs.io/}{ElevenLabs.io}\par**Keyboard
+      and Controller Icons**\n\n\url{https://thoseawesomeguys.com/prompts/}{Those
+      Awesome Guys}'
   - key: full-screen
     catalan: Pantalla Completa
     spanish: Pantalla Completa
@@ -344,6 +353,10 @@ MonoBehaviour:
     catalan: "Missi\xF3 Secund\xE0ria"
     spanish: "Misi\xF3n Secundaria"
     english: Side Quest
+  - key: sig-games
+    catalan: \url{https://siggames.cat/}{SIG Games}
+    spanish: \url{https://siggames.cat/}{SIG Games}
+    english: \url{https://siggames.cat/}{SIG Games}
   - key: spanish
     catalan: Espanyol
     spanish: "Espa\xF1ol"
