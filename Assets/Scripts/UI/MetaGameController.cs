@@ -170,7 +170,7 @@ namespace UI {
 
             _currentMusicType = newType;
             if (AudioManager.Instance != null) {
-                AudioManager.Instance.PlayMusic(newType.Value, newType != MusicType.Menu);
+                AudioManager.Instance.PlayMusic(newType.Value);
             }
         }
     }

@@ -25,7 +25,13 @@ namespace Managers {
 
         [Header("Music Settings")]
         [SerializeField] private string currentMusicTitle;
+
+        [Header("> Menu Music")]
+        [SerializeField] private bool isMenuMusicRandom;
         [SerializeField] private List<AudioClip> onMenuMusics;
+
+        [Header("> Game Music")]
+        [SerializeField] private bool isGameMusicRandom;
         [SerializeField] private List<InGameMusic> onGameMusics;
 
         private MusicType _currentMusicType;
@@ -221,20 +227,28 @@ namespace Managers {
             }
         }
 
-        public void PlayMusic(MusicType musicType, bool random = true) {
-            _currentMusicType = musicType;
+        private AudioClip GetNextClip(MusicType musicType) {
+            List<AudioClip> selectedMusics = GetSelectedMusics(musicType);
 
-            List<AudioClip> selectedMusics = musicType == MusicType.Menu ? onMenuMusics : onGameMusics.ConvertAll(m => m.audioClip);
-            AudioClip audioClip;
-
-            if (random) {
-                audioClip = GetRandomAudioClip(selectedMusics);
-            } else {
-                int index = musicType == MusicType.Menu
-                    ? _menuMusicIndex++ % selectedMusics.Count
-                    : _gameMusicIndex++ % selectedMusics.Count;
-                audioClip = selectedMusics[index];
+            if (selectedMusics == null || selectedMusics.Count == 0) {
+                return null;
             }
+
+            bool isMusicRandom = musicType == MusicType.Menu ? isMenuMusicRandom : isGameMusicRandom;
+            if (isMusicRandom) {
+                return GetRandomAudioClip(selectedMusics);
+            }
+
+            int musicIdx = musicType == MusicType.Menu
+                ? _menuMusicIndex++ % selectedMusics.Count
+                : _gameMusicIndex++ % selectedMusics.Count;
+
+            return selectedMusics[musicIdx];
+        }
+
+        public void PlayMusic(MusicType musicType, MusicSoundType musicSoundType = MusicSoundType.All) {
+            _currentMusicType = musicType;
+            AudioClip audioClip = GetNextClip(musicType);
 
             if (audioClip != null) {
                 _audioSource.clip = audioClip;
@@ -249,6 +263,12 @@ namespace Managers {
         private IEnumerator PlayNextAfterDelay(float delay) {
             yield return new WaitForSecondsRealtime(delay + 0.1f);
             PlayMusic(_currentMusicType);
+        }
+
+        private List<AudioClip> GetSelectedMusics(MusicType musicType) {
+            return musicType == MusicType.Menu
+                ? onMenuMusics
+                : onGameMusics.ConvertAll(m => m.audioClip);
         }
 
         public static AudioClip GetRandomAudioClip(List<AudioClip> audioClips) {
@@ -269,6 +289,7 @@ namespace Managers {
 
     [Serializable]
     public enum MusicSoundType {
+        All,
         Calm,
         Action,
     }
