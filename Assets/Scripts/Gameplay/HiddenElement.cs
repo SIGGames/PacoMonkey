@@ -21,12 +21,9 @@ namespace Gameplay {
         }
 
         private void Start() {
-            /*
             int posX = Mathf.RoundToInt(transform.position.x * 100f);
             int posY = Mathf.RoundToInt(transform.position.y * 100f);
             _elementId = $"{gameObject.name}_{posX}_{posY}";
-            */
-            _elementId = gameObject.name;
 
             bool picked = HiddenElementsManager.Instance.IsElementPicked(_elementId);
             ShowSprite(picked);

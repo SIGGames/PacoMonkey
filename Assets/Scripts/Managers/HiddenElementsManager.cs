@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Gameplay;
 using TMPro;
@@ -17,7 +16,7 @@ namespace Managers {
         [SerializeField] private GameObject hiddenElementsPanel;
         [SerializeField] private TextMeshProUGUI hiddenElementsText;
 
-        private HashSet<string> _pickedHiddenElements = new();
+        private readonly HashSet<string> _pickedHiddenElements = new();
         private int _hiddenElementsCount;
 
         private void Awake() {
@@ -35,16 +34,6 @@ namespace Managers {
             LoadPickedHiddenElements();
         }
 
-        private void Update() {
-            if (Input.GetKeyDown(KeyCode.F2)) {
-                RegisterHiddenElement(Guid.NewGuid().ToString());
-            }
-
-            if (Input.GetKeyDown(KeyCode.F3)) {
-                ResetHiddenElements();
-            }
-        }
-
         public void RegisterHiddenElement(string id) {
             if (_pickedHiddenElements.Contains(id)) {
                 return;
@@ -58,6 +47,7 @@ namespace Managers {
         }
 
         public bool IsElementPicked(string id) {
+            LoadPickedHiddenElements();
             return _pickedHiddenElements.Contains(id);
         }
 
