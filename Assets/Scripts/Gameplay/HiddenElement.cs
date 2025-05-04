@@ -10,9 +10,11 @@ namespace Gameplay {
 
         private string _elementId;
         private SpriteRenderer _spriteRenderer;
+        private AudioSource _audioSource;
 
         private void Awake() {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _audioSource = GetComponent<AudioSource>();
 
             if (_spriteRenderer.sprite == null) {
                 Debug.LogWarning("Hidden element does not have any sprite", this);
@@ -33,6 +35,9 @@ namespace Gameplay {
             if (other.CompareTag(Player) && isHidden) {
                 HiddenElementsManager.Instance.RegisterHiddenElement(_elementId);
                 ShowSprite(true);
+                if (!HiddenElementsManager.Instance.HasAllHiddenElements() && _audioSource != null) {
+                    _audioSource.PlayOneShot(HiddenElementsManager.Instance.onPickAudio);
+                }
             }
         }
 

@@ -247,7 +247,7 @@ namespace Managers {
             return selectedMusics[musicIdx];
         }
 
-        public void PlayMusic(MusicType musicType, MusicSoundType musicSoundType = MusicSoundType.All) {
+        public void PlayMusic(MusicType musicType, MusicSoundType musicSoundType) {
             _currentMusicType = musicType;
             AudioClip audioClip = GetNextClip(musicType, musicSoundType);
 
@@ -263,7 +263,7 @@ namespace Managers {
 
         private IEnumerator PlayNextAfterDelay(float delay) {
             yield return new WaitForSecondsRealtime(delay + 0.1f);
-            PlayMusic(_currentMusicType);
+            PlayMusic(_currentMusicType, MusicSoundType.Calm);
         }
 
         private List<AudioClip> GetSelectedMusics(MusicType musicType, MusicSoundType musicSoundType = MusicSoundType.All) {
@@ -302,6 +302,7 @@ namespace Managers {
         All,
         Calm,
         Action,
+        Victory
     }
 
     [Serializable]

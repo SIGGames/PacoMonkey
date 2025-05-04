@@ -18,6 +18,10 @@ namespace Managers {
         [SerializeField, ShowIf("paintPlayerOnFinish")] private Color playerColor;
         private bool _playerHasBeenPainted;
 
+        [Header("Audio")]
+        [SerializeField] private AudioClip onFinishAudio;
+        public AudioClip onPickAudio;
+
         [Header("Components")]
         [SerializeField] private GameObject hiddenElementsPanel;
         [SerializeField] private TextMeshProUGUI hiddenElementsText;
@@ -52,8 +56,7 @@ namespace Managers {
             _pickedHiddenElements.Add(id);
             SavePickedHiddenElements();
             ShowPanel();
-
-            // TODO: Al register si obtens totes fer un audio especial, si es nomes una fer un audio normal
+            PlayAudio();
         }
 
         public bool IsElementPicked(string id) {
@@ -99,7 +102,7 @@ namespace Managers {
             hiddenElementsPanel.SetActive(false);
         }
 
-        private bool HasAllHiddenElements() {
+        public bool HasAllHiddenElements() {
             return _pickedHiddenElements.Count == _hiddenElementsCount;
         }
 
@@ -137,6 +140,14 @@ namespace Managers {
                 if (spriteRenderer != null) {
                     spriteRenderer.color = color;
                     _playerHasBeenPainted = true;
+                }
+            }
+        }
+
+        private void PlayAudio() {
+            if (HasAllHiddenElements()) {
+                if (onFinishAudio != null) {
+                    AudioManager.Instance.PlayMusic(MusicType.Game, MusicSoundType.Victory);
                 }
             }
         }
