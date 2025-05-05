@@ -44,6 +44,11 @@ namespace UI {
             ResolutionManager.Instance.SetBrightness(savedBrightness);
             ResolutionManager.Instance.SetVSyncCount(savedVSync);
 
+            if (Application.platform == RuntimePlatform.WebGLPlayer) {
+                // On WebGL, fullscreen is not supported
+                fullscreenCheckbox.interactable = false;
+            }
+
             if (savedFullscreen) {
                 int screenWidth = Screen.currentResolution.width;
                 int screenHeight = Screen.currentResolution.height;

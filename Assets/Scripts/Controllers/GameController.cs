@@ -41,6 +41,12 @@ namespace Controllers {
             } else {
                 existsGameProgress = true;
             }
+
+            if (Application.platform == RuntimePlatform.WebGLPlayer) {
+                // On WebGL, the brightness needs to be updated here
+                float savedBrightness = PlayerPrefs.GetFloat(BrightnessKey, 10f);
+                ResolutionManager.Instance.SetBrightness(savedBrightness);
+            }
         }
 
         private void Update() {
