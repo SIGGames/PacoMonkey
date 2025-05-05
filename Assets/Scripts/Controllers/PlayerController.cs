@@ -576,7 +576,7 @@ namespace Controllers {
 
             if (lives.IsAlive) {
                 PlayerController player = CharacterManager.Instance.currentPlayerController;
-                if (player.movementState != PlayerMovementState.Hold && player.movementState != PlayerMovementState.Climb) {
+                if (!PlayerMovementStateMethods.CanNotMoveWhileHurt(movementState)) {
                     player.animator.SetTrigger(Hurt);
                 }
 
