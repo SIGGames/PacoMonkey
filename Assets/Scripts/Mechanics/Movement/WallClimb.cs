@@ -140,7 +140,11 @@ namespace Mechanics.Movement {
                 player.flipManager.Flip(player.isFacingRight);
             }
 
-            if (GetJumpKeyDown() && isPressingOppositeDirection) {
+            if (GetJumpKeyDown()) {
+                if (!isPressingOppositeDirection) {
+                    return;
+                }
+
                 StopClimbing();
 
                 // This offset is needed since on the compiled version the player falls on wall jumping since is colliding with something I can't see
