@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Enums;
 using Managers;
 using Platformer.Core;
@@ -7,6 +8,7 @@ using Zones;
 using static Utils.PlayerPrefsKeys;
 
 namespace Controllers {
+    [SuppressMessage("ReSharper", "Unity.NoNullPropagation")]
     public class GameController : MonoBehaviour {
         public static GameController Instance { get; private set; }
 
@@ -73,14 +75,14 @@ namespace Controllers {
         }
 
         private void RevertGameStateToDefault() {
-            CameraManager.Instance.ResetCamera();
+            CameraManager.Instance?.ResetCamera();
             CharacterManager.ResetState();
             currentMapZone = DefaultMapZone;
-            PlayTimeManager.Instance.ResetPlayTime();
+            PlayTimeManager.Instance?.ResetPlayTime();
             DialogueManager.ResetDialogues();
-            QuestManager.Instance.ResetQuests();
-            LevelManager.Instance.ResetLevel();
-            HiddenElementsManager.Instance.ResetHiddenElements();
+            QuestManager.Instance?.ResetQuests();
+            LevelManager.Instance?.ResetLevel();
+            HiddenElementsManager.Instance?.ResetHiddenElements();
             ResetMapZones();
         }
 
