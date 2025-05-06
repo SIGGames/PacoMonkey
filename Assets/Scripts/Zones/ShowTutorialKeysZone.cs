@@ -65,7 +65,9 @@ namespace Zones {
 
         public void ResetZone() {
             _activated = false;
-            PopUpManager.Instance.ResetPopUp();
+            if (PopUpManager.Instance != null) {
+                PopUpManager.Instance.ResetPopUp();
+            }
         }
     }
 
