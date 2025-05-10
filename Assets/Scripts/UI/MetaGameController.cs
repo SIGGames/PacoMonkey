@@ -68,7 +68,7 @@ namespace UI {
             // This is used to go back to the main menu or to the game depending if the menu has been accessed from the game or
             // from the main menu
             if (_openedFromInGame) {
-                ToggleMainMenu(false);
+                mainMenu.SetActivePanel(0);
                 _openedFromInGame = false;
             } else {
                 mainMenu.SetActivePanel(panelIdx);
