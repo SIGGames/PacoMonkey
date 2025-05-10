@@ -26,6 +26,7 @@ namespace UI {
 
         private bool _showMainCanvas;
         private bool _controlWasEnabled;
+        private bool _openedFromInGame;
 
         private static MusicType? _currentMusicType;
         private static Coroutine _delayedMusicCoroutine;
@@ -61,6 +62,21 @@ namespace UI {
             }
 
             PlayMusicAudio();
+        }
+
+        public void GoBackOrInGame(int panelIdx) {
+            // This is used to go back to the main menu or to the game depending if the menu has been accessed from the game or
+            // from the main menu
+            if (_openedFromInGame) {
+                ToggleMainMenu(false);
+                _openedFromInGame = false;
+            } else {
+                mainMenu.SetActivePanel(panelIdx);
+            }
+        }
+
+        public void SetOpenFromInGame(bool openPanelFromInGame) {
+            _openedFromInGame = openPanelFromInGame;
         }
 
         private void _ToggleMainMenu(bool show) {
@@ -143,6 +159,7 @@ namespace UI {
             if (IsInPanel("PauseMenu") || IsInPanel("Quests")) {
                 return null;
             }
+
             return MusicType.Menu;
         }
 
