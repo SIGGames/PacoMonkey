@@ -527,7 +527,7 @@ namespace Controllers {
 
         private bool CanHitWithProjectile() {
             // Special case: If player is wall climbing, enemy can hit with projectile even if there is a wall between them
-            if (CurrentPlayer.movementState == PlayerMovementState.WallClimb) {
+            if (CurrentPlayer.movementState is PlayerMovementState.WallClimb or PlayerMovementState.Hold) {
                 return true;
             }
 
@@ -550,6 +550,11 @@ namespace Controllers {
         }
 
         private bool HasWallBetweenEnemyAndPlayer() {
+            // Since when holding the player is inside a wall, this check must be avoided
+            if (CurrentPlayer.movementState == PlayerMovementState.Hold) {
+                return false;
+            }
+
             RaycastHit2D hit = Physics2D.Raycast(EnemyPosition, PlayerPosition - EnemyPosition,
                 Vector2.Distance(PlayerPosition, EnemyPosition), Ground.value);
             return hit.collider != null;
