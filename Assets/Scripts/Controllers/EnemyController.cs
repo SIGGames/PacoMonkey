@@ -263,7 +263,9 @@ namespace Controllers {
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            CharacterManager.Instance.currentPlayerController.SetBodyType(RigidbodyType2D.Kinematic);
+            if (CharacterManager.Instance.currentPlayerController.body.bodyType != RigidbodyType2D.Static) {
+                CharacterManager.Instance.currentPlayerController.SetBodyType(RigidbodyType2D.Kinematic);
+            }
         }
 
         private void ChasePlayer() {
