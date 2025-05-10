@@ -39,7 +39,7 @@ namespace UI {
             if (gameController.showMenuAtStart) {
                 ToggleMainMenu(true);
                 // Title screen
-                mainMenu.SetActivePanel(1);
+                mainMenu.SetActivePanel(Panel.TitleScreen);
             }
 
             PlayMusicAudio();
@@ -68,7 +68,7 @@ namespace UI {
             // This is used to go back to the main menu or to the game depending if the menu has been accessed from the game or
             // from the main menu
             if (_openedFromInGame) {
-                mainMenu.SetActivePanel(0);
+                mainMenu.SetActivePanel(Panel.PauseMenu);
                 _openedFromInGame = false;
             } else {
                 mainMenu.SetActivePanel(panelIdx);
@@ -131,7 +131,7 @@ namespace UI {
                 // Quest menu
                 if (!IsMenuOpen) {
                     ToggleMainMenu(true);
-                    mainMenu.SetActivePanel(5);
+                    mainMenu.SetActivePanel(Panel.Quests);
                 } else {
                     // This menu can be toggled if the game is on the quest menu
                     if (IsInPanel("Quests")) {

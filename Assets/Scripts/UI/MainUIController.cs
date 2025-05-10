@@ -13,6 +13,10 @@ namespace UI {
 
         private GameObject _lastValidSelection;
 
+        public void SetActivePanel(Panel panel) {
+            SetActivePanel((int)panel);
+        }
+
         public void SetActivePanel(int index) {
             for (int i = 0; i < panels.Length; i++) {
                 bool active = i == index;
@@ -34,7 +38,7 @@ namespace UI {
         }
 
         private void OnEnable() {
-            SetActivePanel(0);
+            SetActivePanel(Panel.PauseMenu);
         }
 
         private void Update() {
@@ -56,5 +60,14 @@ namespace UI {
     public class PanelObject {
         public GameObject panelGameObject;
         public GameObject firstSelectedButton;
+    }
+
+    public enum Panel {
+        PauseMenu = 0,
+        TitleScreen = 1,
+        Configuration = 2,
+        Credits = 3,
+        LoadGame = 4,
+        Quests = 5,
     }
 }
