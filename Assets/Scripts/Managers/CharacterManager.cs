@@ -21,7 +21,7 @@ namespace Managers {
         [Header("Character")]
         [SerializeField] private Character initialCharacter;
 
-        [SerializeField] private Character currentCharacter;
+        [SerializeField] public Character currentCharacter;
         [HideInInspector] public PlayerController currentPlayerController;
         [HideInInspector] public Sprite currentCharacterFaceSprite;
         [HideInInspector] public float currentCharacterRespawnTime;
