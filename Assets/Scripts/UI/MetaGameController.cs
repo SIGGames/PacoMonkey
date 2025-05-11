@@ -90,11 +90,7 @@ namespace UI {
                 Time.timeScale = 1;
                 mainMenu.gameObject.SetActive(false);
                 foreach (Canvas i in gamePlayCanvasii) i.gameObject.SetActive(true);
-
-                // Hide cursor if the game is not paused (disabled in editor)
-                #if !UNITY_EDITOR
-                    SetCursorVisible(false);
-                #endif
+                SetCursorVisible(false);
             }
 
             IsMenuOpen = show;
@@ -147,8 +143,13 @@ namespace UI {
         }
 
         private static void SetCursorVisible(bool show) {
+            #if UNITY_EDITOR || UNITY_WEBGL
+            return;
+            #endif
+            #pragma warning disable CS0162 // Unreachable code detected
             Cursor.visible = show;
             Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
+            #pragma warning restore CS0162 // Unreachable code detected
         }
 
         private MusicType? GetTargetMusicType() {
