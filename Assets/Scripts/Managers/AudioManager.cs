@@ -272,8 +272,7 @@ namespace Managers {
             }
 
             // Check if the last music is still available
-            List<AudioClip> selectedMusics = GetSelectedMusics(MusicType.Game, musicSoundType);
-            AudioClip existingClip = selectedMusics.FirstOrDefault(c => c != null && c.name == _lastGameMusicName);
+            AudioClip existingClip = GetNextClip(MusicType.Game, musicSoundType);
 
             if (existingClip == null) {
                 return false;
