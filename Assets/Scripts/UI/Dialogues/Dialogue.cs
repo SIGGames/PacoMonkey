@@ -43,6 +43,11 @@ namespace UI.Dialogues {
         private Vector2 interactButtonOffset = new(0, 1f);
 
         [SerializeField]
+        private bool requireQuestToInteract;
+        [SerializeField, ShowIf("requireQuestToInteract")]
+        private string questIdToInteract = "";
+
+        [SerializeField]
         private bool triggerQuestOnFinish;
 
         [SerializeField, ShowIf("triggerQuestOnFinish")]
@@ -113,6 +118,10 @@ namespace UI.Dialogues {
         }
 
         private void Update() {
+            if (requireQuestToInteract && !QuestManager.Instance.IsActiveQuest(questIdToInteract)) {
+                return;
+            }
+
             if (showInteractButtonBeforeInteract) {
                 HandleInteractButtonBeforeInteract();
             }
