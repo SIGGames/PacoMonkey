@@ -30,7 +30,6 @@ namespace Mechanics.Movement {
         private float _gravityModifier;
 
         private Animator _animator;
-        private Hold _hold;
 
         private void Awake() {
             if (player == null) {
@@ -41,16 +40,12 @@ namespace Mechanics.Movement {
                 ledgeCheck = GetComponentInChildren<LedgeDetection>();
             }
 
-            if (_hold == null) {
-                _hold = GetComponent<Hold>();
-            }
-
             _animator = GetComponent<Animator>();
 
             _gravityModifier = player.gravityModifier;
 
-            if (player == null || ledgeCheck == null || _hold == null) {
-                Debugger.Log(("Player", player), ("LedgeCheck", ledgeCheck), ("Hold", _hold));
+            if (player == null || ledgeCheck == null) {
+                Debugger.Log(("Player", player), ("LedgeCheck", ledgeCheck));
                 enabled = false;
             }
         }

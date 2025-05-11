@@ -95,7 +95,7 @@ namespace UI {
             brightnessSlider.value = DefaultBrightness;
             brightnessInput.text = DefaultBrightness.ToString(CultureInfo.InvariantCulture);
             vSyncCheckbox.isOn = DefaultVSyncCount;
-            
+
             if (Application.platform != RuntimePlatform.WebGLPlayer) {
                 fullscreenCheckbox.isOn = DefaultFullScreen;
                 resolutionDropdown.value = GetCurrentResolutionIndex();
