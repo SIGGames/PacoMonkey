@@ -256,55 +256,71 @@ namespace Managers {
         }
 
         public void PlayMusic(MusicType musicType, MusicSoundType musicSoundType) {
-            switch (musicType) {
-                case MusicType.Menu:
-                    SaveCurrentPlayback();
-                    break;
-                case MusicType.Game when _lastGameMusicName != null: {
-                    // Check if the last music is still available
-                    List<AudioClip> selectedMusics = GetSelectedMusics(MusicType.Game, musicSoundType);
-                    AudioClip existingClip = selectedMusics.FirstOrDefault(c => c != null && c.name == _lastGameMusicName);
-
-                    if (existingClip != null) {
-                        _currentMusicType = musicType;
-                        _audioSource.clip = existingClip;
-                        _audioSource.time = _lastPlaybackTime;
-                        _audioSource.Play();
-                        currentMusicTitle = existingClip.name;
-
-                        StopAllCoroutines();
-                        StartCoroutine(PlayNextAfterDelay(existingClip.length - _lastPlaybackTime));
-                        return;
-                    }
-
-                    break;
-                }
+            if (musicType == MusicType.Menu) {
+                SaveCurrentPlayback();
+            } else if (musicType == MusicType.Game && TryResumePreviousGameMusic(musicSoundType)) {
+                return;
             }
 
             // Normal reproduction if we don't have any previous music saved
+            PlayNewMusic(musicType, musicSoundType);
+        }
+
+        private bool TryResumePreviousGameMusic(MusicSoundType musicSoundType) {
+            if (string.IsNullOrEmpty(_lastGameMusicName)) {
+                return false;
+            }
+
+            // Check if the last music is still available
+            List<AudioClip> selectedMusics = GetSelectedMusics(MusicType.Game, musicSoundType);
+            AudioClip existingClip = selectedMusics.FirstOrDefault(c => c != null && c.name == _lastGameMusicName);
+
+            if (existingClip == null) {
+                return false;
+            }
+
+            _currentMusicType = MusicType.Game;
+            _audioSource.clip = existingClip;
+            _audioSource.time = _lastPlaybackTime;
+            _audioSource.Play();
+            currentMusicTitle = existingClip.name;
+
+            StopAllCoroutines();
+            StartCoroutine(PlayNextAfterDelay(existingClip.length - _lastPlaybackTime));
+            return true;
+        }
+
+        private void PlayNewMusic(MusicType musicType, MusicSoundType musicSoundType) {
             _currentMusicType = musicType;
             AudioClip audioClip = GetNextClip(musicType, musicSoundType);
 
-            if (audioClip != null) {
-                _audioSource.clip = audioClip;
-                currentMusicTitle = audioClip.name;
-                _audioSource.time = 0f;
-                _audioSource.Play();
-
-                if (musicType == MusicType.Game) {
-                    _lastGameMusicName = audioClip.name;
-                    _lastPlaybackTime = 0f;
-                }
-
-                StopAllCoroutines();
-                StartCoroutine(PlayNextAfterDelay(audioClip.length));
+            if (audioClip == null) {
+                return;
             }
+
+            _audioSource.clip = audioClip;
+            _audioSource.time = 0f;
+            _audioSource.Play();
+            currentMusicTitle = audioClip.name;
+
+            if (musicType == MusicType.Game) {
+                _lastGameMusicName = audioClip.name;
+                _lastPlaybackTime = 0f;
+            }
+
+            StopAllCoroutines();
+            StartCoroutine(PlayNextAfterDelay(audioClip.length));
         }
 
         private void SaveCurrentPlayback() {
             if (_currentMusicType == MusicType.Game && _audioSource.isPlaying) {
                 _lastPlaybackTime = _audioSource.time;
             }
+        }
+
+        public void ResetCurrentInGameMusic() {
+            _lastGameMusicName = string.Empty;
+            _lastPlaybackTime = 0f;
         }
 
         private IEnumerator PlayNextAfterDelay(float delay) {

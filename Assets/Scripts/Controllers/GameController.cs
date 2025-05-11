@@ -89,6 +89,7 @@ namespace Controllers {
             QuestManager.Instance?.ResetQuests();
             LevelManager.Instance?.ResetLevel();
             HiddenElementsManager.Instance?.ResetHiddenElements();
+            AudioManager.Instance?.ResetCurrentInGameMusic();
             ResetMapZones();
         }
 
