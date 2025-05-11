@@ -7,6 +7,8 @@ using static Utils.LayerUtils;
 
 namespace Mechanics.Movement {
     public class HoldV2 : MonoBehaviour {
+        [SerializeField] private bool autoLedgeClimb;
+
         [SerializeField, Range(0, 1)]
         private float onHoldXOffset, onHoldYOffset;
 
@@ -55,9 +57,12 @@ namespace Mechanics.Movement {
                 _isGrabbing = false;
             }
 
-            if (_isGrabbing && !_hasStartedClimb && !_holdInputLock && (GetJumpKeyDown() || GetUpKeyDown())) {
-                _hasStartedClimb = true;
-                ClimbLedge();
+            if (_isGrabbing && !_hasStartedClimb && !_holdInputLock) {
+                bool shouldClimb = autoLedgeClimb || GetJumpKeyDown() || GetUpKeyDown();
+                if (shouldClimb) {
+                    _hasStartedClimb = true;
+                    ClimbLedge();
+                }
             }
         }
 
