@@ -660,6 +660,7 @@ namespace Controllers {
             SetBodyType(RigidbodyType2D.Kinematic);
             SetVelocity(Vector2.zero);
             SetPosition(respawnPosition);
+            SetMovementState(PlayerMovementState.Idle);
         }
 
         public void SetDifficultyMultiplier(float multiplier) {

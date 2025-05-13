@@ -138,7 +138,7 @@ namespace Managers {
             // Lerp from start color to end color
             float timer = 0f;
             while (timer < cinematicDuration) {
-                float t = Mathf.Pow(timer / cinematicDuration, 1f / Mathf.Clamp(config.fadeInBias, 0.01f, 1f));
+                float t = Mathf.Pow(timer / cinematicDuration, Mathf.Clamp(config.fadeInBias, 0.01f, 10f));
                 fadeImage.color = Color.Lerp(config.fadeInStartColor, config.fadeInEndColor, t);
                 timer += Time.deltaTime;
                 yield return null;
@@ -353,7 +353,7 @@ namespace Managers {
 
         [Header("Fade In")]
         public bool showFadeIn;
-        [Range(0.01f, 1f)]
+        [Range(0.01f, 10f)]
         public float fadeInBias = 0.5f;
         public Color fadeInStartColor = new(0, 0, 0, 0); // Transparent
         public Color fadeInEndColor = new(0, 0, 0, 1); // Opaque black
