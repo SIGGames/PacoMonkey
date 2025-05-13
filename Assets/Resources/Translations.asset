@@ -129,6 +129,10 @@ MonoBehaviour:
     english: '**Game Music**\n\n\url{https://suno.com/}{Suno}\n\n\n**Sound Effects**\n\n\url{https://elevenlabs.io/}{ElevenLabs.io}\par**Keyboard
       and Controller Icons**\n\n\url{https://thoseawesomeguys.com/prompts/}{Those
       Awesome Guys}'
+  - key: final-credits-text
+    catalan: Desenvolupat per \color{#541c79}{SIG Games}
+    spanish: Desarrollado por \color{#541c79}{SIG Games}
+    english: Developed by \color{#541c79}{SIG Games}
   - key: full-screen
     catalan: Pantalla Completa
     spanish: Pantalla Completa

@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Controllers;
 using Enums;
+using Localization;
 using TMPro;
 using UI;
 using UnityEngine;
@@ -15,10 +17,6 @@ namespace Managers {
         public static CinematicManager Instance { get; private set; }
 
         public List<CinematicConfig> cinematicConfigs;
-
-        [Header("Cinematic Configurations")]
-        [SerializeField] private GameObject level1GameObject;
-        [SerializeField] private GameObject level2GameObject;
 
         [Header("Extra Components")]
         [SerializeField] private GameObject timerGameObject;
@@ -99,6 +97,18 @@ namespace Managers {
             if (config.showTimer) {
                 // Start the timer coroutine only if there is not already one running
                 _activeTimerCoroutine ??= StartCoroutine(ShowTimer(config));
+            }
+
+            if (config.enablePanel) {
+                EnablePanel(config.panel, config.cinematicDuration);
+            }
+
+            if (config.openGameMenu) {
+                StartCoroutine(OpenGameMenu(config.gameMenuPanel, config.cinematicDuration));
+            }
+
+            if (config.resetGameProgress) {
+                StartCoroutine(ResetGameProgress(config.cinematicDuration));
             }
         }
 
@@ -280,6 +290,31 @@ namespace Managers {
             }
         }
 
+        private void EnablePanel(GameObject panel, float duration) {
+            if (panel == null) {
+                return;
+            }
+            panel.SetActive(true);
+
+            // Hide the text after the cinematic duration
+            StartCoroutine(DisablePanel(panel, duration));
+        }
+
+        private static IEnumerator DisablePanel(GameObject panel, float duration) {
+            yield return new WaitForSeconds(duration);
+            panel.SetActive(false);
+        }
+
+        private static IEnumerator OpenGameMenu(Panel panelToOpen, float duration) {
+            yield return new WaitForSeconds(duration);
+            MetaGameController.Instance.OpenGameMenu(panelToOpen);
+        }
+
+        private static IEnumerator ResetGameProgress(float duration) {
+            yield return new WaitForSeconds(duration);
+            GameController.Instance.NewGame();
+        }
+
         private static IEnumerator StopRumbleAfterDelay(float delay) {
             yield return new WaitForSeconds(delay);
             if (Gamepad.current != null) {
@@ -346,5 +381,16 @@ namespace Managers {
 
         [Header("Hide HUD while cinematic is playing")]
         public bool hideHUD;
+
+        [Header("Panel")]
+        public bool enablePanel;
+        public GameObject panel;
+
+        [Header("Open Game Menu")]
+        public bool openGameMenu;
+        public Panel gameMenuPanel;
+
+        [Header("Game Progress")]
+        public bool resetGameProgress;
     }
 }

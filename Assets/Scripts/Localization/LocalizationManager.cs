@@ -83,12 +83,14 @@ namespace Localization {
             // **text**: Bold
             // *text*: Italic
             // \url{url}{text}: Link
+            // \color{#color}{text}: Color
             input = input.Replace("\\n", "\n");
             input = input.Replace("\\par", "\n\n\n");
             input = input.Replace("\\t", "\t");
             input = Regex.Replace(input, @"\*\*(.*?)\*\*", "<b>$1</b>");
             input = Regex.Replace(input, @"(?<!\*)\*(?!\*)(.*?)\*(?!\*)", "<i>$1</i>");
             input = Regex.Replace(input, @"\\url\{(.*?)\}\{(.*?)\}", "<link=\"$1\"><color=#0077FF>$2</color></link>");
+            input = Regex.Replace(input, @"\\color\{(.*?)\}\{(.*?)\}", "<color=$1>$2</color>");
             return input;
         }
     }

@@ -263,8 +263,18 @@ namespace Controllers {
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            if (CharacterManager.Instance.currentPlayerController.body.bodyType != RigidbodyType2D.Static) {
-                CharacterManager.Instance.currentPlayerController.SetBodyType(RigidbodyType2D.Kinematic);
+            PlayerController player = CharacterManager.Instance.currentPlayerController;
+
+            if (player == null || player.body == null) {
+                return;
+            }
+
+            if (!player.gameObject.activeInHierarchy) {
+                return;
+            }
+
+            if (player.body.bodyType != RigidbodyType2D.Static) {
+                player.SetBodyType(RigidbodyType2D.Kinematic);
             }
         }
 

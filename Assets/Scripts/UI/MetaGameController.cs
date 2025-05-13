@@ -64,6 +64,15 @@ namespace UI {
             PlayMusicAudio();
         }
 
+        public void OpenGameMenu(Panel panel) {
+            if (IsMenuOpen) {
+                mainMenu.SetActivePanel(panel);
+            } else {
+                ToggleMainMenu(true);
+                mainMenu.SetActivePanel(panel);
+            }
+        }
+
         public void GoBackOrInGame(int panelIdx) {
             // This is used to go back to the main menu or to the game depending if the menu has been accessed from the game or
             // from the main menu

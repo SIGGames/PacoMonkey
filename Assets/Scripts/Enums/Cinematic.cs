@@ -3,5 +3,6 @@
         Death,
         Ending,
         NewGame,
+        CreditsText
     }
 }

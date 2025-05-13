@@ -57,13 +57,14 @@ namespace Controllers {
 
         public void NewGame() {
             ResetInGameProgressData();
-            existsGameProgress = true;
+            existsGameProgress = false;
             PlayerPrefs.SetInt(IsGameStartedKey, 1);
             PlayerPrefs.Save();
             RevertGameStateToDefault();
         }
 
         public void StartNewGame() {
+            existsGameProgress = true;
             CinematicManager.Instance.StartCinematic(Cinematic.NewGame, true);
         }
 
