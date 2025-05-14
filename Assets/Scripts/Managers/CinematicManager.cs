@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Controllers;
 using Enums;
-using Localization;
 using TMPro;
 using UI;
 using UnityEngine;

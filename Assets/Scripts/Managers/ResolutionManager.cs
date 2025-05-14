@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 using static Configuration.GameConfig;
 using static Utils.PlayerPrefsKeys;
@@ -72,20 +73,39 @@ namespace Managers {
                 return;
             }
 
-            SpriteRenderer sprite = backgroundImage.GetComponent<SpriteRenderer>();
-            if (sprite == null || sprite.sprite == null || Camera.main == null) {
+            SpriteRenderer spriteRenderer = backgroundImage.GetComponent<SpriteRenderer>();
+            if (spriteRenderer == null || spriteRenderer.sprite == null || Camera.main == null) {
                 return;
             }
 
-            float visibleWidth = Camera.main.orthographicSize * 2 * Screen.width / Screen.height;
-            float imageWidth = sprite.sprite.bounds.size.x;
-            float scaleToFitWidth = visibleWidth / imageWidth;
+            if (Application.platform == RuntimePlatform.WebGLPlayer) {
+                StartCoroutine(StretchNextFrame(spriteRenderer));
+            } else {
+                ApplyScaling(spriteRenderer);
+            }
+        }
 
-            Vector3 newScale = backgroundImage.transform.localScale;
-            newScale.x = scaleToFitWidth;
-            newScale.y = scaleToFitWidth;
+        private IEnumerator StretchNextFrame(SpriteRenderer spriteRenderer) {
+            yield return null;
+            ApplyScaling(spriteRenderer);
+        }
 
-            backgroundImage.transform.localScale = newScale;
+        private void ApplyScaling(SpriteRenderer spriteRenderer) {
+            if (Camera.main == null) {
+                return;
+            }
+
+            float cameraHeight = Camera.main.orthographicSize * 2f;
+            float cameraWidth = cameraHeight * Screen.width / Screen.height;
+
+            float spriteWidth = spriteRenderer.sprite.bounds.size.x;
+            float spriteHeight = spriteRenderer.sprite.bounds.size.y;
+
+            float scaleX = cameraWidth / spriteWidth;
+            float scaleY = cameraHeight / spriteHeight;
+            float scale = Mathf.Max(scaleX, scaleY);
+
+            backgroundImage.transform.localScale = new Vector3(scale, scale, 1f);
         }
 
         public void ResetBrightness() {
