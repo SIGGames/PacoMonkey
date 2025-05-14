@@ -72,22 +72,20 @@ namespace Managers {
                 return;
             }
 
-            SpriteRenderer sr = backgroundImage.GetComponent<SpriteRenderer>();
-            if (sr == null || sr.sprite == null || Camera.main == null) {
+            SpriteRenderer sprite = backgroundImage.GetComponent<SpriteRenderer>();
+            if (sprite == null || sprite.sprite == null || Camera.main == null) {
                 return;
             }
 
-            float screenRatio = (float)Screen.width / Screen.height;
-            float spriteRatio = sr.sprite.bounds.size.x / sr.sprite.bounds.size.y;
-            Vector3 scale = backgroundImage.transform.localScale;
+            float visibleWidth = Camera.main.orthographicSize * 2 * Screen.width / Screen.height;
+            float imageWidth = sprite.sprite.bounds.size.x;
+            float scaleToFitWidth = visibleWidth / imageWidth;
 
-            if (screenRatio >= spriteRatio) {
-                scale.x = scale.y * screenRatio / spriteRatio;
-            } else {
-                scale.y = scale.x * spriteRatio / screenRatio;
-            }
+            Vector3 newScale = backgroundImage.transform.localScale;
+            newScale.x = scaleToFitWidth;
+            newScale.y = scaleToFitWidth;
 
-            backgroundImage.transform.localScale = scale;
+            backgroundImage.transform.localScale = newScale;
         }
 
         public void ResetBrightness() {
