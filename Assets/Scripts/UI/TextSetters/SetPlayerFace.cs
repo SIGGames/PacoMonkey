@@ -12,9 +12,6 @@ namespace UI.TextSetters {
             }
 
             image.sprite = sprite;
-
-            // Ensure the image do not gets deformed on different resolutions
-            image.preserveAspect = true;
         }
     }
 }
