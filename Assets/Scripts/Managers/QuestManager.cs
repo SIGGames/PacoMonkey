@@ -200,7 +200,7 @@ namespace Managers {
             }
 
             if (text.Contains("<time>")) {
-                text = text.Replace("<time>", GetCinematicTimerDuration(Cinematic.Ending));
+                text = text.Replace("<time>", GetCinematicTimerDuration(Cinematic.Fight));
             }
 
             return text;

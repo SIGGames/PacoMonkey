@@ -1,8 +1,9 @@
 ﻿namespace Enums {
     public enum Cinematic {
         Death,
-        Ending,
+        Fight,
         NewGame,
-        CreditsText
+        CreditsText,
+        Boss,
     }
 }

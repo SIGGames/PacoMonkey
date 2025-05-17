@@ -109,6 +109,10 @@ namespace Managers {
             if (config.resetGameProgress) {
                 StartCoroutine(ResetGameProgress(config.cinematicDuration));
             }
+
+            if (config.changeMusic) {
+                AudioManager.Instance.PlayMusic(MusicType.Game, config.musicSoundType);
+            }
         }
 
         private static IEnumerator FadeIn(CinematicConfig config, float cinematicDuration) {
@@ -388,6 +392,10 @@ namespace Managers {
         [Header("Open Game Menu")]
         public bool openGameMenu;
         public Panel gameMenuPanel;
+
+        [Header("Music")]
+        public bool changeMusic;
+        public MusicSoundType musicSoundType;
 
         [Header("Game Progress")]
         public bool resetGameProgress;
