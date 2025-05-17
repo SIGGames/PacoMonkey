@@ -7,6 +7,8 @@
         public const string DifficultyKey = "Difficulty";
         public const string HiddenElementsKey = "HiddenElements";
         public const string IsGameStartedKey = "IsGameStarted";
+        public const string LastGameMusicNameKey = "LastGameMusicName";
+        public const string LastPlaybackTimeKey = "LastPlaybackTime";
         public const string LevelKey = "Level";
         public const string RespawnPositionX = "RespawnPositionX";
         public const string RespawnPositionY = "RespawnPositionY";

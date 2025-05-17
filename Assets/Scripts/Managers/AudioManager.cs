@@ -24,8 +24,9 @@ namespace Managers {
         [SerializeField] private TMP_InputField musicVolumeInput;
         [SerializeField] private TMP_InputField sfxVolumeInput;
 
-        [Header("Music Settings")]
+        [Header("Music Settings")] // This is just for the inspector
         [SerializeField] private string currentMusicTitle;
+        [SerializeField] private string musicProgress;
 
         [Header("> Menu Music")]
         [SerializeField] private bool isMenuMusicRandom;
@@ -36,6 +37,7 @@ namespace Managers {
         [SerializeField] private List<InGameMusic> onGameMusics;
 
         private MusicType _currentMusicType;
+        private MusicSoundType _currentMusicSoundType = MusicSoundType.Calm;
         private AudioSource _audioSource;
         private AudioClip _lastClip;
 
@@ -79,6 +81,7 @@ namespace Managers {
                 Debug.LogError("One or more input fields are not assigned in the inspector");
                 enabled = false;
             }
+            LoadSavedPlaybackInfo();
 
             _audioSource = GetComponent<AudioSource>();
         }
@@ -94,6 +97,13 @@ namespace Managers {
             SetMasterVolume(globalVolume);
             SetMusicVolume(musicVolume);
             SetSfxVolume(sfxVolume);
+            StartCoroutine(UpdateMusicProgress());
+        }
+
+        private void Update() {
+            if (_audioSource.time >= _audioSource.clip.length - 0.1f) {
+                PlayNextTrackAfterFinished();
+            }
         }
 
         private void InitializeSliders(float globalVolume, float musicVolume, float sfxVolume) {
@@ -231,7 +241,7 @@ namespace Managers {
             }
         }
 
-        private AudioClip GetNextClip(MusicType musicType, MusicSoundType musicSoundType) {
+        private AudioClip GetNextClip(MusicType musicType, MusicSoundType musicSoundType, bool avoidRepeat = true) {
             List<AudioClip> selectedMusics = GetSelectedMusics(musicType, musicSoundType);
 
             if (selectedMusics == null || selectedMusics.Count == 0) {
@@ -242,7 +252,7 @@ namespace Managers {
             AudioClip nextClip;
 
             if (isMusicRandom) {
-                nextClip = GetRandomAudioClipAvoidingRepeat(selectedMusics, _lastClip);
+                nextClip = GetRandomAudioClipAvoidingRepeat(selectedMusics, _lastClip, avoidRepeat);
             } else {
                 int musicIdx = musicType == MusicType.Menu
                     ? _menuMusicIndex++ % selectedMusics.Count
@@ -272,7 +282,8 @@ namespace Managers {
             }
 
             // Check if the last music is still available
-            AudioClip existingClip = GetNextClip(MusicType.Game, musicSoundType);
+            AudioClip existingClip = GetSelectedMusics(MusicType.Game, musicSoundType)
+                .FirstOrDefault(c => c != null && c.name == _lastGameMusicName);
 
             if (existingClip == null) {
                 return false;
@@ -283,15 +294,19 @@ namespace Managers {
             _audioSource.time = _lastPlaybackTime;
             _audioSource.Play();
             currentMusicTitle = existingClip.name;
+            _currentMusicSoundType = musicSoundType;
+            _lastClip = existingClip;
+            SaveCurrentPlayback();
 
             StopAllCoroutines();
-            StartCoroutine(PlayNextAfterDelay(existingClip.length - _lastPlaybackTime));
+            StartCoroutine(UpdateMusicProgress());
             return true;
         }
 
         private void PlayNewMusic(MusicType musicType, MusicSoundType musicSoundType) {
             _currentMusicType = musicType;
-            AudioClip audioClip = GetNextClip(musicType, musicSoundType);
+            _currentMusicSoundType = musicSoundType;
+            AudioClip audioClip = GetNextClip(musicType, musicSoundType, false);
 
             if (audioClip == null) {
                 return;
@@ -301,6 +316,7 @@ namespace Managers {
             _audioSource.time = 0f;
             _audioSource.Play();
             currentMusicTitle = audioClip.name;
+            SaveCurrentPlayback();
 
             if (musicType == MusicType.Game) {
                 _lastGameMusicName = audioClip.name;
@@ -308,23 +324,47 @@ namespace Managers {
             }
 
             StopAllCoroutines();
-            StartCoroutine(PlayNextAfterDelay(audioClip.length));
+            StartCoroutine(UpdateMusicProgress());
         }
 
         private void SaveCurrentPlayback() {
             if (_currentMusicType == MusicType.Game && _audioSource.isPlaying) {
                 _lastPlaybackTime = _audioSource.time;
+                _lastGameMusicName = _audioSource.clip.name;
+                PlayerPrefs.SetString(LastGameMusicNameKey, _lastGameMusicName);
+                PlayerPrefs.SetFloat(LastPlaybackTimeKey, _lastPlaybackTime);
+                PlayerPrefs.Save();
             }
+        }
+
+        private void LoadSavedPlaybackInfo() {
+            _lastGameMusicName = PlayerPrefs.GetString(LastGameMusicNameKey, string.Empty);
+            _lastPlaybackTime = PlayerPrefs.GetFloat(LastPlaybackTimeKey, 0f);
         }
 
         public void ResetCurrentInGameMusic() {
             _lastGameMusicName = string.Empty;
             _lastPlaybackTime = 0f;
+            PlayerPrefs.DeleteKey(LastGameMusicNameKey);
+            PlayerPrefs.DeleteKey(LastPlaybackTimeKey);
+            PlayerPrefs.Save();
         }
 
-        private IEnumerator PlayNextAfterDelay(float delay) {
-            yield return new WaitForSecondsRealtime(delay + 0.1f);
-            PlayMusic(_currentMusicType, MusicSoundType.Calm);
+        private void PlayNextTrackAfterFinished() {
+            AudioClip next = GetNextClip(_currentMusicType, _currentMusicSoundType);
+
+            if (next == null) {
+                return;
+            }
+
+            _audioSource.clip = next;
+            _audioSource.time = 0f;
+            _audioSource.Play();
+            currentMusicTitle = next.name;
+            _lastClip = next;
+            _lastGameMusicName = next.name;
+            _lastPlaybackTime = 0f;
+            SaveCurrentPlayback();
         }
 
         private List<AudioClip> GetSelectedMusics(MusicType musicType, MusicSoundType musicSoundType = MusicSoundType.All) {
@@ -342,12 +382,34 @@ namespace Managers {
                 .ToList();
         }
 
-        private static AudioClip GetRandomAudioClipAvoidingRepeat(List<AudioClip> clips, AudioClip lastClip) {
+        private IEnumerator UpdateMusicProgress() {
+            #if !UNITY_EDITOR
+            yield return null;
+            #endif
+
+            while (true) {
+                if (_audioSource.clip != null && _audioSource.isPlaying) {
+                    TimeSpan current = TimeSpan.FromSeconds(_audioSource.time);
+                    TimeSpan total = TimeSpan.FromSeconds(_audioSource.clip.length);
+                    musicProgress = $"{(int)current.TotalMinutes}:{current.Seconds:00} / {(int)total.TotalMinutes}:{total.Seconds:00}";
+                } else {
+                    musicProgress = string.Empty;
+                }
+
+                yield return new WaitForSecondsRealtime(0.5f);
+            }
+        }
+
+        private static AudioClip GetRandomAudioClipAvoidingRepeat(List<AudioClip> clips, AudioClip lastClip, bool avoidRepeat = true) {
             if (clips == null || clips.Count == 0) {
                 return null;
             }
 
             if (clips.Count == 1 || !clips.Contains(lastClip)) {
+                return GetRandomAudioClip(clips);
+            }
+
+            if (!avoidRepeat) {
                 return GetRandomAudioClip(clips);
             }
 
