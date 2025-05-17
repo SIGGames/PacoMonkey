@@ -1,5 +1,7 @@
 ﻿using Health;
+using Managers;
 using UnityEngine;
+using static Utils.TagUtils;
 
 namespace Zones {
     public class HealthZone : MonoBehaviour {
@@ -11,18 +13,24 @@ namespace Zones {
         [Range(0, 10)]
         [SerializeField] private float healthIncrement = 1f;
 
-        void OnTriggerEnter2D(Collider2D collider) {
-            _playerLives = collider.gameObject.GetComponent<Lives>();
-            if (_playerLives != null && _playerLives.CurrentLives < _playerLives.MaxLives) {
+        private void OnTriggerEnter2D(Collider2D col) {
+            if (!col.CompareTag(Player)) {
+                return;
+            }
+
+            _playerLives = CharacterManager.Instance.currentPlayerController.lives;
+            if (_playerLives.CurrentLives < _playerLives.MaxLives) {
                 _playerLives.IncrementLivesToMaxSlow(timeBetweenIncrement, healthIncrement);
             }
         }
 
-        void OnTriggerExit2D(Collider2D collider) {
-            if (_playerLives != null && collider.gameObject.GetComponent<Lives>() == _playerLives) {
-                _playerLives.StopIncrementingLives();
-                _playerLives = null;
+        private void OnTriggerExit2D(Collider2D col) {
+            if (!col.CompareTag(Player)) {
+                return;
             }
+
+            _playerLives = CharacterManager.Instance.currentPlayerController.lives;
+            _playerLives.StopIncrementingLives();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Enums;
+using UnityEditor;
 using UnityEngine;
 using static Utils.PlayerPrefsKeys;
 
@@ -10,6 +11,7 @@ namespace Managers {
 
         [SerializeField] private List<LevelConfig> levels = new();
 
+        [SerializeField] private Level currentLevel;
         [SerializeField] private Level defaultLevel;
 
         private void Awake() {
@@ -26,12 +28,28 @@ namespace Managers {
             LoadLevel();
         }
 
+        #if UNITY_EDITOR
+        private void OnValidate() {
+            // If the level is changed from the editor, update the current level
+            if (!Application.isPlaying) {
+                return;
+            }
+
+            EditorApplication.delayCall += () => {
+                if (this != null) {
+                    SetLevel(currentLevel);
+                }
+            };
+        }
+        #endif
+
         public void SetLevel(Level level) {
             LevelConfig levelConfig = levels.Find(l => l.level == level);
             if (levelConfig == null) {
                 return;
             }
 
+            currentLevel = level;
             foreach (LevelConfig config in levels) {
                 config.levelGameObject.SetActive(config == levelConfig);
             }
