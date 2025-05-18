@@ -76,7 +76,7 @@ namespace Localization {
             OnLanguageChanged?.Invoke();
         }
 
-        private static string FormatText(string input) {
+        public static string FormatText(string input) {
             // \n: New line
             // \par: Paragraph (\n\n\n)
             // \t: Tab

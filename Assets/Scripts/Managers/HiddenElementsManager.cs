@@ -25,6 +25,7 @@ namespace Managers {
         [Header("Components")]
         [SerializeField] private GameObject hiddenElementsPanel;
         [SerializeField] private TextMeshProUGUI hiddenElementsText;
+        public Sprite hiddenElementSprite;
 
         private readonly HashSet<string> _pickedHiddenElements = new();
         private int _hiddenElementsCount;

@@ -101,6 +101,10 @@ MonoBehaviour:
     catalan: Dificultat
     spanish: Dificultad
     english: Difficulty
+  - key: direction-sign
+    catalan: Senyal de direccions
+    spanish: "Se\xF1al de direcciones"
+    english: Direction sign
   - key: down
     catalan: Baixar
     spanish: Bajar

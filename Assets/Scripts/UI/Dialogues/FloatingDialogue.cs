@@ -23,6 +23,9 @@ namespace UI.Dialogues {
         private string title;
 
         [SerializeField]
+        private bool translateTitle;
+
+        [SerializeField]
         private bool progressiveTyping = true;
 
         [SerializeField, ShowIf("progressiveTyping"), Range(0.01f, 0.3f)]
@@ -41,6 +44,9 @@ namespace UI.Dialogues {
         [Header("Dialogues")]
         [SerializeField]
         private bool ensureMultipleLanguagesDialoguesLength = true;
+
+        [SerializeField]
+        private bool formatDialogueText;
 
         [SerializeField] private DialogueLine[] dialogueCa;
         [SerializeField] private DialogueLine[] dialogueEs;
@@ -169,12 +175,15 @@ namespace UI.Dialogues {
         }
 
         private void SetTitle() {
-            if (_dialogueTitle != null) {
-                if (_dialogueCharacter == DialogueCharacter.Npc) {
-                    _dialogueTitle.text = string.IsNullOrEmpty(title) ? gameObject.name : title;
-                } else {
-                    _dialogueTitle.text = _dialogueCharacter.ToString();
-                }
+            if (_dialogueTitle == null) {
+                return;
+            }
+
+            string translatedTitle = translateTitle ? LocalizationManager.Instance.GetLocalizedText(title) : title;
+            if (_dialogueCharacter == DialogueCharacter.Npc) {
+                _dialogueTitle.text = string.IsNullOrEmpty(translatedTitle) ? gameObject.name : translatedTitle;
+            } else {
+                _dialogueTitle.text = _dialogueCharacter.ToString();
             }
         }
 
@@ -247,6 +256,12 @@ namespace UI.Dialogues {
                 dialogueEs = defaultDialogue;
                 dialogueEn = defaultDialogue;
                 selectedDialogue = defaultDialogue;
+            }
+
+            if (formatDialogueText) {
+                foreach (DialogueLine dialogueLine in selectedDialogue) {
+                    dialogueLine.text = LocalizationManager.FormatText(dialogueLine.text);
+                }
             }
 
             return selectedDialogue;

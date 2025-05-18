@@ -15,11 +15,6 @@ namespace Gameplay {
         private void Awake() {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _audioSource = GetComponent<AudioSource>();
-
-            if (_spriteRenderer.sprite == null) {
-                Debug.LogWarning("Hidden element does not have any sprite", this);
-                enabled = false;
-            }
         }
 
         private void Start() {
@@ -43,6 +38,7 @@ namespace Gameplay {
 
         public void ShowSprite(bool show) {
             if (_spriteRenderer != null) {
+                _spriteRenderer.sprite = HiddenElementsManager.Instance.hiddenElementSprite;
                 _spriteRenderer.enabled = show;
             }
             isHidden = !show;
