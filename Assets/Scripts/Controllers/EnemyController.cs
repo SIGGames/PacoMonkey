@@ -132,6 +132,11 @@ namespace Controllers {
         [Header("Enemy Settings")]
         [SerializeField, Range(0, 3)] private float deathTime = 0.3f;
 
+        [SerializeField] private bool triggerCinematicOnDeath;
+
+        [SerializeField, ShowIf("triggerCinematicOnDeath")]
+        private Cinematic cinematicOnDeath;
+
         [Header("Enemy Controller Components")]
         [SerializeField] private Animator animator;
 
@@ -338,6 +343,7 @@ namespace Controllers {
                 animator.SetTrigger(Death);
                 _attackCooldownTimer = 0f;
                 DestroyEnemy();
+                HandleCinematicOnDeath();
             } else {
                 animator.SetTrigger(Hurt);
             }
@@ -423,6 +429,12 @@ namespace Controllers {
 
             yield return new WaitForSeconds(deathTime);
             gameObject.SetActive(false);
+        }
+
+        private void HandleCinematicOnDeath() {
+            if (triggerCinematicOnDeath) {
+                CinematicManager.Instance.StartCinematic(cinematicOnDeath);
+            }
         }
 
         public void ResetEnemy() {
