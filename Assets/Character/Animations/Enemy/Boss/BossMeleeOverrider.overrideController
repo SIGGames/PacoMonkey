@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BossMeleeOverrider
+  m_Controller: {fileID: 9100000, guid: ed1bbb2dccb7a424a9969f916919f446, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 8a8095930bb89e9468276165978cfef0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2d35a47f8bd606c479c7b5817506cb5a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8151a21a86e8443db8efcec43314dece, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a54d020c5e7aacd43aea7e9dd17a322f, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6d1eca749f9f840299a309e3fd0302af, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 57ba04720ac968c44b0269440ef4b3af, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6fbd3b4272fc84993b8317d782d39f77, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8d37f802b0730e14aae596bc28bc3f8c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a16c2646085174726a41a2900d723bdd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7458a9f30dad9db40acd0c526c8892b5, type: 2}
