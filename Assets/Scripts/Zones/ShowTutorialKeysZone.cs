@@ -54,7 +54,7 @@ namespace Zones {
                 }
             }
 
-            PopUpManager.Instance.OpenPopUp(titleTextKey, sprites);
+            PopUpManager.Instance?.OpenPopUp(titleTextKey, sprites);
         }
 
         private static string GetControlPath(TutorialActionBinding action) {
