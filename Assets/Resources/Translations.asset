@@ -149,6 +149,10 @@ MonoBehaviour:
     catalan: "Dif\xEDcil"
     spanish: Dificil
     english: Hard
+  - key: heal-sign
+    catalan: "Zona de curaci\xF3"
+    spanish: "Zona de curaci\xF3n"
+    english: Heal zone
   - key: interact
     catalan: Interactuar
     spanish: Interactuar
