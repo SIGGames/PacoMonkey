@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1113731098, guid: 81afd47a8da7456448839affa943b61e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ad8f6d0c0ca6a7248826574076208369, type: 3}
   m_Type: 3
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -109,6 +109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab4edeb823d94b54a9fb33a7ac01091c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullHeart: {fileID: 1113731098, guid: 81afd47a8da7456448839affa943b61e, type: 3}
-  halfHeart: {fileID: 1776864833, guid: 81afd47a8da7456448839affa943b61e, type: 3}
-  emptyHeart: {fileID: -889838872, guid: 81afd47a8da7456448839affa943b61e, type: 3}
+  fullHeart: {fileID: 21300000, guid: ad8f6d0c0ca6a7248826574076208369, type: 3}
+  halfHeart: {fileID: 21300000, guid: 91a68bb3c00a0a34d898269696f58445, type: 3}
+  emptyHeart: {fileID: 21300000, guid: 15763039198fce84c9737265afb4df61, type: 3}
