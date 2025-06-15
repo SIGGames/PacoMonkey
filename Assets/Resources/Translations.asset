@@ -305,6 +305,10 @@ MonoBehaviour:
       \n\n**Hide Paco** \n\nTo prevent any member of the **Hamik** family from recognizing
       **Paco Trac** and eliminating him, he must be hidden under the **hat** right
       now (and hope it works).
+  - key: qd-3
+    catalan: "Elimina l'enemic final per salvar la teva fam\xEDlia"
+    spanish: Elimina al enemigo final para salvar a tu familia
+    english: Defeat the final enemy to save your family
   - key: qn-1
     catalan: PARLAR AMB EL BROM
     spanish: HABLAR CON BROM
@@ -325,6 +329,10 @@ MonoBehaviour:
     catalan: TORNAR A CASA JA!
     spanish: "\xA1VOLVER A CASA YA!"
     english: GET BACK HOME NOW!
+  - key: qn-3
+    catalan: ELIMINA L'ENEMIC FINAL
+    spanish: ELIMINA AL ENEMIGO FINAL
+    english: DEFEAT THE FINAL BOSS
   - key: quit
     catalan: Sortir
     spanish: Salir

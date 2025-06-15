@@ -13,7 +13,7 @@ namespace Managers {
         public static QuestManager Instance { get; private set; }
 
         [SerializeField] private bool debugMissingTextKeys = true;
-        private string _activeQuestId = "";
+        [SerializeField] private string activeQuestId = "";
 
         [Header("Components")]
         public TextMeshProUGUI questNameText;
@@ -91,7 +91,7 @@ namespace Managers {
         }
 
         private string GetActiveQuestName() {
-            return GetTranslatedText(nameTranslationPattern + _activeQuestId);
+            return GetTranslatedText(nameTranslationPattern + activeQuestId);
         }
 
         public void SetActiveQuest(string id) {
@@ -106,7 +106,7 @@ namespace Managers {
         }
 
         public void ResetQuests() {
-            _activeQuestId = null;
+            activeQuestId = null;
             _previousQuest = null;
             UpdateQuestPanelTexts();
             ShowEnemyCountText(false);
@@ -132,16 +132,16 @@ namespace Managers {
             ManageSpecialActions(quest);
             ShowDisabledGameObject(false, quest);
 
-            _activeQuestId = quest.id;
+            activeQuestId = quest.id;
 
-            PlayerPrefs.SetString(ActiveQuestKey, _activeQuestId);
+            PlayerPrefs.SetString(ActiveQuestKey, activeQuestId);
             PlayerPrefs.Save();
 
             UpdateQuestPanelTexts();
         }
 
         public Quest GetActiveQuest() {
-            return FindQuest(_activeQuestId);
+            return FindQuest(activeQuestId);
         }
 
         public bool IsActiveQuest(List<string> questIds) {

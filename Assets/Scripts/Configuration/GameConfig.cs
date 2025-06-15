@@ -2,7 +2,7 @@
 
 namespace Configuration {
     public static class GameConfig {
-        public const string GameVersion = "v0.10.1";
+        public const string GameVersion = "v1.0.0";
 
         public const Language DefaultLanguage = Language.Catalan;
 
