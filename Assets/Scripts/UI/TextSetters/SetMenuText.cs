@@ -15,8 +15,8 @@ namespace UI.TextSetters {
 
         private void Start() {
             _text = textType switch {
-                TitleTextType.GameName => Application.companyName,
-                TitleTextType.CompanyName => Application.productName,
+                TitleTextType.GameName => Application.productName,
+                TitleTextType.CompanyName => Application.companyName,
                 TitleTextType.Version => Application.version,
                 _ => throw new ArgumentOutOfRangeException()
             };
