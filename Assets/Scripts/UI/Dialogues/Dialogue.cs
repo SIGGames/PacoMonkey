@@ -58,6 +58,8 @@ namespace UI.Dialogues {
 
         [SerializeField, ShowIf("triggerCinematicOnFinish")] private Cinematic cinematicToTrigger;
 
+        [SerializeField, ShowIf("triggerCinematicOnFinish")] private bool overrideCurrentCinematic;
+
         [Header("Dialogues")]
         [SerializeField]
         private bool ensureMultipleLanguagesDialoguesLength = true;
@@ -405,7 +407,7 @@ namespace UI.Dialogues {
 
         private void TriggerCinematicIfNeeded() {
             if (triggerCinematicOnFinish) {
-                CinematicManager.Instance.StartCinematic(cinematicToTrigger);
+                CinematicManager.Instance.StartCinematic(cinematicToTrigger, overrideCurrentCinematic);
             }
         }
     }
