@@ -188,7 +188,6 @@ namespace Controllers {
         }
 
         protected override void Update() {
-            HandleDebugInput();
             HandleGravityOnDeath();
 
             if (controlEnabled) {
@@ -661,6 +660,8 @@ namespace Controllers {
             SetVelocity(Vector2.zero);
             SetPosition(respawnPosition);
             SetMovementState(PlayerMovementState.Idle);
+            // Force the player to be idle since any priority can be messing this up
+            movementState = PlayerMovementState.Idle;
         }
 
         public void SetDifficultyMultiplier(float multiplier) {
@@ -673,33 +674,6 @@ namespace Controllers {
             if (playerFight != null) {
                 playerFight.meleeDamage = Mathf.Max(1, Mathf.RoundToInt(playerFight.baseMeleeDamage / multiplier));
                 playerFight.rangedDamage = Mathf.Max(1, Mathf.RoundToInt(playerFight.baseRangedDamage / multiplier));
-            }
-        }
-
-        private void HandleDebugInput() {
-            // TODO: This key binds are for debugging purposes
-            if (Input.GetKeyDown(KeyCode.F4)) {
-                Respawn();
-            }
-
-            if (Input.GetKeyDown(KeyCode.F1)) {
-                // Get the position from the Test CheckPoint object
-                Vector3 playgroundPosition = FindObjectsOfType<CheckPoint>().FirstOrDefault(x => x.name == "CheckPoint Test")?.transform.position ?? Vector3.zero;
-                SetPosition(playgroundPosition);
-            }
-
-            if (CharacterManager.Instance.currentPlayerController == this) {
-                if (Input.GetKeyDown(KeyCode.F6)) {
-                    lives.IncrementLives();
-                }
-
-                if (Input.GetKeyDown(KeyCode.F7)) {
-                    TakeDamage();
-                }
-
-                if (Input.GetKeyDown(KeyCode.F8)) {
-                    KillPlayer();
-                }
             }
         }
     }

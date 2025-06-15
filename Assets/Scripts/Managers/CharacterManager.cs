@@ -81,13 +81,6 @@ namespace Managers {
             LoadCharacter();
         }
 
-        private void Update() {
-            // TODO: This bind is just for testing purposes, this will be removed
-            if (Input.GetKeyDown(KeyCode.F5)) {
-                NextCharacter();
-            }
-        }
-
         private void NextCharacter() {
             _currentCharacterIndex = (_currentCharacterIndex + 1) % characters.Length;
             SetCharacter(characters[_currentCharacterIndex].characterType);
