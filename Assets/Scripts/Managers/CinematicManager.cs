@@ -73,6 +73,10 @@ namespace Managers {
                 StartCoroutine(HideHud(GetCinematicDuration(config)));
             }
 
+            if (config.healPlayer) {
+                CharacterManager.Instance.currentPlayerController.lives.ResetLives();
+            }
+
             if (config.instanceEnemies) {
                 CharacterManager.InstanceEnemies();
             }
@@ -342,6 +346,9 @@ namespace Managers {
         public bool waitBeforeStart;
         [Range(0.01f, 10f)]
         public float waitDuration = 1f;
+
+        [Header("Heal Player")]
+        public bool healPlayer;
 
         [Header("Character")]
         public bool changeCharacter;
