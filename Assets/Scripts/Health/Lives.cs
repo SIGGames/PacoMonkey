@@ -23,6 +23,7 @@ namespace Health {
         public bool IsAlive => currentLives > 0;
         private Coroutine _incrementCoroutine;
         private float _startingMaxLives;
+        public bool isNoHit = true;
 
         private void Awake() {
             CurrentLives = startingLives;
@@ -75,6 +76,7 @@ namespace Health {
         }
 
         public void DecrementLives(float lives = 1) {
+            isNoHit = false;
             CurrentLives -= lives;
         }
 
@@ -89,6 +91,11 @@ namespace Health {
         }
 
         public void ResetLives() {
+            isNoHit = true;
+            HealFullLives();
+        }
+
+        public void HealFullLives() {
             CurrentLives = MaxLives;
         }
 

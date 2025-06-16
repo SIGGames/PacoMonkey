@@ -74,7 +74,7 @@ namespace Managers {
             }
 
             if (config.healPlayer) {
-                CharacterManager.Instance.currentPlayerController.lives.ResetLives();
+                CharacterManager.Instance.currentPlayerController.lives.HealFullLives();
             }
 
             if (config.instanceEnemies) {

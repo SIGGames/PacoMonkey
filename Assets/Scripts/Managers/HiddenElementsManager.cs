@@ -111,7 +111,7 @@ namespace Managers {
             if (paintPlayerOnFinish) {
                 PaintPlayers(playerColor);
             }
-            CharacterManager.Instance.currentPlayerController.lives.ResetLives();
+            CharacterManager.Instance.currentPlayerController.lives.HealFullLives();
         }
 
         public void ResetHiddenElements() {

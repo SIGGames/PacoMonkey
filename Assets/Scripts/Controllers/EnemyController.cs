@@ -433,7 +433,7 @@ namespace Controllers {
 
         private void HandleCinematicOnDeath() {
             if (triggerCinematicOnDeath) {
-                CinematicManager.Instance.StartCinematic(cinematicOnDeath);
+                CinematicManager.Instance.StartCinematic(cinematicOnDeath, true);
             }
         }
 
