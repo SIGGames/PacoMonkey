@@ -143,14 +143,28 @@ namespace Mechanics.Movement {
                 StopClimbing();
 
                 // This offset is needed since on the compiled version the player falls on wall jumping since is colliding with something I can't see
+                // So, this approach adds offset depending on the distance to the wall, with a minimum and maximum distance
                 #if !UNITY_EDITOR
-                    const float offsetToAdd = 0.3f;
+                    const float minRayDistance = 0.3f;
+                    const float maxRayDistance = 0.5f;
+                    Vector2 origin = transform.position;
+                    Vector2 direction = player.isFacingRight ? Vector2.right : Vector2.left;
+                    RaycastHit2D hit = Physics2D.Raycast(origin, direction, maxRayDistance, Ground.value);
+
+                    float wallDistance = hit.collider != null ? hit.distance : maxRayDistance;
+                    float offsetToAdd = Mathf.Clamp(minRayDistance + (maxRayDistance - wallDistance), minRayDistance, maxRayDistance);
+
                     player.AddPosition(player.isFacingRight ? -offsetToAdd : offsetToAdd);
                 #endif
 
                 _animator.SetBool(IsHoldingJumpOnClimb, false);
                 _animator.SetBool(IsJumping, true);
-                player.velocity = new Vector2((player.isFacingRight ? -1f : 1f) * climbSpeed, player.jumpTakeOffSpeed);
+
+                float jumpReductionFactor = 1f;
+                #if !UNITY_EDITOR
+                    jumpReductionFactor = 0.8f; // Reduce jump force on compiled version since its more powerful for some reason
+                #endif
+                player.velocity = new Vector2((player.isFacingRight ? -1f : 1f) * climbSpeed, player.jumpTakeOffSpeed * jumpReductionFactor);
                 player.StartJump();
                 player.flipManager.Flip(!player.isFacingRight);
                 return;
