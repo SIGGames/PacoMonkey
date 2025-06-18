@@ -191,10 +191,16 @@ namespace Managers {
                 }
             }
 
-            foreach (EnemyController enemyController in currentEnemies) {
+            SetBossOnPosition();
+        }
+
+        private static void SetBossOnPosition() {
+            EnemyController[] enemies = FindObjectsOfType<EnemyController>(true);
+
+            foreach (EnemyController enemy in enemies) {
                 // Hardcoded position for boss to ensure it's always on the correct spot
-                if (enemyController.name.ToLower().Contains("boss")) {
-                    enemyController.transform.position = new Vector3(141.7f, -10.8f, 0f);
+                if (enemy != null && enemy.name.ToLower().Contains("boss")) {
+                    enemy.transform.position = new Vector3(141.7f, -10.8f, 0f);
                 }
             }
         }
