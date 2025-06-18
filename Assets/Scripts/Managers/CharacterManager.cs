@@ -190,6 +190,13 @@ namespace Managers {
                     enemyController.ResetEnemy();
                 }
             }
+
+            foreach (EnemyController enemyController in currentEnemies) {
+                // Hardcoded position for boss to ensure it's always on the correct spot
+                if (enemyController.name.ToLower().Contains("boss")) {
+                    enemyController.transform.position = new Vector3(141.7f, -10.8f, 0f);
+                }
+            }
         }
 
         private void SaveCharacter() {

@@ -161,7 +161,7 @@ namespace Controllers {
             get {
                 const float rayLength = 0.1f;
                 RaycastHit2D hit = Physics2D.Raycast(_col.bounds.center, Vector2.down,
-                    _col.bounds.extents.y + rayLength, Ground);
+                    _col.bounds.extents.y + rayLength, Ground.value);
                 return hit.collider != null;
             }
         }
