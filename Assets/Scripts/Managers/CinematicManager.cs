@@ -77,6 +77,10 @@ namespace Managers {
                 CharacterManager.Instance.currentPlayerController.lives.HealFullLives();
             }
 
+            if (config.freezePlayerPosition) {
+                CharacterManager.Instance.currentPlayerController.FreezePosition();
+            }
+
             if (config.instanceEnemies) {
                 CharacterManager.InstanceEnemies();
             }
@@ -347,8 +351,9 @@ namespace Managers {
         [Range(0.01f, 10f)]
         public float waitDuration = 1f;
 
-        [Header("Heal Player")]
+        [Header("Player")]
         public bool healPlayer;
+        public bool freezePlayerPosition;
 
         [Header("Character")]
         public bool changeCharacter;

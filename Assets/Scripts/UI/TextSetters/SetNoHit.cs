@@ -16,12 +16,7 @@ namespace UI.TextSetters {
 
         private void SetText() {
             if (_textComponent != null) {
-                if (CharacterManager.Instance?.currentPlayerController?.lives.isNoHit == true) {
-                    _textComponent.text = "No Hit";
-                    enabled = true;
-                } else {
-                    enabled = false;
-                }
+                _textComponent.text = CharacterManager.Instance?.currentPlayerController?.lives.isNoHit == true ? "No Hit" : string.Empty;
             }
         }
     }
