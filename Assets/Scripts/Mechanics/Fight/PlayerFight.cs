@@ -72,7 +72,7 @@ namespace Mechanics.Fight {
         }
 
         private void Update() {
-            if (!playerController.controlEnabled) {
+            if (!playerController.controlEnabled || playerController.movementState == PlayerMovementState.Crouch) {
                 return;
             }
             
