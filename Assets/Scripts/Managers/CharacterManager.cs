@@ -179,10 +179,11 @@ namespace Managers {
             List<EnemyController> currentEnemies = new(FindObjectsOfType<EnemyController>(true));
 
             foreach (EnemySpawnData spawnData in EnemySpawnManager.EnemySpawnList) {
+                // Filter enemy by type and name since it's guaranteed that the enemy type and name are unique
                 EnemyController enemyController = currentEnemies.Find(e =>
                     e != null &&
                     e.enemyType == spawnData.enemyType &&
-                    Vector2.Distance(e.transform.position, spawnData.spawnPosition) < 0.1f
+                    e.name.ToLower().Contains(spawnData.name.ToLower())
                 );
 
                 if (enemyController != null) {
@@ -213,7 +214,7 @@ namespace Managers {
             PlayerPrefs.Save();
         }
 
-        public void LoadCharacter() {
+        private void LoadCharacter() {
             string characterString = PlayerPrefs.GetString(CurrentCharacterKey, initialCharacter.ToString());
             SetCharacter(Enum.TryParse(characterString, out Character loadedCharacter) ? loadedCharacter : initialCharacter);
         }

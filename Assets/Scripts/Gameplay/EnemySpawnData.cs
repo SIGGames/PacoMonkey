@@ -10,6 +10,7 @@ namespace Gameplay {
 
     [System.Serializable]
     public class EnemySpawnData {
+        public string name;
         public GameObject enemyPrefab;
         public Vector3 spawnPosition;
         public Quaternion spawnRotation;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Enums;
 using Gameplay;
 using Health.UI;
@@ -195,9 +196,15 @@ namespace Controllers {
                 enabled = false;
             }
 
+            // If the name of this enemy already exists, append a unique identifier to it
+            if (EnemySpawnManager.EnemySpawnList.Exists(enemy => enemy.name == name)) {
+                name = $"{name} ({System.Guid.NewGuid().ToString()[..5]})";
+            }
+
             if (!EnemySpawnManager.EnemySpawnList.Exists(data =>
                     data.spawnPosition == (Vector3)EnemyPosition && data.enemyType == enemyType)) {
                 EnemySpawnData data = new EnemySpawnData {
+                    name = name,
                     enemyPrefab = enemyPrefabAsset,
                     spawnPosition = EnemyPosition,
                     spawnRotation = transform.rotation,
