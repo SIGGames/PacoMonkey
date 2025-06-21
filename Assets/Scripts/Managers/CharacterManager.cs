@@ -179,8 +179,11 @@ namespace Managers {
             List<EnemyController> currentEnemies = new(FindObjectsOfType<EnemyController>(true));
 
             foreach (EnemySpawnData spawnData in EnemySpawnManager.EnemySpawnList) {
-                EnemyController enemyController = currentEnemies.Find(e => e != null
-                                                                           && e.enemyType == spawnData.enemyType);
+                EnemyController enemyController = currentEnemies.Find(e =>
+                    e != null &&
+                    e.enemyType == spawnData.enemyType &&
+                    Vector2.Distance(e.transform.position, spawnData.spawnPosition) < 0.1f
+                );
 
                 if (enemyController != null) {
                     currentEnemies.Remove(enemyController);
