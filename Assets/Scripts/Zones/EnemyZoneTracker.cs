@@ -86,6 +86,10 @@ namespace Zones {
         }
 
         private void OnAllEnemiesDefeated() {
+            if (showEnemyCount) {
+                QuestManager.Instance.ShowEnemyCountText(false);
+            }
+
             if (questRequired) {
                 if (QuestManager.Instance.IsActiveQuest(requiredQuestId)) {
                     // Quest not active or not the required quest

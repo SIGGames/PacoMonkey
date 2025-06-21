@@ -19,6 +19,7 @@ namespace Managers {
         private bool _playerHasBeenPainted;
 
         [Header("Audio")]
+        [SerializeField] private bool playAudioOnFinish = true;
         [SerializeField] private AudioClip onFinishAudio;
         public AudioClip onPickAudio;
 
@@ -148,7 +149,7 @@ namespace Managers {
 
         private void PlayAudio() {
             if (HasAllHiddenElements()) {
-                if (onFinishAudio != null) {
+                if (onFinishAudio != null && playAudioOnFinish) {
                     AudioManager.Instance.PlayMusic(MusicType.Game, MusicSoundType.Victory);
                 }
             }

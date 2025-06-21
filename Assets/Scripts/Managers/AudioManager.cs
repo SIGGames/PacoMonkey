@@ -45,6 +45,7 @@ namespace Managers {
         private int _gameMusicIndex;
         private string _lastGameMusicName;
         private float _lastPlaybackTime;
+        private bool _hasPlayedVictoryMusic;
 
         [Header("Volume Settings")]
         [SerializeField, Range(MinVolume, MaxVolume)]
@@ -266,6 +267,19 @@ namespace Managers {
         }
 
         public void PlayMusic(MusicType musicType, MusicSoundType musicSoundType) {
+            if (_hasPlayedVictoryMusic) {
+                // After Victory, only menu music can be played
+                if (musicType == MusicType.Menu) {
+                    PlayNewMusic(MusicType.Menu, MusicSoundType.All);
+                }
+                return;
+            }
+
+            if (musicSoundType == MusicSoundType.Victory) {
+                _hasPlayedVictoryMusic = true;
+            }
+
+
             if (musicType == MusicType.Menu) {
                 SaveCurrentPlayback();
             } else if (musicType == MusicType.Game && TryResumePreviousGameMusic(musicSoundType)) {
@@ -348,6 +362,7 @@ namespace Managers {
             PlayerPrefs.DeleteKey(LastGameMusicNameKey);
             PlayerPrefs.DeleteKey(LastPlaybackTimeKey);
             PlayerPrefs.Save();
+            _hasPlayedVictoryMusic = false;
         }
 
         private void PlayNextTrackAfterFinished() {

@@ -167,13 +167,17 @@ namespace Managers {
             return quests.FirstOrDefault(q => q.id == id);
         }
 
-        private static void ManageSpecialActions(Quest quest) {
+        private void ManageSpecialActions(Quest quest) {
             switch (quest.id) {
                 case "1":
                     CameraManager.Instance.FollowAndLookAt(CharacterManager.Instance.currentPlayerController.transform);
                     break;
                 case "2.2":
                     CinematicManager.Instance.StopTimer();
+                    break;
+                case "3":
+                    CinematicManager.Instance.StopTimer();
+                    ShowEnemyCountText(false);
                     break;
             }
         }
@@ -182,7 +186,7 @@ namespace Managers {
             if (enemyCountTextPrefab != null) {
                 enemyCountTextPrefab.SetActive(show);
             }
-            if (enemyCountText != null) {
+            if (enemyCountText != null && show) {
                 enemyCountText.text = $"[{originalEnemyCount - enemyCount}/{originalEnemyCount}]";
             }
         }
